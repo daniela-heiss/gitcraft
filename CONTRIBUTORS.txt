@@ -1,0 +1,30 @@
+<!--
+SPDX-FileCopyrightText: 2024 TOP team <… (please add team name here)>
+
+SPDX-License-Identifier: EUPL-1.2 or GPL-3.0-or-later
+
+For multi licensing syntax, see https://reuse.software/faq/#multi-licensing
+-->
+
+This project was started as part of the module "Teamorientiertes Projekt" (team
+oriented project) in the bachelor study programme "Angewandte Informatik"
+(applied computer science) of the "Hochschule Worms" (University of Applied
+Sciences at the city of Worms, Germany) in spring 2024.
+
+The contributors certify that they have the right to submit their contributions
+under the open source license(s) indicated in the README.md file of this
+repository.
+
+Please see the Developer's Certificate of Origin at
+https://developercertificate.org/ for examples of sufficient rights.
+
+The following people contributed to this project:
+Jurij-Christopher Becker (inf3732)
+Yusuf Coskun (inf3790)
+Altay Erguen (inf4136)
+Daniela Heiss (inf3741)
+Niklas Klemens (inf3929)
+Maximilian Müller (inf3999)
+Felix Schlembach (inf3897)
+Moritz Schumann (inf4011)
+Eren Yaman (inf3904)
