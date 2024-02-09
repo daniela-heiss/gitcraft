@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2024 TOP team <… (please add team name here)>
+SPDX-FileCopyrightText: 2024 TOP team  <Team 8 GitCraft> 
 
 SPDX-License-Identifier: EUPL-1.2 or GPL-3.0-or-later
 

@@ -1,3 +1,11 @@
+<!--
+SPDX-FileCopyrightText: 2024 TOP team <Team 8 GitCraft> 
+
+SPDX-License-Identifier: EUPL-1.2 or GPL-3.0-or-later
+
+For multi licensing syntax, see https://reuse.software/faq/#multi-licensing
+-->
+
 # Gitcraft
 
 ## Summary
