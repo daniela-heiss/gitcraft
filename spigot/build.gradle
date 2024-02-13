@@ -47,20 +47,25 @@ processResources {
         expand props
     }
 
-task downloadServer(type: Exec) {
+task downloadServer() {
     def serverUrl = 'https://download.getbukkit.org/spigot/spigot-1.20.4.jar'
     def outputFile = file('server/minecraft_server.jar')
 
-    doLast {
+  
         if (outputFile.exists()) {
             println "Server JAR already downloaded. Skipping..."
             return
+        } else {
+            println "Downloading server JAR..."
+            exec {
+                commandLine 'curl', '-o', outputFile.toString(), serverUrl
+            }
         }
-    }
-    commandLine 'curl', '-o', outputFile, serverUrl
+
     workingDir project.buildDir
     outputs.file outputFile
 }
+
 
 task copyEula(type: Copy) {
     from 'resources' 
@@ -77,7 +82,7 @@ task copyPlugin(type: Copy) {
     into serverPluginsDir
 }
 
-task runDevServer(type: Exec) {
+task runDevServer(type: Exec, dependsOn: ['downloadServer', 'copyEula', 'copyPlugin']) {
     def serverJar = file('server/minecraft_server.jar')
     commandLine 'java', '-jar', serverJar
     workingDir file('server')
