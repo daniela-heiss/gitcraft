@@ -90,8 +90,8 @@ task downloadServer() {
 task downloadPlugins() {
     def plugins = [
         'WorldEdit': 'https://dev.bukkit.org/projects/worldedit/files/5077477/download',
-        'MultiVerse': 'https://www.spigotmc.org/resources/multiverse-core.390/download?version=420035',
-        'CoreProtect' : 'https://www.spigotmc.org/resources/coreprotect.8631/download?version=514600'
+        'Multiverse-Core': 'https://dev.bukkit.org/projects/multiverse-core/files/4744018/download',
+        'CoreProtect' : 'https://www.patreon.com/file?h=89830486&i=15920178'
     ]
 
     plugins.each { pluginName, pluginUrl ->
@@ -102,7 +102,7 @@ task downloadPlugins() {
         } else {
             println "Downloading ${pluginName}..."
             exec {
-                commandLine 'curl', '-o', pluginFile.toString(), pluginUrl
+                commandLine 'curl', '-L', '-o', pluginFile.toString(), pluginUrl
             }
         }
     }
