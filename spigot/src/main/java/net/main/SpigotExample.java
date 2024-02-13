@@ -11,6 +11,7 @@ public final class SpigotExample extends JavaPlugin {
         // Plugin startup logic
         getLogger().info("Hello World example loaded");
         Objects.requireNonNull(this.getCommand("kit")).setExecutor(new CommandKit());
+        Objects.requireNonNull(this.getCommand("helloblock")).setExecutor(new HelloBlock());
     }
 
     @Override
