@@ -73,6 +73,12 @@ task copyEula(type: Copy) {
     into 'server' 
 }
 
+task copyOps(type: Copy) {
+    from 'resources' 
+    include 'ops.json' 
+    into 'server' 
+}
+
 task copyPlugin(type: Copy) {
     def pluginFolder = file('build/libs') 
     def serverPluginsDir = file('server/plugins') 
@@ -82,7 +88,7 @@ task copyPlugin(type: Copy) {
     into serverPluginsDir
 }
 
-task runDevServer(type: Exec, dependsOn: ['downloadServer', 'copyEula', 'copyPlugin']) {
+task runDevServer(type: Exec, dependsOn: ['downloadServer', 'copyEula', 'copyOps', 'copyPlugin']) {
     def serverJar = file('server/minecraft_server.jar')
     commandLine 'java', '-jar', serverJar
     workingDir file('server')
