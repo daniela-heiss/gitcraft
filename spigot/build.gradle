@@ -47,20 +47,7 @@ processResources {
         expand props
     }
 
-task downloadServer(type: Exec) {
-    def serverUrl = 'https://download.getbukkit.org/spigot/spigot-1.20.4.jar'
-    def outputFile = file('server/minecraft_server.jar')
 
-    doLast {
-        if (outputFile.exists()) {
-            println "Server JAR already downloaded. Skipping..."
-            return
-        }
-    }
-    commandLine 'curl', '-o', outputFile, serverUrl
-    workingDir project.buildDir
-    outputs.file outputFile
-}
 
 task copyEula(type: Copy) {
     from 'resources' 
@@ -68,7 +55,13 @@ task copyEula(type: Copy) {
     into 'server' 
 }
 
-task copyPlugin(type: Copy) {
+task copyOps(type: Copy) {
+    from 'resources' 
+    include 'ops.json' 
+    into 'server' 
+}
+
+task copyPlugin(type: Copy, dependsOn: build ) {
     def pluginFolder = file('build/libs') 
     def serverPluginsDir = file('server/plugins') 
     serverPluginsDir.mkdirs()
@@ -77,9 +70,48 @@ task copyPlugin(type: Copy) {
     into serverPluginsDir
 }
 
-task runDevServer(type: Exec) {
+task downloadServer() {
+    def serverUrl = 'https://download.getbukkit.org/spigot/spigot-1.20.4.jar'
+    def outputFile = file('server/minecraft_server.jar')
+
+  
+        if (outputFile.exists()) {
+            println "Server JAR already downloaded. Skipping..."
+            return
+        } else {
+            println "Downloading server JAR..."
+            exec {
+                commandLine 'curl', '-o', outputFile.toString(), serverUrl
+            }
+        }
+}
+
+
+task downloadPlugins() {
+    def plugins = [
+        'WorldEdit': 'https://dev.bukkit.org/projects/worldedit/files/5077477/download',
+        'MultiVerse': 'https://www.spigotmc.org/resources/multiverse-core.390/download?version=420035',
+        'CoreProtect' : 'https://www.spigotmc.org/resources/coreprotect.8631/download?version=514600'
+    ]
+
+    plugins.each { pluginName, pluginUrl ->
+        def pluginFile = file("server/plugins/${pluginName}.jar")
+        if (pluginFile.exists()) {
+            println "${pluginName} already downloaded. Skipping..."
+            return
+        } else {
+            println "Downloading ${pluginName}..."
+            exec {
+                commandLine 'curl', '-o', pluginFile.toString(), pluginUrl
+            }
+        }
+    }
+}
+
+task runDevServer(type: Exec, dependsOn: ['downloadServer', 'downloadPlugins', 'copyEula', 'copyOps', 'copyPlugin']) {
     def serverJar = file('server/minecraft_server.jar')
     commandLine 'java', '-jar', serverJar
     workingDir file('server')
     }
+
 }
