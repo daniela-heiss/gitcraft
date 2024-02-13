@@ -11,3 +11,6 @@ commands:
   helloblock:
     description: Places a snowy grass block at x,y,z and greets the world
     usage: /helloblock x y z
+  remove:
+    description: Places an air block at x,y,z and says that they destroy something
+    usage: /remove x y z
