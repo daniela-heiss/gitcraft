@@ -46,4 +46,40 @@ processResources {
     filesMatching('plugin.yml') {
         expand props
     }
+
+task downloadServer(type: Exec) {
+    def serverUrl = 'https://download.getbukkit.org/spigot/spigot-1.20.4.jar'
+    def outputFile = file('server/minecraft_server.jar')
+
+    doLast {
+        if (outputFile.exists()) {
+            println "Server JAR already downloaded. Skipping..."
+            return
+        }
+    }
+    commandLine 'curl', '-o', outputFile, serverUrl
+    workingDir project.buildDir
+    outputs.file outputFile
+}
+
+task copyEula(type: Copy) {
+    from 'resources' 
+    include 'eula.txt' 
+    into 'server' 
+}
+
+task copyPlugin(type: Copy) {
+    def pluginFolder = file('build/libs') 
+    def serverPluginsDir = file('server/plugins') 
+    serverPluginsDir.mkdirs()
+    from pluginFolder
+    include '*.jar'
+    into serverPluginsDir
+}
+
+task runDevServer(type: Exec) {
+    def serverJar = file('server/minecraft_server.jar')
+    commandLine 'java', '-jar', serverJar
+    workingDir file('server')
+    }
 }
