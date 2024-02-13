@@ -8,3 +8,6 @@ commands:
   kit:
     description: Your description
     usage: /<command>
+  helloblock:
+    description: Places a snowy grass block at x,y,z and greets the world
+    usage: /helloblock x y z
