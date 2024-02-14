@@ -1,3 +1,8 @@
+// SPDX-FileCopyrightText: 2024 TOP Team 8 GitCraft
+//
+// SPDX-License-Identifier: EUPL-1.2
+// SPDX-License-Identifier: GPL-3.0-or-later
+
 package net.main;
 
 import org.bukkit.Material;

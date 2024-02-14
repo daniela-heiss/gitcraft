@@ -1,3 +1,8 @@
+REM SPDX-FileCopyrightText: 2024 TOP Team 8 GitCraft
+REM
+REM SPDX-License-Identifier: EUPL-1.2
+REM SPDX-License-Identifier: GPL-3.0-or-later
+
 @rem
 @rem Copyright 2015 the original author or authors.
 @rem
