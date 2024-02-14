@@ -1,5 +1,4 @@
 package net.main;
-
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -10,8 +9,9 @@ public final class SpigotExample extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        GCTables dbManager = new GCTables();
+        dbManager.tableInit();
         getLogger().info("Hello World example loaded");
-        Objects.requireNonNull(this.getCommand("cgsave")).setExecutor(new CommandKit());
         Objects.requireNonNull(this.getCommand("kit")).setExecutor(new CommandKit());
     }
 
