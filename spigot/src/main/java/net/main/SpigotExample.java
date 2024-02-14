@@ -13,6 +13,7 @@ public final class SpigotExample extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("kit")).setExecutor(new CommandKit());
         Objects.requireNonNull(this.getCommand("helloblock")).setExecutor(new HelloBlock());
         //this.getCommand("helloblock").setTabCompleter(new HelloBlock());
+        Objects.requireNonNull(this.getCommand("remove")).setExecutor(new Remove());
     }
 
     @Override
