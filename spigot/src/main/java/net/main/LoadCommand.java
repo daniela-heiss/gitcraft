@@ -8,25 +8,25 @@ import org.bukkit.command.CommandSender;
 
 public class LoadCommand implements CommandExecutor {
 
-    public void revertLine(Object[] zeile, boolean time){   //time 0 = rollback, time 1 = restore
-        int x = zeile[0];
-        int y = zeile[1];
-        int z = zeile[2]; // need world in array
+    public void revertLine(Object[] zeile, String direction){   //time 0 = rollback, time 1 = restore
+        int x = (Integer) zeile[0];
+        int y = (Integer) zeile[1];
+        int z = (Integer) zeile[2]; // need world in array
         Location loc = new Location(Bukkit.getWorld("world"), x, y, z);
-        string block = zeile[3];
-        string blockstate = zeile[4];
-        int action = zeile[5];
+        String block = (String) zeile[3];
+        String blockState = (String) zeile[4];
+        int action = (Integer) zeile[5];
 
-        if (action == 1 && time == 0){
+        if (action == 1 && direction.equals("past")){
             loc.getBlock().setBlockData(Bukkit.createBlockData("minecraft:air"), true);
-        } else if (action == 0 && time == 0){
-            loc.getBlock().setBlockData(Bukkit.createBlockData(block), true);
-        } else if (action == 1 && time == 1){
-            loc.getBlock().setBlockData(Bukkit.createBlockData(block), true);
-        } else if (action == 0 && time == 1){
+        } else if (action == 0 && direction.equals("past")){
+            loc.getBlock().setBlockData(Bukkit.createBlockData(block+"["+blockState+"]"), true);
+        } else if (action == 1 && direction.equals("future")){
+            loc.getBlock().setBlockData(Bukkit.createBlockData(block+"["+blockState+"]"), true);
+        } else if (action == 0 && direction.equals("future")){
             loc.getBlock().setBlockData(Bukkit.createBlockData("minecraft:air"), true);
         } else {
-            //interact
+            Bukkit.broadcastMessage("Interact");
         }
     }
 
@@ -34,30 +34,31 @@ public class LoadCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         sender.sendMessage("Loading commit...");
         //sql queries
-        Object[][] commits = new Object[][];
-        commits[0][0] = 123;
-        commits[0][1] = 67;
-        commits[0][2] = -1233;
-        commits[0][3] = "minecraft:grass_block";
-        commits[0][4] = "state";
-        commits[0][5] = 0;
 
-        boolean time = 0;
+        Object[][] commits = {{132, 75, -105, "minecraft:grass_block", "snowy=true", 1},
+                {133, 75, -105, "minecraft:grass_block", "snowy=true", 1},
+                {134, 75, -105, "minecraft:grass_block", "snowy=true", 1},
+                {135, 75, -105, "minecraft:grass_block", "snowy=true", 1},
+                {136, 75, -105, "minecraft:grass_block", "snowy=true", 1},
+                {137, 75, -105, "minecraft:grass_block", "snowy=true", 1}};
 
-        if (commitID < currentCommit){
-            time = 0;
-        } else if (commitID > currentCommit){
-            time = 1;
+        int commitID = Integer.parseInt(args[0]);
+        String direction = "past";
+
+        int currentCommit = 5; //dummy for sql
+        int difference = commitID - currentCommit;
+
+        if (difference > 0){
+            direction = "future";
+        } else if (difference < 0){
+            direction = "past";
         } else {
-            //error, your current commit = commit that you want to load
+            sender.sendMessage("Failed to load commit");
         }
 
-        int len = commits.length;
-
-        for (int i = 0; i < commits.length; i++){
-            revertLine(commits[0][i], time);
+        for (int i = 0; i < commits[0].length; i++){
+            revertLine(commits[i], direction);
         }
-
         return true;
     }
 }
