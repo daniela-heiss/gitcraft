@@ -7,8 +7,8 @@
     <session-factory>
 
         <!-- JDBC Database connection settings -->
-        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://172.17.0.3:3306/mcdb</property>
+        <property name="connection.driver_class">>com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mariadb://172.17.0.3:3306/mcdb</property>
         <property name="connection.username">mc</property>
         <property name="connection.password">passwd</property>
 
@@ -16,10 +16,10 @@
         <property name="connection.pool_size">1</property>
 
         <!-- Select our SQL dialect -->
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="dialect">org.hibernate.dialect.MariaDBDialect</property>
 
         <!-- Echo the SQL to stdout -->
-        <property name="show_sql">false</property>
+        <property name="show_sql">true</property>
 
         <!-- Format the SQL -->
         <property name="format_sql">false</property>
