@@ -7,7 +7,7 @@
     <session-factory>
 
         <!-- JDBC Database connection settings -->
-        <property name="connection.driver_class">>com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.driver_class">org.mariadb.jdbc.Driver</property>
         <property name="connection.url">jdbc:mariadb://172.17.0.3:3306/mcdb</property>
         <property name="connection.username">mc</property>
         <property name="connection.password">passwd</property>
