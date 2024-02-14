@@ -6,4 +6,5 @@ spigot/.gradle/
 spigot/.vscode/
 spigot/build/
 spigot/server/
+spigot/.idea
 .vscode

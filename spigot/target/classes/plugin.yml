@@ -1,4 +1,4 @@
 name: mavenspigotdbtest
-version: '${project.version}'
+version: '1.0-SNAPSHOT'
 main: top.mavenspigotdbtest.Mavenspigotdbtest
 api-version: '1.20'
