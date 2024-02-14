@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.Objects;
@@ -19,7 +20,31 @@ import net.coreprotect.config.ConfigHandler;
 import net.coreprotect.database.Database;
 import net.coreprotect.database.statement.UserStatement;
 
-public class GCSave {
+public class CGSave extends JavaPlugin implements CommandExecutor {
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equalsIgnoreCase("gcsave")) {
+            // Fügen Sie hier Ihren Code für die Kommandozeilenargumente hinzu, wenn erforderlich
+
+            String username = String.valueOf(sender);
+            int offset = 3600; // Offset in Sekunden
+
+            List<String[]> lookupResults = GCSave.performLookup(username, offset);
+
+            for (String[] result : lookupResults) {
+                // Hier können Sie die Ergebnisse ausgeben oder weiter verarbeiten
+                for (String data : result) {
+                    sender.sendMessage(data);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+
     public static final int ID = 0;
 
     private GCSave() {
