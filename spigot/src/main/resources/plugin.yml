@@ -17,3 +17,6 @@ commands:
   load:
     description: Loads a savestate
     usage: /load commitname
+  testLoad:
+    desciption: Load a specific commit
+    usage: /load <commitName>
