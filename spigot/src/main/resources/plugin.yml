@@ -14,3 +14,6 @@ commands:
   remove:
     description: Places an air block at x,y,z and says that they destroy something
     usage: /remove x y z
+  load:
+    description: Loads a savestate
+    usage: /load commitname
