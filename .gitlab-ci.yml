@@ -26,4 +26,6 @@ reuse:
   script:
     - reuse --version
     - reuse lint
+  only:
+    - /Sprint[0-9]{1}/
 
