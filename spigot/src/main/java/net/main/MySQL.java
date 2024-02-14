@@ -6,7 +6,7 @@ public class MySQL {
     final String username="mc";
     final String password="passwd";
     final String url="jdbc:mysql://172.17.0.2:3306/mcdb";
-    static Connection connection;
+    public static Connection connection;
 
     public void openConnection() {
         try {
