@@ -14,19 +14,19 @@ public class LoadCommand implements CommandExecutor {
         int z = (Integer) zeile[2]; // need world in array
         Location loc = new Location(Bukkit.getWorld("world"), x, y, z);
         String block = (String) zeile[3];
-        //String blockstate = (String) zeile[4];
+        String blockState = (String) zeile[4];
         int action = (Integer) zeile[5];
 
         if (action == 1 && direction.equals("past")){
             loc.getBlock().setBlockData(Bukkit.createBlockData("minecraft:air"), true);
         } else if (action == 0 && direction.equals("past")){
-            loc.getBlock().setBlockData(Bukkit.createBlockData(block), true);
+            loc.getBlock().setBlockData(Bukkit.createBlockData(block+"["+blockState+"]"), true);
         } else if (action == 1 && direction.equals("future")){
-            loc.getBlock().setBlockData(Bukkit.createBlockData(block), true);
+            loc.getBlock().setBlockData(Bukkit.createBlockData(block+"["+blockState+"]"), true);
         } else if (action == 0 && direction.equals("future")){
             loc.getBlock().setBlockData(Bukkit.createBlockData("minecraft:air"), true);
         } else {
-            //interact
+            Bukkit.broadcastMessage("Interact");
         }
     }
 
@@ -34,14 +34,13 @@ public class LoadCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         sender.sendMessage("Loading commit...");
         //sql queries
-        Object[][] commits = new Object[1][5];
 
-        commits[0][0] = new Object[]{123, 68, -1231, "minecraft:grass_block", "state", 1};
-        commits[0][1] = new Object[]{124, 68, -1231, "minecraft:grass_block", "state", 1};
-        commits[0][2] = new Object[]{125, 68, -1231, "minecraft:grass_block", "state", 1};
-        commits[0][3] = new Object[]{126, 68, -1231, "minecraft:grass_block", "state", 1};
-        commits[0][4] = new Object[]{127, 68, -1231, "minecraft:grass_block", "state", 1};
-        commits[0][5] = new Object[]{128, 68, -1231, "minecraft:grass_block", "state", 1};
+        Object[][] commits = {{132, 75, -105, "minecraft:grass_block", "snowy=true", 1},
+                {133, 75, -105, "minecraft:grass_block", "snowy=true", 1},
+                {134, 75, -105, "minecraft:grass_block", "snowy=true", 1},
+                {135, 75, -105, "minecraft:grass_block", "snowy=true", 1},
+                {136, 75, -105, "minecraft:grass_block", "snowy=true", 1},
+                {137, 75, -105, "minecraft:grass_block", "snowy=true", 1}};
 
         int commitID = Integer.parseInt(args[0]);
         String direction = "past";
@@ -58,7 +57,7 @@ public class LoadCommand implements CommandExecutor {
         }
 
         for (int i = 0; i < commits[0].length; i++){
-            revertLine(new Object[]{commits[0][i]}, direction);
+            revertLine(commits[i], direction);
         }
         return true;
     }
