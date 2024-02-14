@@ -47,6 +47,29 @@ processResources {
         expand props
     }
 
+
+
+task copyEula(type: Copy) {
+    from 'resources' 
+    include 'eula.txt' 
+    into 'server' 
+}
+
+task copyOps(type: Copy) {
+    from 'resources' 
+    include 'ops.json' 
+    into 'server' 
+}
+
+task copyPlugin(type: Copy, dependsOn: build ) {
+    def pluginFolder = file('build/libs') 
+    def serverPluginsDir = file('server/plugins') 
+    serverPluginsDir.mkdirs()
+    from pluginFolder
+    include '*.jar'
+    into serverPluginsDir
+}
+
 task downloadServer() {
     def serverUrl = 'https://download.getbukkit.org/spigot/spigot-1.20.4.jar'
     def outputFile = file('server/minecraft_server.jar')
@@ -61,30 +84,34 @@ task downloadServer() {
                 commandLine 'curl', '-o', outputFile.toString(), serverUrl
             }
         }
-
-    workingDir project.buildDir
-    outputs.file outputFile
 }
 
 
-task copyEula(type: Copy) {
-    from 'resources' 
-    include 'eula.txt' 
-    into 'server' 
+task downloadPlugins() {
+    def plugins = [
+        'WorldEdit': 'https://dev.bukkit.org/projects/worldedit/files/5077477/download',
+        'Multiverse-Core': 'https://dev.bukkit.org/projects/multiverse-core/files/4744018/download',
+        'CoreProtect' : 'https://www.patreon.com/file?h=89830486&i=15920178'
+    ]
+
+    plugins.each { pluginName, pluginUrl ->
+        def pluginFile = file("server/plugins/${pluginName}.jar")
+        if (pluginFile.exists()) {
+            println "${pluginName} already downloaded. Skipping..."
+            return
+        } else {
+            println "Downloading ${pluginName}..."
+            exec {
+                commandLine 'curl', '-L', '-o', pluginFile.toString(), pluginUrl
+            }
+        }
+    }
 }
 
-task copyPlugin(type: Copy) {
-    def pluginFolder = file('build/libs') 
-    def serverPluginsDir = file('server/plugins') 
-    serverPluginsDir.mkdirs()
-    from pluginFolder
-    include '*.jar'
-    into serverPluginsDir
-}
-
-task runDevServer(type: Exec, dependsOn: ['downloadServer', 'copyEula', 'copyPlugin']) {
+task runDevServer(type: Exec, dependsOn: ['downloadServer', 'downloadPlugins', 'copyEula', 'copyOps', 'copyPlugin']) {
     def serverJar = file('server/minecraft_server.jar')
     commandLine 'java', '-jar', serverJar
     workingDir file('server')
     }
+
 }
