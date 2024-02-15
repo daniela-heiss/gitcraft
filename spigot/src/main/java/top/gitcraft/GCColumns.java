@@ -13,6 +13,7 @@ public class GCColumns {
     public void tableInit() {
         try
         {
+            dbman.initializeDatabase();
             dao = dbman.getBlockDao();
            if(!dao.checkColumnExists("commitID")){
               dao.addColumn("commitID", "INT");

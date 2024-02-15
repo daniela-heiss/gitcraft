@@ -80,11 +80,5 @@
             <artifactId>ormlite-jdbc</artifactId>
             <version>6.1</version>
         </dependency>
-        <dependency>
-            <groupId>net.coreprotect</groupId>
-            <artifactId>coreprotect</artifactId>
-            <version>22.3</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 </project>

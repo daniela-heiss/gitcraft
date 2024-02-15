@@ -19,7 +19,7 @@ public final class GitCraft extends JavaPlugin {
             databaseManager.initializeDatabase();
             GCColumns dbManager = new GCColumns();
             dbManager.tableInit();
-            Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new GCSave_OLD());
+            Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new GCSave());
 
 
         } catch (Exception e) {

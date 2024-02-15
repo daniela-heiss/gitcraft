@@ -50,6 +50,10 @@ public class BlockDao {
         }
         return false;
     }
+    public int getCommitID() throws SQLException {
+    return 0;
+    }
+
     public void addColumn(String columnName, String columnType) throws SQLException {
         blockDao.executeRaw("ALTER TABLE block ADD COLUMN " + columnName + " " + columnType);
     }
