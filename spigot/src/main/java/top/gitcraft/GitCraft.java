@@ -2,10 +2,6 @@ package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import top.gitcraft.database.DatabaseManager;
-import top.gitcraft.database.daos.MaterialMapDao;
-import top.gitcraft.database.entities.CommitManagementEntity;
-import top.gitcraft.database.entities.MaterialMapEntity;
-import top.gitcraft.database.entities.UserEntity;
 
 import java.util.List;
 

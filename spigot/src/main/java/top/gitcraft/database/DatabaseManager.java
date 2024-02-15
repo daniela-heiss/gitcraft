@@ -3,6 +3,8 @@ package top.gitcraft.database;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+
+import top.gitcraft.database.daos.CommitManagementDao;
 import top.gitcraft.database.daos.MaterialMapDao;
 
 import top.gitcraft.database.daos.UserDao;
@@ -38,5 +40,9 @@ public class DatabaseManager {
 
     public MaterialMapDao getMaterialMapDao() throws SQLException {
         return new MaterialMapDao(connectionSource);
+    }
+
+    public CommitManagementDao getCommitManagementDao() throws SQLException {
+        return new CommitManagementDao(connectionSource);
     }
 }
