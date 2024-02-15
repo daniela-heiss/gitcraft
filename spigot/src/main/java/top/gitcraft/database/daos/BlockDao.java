@@ -41,4 +41,17 @@ public class BlockDao {
     public Iterable<BlockEntity> getBlocksByLocation(int x, int y, int z) throws SQLException {
         return blockDao.queryBuilder().where().eq("x", x).and().eq("y", y).and().eq("z", z).query();
     }
+    public boolean checkColumnExists(String columnName) throws SQLException {
+        String[] columns =  blockDao.queryRaw("SELECT * FROM block LIMIT 1").getColumnNames();
+        for (String column : columns) {
+            if (column.equals(columnName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void addColumn(String columnName, String columnType) throws SQLException {
+        blockDao.executeRaw("ALTER TABLE block ADD COLUMN " + columnName + " " + columnType);
+    }
+
 }

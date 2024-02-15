@@ -45,4 +45,5 @@ public class DatabaseManager {
     public CommitManagementDao getCommitManagementDao() throws SQLException {
         return new CommitManagementDao(connectionSource);
     }
+
 }
