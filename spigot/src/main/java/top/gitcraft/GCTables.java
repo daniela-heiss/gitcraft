@@ -1,4 +1,4 @@
-package net.main;
+package top.gitcraft;
 import net.coreprotect.database.Database;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,7 +19,7 @@ public class GCTables{
 
                 if (!resultSet.next()) {
                     // Tabelle existiert nicht, erstellen Sie die Tabelle
-                    createTable((Connection) connection);
+                    //createTable((Connection) connection);
                 } else {
                     getLogger().info("Table already exists!");
                 }
@@ -36,7 +36,7 @@ public class GCTables{
         }
     }
 
-    private void createTable(Connection connection) throws SQLException {
+    /*private void createTable(Connection connection) throws SQLException {
         try (Statement statement = connection.createStatement()) {
             // Hier sollten Sie den Code zum Erstellen Ihrer Tabelle einfügen
             // Beispiel:
@@ -50,7 +50,7 @@ public class GCTables{
 
             getLogger().info("Table created!");
         }
-    }
+    }*/
     private boolean checkIfColumnsExist(DatabaseMetaData meta, String tableName, String... columnNames) throws SQLException {
         ResultSet columns = meta.getColumns(null, null, tableName, null);
 

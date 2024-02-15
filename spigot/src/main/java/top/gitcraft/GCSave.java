@@ -1,9 +1,8 @@
-package net.main;
+package top.gitcraft;
 import net.coreprotect.database.Database;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -75,13 +74,13 @@ public class GCSave implements CommandExecutor {
     private int getCurrentID() {
         // Hier fügen Sie den Code zum Abrufen der aktuellen ID hinzu
         // Beispiel: return yourCurrentID;
-        return 2; // Dummy-Wert, ersetzen Sie dies durch Ihre Logik
+        return 0; // Dummy-Wert, ersetzen Sie dies durch Ihre Logik
     }
 
     private int getHighestID() {
         // Hier fügen Sie den Code zum Abrufen der höchsten ID hinzu
         // Beispiel: return yourHighestID;
-        return 4; // Dummy-Wert, ersetzen Sie dies durch Ihre Logik
+        return 0; // Dummy-Wert, ersetzen Sie dies durch Ihre Logik
     }
 
     private void setCurrentID(int newCurrentID) {
