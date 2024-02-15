@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.BlockDao;
+import top.gitcraft.database.daos.MaterialMapDao;
 import top.gitcraft.database.entities.BlockEntity;
 
 import java.sql.SQLException;
@@ -21,15 +22,35 @@ public class LoadCommand implements CommandExecutor {
         String block = (String) zeile[3];
         String blockState = (String) zeile[4];
         int action = (Integer) zeile[5];*/
+        DatabaseManager databaseManager = new DatabaseManager();
+        String block;
+        try {
+            databaseManager.initializeDatabase();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        MaterialMapDao mapDao;
+        try {
+            mapDao = databaseManager.getMaterialMapDao();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            block = mapDao.getMaterialById(zeile.type);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
 
         Location loc = new Location(Bukkit.getWorld("world"), zeile.x, zeile.y, zeile.z);
 
         if (zeile.action == 1 && direction.equals("past")){
             loc.getBlock().setBlockData(Bukkit.createBlockData("minecraft:air"), true);
         } else if (zeile.action == 0 && direction.equals("past")){
-            loc.getBlock().setBlockData(Bukkit.createBlockData(zeile.type+"["+zeile.blockdata+"]"), true);
+            loc.getBlock().setBlockData(Bukkit.createBlockData(block), true);
         } else if (zeile.action == 1 && direction.equals("future")){
-            loc.getBlock().setBlockData(Bukkit.createBlockData(zeile.type+"["+zeile.blockdata+"]"), true);
+            loc.getBlock().setBlockData(Bukkit.createBlockData(block), true);
         } else if (zeile.action == 0 && direction.equals("future")){
             loc.getBlock().setBlockData(Bukkit.createBlockData("minecraft:air"), true);
         } else {
@@ -51,7 +72,12 @@ public class LoadCommand implements CommandExecutor {
         //BlockDao row = new BlockDao();
         //private static Dao<BlockDao> blockDao;
         DatabaseManager databaseManager = new DatabaseManager();
-        BlockDao blockDao = null;
+        try {
+            databaseManager.initializeDatabase();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        BlockDao blockDao;
         try {
             blockDao = databaseManager.getBlockDao();
         } catch (SQLException e) {
@@ -79,7 +105,7 @@ public class LoadCommand implements CommandExecutor {
             sender.sendMessage("Failed to load commit");
         }
 
-        revertLine(zeile, "past");
+        revertLine(zeile, direction);
         /*for (int i = 0; i < commits[0].length; i++){
             revertLine(commits[i], direction);
         }*/
