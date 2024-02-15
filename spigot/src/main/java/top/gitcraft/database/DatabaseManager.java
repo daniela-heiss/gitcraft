@@ -5,8 +5,6 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 
-
-import sun.tools.jconsole.Tab;
 import top.gitcraft.database.daos.*;
 import top.gitcraft.database.entities.CommitEntity;
 import top.gitcraft.database.entities.CommitManagementEntity;
