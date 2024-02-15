@@ -40,7 +40,7 @@ public class BlockEntity {
     public byte[] blockdata;
 
     @DatabaseField(dataType = DataType.BOOLEAN)
-    public boolean action;
+    public int action;
 
     @DatabaseField(dataType = DataType.BOOLEAN)
     public boolean rolled_back;

@@ -5,26 +5,32 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.BlockDao;
+import top.gitcraft.database.entities.BlockEntity;
+
+import java.sql.SQLException;
 
 public class LoadCommand implements CommandExecutor {
 
-    public void revertLine(Object[] zeile, String direction){   //time 0 = rollback, time 1 = restore
-        int x = (Integer) zeile[0];
+    public void revertLine(BlockEntity zeile, String direction){   //time 0 = rollback, time 1 = restore
+        /*int x = (Integer) zeile[0];
         int y = (Integer) zeile[1];
         int z = (Integer) zeile[2]; // need world in array
         Location loc = new Location(Bukkit.getWorld("world"), x, y, z);
         String block = (String) zeile[3];
         String blockState = (String) zeile[4];
-        int action = (Integer) zeile[5];
+        int action = (Integer) zeile[5];*/
 
-        if (action == 1 && direction.equals("past")){
+        Location loc = new Location(Bukkit.getWorld("world"), zeile.x, zeile.y, zeile.z);
+
+        if (zeile.action == 1 && direction.equals("past")){
             loc.getBlock().setBlockData(Bukkit.createBlockData("minecraft:air"), true);
-        } else if (action == 0 && direction.equals("past")){
-            loc.getBlock().setBlockData(Bukkit.createBlockData(block+"["+blockState+"]"), true);
-        } else if (action == 1 && direction.equals("future")){
-            loc.getBlock().setBlockData(Bukkit.createBlockData(block+"["+blockState+"]"), true);
-        } else if (action == 0 && direction.equals("future")){
+        } else if (zeile.action == 0 && direction.equals("past")){
+            loc.getBlock().setBlockData(Bukkit.createBlockData(zeile.type+"["+zeile.blockdata+"]"), true);
+        } else if (zeile.action == 1 && direction.equals("future")){
+            loc.getBlock().setBlockData(Bukkit.createBlockData(zeile.type+"["+zeile.blockdata+"]"), true);
+        } else if (zeile.action == 0 && direction.equals("future")){
             loc.getBlock().setBlockData(Bukkit.createBlockData("minecraft:air"), true);
         } else {
             Bukkit.broadcastMessage("Interact");
@@ -36,13 +42,27 @@ public class LoadCommand implements CommandExecutor {
         sender.sendMessage("Loading commit...");
         //sql queries
 
-        Object[][] commits = {{132, 75, -105, "minecraft:grass_block", "snowy=true", 1},
+        /*Object[][] commits = {{132, 75, -105, "minecraft:grass_block", "snowy=true", 1},
                 {133, 75, -105, "minecraft:grass_block", "snowy=true", 1},
                 {134, 75, -105, "minecraft:grass_block", "snowy=true", 1},
                 {135, 75, -105, "minecraft:grass_block", "snowy=true", 1},
                 {136, 75, -105, "minecraft:grass_block", "snowy=true", 1},
-                {137, 75, -105, "minecraft:grass_block", "snowy=true", 1}};
+                {137, 75, -105, "minecraft:grass_block", "snowy=true", 1}};*/
         //BlockDao row = new BlockDao();
+        //private static Dao<BlockDao> blockDao;
+        DatabaseManager databaseManager = new DatabaseManager();
+        BlockDao blockDao = null;
+        try {
+            blockDao = databaseManager.getBlockDao();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        BlockEntity zeile;
+        try {
+            zeile = blockDao.getBlockById(9834);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
 
         int commitID = Integer.parseInt(args[0]);
@@ -59,9 +79,10 @@ public class LoadCommand implements CommandExecutor {
             sender.sendMessage("Failed to load commit");
         }
 
-        for (int i = 0; i < commits[0].length; i++){
+        revertLine(zeile, "past");
+        /*for (int i = 0; i < commits[0].length; i++){
             revertLine(commits[i], direction);
-        }
+        }*/
         return true;
     }
 }
