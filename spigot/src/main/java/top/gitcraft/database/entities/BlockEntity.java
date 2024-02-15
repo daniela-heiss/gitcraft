@@ -7,41 +7,41 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "co_block")
 public class BlockEntity {
     @DatabaseField(generatedId = true)
-    private long rowid;
+    public long rowid;
 
     @DatabaseField(dataType = DataType.INTEGER)
-    private int time;
+    public int time;
 
     @DatabaseField(dataType = DataType.INTEGER)
-    private int user;
+    public int user;
 
     @DatabaseField(dataType = DataType.INTEGER)
-    private int wid;
+    public int wid;
 
     @DatabaseField(dataType = DataType.INTEGER)
-    private int x;
+    public int x;
 
     @DatabaseField(dataType = DataType.INTEGER)
-    private int y;
+    public int y;
 
     @DatabaseField(dataType = DataType.INTEGER)
-    private int z;
+    public int z;
 
     @DatabaseField(dataType = DataType.INTEGER)
-    private int type;
+    public int type;
 
     @DatabaseField(dataType = DataType.INTEGER)
-    private int data;
+    public int data;
 
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
-    private byte[] meta;
+    public byte[] meta;
 
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
-    private byte[] blockdata;
+    public byte[] blockdata;
 
     @DatabaseField(dataType = DataType.BOOLEAN)
-    private boolean action;
+    public boolean action;
 
     @DatabaseField(dataType = DataType.BOOLEAN)
-    private boolean rolled_back;
+    public boolean rolled_back;
 }
