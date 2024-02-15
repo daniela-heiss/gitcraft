@@ -34,7 +34,7 @@ public class BlockDao {
         return blockDao.queryForAll();
     }
 
-    public Iterable<BlockEntity> getBlocksByUser(String user) throws SQLException {
+    public Iterable<BlockEntity> getBlocksByUser(Integer user) throws SQLException {
         return blockDao.queryBuilder().where().eq("user", user).query();
     }
 
