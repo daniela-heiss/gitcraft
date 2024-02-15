@@ -14,7 +14,7 @@ import top.gitcraft.database.entities.CommitManagementEntity;
 import java.sql.SQLException;
 
 public class DatabaseManager {
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/minecraft";
+    private static final String DATABASE_URL = "jdbc:mysql://172.17.0.2:3306/mcdb";
     private static final String DATABASE_USERNAME = "mc";
     private static final String DATABASE_PASSWORD = "passwd";
 

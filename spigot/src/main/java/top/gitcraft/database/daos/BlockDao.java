@@ -42,7 +42,7 @@ public class BlockDao {
         return blockDao.queryBuilder().where().eq("x", x).and().eq("y", y).and().eq("z", z).query();
     }
     public boolean checkColumnExists(String columnName) throws SQLException {
-        String[] columns =  blockDao.queryRaw("SELECT * FROM block LIMIT 1").getColumnNames();
+        String[] columns =  blockDao.queryRaw("SELECT * FROM co_block LIMIT 1").getColumnNames();
         for (String column : columns) {
             if (column.equals(columnName)) {
                 return true;
@@ -55,7 +55,7 @@ public class BlockDao {
     }
 
     public void addColumn(String columnName, String columnType) throws SQLException {
-        blockDao.executeRaw("ALTER TABLE block ADD COLUMN " + columnName + " " + columnType);
+        blockDao.executeRaw("ALTER TABLE co_block ADD COLUMN " + columnName + " " + columnType);
     }
 
 }
