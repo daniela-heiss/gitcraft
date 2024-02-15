@@ -4,7 +4,7 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-
+import io.github.cdimascio.dotenv.Dotenv;
 
 import sun.tools.jconsole.Tab;
 import top.gitcraft.database.daos.*;
@@ -14,9 +14,17 @@ import top.gitcraft.database.entities.CommitManagementEntity;
 import java.sql.SQLException;
 
 public class DatabaseManager {
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/minecraft";
-    private static final String DATABASE_USERNAME = "mc";
-    private static final String DATABASE_PASSWORD = "passwd";
+
+    // Add .env File to minecraft Folder
+    /* .env Structure
+        DATABASE_URL = "jdbc:mysql://IP-ADDRESS:3306/DA_NAME"
+        DATABASE_USERNAME = "USERNAME"
+        DATABASE_PASSWORD = "PASSWORD"
+    */
+    static Dotenv dotenv = Dotenv.load();
+    private static final String DATABASE_URL = dotenv.get("DATABASE_URL");
+    private static final String DATABASE_USERNAME = dotenv.get("DATABASE_USERNAME");
+    private static final String DATABASE_PASSWORD = dotenv.get("DATABASE_PASSWORD");
 
     private ConnectionSource connectionSource;
 
