@@ -22,6 +22,7 @@ public class DatabaseManager {
     public void initializeDatabase() throws SQLException {
         connectionSource = new JdbcConnectionSource(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
 
+        TableUtils.createTableIfNotExists(connectionSource, CommitManagementDao.class);
     }
 
     public void closeConnection() throws Exception {
