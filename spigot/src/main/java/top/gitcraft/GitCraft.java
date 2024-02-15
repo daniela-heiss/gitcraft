@@ -1,9 +1,9 @@
 package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import top.gitcraft.commands.LoadCommand;
 import top.gitcraft.database.DatabaseManager;
 import java.util.Objects;
-
 import java.util.Objects;
 
 public final class GitCraft extends JavaPlugin {
