@@ -2,11 +2,15 @@ package top.gitcraft.database;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+<<<<<<< HEAD
 import com.j256.ormlite.table.TableUtils;
 import top.gitcraft.database.daos.MaterialMapDao;
 import top.gitcraft.database.daos.PlayerDao;
 import top.gitcraft.database.daos.UserDao;
 import top.gitcraft.database.entities.PlayerEntity;
+=======
+import top.gitcraft.database.daos.BlockDao;
+>>>>>>> 9b1ee1a71c3a802f9c758eb73f990b368ab5f60b
 
 import java.sql.SQLException;
 
@@ -19,8 +23,7 @@ public class DatabaseManager {
 
     public void initializeDatabase() throws SQLException {
         connectionSource = new JdbcConnectionSource(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
-        // Create tables if they don't exist
-        TableUtils.createTableIfNotExists(connectionSource, PlayerEntity.class);
+
     }
 
     public void closeConnection() throws Exception {
@@ -29,8 +32,8 @@ public class DatabaseManager {
         }
     }
 
-    public PlayerDao getPlayerDao() throws SQLException {
-        return new PlayerDao(connectionSource);
+    public BlockDao getBlockDao() throws SQLException {
+        return new BlockDao(connectionSource);
     }
 
     public UserDao getUserDao() throws  SQLException {
