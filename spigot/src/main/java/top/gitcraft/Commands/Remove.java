@@ -1,4 +1,4 @@
-package net.main;
+package top.gitcraft.commands;
 
 import java.util.logging.Logger;
 

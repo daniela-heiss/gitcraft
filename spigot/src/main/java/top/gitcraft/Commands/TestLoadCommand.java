@@ -1,5 +1,5 @@
 
-package net.main;
+package top.gitcraft.commands;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

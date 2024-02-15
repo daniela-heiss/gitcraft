@@ -1,4 +1,4 @@
-package net.main;
+package top.gitcraft.commands;
 
 public class CommitData
 {
