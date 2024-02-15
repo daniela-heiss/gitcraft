@@ -1,4 +1,4 @@
-package top.gitcraft;
+package top.gitcraft.database.entities;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;

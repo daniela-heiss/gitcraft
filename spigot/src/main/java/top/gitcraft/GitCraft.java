@@ -1,6 +1,8 @@
 package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import top.gitcraft.database.DatabaseManager;
+import top.gitcraft.database.entities.PlayerEntity;
 
 import java.util.List;
 
