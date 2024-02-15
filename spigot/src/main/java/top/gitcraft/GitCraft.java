@@ -2,6 +2,7 @@ package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import top.gitcraft.database.DatabaseManager;
+import java.util.Objects;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public final class GitCraft extends JavaPlugin {
         // Plugin startup logic
         //send hello message
         getLogger().info("Hello, SpigotMC!");
-
+        Objects.requireNonNull(this.getCommand("load")).setExecutor(new LoadCommand());
         //initialize database
         try {
             DatabaseManager databaseManager = new DatabaseManager();

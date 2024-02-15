@@ -1,10 +1,11 @@
-package net.main;
+package top.gitcraft;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import top.gitcraft.database.daos.BlockDao;
 
 public class LoadCommand implements CommandExecutor {
 
@@ -41,6 +42,8 @@ public class LoadCommand implements CommandExecutor {
                 {135, 75, -105, "minecraft:grass_block", "snowy=true", 1},
                 {136, 75, -105, "minecraft:grass_block", "snowy=true", 1},
                 {137, 75, -105, "minecraft:grass_block", "snowy=true", 1}};
+        //BlockDao row = new BlockDao();
+
 
         int commitID = Integer.parseInt(args[0]);
         String direction = "past";
