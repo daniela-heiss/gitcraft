@@ -2,10 +2,7 @@ package top.gitcraft.database;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
 import top.gitcraft.database.daos.BlockDao;
-import top.gitcraft.database.daos.PlayerDao;
-import top.gitcraft.database.entities.PlayerEntity;
 
 import java.sql.SQLException;
 
@@ -25,10 +22,6 @@ public class DatabaseManager {
         if (connectionSource != null) {
             connectionSource.close();
         }
-    }
-
-    public PlayerDao getPlayerDao() throws SQLException {
-        return new PlayerDao(connectionSource);
     }
 
     public BlockDao getBlockDao() throws SQLException {
