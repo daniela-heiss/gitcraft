@@ -1,4 +1,4 @@
-package top.mavenspigotdbtest;
+package top.gitcraft;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;

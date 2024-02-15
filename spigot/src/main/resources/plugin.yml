@@ -1,4 +1,4 @@
-name: mavenspigotdbtest
+name: gitcraft
 version: '${project.version}'
-main: top.mavenspigotdbtest.Mavenspigotdbtest
+main: top.gitcraft.GitCraft
 api-version: '1.20'

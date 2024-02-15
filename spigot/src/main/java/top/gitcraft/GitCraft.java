@@ -1,10 +1,10 @@
-package top.mavenspigotdbtest;
+package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
-public final class Mavenspigotdbtest extends JavaPlugin {
+public final class GitCraft extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic

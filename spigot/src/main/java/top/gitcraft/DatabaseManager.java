@@ -1,10 +1,9 @@
-package top.mavenspigotdbtest;
+package top.gitcraft;
 
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
 public class DatabaseManager {
