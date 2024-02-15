@@ -2,3 +2,21 @@ name: gitcraft
 version: '${project.version}'
 main: top.gitcraft.GitCraft
 api-version: '1.20'
+
+# Replace "kit" with the name of your command.
+commands:
+  kit:
+    description: Your description
+    usage: /<command>
+  helloblock:
+    description: Places a snowy grass block at the coordinates and greets the world
+    usage: /helloblock <x> <y> <z>
+  remove:
+    description: Places an air block at x,y,z and says that they destroy something
+    usage: /remove x y z
+  load:
+    description: Loads a savestate
+    usage: /load commitname
+  testLoad:
+    desciption: Load a specific commit
+    usage: /load <commitName>
