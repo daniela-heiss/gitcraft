@@ -3,7 +3,10 @@
 # SPDX-License-Identifier: CC0-1.0
 
 spigot/.gradle/
+spigot/.idea/
 spigot/.vscode/
+spigot/bin/
 spigot/build/
 spigot/server/
+spigot/target/
 .vscode
