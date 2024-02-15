@@ -4,7 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import top.gitcraft.database.DatabaseManager;
 import java.util.Objects;
 
-import java.util.List;
+import java.util.Objects;
 
 public final class GitCraft extends JavaPlugin {
     @Override
@@ -17,6 +17,10 @@ public final class GitCraft extends JavaPlugin {
         try {
             DatabaseManager databaseManager = new DatabaseManager();
             databaseManager.initializeDatabase();
+            GCColumns dbManager = new GCColumns();
+            dbManager.tableInit();
+            Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new GCSave_OLD());
+
 
         } catch (Exception e) {
             e.printStackTrace();
