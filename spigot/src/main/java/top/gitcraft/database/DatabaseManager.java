@@ -4,11 +4,7 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-import top.gitcraft.database.daos.CommitManagementDao;
-import top.gitcraft.database.daos.MaterialMapDao;
-
-import top.gitcraft.database.daos.UserDao;
-import top.gitcraft.database.daos.BlockDao;
+import top.gitcraft.database.daos.*;
 
 import java.sql.SQLException;
 
@@ -23,6 +19,7 @@ public class DatabaseManager {
         connectionSource = new JdbcConnectionSource(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
 
         TableUtils.createTableIfNotExists(connectionSource, CommitManagementDao.class);
+        TableUtils.createTableIfNotExists(connectionSource, CommitDao.class);
     }
 
     public void closeConnection() throws Exception {
@@ -45,5 +42,9 @@ public class DatabaseManager {
 
     public CommitManagementDao getCommitManagementDao() throws SQLException {
         return new CommitManagementDao(connectionSource);
+    }
+
+    public CommitDao getCommitDao() throws SQLException {
+        return new CommitDao(connectionSource);
     }
 }
