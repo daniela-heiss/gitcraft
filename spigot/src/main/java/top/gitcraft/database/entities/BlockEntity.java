@@ -39,8 +39,8 @@ public class BlockEntity {
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     public byte[] blockdata;
 
-    @DatabaseField(dataType = DataType.BOOLEAN)
-    public boolean action;
+    @DatabaseField(dataType = DataType.INTEGER)
+    public int action;
 
     @DatabaseField(dataType = DataType.BOOLEAN)
     public boolean rolled_back;
