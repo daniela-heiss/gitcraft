@@ -13,6 +13,7 @@ public final class SpigotExample extends JavaPlugin {
         dbManager.tableInit();
         getLogger().info("Hello World example loaded");
         Objects.requireNonNull(this.getCommand("kit")).setExecutor(new CommandKit());
+        Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new GCSave());
     }
 
     @Override
