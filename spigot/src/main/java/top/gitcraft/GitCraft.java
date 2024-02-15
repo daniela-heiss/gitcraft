@@ -1,6 +1,7 @@
 package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import top.gitcraft.database.DatabaseManager;
 
 import java.util.List;
 
@@ -15,17 +16,6 @@ public final class GitCraft extends JavaPlugin {
         try {
             DatabaseManager databaseManager = new DatabaseManager();
             databaseManager.initializeDatabase();
-
-            //create a player
-            PlayerEntity player = new PlayerEntity();
-            player.name = "test";
-            databaseManager.getPlayerDao().createPlayer(player);
-
-            //get all players
-            List<PlayerEntity> players = databaseManager.getPlayerDao().getAllPlayers();
-            for (PlayerEntity p : players) {
-                getLogger().info("Player: " + p.name);
-            }
 
         } catch (Exception e) {
             e.printStackTrace();
