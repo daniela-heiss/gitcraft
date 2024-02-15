@@ -1,10 +1,4 @@
-name: spigotexample
-version: '${version}'
-main: net.main.SpigotExample
+name: gitcraft
+version: '${project.version}'
+main: top.gitcraft.GitCraft
 api-version: '1.20'
-
-# Replace "kit" with the name of your command.
-commands:
-  kit:
-    description: Your description
-    usage: /<command>
