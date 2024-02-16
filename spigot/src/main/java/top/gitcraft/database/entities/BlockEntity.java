@@ -12,8 +12,8 @@ public class BlockEntity {
     @DatabaseField(dataType = DataType.INTEGER)
     public int time;
 
-    @DatabaseField(dataType = DataType.INTEGER)
-    public int user;
+    @DatabaseField(dataType = DataType.INTEGER, columnName = "user")
+    public int userId;
 
     @DatabaseField(dataType = DataType.INTEGER)
     public int wid;
@@ -36,12 +36,12 @@ public class BlockEntity {
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     public byte[] meta;
 
-    @DatabaseField(dataType = DataType.BYTE_ARRAY)
-    public byte[] blockdata;
+    @DatabaseField(dataType = DataType.BYTE_ARRAY, columnName = "blockdata")
+    public byte[] blockData;
 
     @DatabaseField(dataType = DataType.INTEGER)
     public int action;
 
-    @DatabaseField(dataType = DataType.BOOLEAN)
-    public boolean rolled_back;
+    @DatabaseField(dataType = DataType.BOOLEAN, columnName = "rolled_back")
+    public boolean rolledBack;
 }
