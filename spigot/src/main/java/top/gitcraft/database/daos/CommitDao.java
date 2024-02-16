@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class CommitDao {
 
-    private Dao<CommitEntity, Integer> commitDao;
+    private final Dao<CommitEntity, Integer> commitDao;
 
     public CommitDao(ConnectionSource connectionSource) throws SQLException {
         commitDao = DaoManager.createDao(connectionSource, CommitEntity.class);

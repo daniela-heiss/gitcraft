@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class WorldDao {
 
-    private Dao<WorldEntity, Integer> worldDao;
+    private final Dao<WorldEntity, Integer> worldDao;
 
     public WorldDao(ConnectionSource connectionSource) throws SQLException {
         worldDao = DaoManager.createDao(connectionSource, WorldEntity.class);

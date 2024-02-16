@@ -8,7 +8,7 @@ import top.gitcraft.database.entities.BlockEntity;
 import java.sql.SQLException;
 
 public class BlockDao {
-    private Dao<BlockEntity, Integer> blockDao;
+    private final Dao<BlockEntity, Integer> blockDao;
 
     public BlockDao(ConnectionSource connectionSource) throws SQLException {
         blockDao = DaoManager.createDao(connectionSource, BlockEntity.class);

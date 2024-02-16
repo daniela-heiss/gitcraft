@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class UserDao {
 
-    private Dao<UserEntity, Integer> userDao;
+    private final Dao<UserEntity, Integer> userDao;
 
     public UserDao(ConnectionSource connectionSource) throws SQLException {
         userDao = DaoManager.createDao(connectionSource, UserEntity.class);

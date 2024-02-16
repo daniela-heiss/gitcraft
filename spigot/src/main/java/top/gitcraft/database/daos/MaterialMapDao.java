@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class MaterialMapDao {
 
-    private Dao<MaterialMapEntity, Integer> materialMapDao;
+    private final Dao<MaterialMapEntity, Integer> materialMapDao;
 
     public MaterialMapDao(ConnectionSource connectionSource) throws SQLException {
         materialMapDao = DaoManager.createDao(connectionSource, MaterialMapEntity.class);
