@@ -10,7 +10,7 @@ public class CommitManagementEntity {
     public int rowid;
 
     @DatabaseField
-    public String playerName;
+    public int pid;
 
     @DatabaseField
     public int currentID;
