@@ -6,8 +6,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "co_block")
 public class BlockEntity {
-    @DatabaseField(generatedId = true)
-    public long rowid;
+    @DatabaseField(generatedId = true, columnName = "rowid")
+    public long rowId;
 
     @DatabaseField(dataType = DataType.INTEGER)
     public int time;
