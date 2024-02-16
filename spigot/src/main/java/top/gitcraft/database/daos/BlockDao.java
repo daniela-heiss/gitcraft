@@ -34,8 +34,12 @@ public class BlockDao {
         return blockDao.queryForAll();
     }
 
-    public Iterable<BlockEntity> getBlocksByUser(Integer user) throws SQLException {
-        return blockDao.queryBuilder().where().eq("user", user).query();
+    public Iterable<BlockEntity> getBlocksByUserId(Integer userId) throws SQLException {
+        return blockDao.queryBuilder().where().eq("user", userId).query();
+    }
+
+    public Iterable<BlockEntity> getBlocksWithoutCommitByUserId(Integer userId) throws SQLException {
+        return blockDao.queryBuilder().where().eq("user", userId).and().isNull("commitId").query();
     }
 
     public Iterable<BlockEntity> getBlocksByLocation(int x, int y, int z) throws SQLException {
