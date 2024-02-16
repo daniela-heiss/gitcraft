@@ -5,14 +5,14 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "co_user")
 public class UserEntity {
-    @DatabaseField(generatedId = true)
-    public int rowid;
+    @DatabaseField(generatedId = true, columnName = "rowid")
+    public int rowId;
 
     @DatabaseField
     public int time;
 
-    @DatabaseField
-    public String user;
+    @DatabaseField(columnName = "user")
+    public String userName;
 
     @DatabaseField
     public String uuid;
