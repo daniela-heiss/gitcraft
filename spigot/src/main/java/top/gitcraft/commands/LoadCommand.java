@@ -8,13 +8,14 @@ import org.bukkit.command.CommandSender;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.BlockDao;
 import top.gitcraft.database.daos.MaterialMapDao;
+import top.gitcraft.database.daos.WorldDao;
 import top.gitcraft.database.entities.BlockEntity;
 
 import java.sql.SQLException;
 
 public class LoadCommand implements CommandExecutor {
 
-    public void revertLine(BlockEntity zeile, String direction){   //time 0 = rollback, time 1 = restore
+    public void revertLine(BlockEntity zeile, String direction) {   //time 0 = rollback, time 1 = restore
         /*int x = (Integer) zeile[0];
         int y = (Integer) zeile[1];
         int z = (Integer) zeile[2]; // need world in array
@@ -24,12 +25,14 @@ public class LoadCommand implements CommandExecutor {
         int action = (Integer) zeile[5];*/
         DatabaseManager databaseManager = new DatabaseManager();
         String block;
+        String world;
+        MaterialMapDao mapDao;
+        WorldDao worldDao;
         try {
             databaseManager.initializeDatabase();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        MaterialMapDao mapDao;
         try {
             mapDao = databaseManager.getMaterialMapDao();
         } catch (SQLException e) {
@@ -40,10 +43,18 @@ public class LoadCommand implements CommandExecutor {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        try {
+            worldDao = databaseManager.getWorldDao();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            world = worldDao.getWorldByID(zeile.wid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
-
-
-        Location loc = new Location(Bukkit.getWorld("world"), zeile.x, zeile.y, zeile.z);
+        Location loc = new Location(Bukkit.getServer().getWorld(world), zeile.x, zeile.y, zeile.z);
 
         if (zeile.action == 1 && direction.equals("past")){
             loc.getBlock().setBlockData(Bukkit.createBlockData("minecraft:air"), true);
@@ -85,7 +96,8 @@ public class LoadCommand implements CommandExecutor {
         }
         BlockEntity zeile;
         try {
-            zeile = blockDao.getBlockById(9834);
+            zeile = blockDao.getBlockById(10329);
+            //zeile = blockDao.getBlockById(9834);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

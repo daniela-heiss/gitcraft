@@ -12,8 +12,8 @@ import top.gitcraft.database.entities.CommitManagementEntity;
 import java.sql.SQLException;
 
 public class DatabaseManager {
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/minecraft";
-    private static final String DATABASE_USERNAME = "mc";
+    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/database";
+    private static final String DATABASE_USERNAME = "root";
     private static final String DATABASE_PASSWORD = "passwd";
 
     private ConnectionSource connectionSource;
@@ -49,5 +49,9 @@ public class DatabaseManager {
 
     public CommitDao getCommitDao() throws SQLException {
         return new CommitDao(connectionSource);
+    }
+
+    public WorldDao getWorldDao() throws SQLException {
+        return new WorldDao(connectionSource);
     }
 }
