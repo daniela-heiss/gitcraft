@@ -16,7 +16,7 @@ public class UserDao {
     }
 
     public String getUserByRowId(int rowid) throws SQLException {
-        return userDao.queryForId(rowid).user;
+        return userDao.queryForId(rowid).userName;
     }
 
 
