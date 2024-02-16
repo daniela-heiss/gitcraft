@@ -18,18 +18,18 @@ public class GCSave implements CommandExecutor {
     private BlockDao dao;
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (label.equalsIgnoreCase("save")) {
+        System.out.println("command : " + command + "label : " + label + "args" + args);
+        /*if (label.equalsIgnoreCase("gcsave")) {
             // Hier fügen Sie den Code zum Überprüfen und Speichern hinzu
-            System.out.println("command : " + command + "label : " + label + "args" + args);
             getChangeCount(sender);
             /*if (checkAndSave(sender)) {
                 sender.sendMessage("Save successful!");
             } else {
                 sender.sendMessage("Save failed.");
-            }*/
+            }
             return true;
-        }
-        return false;
+        }*/
+        return true;
     }
 
     public void getChangeCount(CommandSender sender)
