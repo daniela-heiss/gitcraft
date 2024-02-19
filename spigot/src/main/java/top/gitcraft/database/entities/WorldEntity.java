@@ -12,6 +12,6 @@ public class WorldEntity {
     @DatabaseField
     public int id;
 
-    @DatabaseField
-    public String world;
+    @DatabaseField(columnName = "world")
+    public String worldName;
 }
