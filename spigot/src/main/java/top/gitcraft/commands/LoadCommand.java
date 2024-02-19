@@ -49,7 +49,7 @@ public class LoadCommand implements CommandExecutor {
             throw new RuntimeException(e);
         }
         try {
-            world = worldDao.getWorldByID(zeile.wid);
+            world = worldDao.getWorldById(zeile.wid);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

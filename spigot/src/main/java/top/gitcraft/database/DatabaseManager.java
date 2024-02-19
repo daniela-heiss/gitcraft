@@ -54,4 +54,8 @@ public class DatabaseManager {
     public WorldDao getWorldDao() throws SQLException {
         return new WorldDao(connectionSource);
     }
+
+    public BlockDataMapDao getBlockDataMapDao() throws SQLException {
+        return new BlockDataMapDao(connectionSource);
+    }
 }

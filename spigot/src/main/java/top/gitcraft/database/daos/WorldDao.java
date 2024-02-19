@@ -16,7 +16,7 @@ public class WorldDao {
         worldDao = DaoManager.createDao(connectionSource, WorldEntity.class);
     }
 
-    public String getWorldByID(int id) throws SQLException {
+    public String getWorldById(int id) throws SQLException {
         return worldDao.queryForId(id).world;
     }
 }
