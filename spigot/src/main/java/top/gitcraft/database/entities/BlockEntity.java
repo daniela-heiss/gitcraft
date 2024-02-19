@@ -15,8 +15,8 @@ public class BlockEntity {
     @DatabaseField(dataType = DataType.INTEGER, columnName = "user")
     public int userId;
 
-    @DatabaseField(dataType = DataType.INTEGER)
-    public int wid;
+    @DatabaseField(dataType = DataType.INTEGER, columnName = "wid")
+    public int worldId;
 
     @DatabaseField(dataType = DataType.INTEGER)
     public int x;
