@@ -36,6 +36,7 @@ public class GCSave implements CommandExecutor {
     {
         int changecount = 0;
         try{
+            // Retrieves a list of BlockEntity objects for blocks changed by a user identified by their ID
             Iterable<BlockEntity> blocks = dao.getBlocksByUser(3);
             ArrayList<BlockEntity> list = new ArrayList<>();
             blocks.forEach(list::add);
@@ -47,5 +48,4 @@ public class GCSave implements CommandExecutor {
 
         sender.sendMessage("You changed"+ changecount +" blocks!");
     }
-
 }

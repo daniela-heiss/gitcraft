@@ -3,8 +3,6 @@ package top.gitcraft;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.gitcraft.commands.LoadCommand;
 import top.gitcraft.database.DatabaseManager;
-import top.gitcraft.GCSave;
-import java.util.Objects;
 import java.util.Objects;
 
 public final class GitCraft extends JavaPlugin {
@@ -13,8 +11,12 @@ public final class GitCraft extends JavaPlugin {
         // Plugin startup logic
         //send hello message
         getLogger().info("Hello, SpigotMC!");
+        // Sets the executor for the "/load" command to the LoadCommand class
         Objects.requireNonNull(this.getCommand("load")).setExecutor(new LoadCommand());
+        // Sets the executor for the "/gcsave" command to the GCSave class
         Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new GCSave());
+
+
         //initialize database
         try {
             DatabaseManager databaseManager = new DatabaseManager();
