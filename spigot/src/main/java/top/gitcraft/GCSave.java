@@ -19,16 +19,16 @@ public class GCSave implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         System.out.println("command: " + command + " label: " + label + " args: " + args[0]);
-        /*if (label.equalsIgnoreCase("gcsave")) {
+        if (label.equalsIgnoreCase("gcsave")) {
             // Hier fügen Sie den Code zum Überprüfen und Speichern hinzu
             getChangeCount(sender);
             /*if (checkAndSave(sender)) {
                 sender.sendMessage("Save successful!");
             } else {
                 sender.sendMessage("Save failed.");
-            }
+            }*/
             return true;
-        }*/
+        }
         return true;
     }
 
@@ -46,12 +46,6 @@ public class GCSave implements CommandExecutor {
         }
 
         sender.sendMessage("You changed"+ changecount +" blocks!");
-    }
-
-    public boolean saveChanges() {
-
-
-        return true;
     }
 
 }
