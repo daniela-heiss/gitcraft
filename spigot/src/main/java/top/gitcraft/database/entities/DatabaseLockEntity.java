@@ -3,15 +3,14 @@ package top.gitcraft.database.entities;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "co_blockdata_map")
-public class BlockDataMapEntity {
-
+@DatabaseTable(tableName = "co_database_lock")
+public class DatabaseLockEntity {
     @DatabaseField(generatedId = true, columnName = "rowid")
     public int rowId;
 
     @DatabaseField
-    public int id;
+    public int status;
 
-    @DatabaseField (columnName = "data")
-    public String blockData;
+    @DatabaseField
+    public int time;
 }
