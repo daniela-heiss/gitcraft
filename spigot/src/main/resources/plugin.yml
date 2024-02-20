@@ -2,12 +2,12 @@ name: gitcraft
 version: '${project.version}'
 main: top.gitcraft.GitCraft
 api-version: '1.20'
-
+depend: [CoreProtect]
 # Replace "kit" with the name of your command.
 commands:
-  kit:
-    description: Your description
-    usage: /<command>
+  gcsave:
+    description: Saves the current changes to the DB
+    usage: /gcsave
   helloblock:
     description: Places a snowy grass block at the coordinates and greets the world
     usage: /helloblock <x> <y> <z>

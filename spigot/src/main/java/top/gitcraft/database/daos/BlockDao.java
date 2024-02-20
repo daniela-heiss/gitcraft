@@ -44,4 +44,21 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
     public List<BlockEntity> getBlocksByLocation(int x, int y, int z) throws SQLException {
         return queryBuilder().where().eq("x", x).and().eq("y", y).and().eq("z", z).query();
     }
+    public boolean checkColumnExists(String columnName) throws SQLException {
+        String[] columns =  blockDao.queryRaw("SELECT * FROM co_block LIMIT 1").getColumnNames();
+        for (String column : columns) {
+            if (column.equals(columnName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public int getCommitID() throws SQLException {
+    return 0;
+    }
+
+    public void addColumn(String columnName, String columnType) throws SQLException {
+        blockDao.executeRaw("ALTER TABLE co_block ADD COLUMN " + columnName + " " + columnType);
+    }
+
 }

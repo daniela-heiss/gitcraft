@@ -44,4 +44,7 @@ public class BlockEntity {
 
     @DatabaseField(dataType = DataType.BOOLEAN, columnName = "rolled_back")
     public boolean rolledBack;
+
+    @DatabaseField(dataType = DataType.INTEGER)
+    public int commitId;
 }
