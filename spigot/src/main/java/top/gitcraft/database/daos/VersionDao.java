@@ -4,17 +4,18 @@ import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
+import top.gitcraft.database.entities.VersionEntity;
 import top.gitcraft.database.entities.WorldEntity;
 
 import java.sql.SQLException;
 
-public class WorldDao extends BaseDaoImpl<WorldEntity, Integer> {
+public class VersionDao extends BaseDaoImpl<VersionEntity, Integer> {
 
-    public WorldDao(ConnectionSource connectionSource) throws SQLException {
-        super(connectionSource, WorldEntity.class);
+    public VersionDao(ConnectionSource connectionSource) throws SQLException {
+        super(connectionSource, VersionEntity.class);
     }
 
-    public WorldEntity getWorldById(int id) throws SQLException {
+    public VersionEntity getVersionById(int id) throws SQLException {
         return queryForId(id);
     }
 }

@@ -9,37 +9,44 @@ import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.BlockDao;
 import top.gitcraft.database.daos.MaterialMapDao;
 import top.gitcraft.database.daos.WorldDao;
+import top.gitcraft.database.entities.BlockDataMapEntity;
 import top.gitcraft.database.entities.BlockEntity;
+import top.gitcraft.database.entities.MaterialMapEntity;
+import top.gitcraft.database.entities.WorldEntity;
 
 import java.sql.SQLException;
 
 public class LoadCommand implements CommandExecutor {
+    private final MaterialMapDao mapDao;
+    private final WorldDao worldDao;
+    private final BlockDao blockDao;
+
+    public LoadCommand() throws SQLException {
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        mapDao = databaseManager.getMaterialMapDao();
+        worldDao = databaseManager.getWorldDao();
+        blockDao = databaseManager.getBlockDao();
+    }
 
     public void revertLine(BlockEntity row, String direction) {   //time 0 = rollback, time 1 = restore
-        DatabaseManager databaseManager = new DatabaseManager();
-        String block;
-        String world;
-        MaterialMapDao mapDao;
-        WorldDao worldDao;
+        MaterialMapEntity block;
+        WorldEntity world;
 
         try {
-            databaseManager.initializeDatabase();
-            mapDao = databaseManager.getMaterialMapDao();
             block = mapDao.getMaterialById(row.type);
-            worldDao = databaseManager.getWorldDao();
-            world = worldDao.getWorldByID(row.wid);
+            world = worldDao.getWorldById(row.worldId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        Location loc = new Location(Bukkit.getServer().getWorld(world), row.x, row.y, row.z);
+        Location loc = new Location(Bukkit.getServer().getWorld(world.worldName), row.x, row.y, row.z);
 
         if (row.action == 1 && direction.equals("past")){                                   //revert
             loc.getBlock().setBlockData(Bukkit.createBlockData("minecraft:air"), true);
         } else if (row.action == 0 && direction.equals("past")){
-            loc.getBlock().setBlockData(Bukkit.createBlockData(block), true);
-        } else if (row.action == 1 && direction.equals("future")){                          //restore
-            loc.getBlock().setBlockData(Bukkit.createBlockData(block), true);
+            loc.getBlock().setBlockData(Bukkit.createBlockData(block.material), true);
+        } else if (row.action == 1 && direction.equals("future")){
+            loc.getBlock().setBlockData(Bukkit.createBlockData(block.material), true);
         } else if (row.action == 0 && direction.equals("future")){
             loc.getBlock().setBlockData(Bukkit.createBlockData("minecraft:air"), true);
         } else {
@@ -51,15 +58,11 @@ public class LoadCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         sender.sendMessage("Loading commit...");
 
-        DatabaseManager databaseManager = new DatabaseManager();
-        BlockDao blockDao;
         BlockEntity row;
 
         try {
-            databaseManager.initializeDatabase();
-            blockDao = databaseManager.getBlockDao();
             row = blockDao.getBlockById(10329);
-            //row = blockDao.getBlockById(9834);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -12,20 +12,34 @@ import top.gitcraft.database.entities.CommitManagementEntity;
 import java.sql.SQLException;
 
 public class DatabaseManager {
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/database";
-    private static final String DATABASE_USERNAME = "root";
+    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/minecraft";
+    private static final String DATABASE_USERNAME = "mc";
     private static final String DATABASE_PASSWORD = "passwd";
 
+    private static DatabaseManager instance;
     private ConnectionSource connectionSource;
 
-    public void initializeDatabase() throws SQLException {
+    // Private constructor to prevent instantiation from outside
+    private DatabaseManager() throws SQLException {
+        initializeDatabase();
+    }
+
+    // Static method to get the singleton instance
+    public static synchronized DatabaseManager getInstance() throws SQLException {
+        if (instance == null) {
+            instance = new DatabaseManager();
+        }
+        return instance;
+    }
+
+    private void initializeDatabase() throws SQLException {
         connectionSource = new JdbcConnectionSource(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
 
         TableUtils.createTableIfNotExists(connectionSource, CommitManagementEntity.class);
         TableUtils.createTableIfNotExists(connectionSource, CommitEntity.class);
     }
 
-    public void closeConnection() throws Exception {
+    private void closeConnection() throws Exception {
         if (connectionSource != null) {
             connectionSource.close();
         }
@@ -53,5 +67,9 @@ public class DatabaseManager {
 
     public WorldDao getWorldDao() throws SQLException {
         return new WorldDao(connectionSource);
+    }
+
+    public BlockDataMapDao getBlockDataMapDao() throws SQLException {
+        return new BlockDataMapDao(connectionSource);
     }
 }
