@@ -54,7 +54,7 @@ public class LoadCommand implements CommandExecutor {
         }
     }*/
 
-    public void loadSave(String userName, String saveName){
+    public void loadSave(String saveName, String userName){
         List<UserEntity> user;
         List<SaveEntity> save;
         int timeNow = (int) (System.currentTimeMillis() / 1000L);
@@ -67,10 +67,10 @@ public class LoadCommand implements CommandExecutor {
         }
 
         System.out.println(user.get(0).userName);
-        //System.out.println(save.get(0).time);
+        System.out.println(save.get(0).time);
 
-      /*  String rollback = String.format("co rollback u:%s t:%ds", user.get(0).userName, timeNow - save.get(0).time);
-        String restore = String.format("co rollback u:%s t:%ds", user.get(0).userName, timeNow - save.get(0).time);
+        String rollback = String.format("co rollback u:%s t:%ds", user.get(0).userName, timeNow - save.get(0).time);
+        String restore = String.format("co restore u:%s t:%ds", user.get(0).userName, timeNow - save.get(0).time);
 
         if (save.get(0).rolledBack == 0){
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), rollback);
@@ -83,7 +83,7 @@ public class LoadCommand implements CommandExecutor {
             saveDao.updateSave(save.get(0));
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }*/
+        }
     }
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {

@@ -45,7 +45,7 @@ public class SaveCommand implements CommandExecutor {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
+        System.out.println(user.get(0).userName);
         newSave.playerId = user.get(0).rowId;
 
         try {
