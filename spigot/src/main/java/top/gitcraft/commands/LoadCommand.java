@@ -6,29 +6,29 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import top.gitcraft.database.DatabaseManager;
-import top.gitcraft.database.daos.BlockDao;
-import top.gitcraft.database.daos.MaterialMapDao;
-import top.gitcraft.database.daos.WorldDao;
-import top.gitcraft.database.entities.BlockDataMapEntity;
-import top.gitcraft.database.entities.BlockEntity;
-import top.gitcraft.database.entities.MaterialMapEntity;
-import top.gitcraft.database.entities.WorldEntity;
+import top.gitcraft.database.daos.*;
+import top.gitcraft.database.entities.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class LoadCommand implements CommandExecutor {
-    private final MaterialMapDao mapDao;
+    /*private final MaterialMapDao mapDao;
     private final WorldDao worldDao;
-    private final BlockDao blockDao;
+    private final BlockDao blockDao;*/
+    private static UserDao userDao = null;
+    private static SaveDao saveDao;
 
     public LoadCommand() throws SQLException {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
-        mapDao = databaseManager.getMaterialMapDao();
+        userDao = databaseManager.getUserDao();
+        saveDao = databaseManager.getSaveDao();
+       /* mapDao = databaseManager.getMaterialMapDao();
         worldDao = databaseManager.getWorldDao();
-        blockDao = databaseManager.getBlockDao();
+        blockDao = databaseManager.getBlockDao();*/
     }
 
-    public void revertLine(BlockEntity row, String direction) {   //time 0 = rollback, time 1 = restore
+    /*public void revertLine(BlockEntity row, String direction) {   //time 0 = rollback, time 1 = restore
         MaterialMapEntity block;
         WorldEntity world;
 
@@ -52,11 +52,44 @@ public class LoadCommand implements CommandExecutor {
         } else {
             Bukkit.broadcastMessage("Interact");
         }
-    }
+    }*/
 
+    public void loadSave(String userName, String saveName){
+        List<UserEntity> user;
+        List<SaveEntity> save;
+        int timeNow = (int) (System.currentTimeMillis() / 1000L);
+
+        try {
+            user = userDao.getUserByName(userName);
+            save = saveDao.getSaveByUserAndName(user.get(0).rowId, saveName);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(user.get(0).userName);
+        //System.out.println(save.get(0).time);
+
+      /*  String rollback = String.format("co rollback u:%s t:%ds", user.get(0).userName, timeNow - save.get(0).time);
+        String restore = String.format("co rollback u:%s t:%ds", user.get(0).userName, timeNow - save.get(0).time);
+
+        if (save.get(0).rolledBack == 0){
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), rollback);
+            save.get(0).rolledBack = 1;
+        } else {
+            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), restore);
+            save.get(0).rolledBack = 0;
+        }
+        try {
+            saveDao.updateSave(save.get(0));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }*/
+    }
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        sender.sendMessage("Loading commit...");
+        sender.sendMessage("Loading save...");
+        loadSave(args[0], sender.getName());
+       /* sender.sendMessage("Loading commit...");
 
         BlockEntity row;
 

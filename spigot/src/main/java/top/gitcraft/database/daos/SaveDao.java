@@ -40,7 +40,7 @@ public class SaveDao extends BaseDaoImpl<SaveEntity, Integer>{
         return queryBuilder().where().eq("playerId", playerId).query();
     }
 
-        public List<SaveEntity> getSaveByUserAndName(String saveName, Integer playerId) throws SQLException {
+        public List<SaveEntity> getSaveByUserAndName(Integer playerId, String saveName) throws SQLException {
         return queryBuilder().where().eq("saveName", saveName).and().eq("playerId", playerId).query();
     }
 }

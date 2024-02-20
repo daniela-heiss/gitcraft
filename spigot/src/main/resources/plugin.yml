@@ -16,7 +16,7 @@ commands:
     usage: /remove x y z
   load:
     description: Loads a savestate
-    usage: /load commitname
+    usage: /load saveName
   save:
     description: saves a timestamp with a name
     usage: /save saveName
