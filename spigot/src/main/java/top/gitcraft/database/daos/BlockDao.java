@@ -11,9 +11,9 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
 
     public BlockDao(ConnectionSource connectionSource) throws SQLException {
         super(connectionSource, BlockEntity.class);
-        if (!checkColumnExists("commitId")) {
+        /*if (!checkColumnExists("commitId")) {
             addColumn("commitId", "INT");
-        }
+        }*/
     }
 
     public void createBlock(BlockEntity block) throws SQLException {
@@ -58,8 +58,8 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
         return false;
     }
 
-    public void addColumn(String columnName, String columnType) throws SQLException {
+   /* public void addColumn(String columnName, String columnType) throws SQLException {
         executeRaw("ALTER TABLE co_block ADD COLUMN " + columnName + " " + columnType);
-    }
+    }*/
 
 }

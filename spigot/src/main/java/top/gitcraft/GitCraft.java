@@ -1,7 +1,9 @@
 package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import top.gitcraft.commands.HelloBlock;
 import top.gitcraft.commands.LoadCommand;
+import top.gitcraft.commands.SaveCommand;
 import top.gitcraft.database.DatabaseManager;
 
 import java.sql.SQLException;
@@ -15,6 +17,8 @@ public final class GitCraft extends JavaPlugin {
 
         try {
             Objects.requireNonNull(this.getCommand("load")).setExecutor(new LoadCommand());
+            Objects.requireNonNull(this.getCommand("helloblock")).setExecutor(new HelloBlock());
+            Objects.requireNonNull(this.getCommand("save")).setExecutor(new SaveCommand());
             Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new GCSave());
         } catch (SQLException e) {
             throw new RuntimeException(e);

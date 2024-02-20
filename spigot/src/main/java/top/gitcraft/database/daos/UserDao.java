@@ -4,9 +4,11 @@ import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
+import top.gitcraft.database.entities.SaveEntity;
 import top.gitcraft.database.entities.UserEntity;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserDao extends BaseDaoImpl<UserEntity, Integer>{
 
@@ -18,6 +20,8 @@ public class UserDao extends BaseDaoImpl<UserEntity, Integer>{
         return queryForId(rowid);
     }
 
-
+    public List<UserEntity> getUserByName(String userName) throws SQLException {
+        return queryBuilder().where().eq("user", userName).query();
+    }
 
 }

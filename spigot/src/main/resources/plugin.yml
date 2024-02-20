@@ -17,6 +17,9 @@ commands:
   load:
     description: Loads a savestate
     usage: /load commitname
+  save:
+    description: saves a timestamp with a name
+    usage: /save saveName
   testLoad:
     desciption: Load a specific commit
     usage: /load <commitName>

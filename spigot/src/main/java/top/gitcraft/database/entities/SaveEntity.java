@@ -18,6 +18,6 @@ public class SaveEntity {
     @DatabaseField (dataType = DataType.STRING, columnName = "save_name")
     public String saveName;
 
-    @DatabaseField (dataType = DataType.BOOLEAN, columnName = "rolled_back")
-    public boolean rolledBack;
+    @DatabaseField (dataType = DataType.INTEGER, columnName = "rolled_back")
+    public int rolledBack;
 }
