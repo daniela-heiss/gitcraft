@@ -7,16 +7,16 @@ import com.j256.ormlite.table.DatabaseTable;
 public class CommitManagementEntity {
 
     @DatabaseField(generatedId = true)
-    public int rowid;
+    public int rowId;
 
     @DatabaseField
-    public String playerName;
+    public int playerId;
 
     @DatabaseField
-    public int currentID;
+    public int currentId;
 
     @DatabaseField
-    public int highestID;
+    public int highestId;
 
 
 }

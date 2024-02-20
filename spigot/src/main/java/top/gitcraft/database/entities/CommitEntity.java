@@ -6,14 +6,14 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "commit")
 public class CommitEntity {
     @DatabaseField(generatedId = true)
-    public int commitid;
+    public int rowId;
 
     @DatabaseField
-    public int playercommitid;
+    public int playerCommitId;
 
     @DatabaseField
     public int pid;
 
     @DatabaseField
-    public String commitname;
+    public String commitName;
 }
