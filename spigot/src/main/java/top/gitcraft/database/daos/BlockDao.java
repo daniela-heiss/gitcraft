@@ -11,6 +11,9 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
 
     public BlockDao(ConnectionSource connectionSource) throws SQLException {
         super(connectionSource, BlockEntity.class);
+        if (!checkColumnExists("commitId")) {
+            addColumn("commitId", "INT");
+        }
     }
 
     public void createBlock(BlockEntity block) throws SQLException {
@@ -44,8 +47,9 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
     public List<BlockEntity> getBlocksByLocation(int x, int y, int z) throws SQLException {
         return queryBuilder().where().eq("x", x).and().eq("y", y).and().eq("z", z).query();
     }
+
     public boolean checkColumnExists(String columnName) throws SQLException {
-        String[] columns =  blockDao.queryRaw("SELECT * FROM co_block LIMIT 1").getColumnNames();
+        String[] columns = queryRaw("SELECT * FROM co_block LIMIT 1").getColumnNames();
         for (String column : columns) {
             if (column.equals(columnName)) {
                 return true;
@@ -53,12 +57,9 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
         }
         return false;
     }
-    public int getCommitID() throws SQLException {
-    return 0;
-    }
 
     public void addColumn(String columnName, String columnType) throws SQLException {
-        blockDao.executeRaw("ALTER TABLE co_block ADD COLUMN " + columnName + " " + columnType);
+        executeRaw("ALTER TABLE co_block ADD COLUMN " + columnName + " " + columnType);
     }
 
 }

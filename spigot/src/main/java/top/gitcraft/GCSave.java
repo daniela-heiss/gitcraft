@@ -5,6 +5,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.BlockDao;
+import top.gitcraft.database.daos.MaterialMapDao;
+import top.gitcraft.database.daos.WorldDao;
 import top.gitcraft.database.entities.BlockEntity;
 
 import java.sql.Connection;
@@ -13,9 +15,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class GCSave implements CommandExecutor {
+    private final MaterialMapDao mapDao;
+    private final WorldDao worldDao;
+    private final BlockDao blockDao;
 
-    private DatabaseManager dbman = new DatabaseManager();
-    private BlockDao dao;
+    public GCSave() throws SQLException {
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        mapDao = databaseManager.getMaterialMapDao();
+        worldDao = databaseManager.getWorldDao();
+        blockDao = databaseManager.getBlockDao();
+    }
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         System.out.println("command: " + command + " label: " + label + " args: " + args[0]);
