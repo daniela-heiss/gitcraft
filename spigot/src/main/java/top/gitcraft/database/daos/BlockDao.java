@@ -40,9 +40,13 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
         return queryBuilder().where().eq("user", userId).query();
     }
 
-    public List<BlockEntity> getBlocksWithoutCommitByUserId(Integer userId) throws SQLException {
-        return queryBuilder().where().eq("user", userId).and().isNull("commitId").query();
+    public List<BlockEntity> getBlocksByUserIdWithoutInteract(Integer userId) throws SQLException {
+        return queryBuilder().where().eq("user", userId).and().ne("action", 2).query();
     }
+
+    /*public List<BlockEntity> getBlocksWithoutCommitByUserId(Integer userId) throws SQLException {
+        return queryBuilder().where().eq("user", userId).and().isNull("commitId").query();
+    }*/
 
     public List<BlockEntity> getBlocksByLocation(int x, int y, int z) throws SQLException {
         return queryBuilder().where().eq("x", x).and().eq("y", y).and().eq("z", z).query();

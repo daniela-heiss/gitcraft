@@ -43,4 +43,12 @@ public class SaveDao extends BaseDaoImpl<SaveEntity, Integer>{
     public List<SaveEntity> getSaveByUserAndName(Integer playerId, String saveName) throws SQLException {
         return queryBuilder().where().eq("save_name", saveName).and().eq("user", playerId).query();
     }
+
+    public List<SaveEntity> getAllEarlierSavesByPlayerAndTime(Integer playerId, int time) throws SQLException {
+        return queryBuilder().where().lt("time", time).and().eq("user", playerId).query();
+    }
+
+    public List<SaveEntity> getAllLaterSavesByPlayerAndTime(Integer playerId, int time) throws SQLException {
+        return queryBuilder().where().gt("time", time).and().eq("user", playerId).query();
+    }
 }
