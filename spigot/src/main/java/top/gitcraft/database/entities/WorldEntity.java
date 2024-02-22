@@ -14,4 +14,8 @@ public class WorldEntity {
 
     @DatabaseField(columnName = "world")
     public String worldName;
+
+    @DatabaseField(columnName = "playerId")
+    public int playerId;
+
 }
