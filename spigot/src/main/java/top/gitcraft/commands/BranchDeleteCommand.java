@@ -2,25 +2,25 @@ package top.gitcraft.commands;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MVWorldManager;
-import com.onarandombox.MultiverseCore.api.MultiverseWorld;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class GcBranchJoin implements CommandExecutor {
-
+public class BranchDeleteCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
 
-            MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-
-            Player player = ((Player) sender).getPlayer();
             //String branchName = args[0];
             String branchName = "world2";
-            player.teleport(Bukkit.getWorld(branchName).getSpawnLocation());
+            sender.sendMessage("Branch " + branchName + " deleted!");
+
+            MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+
+            MVWorldManager worldManager = core.getMVWorldManager();
+            worldManager.deleteWorld(branchName);
 
 
             return true;
