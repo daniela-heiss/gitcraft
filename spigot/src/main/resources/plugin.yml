@@ -20,3 +20,8 @@ commands:
   testLoad:
     desciption: Load a specific commit
     usage: /load <commitName>
+  setBlockExample:
+    description: Description of the setBlockExample command
+    usage: /setBlockExample
+    aliases:
+      - sbe
