@@ -4,7 +4,7 @@ import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.extension.platform.Platform;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.gitcraft.commands.LoadCommand;
-import top.gitcraft.database.DatabaseManager;
+import top.gitcraft.commands.WETestCommand;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -24,7 +24,7 @@ public final class GitCraft extends JavaPlugin {
             }
             Objects.requireNonNull(this.getCommand("load")).setExecutor(new LoadCommand());
             Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new GCSave());
-            Objects.requireNonNull(this.getCommand("setBlockExample")).setExecutor(new testWorldEdit());
+            Objects.requireNonNull(this.getCommand("setBlockExample")).setExecutor(new WETestCommand());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
