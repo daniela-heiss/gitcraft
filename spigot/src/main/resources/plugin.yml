@@ -20,3 +20,6 @@ commands:
   testLoad:
     desciption: Load a specific commit
     usage: /load <commitName>
+  merge:
+    desciption: Load Coordinates for later Merge
+    usage: /merge

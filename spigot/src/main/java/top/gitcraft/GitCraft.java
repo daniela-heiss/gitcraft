@@ -1,6 +1,7 @@
 package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import top.gitcraft.commands.MergeCommand;
 import top.gitcraft.commands.SaveCommand;
 import top.gitcraft.commands.LoadCommand;
 
@@ -16,6 +17,7 @@ public final class GitCraft extends JavaPlugin {
         try {
             Objects.requireNonNull(this.getCommand("load")).setExecutor(new LoadCommand());
             Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new SaveCommand());
+            Objects.requireNonNull(this.getCommand("merge")).setExecutor(new MergeCommand());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
