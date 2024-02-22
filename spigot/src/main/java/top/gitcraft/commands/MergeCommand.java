@@ -1,5 +1,14 @@
 package top.gitcraft.commands;
 
+import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
+import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.world.World;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,6 +21,7 @@ import top.gitcraft.database.entities.UserEntity;
 import top.gitcraft.database.entities.WorldEntity;
 import top.gitcraft.database.entities.BlockEntity;
 
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,18 +40,18 @@ public class MergeCommand implements CommandExecutor {
         userDao = databaseManager.getUserDao();
     }
 
-    public Number[] findMin(List<BlockEntity> list) {
+    public Double[] findMin(List<BlockEntity> list) {
         int minX = 0;
         int minY = 0;
         int minZ = 0;
 
-        Number[] coordinates = new Number[3];
+        Double[] coordinates = new Double[3];
 
         for(int i = 0; i < list.size() - 1; i++) {
             if (i == 0) {
-                minX =list.get(i).x;
-                minY =list.get(i).y;
-                minZ =list.get(i).z;
+                minX = list.get(i).x;
+                minY = list.get(i).y;
+                minZ = list.get(i).z;
             } else {
                 if (list.get(i).x < minX) {
                     minX = list.get(i).x;
@@ -54,18 +64,18 @@ public class MergeCommand implements CommandExecutor {
                 }
             }
         }
-        coordinates[0] = minX;
-        coordinates[1] = minY;
-        coordinates[2] = minZ;
+        coordinates[0] = (double) minX;
+        coordinates[1] = (double) minY;
+        coordinates[2] = (double) minZ;
         return coordinates;
     }
 
-    public Number[] findMax(List<BlockEntity> list) {
+    public Double[] findMax(List<BlockEntity> list) {
         int maxX = 0;
         int maxY = 0;
         int maxZ = 0;
 
-        Number[] coordinates = new Number[3];
+        Double[] coordinates = new Double[3];
 
         for(int i = 0; i < list.size() - 1; i++) {
             if (i == 0) {
@@ -84,17 +94,45 @@ public class MergeCommand implements CommandExecutor {
                 }
             }
         }
-        coordinates[0] = maxX;
-        coordinates[1] = maxY;
-        coordinates[2] = maxZ;
+        coordinates[0] = (double) maxX;
+        coordinates[1] = (double) maxY;
+        coordinates[2] = (double) maxZ;
         return coordinates;
+    }
+
+    public CuboidRegion createCube(Double[] startCoordinates, Double[] endCoordinates) {
+
+        BlockVector3 start = BlockVector3.at(startCoordinates[0], startCoordinates[1], startCoordinates[2]);
+        BlockVector3 end = BlockVector3.at(endCoordinates[0], endCoordinates[1], endCoordinates[2]);
+
+        return new CuboidRegion(start, end);
+    }
+
+    public BlockArrayClipboard copyRegionToClipboard(Double[] startCoordinates, Double[] endCoordinates, World world, Player player) {
+
+        CuboidRegion region = createCube(startCoordinates, endCoordinates);
+        player.sendMessage(region.getPos1() + "" + region.getPos2());
+        BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
+
+        ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(
+                world, region, clipboard, region.getMinimumPoint()
+        );
+
+        try {
+            Operations.complete(forwardExtentCopy);
+        } catch (WorldEditException e) {
+            throw new RuntimeException(e);
+        }
+
+        return clipboard;
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         sender.sendMessage("Gathering Coordinates...");
-        Player p = (Player) sender;
-        String world = p.getWorld().getName();
+        Player player = (Player) sender;
+        World currentWorld = BukkitAdapter.adapt(player.getWorld());
+        String world = player.getWorld().getName();
         sender.sendMessage("Current World Name: " + world);
 
         List<WorldEntity> worldEntityList;
@@ -125,23 +163,26 @@ public class MergeCommand implements CommandExecutor {
             throw new RuntimeException(e);
         }
 
-        for (BlockEntity blockEntity: blockEntityList) {
+        /*for (BlockEntity blockEntity: blockEntityList) {
             System.out.println("Block List: " + "RowId: " + blockEntity.rowId + " User: " + blockEntity.userId + " WorldId: " + blockEntity.worldId);
-        }
+        }*/
 
-        Number[] minCoordinatesArray = findMin(blockEntityList);
-        Number[] maxCoordinatesArray = findMax(blockEntityList);
+        Double[] minCoordinatesArray = findMin(blockEntityList);
+        Double[] maxCoordinatesArray = findMax(blockEntityList);
 
-        for (Number number : minCoordinatesArray) {
+        for (Double number : minCoordinatesArray) {
             System.out.println("Min Coordinates : " + number);
             sender.sendMessage("Min Coordinates : " + number);
         }
-        for (Number number : maxCoordinatesArray) {
+        for (Double number : maxCoordinatesArray) {
             System.out.println("Max Coordinates : " + number);
             sender.sendMessage("Max Coordinates : " + number);
         }
 
-        return false;
+        BlockArrayClipboard clipboard = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
+        player.sendMessage("copied region to clipboard");
+
+        return true;
     }
 
 }
