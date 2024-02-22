@@ -14,7 +14,18 @@ public final class GitCraft extends JavaPlugin {
     public void onEnable() {
 
         getLogger().info("Hello, SpigotMC!");
+        Objects.requireNonNull(this.getCommand("gcmenu")).setExecutor(new MenuOpenCommand());
+        Objects.requireNonNull(this.getCommand("gcbranchmenu")).setExecutor(new BranchMenuCommand());
+        Objects.requireNonNull(this.getCommand("gcbranchjoin")).setExecutor(new BranchJoinCommand());
 
+        Objects.requireNonNull(this.getCommand("gcbranchdelete")).setExecutor(new BranchDeleteCommand());
+        
+
+        try {
+            Objects.requireNonNull(this.getCommand("gcbranchcreate")).setExecutor(new BranchCreateCommand());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         try {
             Objects.requireNonNull(this.getCommand("gcload")).setExecutor(new LoadCommand());
             Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new SaveCommand());
@@ -22,17 +33,7 @@ public final class GitCraft extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        Objects.requireNonNull(this.getCommand("gcmenu")).setExecutor(new MenuOpenCommand());
-        Objects.requireNonNull(this.getCommand("gcbranchmenu")).setExecutor(new BranchMenuCommand());
-        Objects.requireNonNull(this.getCommand("gcbranchjoin")).setExecutor(new BranchJoinCommand());
 
-        try {
-            Objects.requireNonNull(this.getCommand("gcbranchcreate")).setExecutor(new BranchCreateCommand());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        Objects.requireNonNull(this.getCommand("gcbranchdelete")).setExecutor(new BranchDeleteCommand());
 
     }
 
