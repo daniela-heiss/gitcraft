@@ -1,15 +1,18 @@
 package top.gitcraft.commands;
 
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
-import com.sk89q.worldedit.extent.clipboard.io.BuiltInClipboardFormat;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
+import com.sk89q.worldedit.extent.clipboard.io.*;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
+import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -24,9 +27,7 @@ import top.gitcraft.database.entities.UserEntity;
 import top.gitcraft.database.entities.WorldEntity;
 import top.gitcraft.database.entities.BlockEntity;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.sql.Array;
 import java.sql.SQLException;
@@ -134,14 +135,38 @@ public class MergeCommand implements CommandExecutor {
         return clipboard;
     }
 
-    public void saveRegionAsSchematic(BlockArrayClipboard clipboard) {
-        String name = "Test_Schematic";
+    public File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName) {
         String fileEnding = ".schem";
-        File file = new File("/minecraft/plugins/WorldEdit/schematics/" + name  + fileEnding);
+        File file = new File("/minecraft/plugins/WorldEdit/schematics/" + schematicName  + fileEnding);
         try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
             writer.write(clipboard);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+        return file;
+    }
+
+    public Clipboard loadSchematic(File file) {
+        Clipboard clipboard;
+        ClipboardFormat format = ClipboardFormats.findByFile(file);
+        try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
+            clipboard = reader.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return clipboard;
+    }
+
+    public void pasteClipboard(World world, Double[] startCoordinates, Clipboard clipboard) {
+        try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
+            Operation operation = new ClipboardHolder(clipboard)
+                    .createPaste(editSession)
+                    .to(BlockVector3.at(startCoordinates[0] + 5, startCoordinates[1], startCoordinates[2]))
+                    // configure here
+                    .build();
+            Operations.complete(operation);
+        } catch (WorldEditException e) {
+            e.printStackTrace();
         }
     }
 
@@ -200,7 +225,16 @@ public class MergeCommand implements CommandExecutor {
         BlockArrayClipboard clipboard = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
         player.sendMessage("copied region to clipboard");
 
-        saveRegionAsSchematic(clipboard);
+        String schematicName = "Test_Schematic";
+        File file = saveRegionAsSchematic(clipboard, schematicName);
+        sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
+
+        Clipboard loadedClipboard = loadSchematic(file);
+        sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
+
+        pasteClipboard(currentWorld, minCoordinatesArray, loadedClipboard);
+        sender.sendMessage("Pasted Schematic " + schematicName + " into Clipboard");
+
 
         return true;
     }
