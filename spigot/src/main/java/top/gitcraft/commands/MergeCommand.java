@@ -63,7 +63,7 @@ public class MergeCommand implements CommandExecutor {
                 if (list.get(i).x < minX) {
                     minX = list.get(i).x;
                 }
-                if (list.get(i).x < minY) {
+                if (list.get(i).y < minY) {
                     minY = list.get(i).y;
                 }
                 if (list.get(i).z < minZ) {
@@ -86,14 +86,14 @@ public class MergeCommand implements CommandExecutor {
 
         for(int i = 0; i < list.size() - 1; i++) {
             if (i == 0) {
-                maxX =list.get(i).x;
-                maxY =list.get(i).y;
-                maxZ =list.get(i).z;
+                maxX = list.get(i).x;
+                maxY = list.get(i).y;
+                maxZ = list.get(i).z;
             } else {
                 if (list.get(i).x > maxX) {
                     maxX = list.get(i).x;
                 }
-                if (list.get(i).x > maxY) {
+                if (list.get(i).y > maxY) {
                     maxY = list.get(i).y;
                 }
                 if (list.get(i).z > maxZ) {
