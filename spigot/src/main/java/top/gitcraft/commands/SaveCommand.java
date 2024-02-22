@@ -1,4 +1,4 @@
-package top.gitcraft;
+package top.gitcraft.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,17 +9,15 @@ import top.gitcraft.database.daos.MaterialMapDao;
 import top.gitcraft.database.daos.WorldDao;
 import top.gitcraft.database.entities.BlockEntity;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class GCSave implements CommandExecutor {
+public class SaveCommand implements CommandExecutor {
     private final MaterialMapDao mapDao;
     private final WorldDao worldDao;
     private final BlockDao blockDao;
 
-    public GCSave() throws SQLException {
+    public SaveCommand() throws SQLException {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         mapDao = databaseManager.getMaterialMapDao();
         worldDao = databaseManager.getWorldDao();

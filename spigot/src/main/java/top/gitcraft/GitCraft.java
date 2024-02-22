@@ -1,6 +1,8 @@
 package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import top.gitcraft.commands.SaveCommand;
+import top.gitcraft.commands.LoadCommand;
 
 import top.gitcraft.commands.*;
 
