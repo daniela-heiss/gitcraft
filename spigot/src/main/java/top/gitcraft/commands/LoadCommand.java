@@ -33,7 +33,7 @@ public class LoadCommand implements CommandExecutor {
         userDao = databaseManager.getUserDao();
         saveDao = databaseManager.getSaveDao();
         blockDao = databaseManager.getBlockDao();
-        CoreProtectAPI coreAPI = getCoreProtect();
+        coreAPI = getCoreProtect();
         if (coreAPI != null){ // Ensure we have access to the API
             coreAPI.testAPI(); // Will print out "[CoreProtect] API test successful." in the console.
         }
@@ -75,6 +75,10 @@ public class LoadCommand implements CommandExecutor {
         List<SaveEntity> laterSaves;
         //List<BlockEntity> allBlocks;
         int timeNow = (int) (System.currentTimeMillis() / 1000L);
+        coreAPI = getCoreProtect();
+        if (coreAPI != null){ // Ensure we have access to the API
+            coreAPI.testAPI(); // Will print out "[CoreProtect] API test successful." in the console.
+        }
 
         try {
             user = userDao.getUserByName(userName);
@@ -86,7 +90,7 @@ public class LoadCommand implements CommandExecutor {
             throw new RuntimeException(e);
         }
 
-        List<String> userNames = Arrays.asList(user.get(0).userName);
+        //List<String> userNames = Arrays.asList(user.get(0).userName);
 
        /* System.out.println(user.get(0).userName);
         System.out.println(save.get(0).time);*/
@@ -117,29 +121,40 @@ public class LoadCommand implements CommandExecutor {
 
         if (save.get(0).rolledBack == 0) {
             //Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), rollback);
-            coreAPI.performRollback(timeNow-save.get(0).time, userNames, null, null, null, null, 0, null );
-            save.get(0).rolledBack = 1;
+            if (coreAPI != null) {
+                System.out.println("rollback if");
+                coreAPI.performRollback(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
 
-            if (laterSaves != null && !laterSaves.isEmpty()) {
-                for (SaveEntity saves : laterSaves) {
-                    saves.rolledBack = 1;
+                save.get(0).rolledBack = 1;
 
-                    try {
-                        saveDao.updateSave(saves);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
+                if (laterSaves != null && !laterSaves.isEmpty()) {
+                    for (SaveEntity saves : laterSaves) {
+                        saves.rolledBack = 1;
+
+                        try {
+                            saveDao.updateSave(saves);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             }
 
         } else if (save.get(0).rolledBack == 1) {
+            System.out.println("restore if");
             if(earlierSaves != null && !earlierSaves.isEmpty()) {
-                coreAPI.performRestore(timeNow - earlierSaves.getLast().time, userNames, null, null, null, null, 0, null);
+                if (coreAPI != null) {
+                    coreAPI.performRestore(timeNow - earlierSaves.getLast().time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
+                }
             } else {
-                coreAPI.performRestore(timeNow-save.get(0).time, userNames, null, null, null, null, 0, null );
+                if (coreAPI != null) {
+                    coreAPI.performRestore(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
+                }
             }
-            coreAPI.performRollback(timeNow-save.get(0).time, userNames, null, null, null, null, 0, null );
-            save.get(0).rolledBack = 0;
+            if(coreAPI != null) {
+                coreAPI.performRollback(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
+                save.get(0).rolledBack = 0;
+            }
            /* Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), restore);
             save.get(0).rolledBack = 3;
         } else {
@@ -229,17 +244,20 @@ public class LoadCommand implements CommandExecutor {
 
         // Check that CoreProtect is loaded
         if (plugin == null || !(plugin instanceof CoreProtect)) {
+            System.out.println("No instance of CoreProtect");
             return null;
         }
 
         // Check that the API is enabled
         CoreProtectAPI CoreProtect = ((CoreProtect) plugin).getAPI();
         if (CoreProtect.isEnabled() == false) {
+            System.out.println("CoreProtect is not enabled");
             return null;
         }
 
         // Check that a compatible version of the API is loaded
         if (CoreProtect.APIVersion() < 9) {
+            System.out.println("CoreProtect API version too old");
             return null;
         }
 
