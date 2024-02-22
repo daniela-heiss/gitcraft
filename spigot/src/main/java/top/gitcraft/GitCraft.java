@@ -15,13 +15,7 @@ public final class GitCraft extends JavaPlugin {
 
         getLogger().info("Hello, SpigotMC!");
 
-        try {
-            Objects.requireNonNull(this.getCommand("load")).setExecutor(new LoadCommand());
-            Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new GCSave());
-            Objects.requireNonNull(this.getCommand("setBlockExample")).setExecutor(new WETestCommand());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());
     }
 
     @Override
