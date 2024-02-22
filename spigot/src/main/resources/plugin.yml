@@ -20,6 +20,9 @@ commands:
   testLoad:
     description: Load a specific commit
     usage: /load <commitName>
+  merge:
+    desciption: Load Coordinates for later Merge
+    usage: /merge
   gcmenu:
       description: Shows the GitCraft menu
       usage: /branchmenu
