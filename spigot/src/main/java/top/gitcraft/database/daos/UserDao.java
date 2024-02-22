@@ -7,6 +7,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import top.gitcraft.database.entities.UserEntity;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 public class UserDao extends BaseDaoImpl<UserEntity, Integer>{
 
@@ -18,6 +19,7 @@ public class UserDao extends BaseDaoImpl<UserEntity, Integer>{
         return queryForId(rowid);
     }
 
-
-
+    public UserEntity getUserByUuid(UUID uuid) throws SQLException {
+        return queryBuilder().where().eq("uuid",uuid).queryForFirst();
+    }
 }
