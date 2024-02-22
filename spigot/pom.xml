@@ -94,17 +94,9 @@
         </dependency>
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
-            <artifactId>worldedit-core</artifactId>
-            <version>7.2.0</version> <!-- Verwende die entsprechende Version -->
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>7.2.9</version>
             <scope>provided</scope>
         </dependency>
-
-
     </dependencies>
 </project>
