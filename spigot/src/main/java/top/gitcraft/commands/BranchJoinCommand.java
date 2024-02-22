@@ -30,8 +30,11 @@ public class BranchJoinCommand implements CommandExecutor {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + jsonMessage);
                 return true;
             }
-            joinBranch(sender, args[0]);
-
+            if (args.length == 2){
+                joinBranch(sender, args[0], args[1]);
+            }else {
+                joinBranch(sender, args[0]);
+            }
             return true;
         }
         else{
@@ -44,10 +47,8 @@ public class BranchJoinCommand implements CommandExecutor {
         Player player = ((Player) sender).getPlayer();
         World branch = Bukkit.getWorld(branchName);
 
-        Location location = new Location(branch, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
-
         joinMessage(sender, branchName);
-        player.teleport(location);
+        player.teleport(branch.getSpawnLocation());
     }
     public void joinBranch(CommandSender sender, String branchName, String created){
 
@@ -55,9 +56,10 @@ public class BranchJoinCommand implements CommandExecutor {
             MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
             Player player = ((Player) sender).getPlayer();
             World branch = Bukkit.getWorld(branchName);
+            Location location = new Location(branch, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
 
             joinMessage(sender, branchName);
-            player.teleport(branch.getSpawnLocation());
+            player.teleport(location);
 
         } else {
             joinBranch(sender, branchName);

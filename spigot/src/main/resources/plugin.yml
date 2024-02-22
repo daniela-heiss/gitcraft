@@ -20,21 +20,31 @@ commands:
   testLoad:
     description: Load a specific commit
     usage: /load <commitName>
+
+#menus
   gcmenu:
       description: Shows the GitCraft menu
       usage: /gcmenu
   gcbranchmenu:
     description: Shows the branch menu
     usage: /branchmenu
+
+#branch-lists - Join, Create, Delete
   gcbranchlist:
     description: List branches
-    usage: /gcbranchlist [join|delete]
+    usage: /gcbranchlist [join|create|delete]
+
   gcbranchjoinlist:
-      description: List branches to join
-      usage: /gcbranchlist
+    description: List branches to join
+    usage: /gcbranchjoinlist
+  gcbranchcreatelist:
+    description: List branches to create
+    usage: /gcbranchcreatelist
   gcbranchdeletelist:
     description: List branches to delete
-    usage: /gcbranchlist
+    usage: /gcbranchdeletelist
+
+  #commands - Join, Create, Delete
   gcbranchjoin:
     description: Join branch
     usage: /gcbranchjoin <name>

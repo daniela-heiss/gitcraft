@@ -20,7 +20,9 @@ public class BranchListCommand implements CommandExecutor {
 
         if(Objects.equals(args[0], "delete")){
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gcbranchdeletelist");
-        }else{
+        } else if (Objects.equals(args[0], "create")) {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gcbranchcreatelist");
+        } else{
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "gcbranchjoinlist");
         }
 

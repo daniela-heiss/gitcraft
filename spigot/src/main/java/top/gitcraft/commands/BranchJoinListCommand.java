@@ -41,7 +41,6 @@ public class BranchJoinListCommand implements CommandExecutor {
                     + "{\"text\":\"]\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcbranchmenu\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Open branch menu\"}},"
                     + "{\"text\":\"\\n \"}]";
 
-
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + jsonMessage);
 
             return true;
@@ -50,6 +49,5 @@ public class BranchJoinListCommand implements CommandExecutor {
             sender.sendMessage("You must be a player to use this command!");
             return false;
         }
-
     }
 }
