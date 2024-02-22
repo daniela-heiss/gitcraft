@@ -3,6 +3,9 @@ package top.gitcraft.commands;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.BuiltInClipboardFormat;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
@@ -21,6 +24,10 @@ import top.gitcraft.database.entities.UserEntity;
 import top.gitcraft.database.entities.WorldEntity;
 import top.gitcraft.database.entities.BlockEntity;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -127,6 +134,17 @@ public class MergeCommand implements CommandExecutor {
         return clipboard;
     }
 
+    public void saveRegionAsSchematic(BlockArrayClipboard clipboard) {
+        String name = "Test_Schematic";
+        String fileEnding = ".schem";
+        File file = new File("/minecraft/plugins/WorldEdit/schematics/" + name  + fileEnding);
+        try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
+            writer.write(clipboard);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         sender.sendMessage("Gathering Coordinates...");
@@ -181,6 +199,8 @@ public class MergeCommand implements CommandExecutor {
 
         BlockArrayClipboard clipboard = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
         player.sendMessage("copied region to clipboard");
+
+        saveRegionAsSchematic(clipboard);
 
         return true;
     }
