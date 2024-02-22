@@ -42,8 +42,7 @@ public class BranchCreateCommand implements CommandExecutor {
             String worldName = player.getWorld().getName();
 
 
-            // String branchName = args[0];
-            String branchName = "world2";
+            String branchName = generateWorldName(player, worldName);
             sender.sendMessage("Branch " + branchName + " created!");
 
             MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
@@ -78,9 +77,7 @@ public class BranchCreateCommand implements CommandExecutor {
         }
     }
 
-    private String generateWorldName(Player player){
-        
-        String worldName = player.getWorld().getName();
+    private String generateWorldName(Player player, String worldName){
         Long time = Instant.now().getEpochSecond();
         return worldName + "copy" + time.toString();
     }

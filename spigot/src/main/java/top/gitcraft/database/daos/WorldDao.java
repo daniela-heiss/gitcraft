@@ -12,7 +12,7 @@ public class WorldDao extends BaseDaoImpl<WorldEntity, Integer> {
 
     public WorldDao(ConnectionSource connectionSource) throws SQLException {
         super(connectionSource, WorldEntity.class);
-        if (!checkColumnExists("world")) {
+        if (!checkColumnExists("playerId")) {
             addColumn("playerId", "INT");
         }
     }
@@ -40,6 +40,6 @@ public class WorldDao extends BaseDaoImpl<WorldEntity, Integer> {
     }
 
     public void addColumn(String columnName, String columnType) throws SQLException {
-        executeRaw("ALTER TABLE co_world ADD COLUMN" + columnName + columnType);
+        executeRaw("ALTER TABLE co_world ADD COLUMN" + " " + columnName + " "+ columnType);
     }
 }
