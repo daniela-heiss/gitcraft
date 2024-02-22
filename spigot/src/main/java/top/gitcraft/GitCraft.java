@@ -1,10 +1,8 @@
 package top.gitcraft;
 
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.extension.platform.Platform;
 import org.bukkit.plugin.java.JavaPlugin;
 import top.gitcraft.commands.LoadCommand;
-import top.gitcraft.commands.WETestCommand;
+import top.gitcraft.database.DatabaseManager;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -15,7 +13,12 @@ public final class GitCraft extends JavaPlugin {
 
         getLogger().info("Hello, SpigotMC!");
 
-        Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());
+        try {
+            Objects.requireNonNull(this.getCommand("load")).setExecutor(new LoadCommand());
+            Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new GCSave());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
