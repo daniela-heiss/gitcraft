@@ -18,5 +18,20 @@ commands:
     description: Loads a savestate
     usage: /load commitname
   testLoad:
-    desciption: Load a specific commit
+    description: Load a specific commit
     usage: /load <commitName>
+  gcmenu:
+      description: Shows the GitCraft menu
+      usage: /branchmenu
+  gcbranchmenu:
+    description: Shows the branch menu
+    usage: /branchmenu
+  gcbranchjoin:
+    description: Join branch
+    usage: /gcbranchjoin <name>
+  gcbranchcreate:
+      description: Create a branch
+      usage: /gcbranchcreate <name>
+  gcbranchdelete:
+    description: Delete a branch
+    usage: /gcbranchdelete <name>
