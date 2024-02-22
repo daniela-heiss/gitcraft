@@ -22,10 +22,19 @@ commands:
     usage: /load <commitName>
   gcmenu:
       description: Shows the GitCraft menu
-      usage: /branchmenu
+      usage: /gcmenu
   gcbranchmenu:
     description: Shows the branch menu
     usage: /branchmenu
+  gcbranchlist:
+    description: List branches
+    usage: /gcbranchlist [join|delete]
+  gcbranchjoinlist:
+      description: List branches to join
+      usage: /gcbranchlist
+  gcbranchdeletelist:
+    description: List branches to delete
+    usage: /gcbranchlist
   gcbranchjoin:
     description: Join branch
     usage: /gcbranchjoin <name>

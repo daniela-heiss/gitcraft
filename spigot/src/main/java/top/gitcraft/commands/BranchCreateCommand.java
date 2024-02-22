@@ -14,15 +14,25 @@ public class BranchCreateCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
 
-            //String branchName = args[0];
-            String branchName = "world2";
-            sender.sendMessage("Branch " + branchName + " created!");
+            if (args.length == 0){
+                String jsonMessage = "[\"\","
+                        + "{\"text\":\"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"},"
+                        + "{\"text\":\"[\",\"bold\":true,\"color\":\"blue\"},"
+                        + "{\"text\":\"i\",\"bold\":true},"
+                        + "{\"text\":\"] \",\"bold\":true,\"color\":\"blue\"},"
+                        + "{\"text\":\"Please provide a branch name\",\"bold\":true},"
+                        + "{\"text\":\"\\n \"}]";
 
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + jsonMessage);
+                return false;
+            }
             MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-
             MVWorldManager worldManager = core.getMVWorldManager();
-            worldManager.cloneWorld("world", branchName);
+            Player player = ((Player) sender).getPlayer();
 
+            worldManager.cloneWorld(player.getWorld().getName(), args[0]);
+
+            new BranchJoinCommand().joinBranch(sender, args[0], "true");
 
             return true;
         }
