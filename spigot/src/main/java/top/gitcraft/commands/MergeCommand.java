@@ -6,11 +6,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.BlockDao;
+import top.gitcraft.database.daos.UserDao;
 import top.gitcraft.database.daos.WorldDao;
+import top.gitcraft.database.entities.UserEntity;
 import top.gitcraft.database.entities.WorldEntity;
 import top.gitcraft.database.entities.BlockEntity;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,11 +21,13 @@ public class MergeCommand implements CommandExecutor {
 
     private final WorldDao worldDao;
     private final BlockDao blockDao;
+    private final UserDao userDao;
 
     public MergeCommand() throws SQLException {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         worldDao = databaseManager.getWorldDao();
         blockDao = databaseManager.getBlockDao();
+        userDao = databaseManager.getUserDao();
     }
 
     public Number[] findMin(List<BlockEntity> list) {
@@ -102,11 +107,26 @@ public class MergeCommand implements CommandExecutor {
         int worldId = worldEntityList.get(0).id;
         System.out.println("World ID: " + worldId);
 
-        List<BlockEntity> blockEntityList;
+        List<UserEntity> userEntityList;
         try {
-            blockEntityList = blockDao.getBlocksByWorldId(worldId);
+            userEntityList = userDao.getAllUsersWitUuid();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+        List<Integer> userId = new ArrayList<>();
+        for (UserEntity userEntity: userEntityList) {
+            userId.add(userEntity.rowId);
+        }
+
+        List<BlockEntity> blockEntityList;
+        try {
+            blockEntityList = blockDao.getBlocksByWorldId(worldId, userId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (BlockEntity blockEntity: blockEntityList) {
+            System.out.println("Block List: " + "RowId: " + blockEntity.rowId + " User: " + blockEntity.userId + " WorldId: " + blockEntity.worldId);
         }
 
         Number[] minCoordinatesArray = findMin(blockEntityList);
