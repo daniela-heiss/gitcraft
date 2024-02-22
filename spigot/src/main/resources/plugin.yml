@@ -2,7 +2,7 @@ name: gitcraft
 version: '${project.version}'
 main: top.gitcraft.GitCraft
 api-version: '1.20'
-depend: [CoreProtect]
+depend: [ CoreProtect ]
 # Replace "kit" with the name of your command.
 commands:
   gcsave:
@@ -20,3 +20,6 @@ commands:
   testLoad:
     desciption: Load a specific commit
     usage: /load <commitName>
+  gcWETest:
+    description: copy an area in front of the player and pastes it  5 xdiff
+    usage: /gcWETest

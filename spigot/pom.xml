@@ -66,6 +66,13 @@
             <id>coreprotect-repo</id>
             <url>https://maven.playpro.com/net/coreprotect/</url>
         </repository>
+            <repository>
+                <id>enginehub-repo</id>
+                <url>https://maven.enginehub.org/repo/</url>
+            </repository>
+
+
+
     </repositories>
 
     <dependencies>
@@ -84,6 +91,12 @@
             <groupId>io.github.cdimascio</groupId>
             <artifactId>java-dotenv</artifactId>
             <version>5.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>7.2.9</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
