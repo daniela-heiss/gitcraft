@@ -5,13 +5,19 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.Nullable;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.*;
 import top.gitcraft.database.entities.*;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import net.coreprotect.CoreProtect;
+import net.coreprotect.CoreProtectAPI;
+//import top.gitcraft.CoreProtectAPI;
 
 public class LoadCommand implements CommandExecutor {
     /*private final MaterialMapDao mapDao;
@@ -20,12 +26,17 @@ public class LoadCommand implements CommandExecutor {
     private static UserDao userDao = null;
     private static BlockDao blockDao;
     private static SaveDao saveDao;
+    private static CoreProtectAPI coreAPI;
 
     public LoadCommand() throws SQLException {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         userDao = databaseManager.getUserDao();
         saveDao = databaseManager.getSaveDao();
         blockDao = databaseManager.getBlockDao();
+        CoreProtectAPI coreAPI = getCoreProtect();
+        if (coreAPI != null){ // Ensure we have access to the API
+            coreAPI.testAPI(); // Will print out "[CoreProtect] API test successful." in the console.
+        }
        /* mapDao = databaseManager.getMaterialMapDao();
         worldDao = databaseManager.getWorldDao();
         blockDao = databaseManager.getBlockDao();*/
@@ -57,23 +68,25 @@ public class LoadCommand implements CommandExecutor {
         }
     }*/
 
-    public int loadSave(String saveName, String userName) {
+    public void loadSave(String saveName, String userName) {
         List<UserEntity> user;
         List<SaveEntity> save;
         List<SaveEntity> earlierSaves;
         List<SaveEntity> laterSaves;
-        List<BlockEntity> allBlocks;
+        //List<BlockEntity> allBlocks;
         int timeNow = (int) (System.currentTimeMillis() / 1000L);
 
         try {
             user = userDao.getUserByName(userName);
             save = saveDao.getSaveByUserAndName(user.get(0).rowId, saveName);
-            allBlocks = blockDao.getBlocksByUserIdWithoutInteract(user.get(0).rowId);
+            //allBlocks = blockDao.getBlocksByUserIdWithoutInteract(user.get(0).rowId);
             earlierSaves = saveDao.getAllEarlierSavesByPlayerAndTime(user.get(0).rowId, save.get(0).time);
             laterSaves = saveDao.getAllLaterSavesByPlayerAndTime(user.get(0).rowId, save.get(0).time);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        List<String> userNames = Arrays.asList(user.get(0).userName);
 
        /* System.out.println(user.get(0).userName);
         System.out.println(save.get(0).time);*/
@@ -94,35 +107,44 @@ public class LoadCommand implements CommandExecutor {
 
         System.out.println(earlierSaves.getLast().saveName);*/
 
-        String rollback = String.format("co rollback u:%s t:%ds r:#global", user.get(0).userName, timeNow - save.get(0).time);
+        //String rollback = String.format("co rollback u:%s t:%ds r:#global", user.get(0).userName, timeNow - save.get(0).time);
         //String restore = String.format("co restore u:%s t:%d-%ds r:#global", user.get(0).userName, restoreStart, restoreEnd);
-        String restore = String.format("co restore u:%s t:%ds r:#global", user.get(0).userName, timeNow - earlierSaves.getLast().time);
-        String restoreBack = String.format("co rollback u:%s t:%ds r:#global", user.get(0).userName, timeNow - save.get(0).time);
+       // String restore = String.format("co restore u:%s t:%ds r:#global", user.get(0).userName, timeNow - earlierSaves.getLast().time);
+        //String restoreBack = String.format("co rollback u:%s t:%ds r:#global", user.get(0).userName, timeNow - save.get(0).time);
 
-        System.out.println(rollback);
-        System.out.println(restore);
+       // System.out.println(rollback);
+       // System.out.println(restore);
 
         if (save.get(0).rolledBack == 0) {
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), rollback);
-            //save.get(0).rolledBack = 1;
+            //Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), rollback);
+            coreAPI.performRollback(timeNow-save.get(0).time, userNames, null, null, null, null, 0, null );
+            save.get(0).rolledBack = 1;
 
-            for (SaveEntity saves : laterSaves) {
-                saves.rolledBack = 1;
+            if (laterSaves != null && !laterSaves.isEmpty()) {
+                for (SaveEntity saves : laterSaves) {
+                    saves.rolledBack = 1;
 
-                try {
-                    saveDao.updateSave(saves);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    try {
+                        saveDao.updateSave(saves);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
         } else if (save.get(0).rolledBack == 1) {
-
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), restore);
+            if(earlierSaves != null && !earlierSaves.isEmpty()) {
+                coreAPI.performRestore(timeNow - earlierSaves.getLast().time, userNames, null, null, null, null, 0, null);
+            } else {
+                coreAPI.performRestore(timeNow-save.get(0).time, userNames, null, null, null, null, 0, null );
+            }
+            coreAPI.performRollback(timeNow-save.get(0).time, userNames, null, null, null, null, 0, null );
+            save.get(0).rolledBack = 0;
+           /* Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), restore);
             save.get(0).rolledBack = 3;
         } else {
             Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), restoreBack);
-            save.get(0).rolledBack = 0;
+            save.get(0).rolledBack = 0;*/
         }
 
          /*   try {
@@ -154,19 +176,20 @@ public class LoadCommand implements CommandExecutor {
             throw new RuntimeException(e);
         }
 
-        return save.get(0).rolledBack;
+        //return save.get(0).rolledBack;
     }
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         sender.sendMessage("Loading save...");
-        if (loadSave(args[0], sender.getName()) == 3) {
+        /*if (loadSave(args[0], sender.getName()) == 3) {
             try {
                 TimeUnit.SECONDS.sleep(5);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             loadSave(args[0], sender.getName());
-        }
+        }*/
+        loadSave(args[0], sender.getName());
 
        /* sender.sendMessage("Loading commit...");
 
@@ -198,5 +221,28 @@ public class LoadCommand implements CommandExecutor {
             revertLine(commits[i], direction);
         }*/
         return true;
+    }
+
+
+    private CoreProtectAPI getCoreProtect() {
+        Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CoreProtect");
+
+        // Check that CoreProtect is loaded
+        if (plugin == null || !(plugin instanceof CoreProtect)) {
+            return null;
+        }
+
+        // Check that the API is enabled
+        CoreProtectAPI CoreProtect = ((CoreProtect) plugin).getAPI();
+        if (CoreProtect.isEnabled() == false) {
+            return null;
+        }
+
+        // Check that a compatible version of the API is loaded
+        if (CoreProtect.APIVersion() < 9) {
+            return null;
+        }
+
+        return CoreProtect;
     }
 }
