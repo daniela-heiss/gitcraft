@@ -13,6 +13,8 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -48,13 +50,18 @@ public class WorldEditCommands {
         return clipboard;
     }
 
-    public File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName) {
+    public File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName, CommandSender sender) {
         String fileEnding = ".schem";
         File file = new File("/minecraft/plugins/WorldEdit/schematics/" + schematicName  + fileEnding);
-        try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
-            writer.write(clipboard);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (!file.exists()) {
+            try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
+                writer.write(clipboard);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: Schematic Name already used");
+            return null;
         }
         return file;
     }

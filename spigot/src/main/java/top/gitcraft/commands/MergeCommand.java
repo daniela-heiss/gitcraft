@@ -160,16 +160,17 @@ public class MergeCommand implements CommandExecutor {
         player.sendMessage("copied region to clipboard");
 
         String schematicName = args[0];
-        File file = worldEditCommands.saveRegionAsSchematic(clipboard, schematicName);
-        sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
+        File file = worldEditCommands.saveRegionAsSchematic(clipboard, schematicName, sender);
 
-        Clipboard loadedClipboard = worldEditCommands.loadSchematic(file);
-        sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
+        if (file != null) {
+            sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
+            Clipboard loadedClipboard = worldEditCommands.loadSchematic(file);
+            sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
 
-        worldEditCommands.pasteClipboard(currentWorld, minCoordinatesArray, loadedClipboard);
-        sender.sendMessage("Pasted Schematic " + schematicName + " into Clipboard");
+            worldEditCommands.pasteClipboard(currentWorld, minCoordinatesArray, loadedClipboard);
+            sender.sendMessage("Pasted Schematic " + schematicName + " into Clipboard");
 
-
+        }
         return true;
     }
 
