@@ -118,79 +118,89 @@ public class LoadCommand implements CommandExecutor {
 
        // System.out.println(rollback);
        // System.out.println(restore);
+        class LoadThread implements Runnable {
+            @Override
+            public void run(){
+                if(save.get(0).rolledBack ==0)
 
-        if (save.get(0).rolledBack == 0) {
-            //Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), rollback);
-            if (coreAPI != null) {
-                System.out.println("rollback if");
-                coreAPI.performRollback(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
+                    {
+                        //Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), rollback);
+                        if (coreAPI != null) {
+                            System.out.println("rollback if");
+                            coreAPI.performRollback(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
 
-                save.get(0).rolledBack = 1;
+                            save.get(0).rolledBack = 1;
 
-                if (laterSaves != null && !laterSaves.isEmpty()) {
-                    for (SaveEntity saves : laterSaves) {
-                        saves.rolledBack = 1;
+                            if (laterSaves != null && !laterSaves.isEmpty()) {
+                                for (SaveEntity saves : laterSaves) {
+                                    saves.rolledBack = 1;
+
+                                    try {
+                                        saveDao.updateSave(saves);
+                                    } catch (SQLException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                            }
+                        }
+
+                    } else if(save.get(0).rolledBack ==1)
+
+                    {
+                        System.out.println("restore if");
+                        if (earlierSaves != null && !earlierSaves.isEmpty()) {
+                            if (coreAPI != null) {
+                                coreAPI.performRestore(timeNow - earlierSaves.getLast().time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
+                            }
+                        } else {
+                            if (coreAPI != null) {
+                                coreAPI.performRestore(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
+                            }
+                        }
+                        if (coreAPI != null) {
+                            coreAPI.performRollback(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
+                            save.get(0).rolledBack = 0;
+                        }
+                   /* Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), restore);
+                    save.get(0).rolledBack = 3;
+                } else {
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), restoreBack);
+                    save.get(0).rolledBack = 0;*/
+                    }
+
+                 /*   try {
+                        TimeUnit.SECONDS.sleep(20);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }*/
+                    //while(save.get(0).rolledBack != 0){
+                    //System.out.println("hello");
+                        /*while(allBlocks.getLast().rolledBack != 0) {
+                            System.out.println("in se loop");
+                            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), restoreBack);
+                            save.get(0).rolledBack = 0;
+                        }*/
+                    // }
+                   /* for (SaveEntity saves : earlierSaves){
+                        saves.rolledBack = 0;
 
                         try {
                             saveDao.updateSave(saves);
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
-                    }
-                }
-            }
+                    }*/
 
-        } else if (save.get(0).rolledBack == 1) {
-            System.out.println("restore if");
-            if(earlierSaves != null && !earlierSaves.isEmpty()) {
-                if (coreAPI != null) {
-                    coreAPI.performRestore(timeNow - earlierSaves.getLast().time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
-                }
-            } else {
-                if (coreAPI != null) {
-                    coreAPI.performRestore(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
-                }
-            }
-            if(coreAPI != null) {
-                coreAPI.performRollback(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
-                save.get(0).rolledBack = 0;
-            }
-           /* Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), restore);
-            save.get(0).rolledBack = 3;
-        } else {
-            Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), restoreBack);
-            save.get(0).rolledBack = 0;*/
-        }
-
-         /*   try {
-                TimeUnit.SECONDS.sleep(20);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }*/
-            //while(save.get(0).rolledBack != 0){
-                //System.out.println("hello");
-                /*while(allBlocks.getLast().rolledBack != 0) {
-                    System.out.println("in se loop");
-                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), restoreBack);
-                    save.get(0).rolledBack = 0;
-                }*/
-           // }
-           /* for (SaveEntity saves : earlierSaves){
-                saves.rolledBack = 0;
-
-                try {
-                    saveDao.updateSave(saves);
-                } catch (SQLException e) {
+                try{
+                    saveDao.updateSave(save.get(0));
+                }catch(SQLException e){
                     throw new RuntimeException(e);
                 }
-            }*/
-
-        try {
-            saveDao.updateSave(save.get(0));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            }
         }
-
+        Runnable runnable = new LoadThread();
+        Thread thread = new Thread(runnable);
+        thread.start();
         //return save.get(0).rolledBack;
     }
     @Override
