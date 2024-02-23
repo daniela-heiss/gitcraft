@@ -1,0 +1,60 @@
+name: gitcraft
+version: '${project.version}'
+main: top.gitcraft.GitCraft
+api-version: '1.20'
+depend: [ CoreProtect ]
+# Replace "kit" with the name of your command.
+commands:
+  gcsave:
+    description: Saves the current changes to the DB
+    usage: /gcsave
+  helloblock:
+    description: Places a snowy grass block at the coordinates and greets the world
+    usage: /helloblock <x> <y> <z>
+  remove:
+    description: Places an air block at x,y,z and says that they destroy something
+    usage: /remove x y z
+  load:
+    description: Loads a savestate
+    usage: /load commitname
+  testLoad:
+    description: Load a specific commit
+    usage: /load <commitName>
+  merge:
+    desciption: Load Coordinates for later Merge
+    usage: /merge <schematicName>
+  gcmenu:
+      description: Shows the GitCraft menu
+      usage: /gcmenu
+  gcbranchmenu:
+    description: Shows the branch menu
+    usage: /branchmenu
+
+#branch-lists - Join, Create, Delete
+  gcbranchlist:
+    description: List branches
+    usage: /gcbranchlist [join|create|delete]
+
+  gcbranchjoinlist:
+    description: List branches to join
+    usage: /gcbranchjoinlist
+  gcbranchcreatelist:
+    description: List branches to create
+    usage: /gcbranchcreatelist
+  gcbranchdeletelist:
+    description: List branches to delete
+    usage: /gcbranchdeletelist
+
+  #commands - Join, Create, Delete
+  gcbranchjoin:
+    description: Join branch
+    usage: /gcbranchjoin <name>
+  gcbranchcreate:
+      description: Create a branch
+      usage: /gcbranchcreate <name>
+  gcbranchdelete:
+    description: Delete a branch
+    usage: /gcbranchdelete <name>
+  gcWETest:
+    description: copy an area in front of the player and pastes it  5 xdiff
+    usage: /gcWETest
