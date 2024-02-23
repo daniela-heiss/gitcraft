@@ -25,10 +25,27 @@ commands:
     usage: /merge <schematicName>
   gcmenu:
       description: Shows the GitCraft menu
-      usage: /branchmenu
+      usage: /gcmenu
   gcbranchmenu:
     description: Shows the branch menu
     usage: /branchmenu
+
+#branch-lists - Join, Create, Delete
+  gcbranchlist:
+    description: List branches
+    usage: /gcbranchlist [join|create|delete]
+
+  gcbranchjoinlist:
+    description: List branches to join
+    usage: /gcbranchjoinlist
+  gcbranchcreatelist:
+    description: List branches to create
+    usage: /gcbranchcreatelist
+  gcbranchdeletelist:
+    description: List branches to delete
+    usage: /gcbranchdeletelist
+
+  #commands - Join, Create, Delete
   gcbranchjoin:
     description: Join branch
     usage: /gcbranchjoin <name>
