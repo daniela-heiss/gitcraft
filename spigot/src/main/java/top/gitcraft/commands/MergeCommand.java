@@ -159,7 +159,7 @@ public class MergeCommand implements CommandExecutor {
         BlockArrayClipboard clipboard = worldEditCommands.copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
         player.sendMessage("copied region to clipboard");
 
-        String schematicName = "Test_Schematic";
+        String schematicName = args[0];
         File file = worldEditCommands.saveRegionAsSchematic(clipboard, schematicName);
         sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
 

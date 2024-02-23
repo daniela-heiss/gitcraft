@@ -22,7 +22,7 @@ commands:
     usage: /load <commitName>
   merge:
     desciption: Load Coordinates for later Merge
-    usage: /merge
+    usage: /merge <schematicName>
   gcmenu:
       description: Shows the GitCraft menu
       usage: /branchmenu
