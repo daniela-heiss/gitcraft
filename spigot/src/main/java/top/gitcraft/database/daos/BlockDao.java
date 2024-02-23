@@ -62,8 +62,8 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
         executeRaw("ALTER TABLE co_block ADD COLUMN " + columnName + " " + columnType);
     }
 
-    public List<BlockEntity> getBlocksByWorldId(Integer worldId) throws SQLException {
-        return queryBuilder().where().eq("wid", worldId).query();
+    public List<BlockEntity> getUserBlocksByWorldId(Integer worldId, List<Integer> userIds) throws SQLException {
+        return queryBuilder().where().eq("wid", worldId).and().in("user", userIds).query();
     }
 
 }
