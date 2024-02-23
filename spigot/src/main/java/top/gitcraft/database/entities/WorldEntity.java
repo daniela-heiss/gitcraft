@@ -14,4 +14,18 @@ public class WorldEntity {
 
     @DatabaseField(columnName = "world")
     public String worldName;
+
+    @DatabaseField(columnName = "playerId")
+    public int playerId;
+
+    @Override
+    public String toString() {
+        return "WorldEntity{" +
+                "rowId=" + rowId +
+                ", id=" + id +
+                ", worldName='" + worldName + '\'' +
+                ", playerId=" + playerId +
+                '}';
+    }
+
 }
