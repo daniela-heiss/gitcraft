@@ -126,14 +126,14 @@ public class MergeCommand implements CommandExecutor {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        List<Integer> userId = new ArrayList<>();
+        List<Integer> userIds = new ArrayList<>();
         for (UserEntity userEntity: userEntityList) {
-            userId.add(userEntity.rowId);
+            userIds.add(userEntity.rowId);
         }
 
         List<BlockEntity> blockEntityList;
         try {
-            blockEntityList = blockDao.getBlocksByWorldId(worldId, userId);
+            blockEntityList = blockDao.getUserBlocksByWorldId(worldId, userIds);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
