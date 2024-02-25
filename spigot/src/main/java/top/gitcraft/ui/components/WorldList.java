@@ -78,7 +78,7 @@ public class WorldList {
                     .append("{\"text\":\" Git\",\"bold\":true,\"color\":\"red\"},")
                     .append("{\"text\":\"Craft\",\"bold\":true,\"color\":\"gold\"},")
                     .append("{\"text\":\" \\u2550\\u2550\\n\\nBranch ").append(capitalizedType).append(" List\",\"bold\":true,\"color\":\"white\"},")
-                    .append("{\"text\":\"\\n").append(underline).append("n\",\"bold\":true}");
+                    .append("{\"text\":\"\\n").append(underline).append("\\n\",\"bold\":true}");
 
             /* ==================================================
              * ================= II. FIRST WORLD ================
@@ -123,7 +123,7 @@ public class WorldList {
                 jsonMessage.append(",{\"text\":\"\\n\",\"bold\":true},")
                         .append("{\"text\":\"\\u2560\",\"color\":\"white\"},")
                         .append("{\"text\":\"[\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcbranch").append(lowerCaseType).append(" ").append(worldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(worldName).append("\"}},")
-                        .append("{\"text\":\"\"").append(upperCaseType).append("\"\",\"bold\":true,\"color\":\"\"").append(typeColor).append("\"\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcbranch").append(lowerCaseType).append(" ").append(worldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(worldName).append("\"}},")
+                        .append("{\"text\":\"").append(upperCaseType).append("\",\"bold\":true,\"color\":\"").append(typeColor).append("\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcbranch").append(lowerCaseType).append(" ").append(worldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(worldName).append("\"}},")
                         .append("{\"text\":\"] ").append(worldName).append("\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcbranch").append(lowerCaseType).append(" ").append(worldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(worldName).append("\"}}");
             }
 
@@ -140,9 +140,8 @@ public class WorldList {
             jsonMessage.append(",{\"text\":\"\\n\",\"bold\":true},")
                     .append("{\"text\":\"\\u255a\",\"color\":\"white\"},")
                     .append("{\"text\":\"[\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcbranch").append(lowerCaseType).append(" ").append(lastWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(lastWorldName).append("\"}},")
-                    .append("{\"text\":\"\"").append(upperCaseType).append("\"\",\"bold\":true,\"color\":\"\"").append(typeColor).append("\"\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcbranch").append(lowerCaseType).append(" ").append(lastWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(lastWorldName).append("\"}},")
+                    .append("{\"text\":\"").append(upperCaseType).append("\",\"bold\":true,\"color\":\"").append(typeColor).append("\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcbranch").append(lowerCaseType).append(" ").append(lastWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(lastWorldName).append("\"}},")
                     .append("{\"text\":\"] ").append(lastWorldName).append("\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcbranch").append(lowerCaseType).append(" ").append(lastWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(lastWorldName).append("\"}}");
-
             /* ==================================================
              * ================= V. BRANCH MENU =================
              * ==================================================
