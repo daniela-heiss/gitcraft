@@ -5,7 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import top.gitcraft.ui.components.BranchList;
+import top.gitcraft.ui.components.WorldList;
 
 public class BranchCommand implements CommandExecutor {
 
@@ -16,18 +16,18 @@ public class BranchCommand implements CommandExecutor {
             return false;
         }
         if (args.length == 0) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new BranchList().dynamicBranchList("join"));
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new WorldList().displayAll("join"));
             return true;
         }
         switch (args[0]) {
             case "delete":
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new BranchList().dynamicBranchList("delete"));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new WorldList().displayAll("delete"));
                 return true;
             case "create":
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new BranchList().dynamicBranchList("create"));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new WorldList().displayAll("create"));
                 return true;
             default:
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new BranchList().dynamicBranchList("join"));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new WorldList().displayAll("join"));
                 return true;
         }
     }

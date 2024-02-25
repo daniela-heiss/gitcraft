@@ -13,6 +13,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.ui.components.Info;
 
 import java.sql.SQLException;
 import java.time.Instant;
@@ -45,15 +46,8 @@ public class BranchCreateCommand implements CommandExecutor {
         String branchName = generateWorldName(player, worldName);
 
         if (args.length == 0) {
-            String jsonMessage = "[\"\","
-                    + "{\"text\":\"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"},"
-                    + "{\"text\":\"[\",\"bold\":true,\"color\":\"blue\"},"
-                    + "{\"text\":\"i\",\"bold\":true},"
-                    + "{\"text\":\"] \",\"bold\":true,\"color\":\"blue\"},"
-                    + "{\"text\":\"Please provide a branch name\",\"bold\":true},"
-                    + "{\"text\":\"\\n \"}]";
 
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + jsonMessage);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().noWorldNameProvided());
             return false;
         }
         if (args.length == 2) {
@@ -72,9 +66,10 @@ public class BranchCreateCommand implements CommandExecutor {
         MVWorldManager worldManager = core.getMVWorldManager();
         Player player = ((Player) sender).getPlayer();
 
-        createMessage(sender, branchName);
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().creatingWorld(branchName));
         worldManager.cloneWorld(player.getWorld().getName(), branchName);
         new BranchJoinCommand().joinBranch(sender, branchName, "true");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(branchName));
     }
 
     public void createBranch(CommandSender sender, String branchName, String doTeleport) {
@@ -83,26 +78,12 @@ public class BranchCreateCommand implements CommandExecutor {
             MVWorldManager worldManager = core.getMVWorldManager();
             Player player = ((Player) sender).getPlayer();
 
-            createMessage(sender, branchName);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().creatingWorld(branchName));
             worldManager.cloneWorld(player.getWorld().getName(), branchName);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(branchName));
         } else {
             createBranch(sender, branchName);
         }
-    }
-
-    private void createMessage(CommandSender sender, String branchName) {
-
-        String jsonMessage = "[\"\","
-                + "{\"text\":\"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"},"
-                + "{\"text\":\"[\",\"bold\":true,\"color\":\"aqua\"},"
-                + "{\"text\":\"i\",\"bold\":true},"
-                + "{\"text\":\"]\",\"bold\":true,\"color\":\"aqua\"},"
-                + "{\"text\":\" Created \",\"bold\":true,\"color\":\"white\"},"
-                + "{\"text\":\"" + branchName + "\",\"bold\":true,\"color\":\"green\"},"
-                + "{\"text\":\"\\n \"}]";
-
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + jsonMessage);
-
     }
 
     private String generateWorldName(Player player, String worldName) {
