@@ -31,19 +31,9 @@ commands:
     usage: /branchmenu
 
 #branch-lists - Join, Create, Delete
-  gcbranchlist:
+  gcbranch:
     description: List branches
-    usage: /gcbranchlist [join|create|delete]
-
-  gcbranchjoinlist:
-    description: List branches to join
-    usage: /gcbranchjoinlist
-  gcbranchcreatelist:
-    description: List branches to create
-    usage: /gcbranchcreatelist
-  gcbranchdeletelist:
-    description: List branches to delete
-    usage: /gcbranchdeletelist
+    usage: /gcbranch [join|create|delete]
 
   #commands - Join, Create, Delete
   gcbranchjoin:

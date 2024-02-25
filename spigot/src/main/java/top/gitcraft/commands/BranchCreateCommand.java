@@ -1,8 +1,5 @@
 package top.gitcraft.commands;
 
-import com.j256.ormlite.field.types.SqlDateStringType;
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.UserDao;
 import top.gitcraft.database.daos.WorldDao;
@@ -18,9 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 
 import java.util.Objects;
