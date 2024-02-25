@@ -1,11 +1,29 @@
-package top.gitcraft.commands.ui;
+package top.gitcraft.ui.components;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+;
+
 public class BranchList {
 
-    String dynamicBranchList(String type, List<String> worldNames) {
+    /**
+     * Used to generate a list of worlds to join, create, or delete.
+     *
+     * @param type       The type of list to generate. Valid values are "join", "create", or "delete".
+     * @param worldNames List of world names.
+     * @return A JSON message representing the action to be performed on the worlds.
+     * @apiNote Refrain from providing worldNames manually.<br>
+     *         Use dynamicBranchList(type) instead.
+     *         It will provide a list of all worlds. <br>
+     *         If you only want to provide a subset, use this method.
+     */
+
+    public String dynamicBranchList(String type, List<String> worldNames) {
 
         /* ==================================================
          * =========== BRANCH LIST PAGE STRUCTURE ===========
@@ -146,5 +164,20 @@ public class BranchList {
 
         // TODO: Error message no such branch list type
         return "ERROR: NO SUCH BRANCH LIST TYPE. VALID TYPES: join, create, delete";
+    }
+    /**
+     * Used to generate a list of worlds to join, create, or delete.
+     *
+     * @param type       The type of list to generate. Valid values are "join", "create", or "delete".
+     * @return A JSON message representing the action to be performed on the worlds.
+     * @apiNote If you only want to provide a subset, use <br>
+     *          dynamicBranchList(type, worldNames).
+     */
+    public String dynamicBranchList(String type) {
+        List<String> worldNames = new ArrayList<>();
+        for(World world : Bukkit.getWorlds()){
+            worldNames.add(world.getName());
+        }
+        return dynamicBranchList(type, worldNames);
     }
 }

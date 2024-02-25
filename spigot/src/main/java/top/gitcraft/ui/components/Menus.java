@@ -1,4 +1,4 @@
-package top.gitcraft.commands.ui;
+package top.gitcraft.ui.components;
 
 public class Menus {
     String mainMenu(){

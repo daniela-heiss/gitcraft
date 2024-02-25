@@ -1,7 +1,5 @@
 package top.gitcraft;
 
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.extension.platform.Platform;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import top.gitcraft.commands.*;
