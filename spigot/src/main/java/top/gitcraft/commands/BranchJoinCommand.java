@@ -16,32 +16,31 @@ public class BranchJoinCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-
-            if (args.length == 0) {
-                String jsonMessage = "[\"\","
-                        + "{\"text\":\"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"},"
-                        + "{\"text\":\"[\",\"bold\":true,\"color\":\"blue\"},"
-                        + "{\"text\":\"i\",\"bold\":true},"
-                        + "{\"text\":\"] \",\"bold\":true,\"color\":\"blue\"},"
-                        + "{\"text\":\"Please provide a branch name\",\"bold\":true},"
-                        + "{\"text\":\"\\n \"}]";
-
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + jsonMessage);
-                return true;
-            }
-            if (args.length == 2){
-                joinBranch(sender, args[0], args[1]);
-            }else {
-                joinBranch(sender, args[0]);
-            }
-            return true;
-        }
-        else{
+        if (!(sender instanceof Player)) {
             sender.sendMessage("You must be a player to use this command!");
             return false;
         }
+
+        if (args.length == 0) {
+            String jsonMessage = "[\"\","
+                    + "{\"text\":\"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"},"
+                    + "{\"text\":\"[\",\"bold\":true,\"color\":\"blue\"},"
+                    + "{\"text\":\"i\",\"bold\":true},"
+                    + "{\"text\":\"] \",\"bold\":true,\"color\":\"blue\"},"
+                    + "{\"text\":\"Please provide a branch name\",\"bold\":true},"
+                    + "{\"text\":\"\\n \"}]";
+
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + jsonMessage);
+            return true;
+        }
+        if (args.length == 2){
+            joinBranch(sender, args[0], args[1]);
+        }else {
+            joinBranch(sender, args[0]);
+        }
+        return true;
     }
+
     public void joinBranch(CommandSender sender, String branchName){
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         Player player = ((Player) sender).getPlayer();
@@ -50,6 +49,7 @@ public class BranchJoinCommand implements CommandExecutor {
         joinMessage(sender, branchName);
         player.teleport(branch.getSpawnLocation());
     }
+
     public void joinBranch(CommandSender sender, String branchName, String created){
 
         if(Objects.equals(created, "true")){
@@ -65,6 +65,7 @@ public class BranchJoinCommand implements CommandExecutor {
             joinBranch(sender, branchName);
         }
     }
+
     private void joinMessage(CommandSender sender, String branchName){
 
         String jsonMessage = "[\"\","
@@ -78,6 +79,5 @@ public class BranchJoinCommand implements CommandExecutor {
 
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + jsonMessage);
-
     }
 }
