@@ -67,9 +67,9 @@ public class Info {
          */
         return "[\"\","
                 + "{\"text\":\"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"},"
-                + "{\"text\":\"[\",\"bold\":true,\"color\":\"aqua\"},"
+                + "{\"text\":\"[\",\"bold\":true,\"color\":\"green\"},"
                 + "{\"text\":\"i\",\"bold\":true},"
-                + "{\"text\":\"] \",\"bold\":true,\"color\":\"aqua\"},"
+                + "{\"text\":\"] \",\"bold\":true,\"color\":\"green\"},"
                 + "{\"text\":\"" + worldName + "\",\"bold\":true,\"color\":\"green\"},"
                 + "{\"text\":\" joined \",\"bold\":true,\"color\":\"white\"},"
                 + "{\"text\":\"\\n \"}]";
