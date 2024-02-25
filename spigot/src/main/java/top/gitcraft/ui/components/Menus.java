@@ -1,7 +1,7 @@
 package top.gitcraft.ui.components;
 
 public class Menus {
-    String mainMenu(){
+    public String mainMenu(){
         /*
          * ══ GitCraft ══
          *
@@ -28,11 +28,11 @@ public class Menus {
                 + "{\"text\":\"[\",\"bold\":true},{\"text\":\"Config\",\"bold\":true,\"color\":\"yellow\"},{\"text\":\"]\",\"bold\":true},"
                 + "{\"text\":\"\\n\\n\\n\\n\\n\"}]";
     }
-    String configMenu(){
+    public String configMenu(){
         return "";
     }
 
-    String branchMenu(){
+    public String branchMenu(){
         /*
          * ══ GitCraft ══
          *

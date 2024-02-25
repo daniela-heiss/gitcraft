@@ -1,7 +1,7 @@
 package top.gitcraft.ui.components;
 
 public class InfoMessages {
-    String infoNoWorldNameProvided(){
+    public String noWorldNameProvided(){
         /*
          * [i] Please provide a world name
          *
@@ -14,7 +14,8 @@ public class InfoMessages {
                 + "{\"text\":\"Please provide a world name\",\"bold\":true},"
                 + "{\"text\":\"\\n \"}]";
     }
-    String infoCreatingBranch(String worldName) {
+
+    public String creatingWorld(String worldName) {
         /*
          * [i] Creating <worldName> ...
          *
@@ -29,7 +30,7 @@ public class InfoMessages {
                 + "{\"text\":\" ... \",\"bold\":true,\"color\":\"white\"},"
                 + "{\"text\":\"\\n \"}]";
     }
-    String infoBranchCreated(String worldName) {
+    public String worldCreated(String worldName) {
         /*
          * [i] <worldName> created
          *
@@ -43,7 +44,8 @@ public class InfoMessages {
                 + "{\"text\":\" created \",\"bold\":true,\"color\":\"white\"},"
                 + "{\"text\":\"\\n \"}]";
     }
-    String infoJoiningWorld(String worldName) {
+
+    public String joiningWorld(String worldName) {
         /*
          * [i] Joining <worldName> ...
          *
@@ -58,7 +60,7 @@ public class InfoMessages {
                 + "{\"text\":\" ... \",\"bold\":true,\"color\":\"white\"},"
                 + "{\"text\":\"\\n \"}]";
     }
-    String infoWorldJoined(String worldName) {
+    public String worldJoined(String worldName) {
         /*
          * [i] <worldName> created
          *
@@ -72,7 +74,8 @@ public class InfoMessages {
                 + "{\"text\":\" joined \",\"bold\":true,\"color\":\"white\"},"
                 + "{\"text\":\"\\n \"}]";
     }
-    String infoWorldIsProtected(String worldName) {
+
+    public String worldIsProtected(String worldName) {
         /*
          * [!] <worldName> is protected and will not be deleted
          *
@@ -85,7 +88,7 @@ public class InfoMessages {
                 + "{\"text\":\"" + worldName + "\",\"bold\":true,\"color\":\"green\"},"
                 + "{\"text\":\" is protected and will not be deleted\\n\",\"bold\":true}]";
     }
-    String infoDeletingWorld(String worldName) {
+    public String deletingWorld(String worldName) {
         /*
          * [i] Deleting <worldName> ...
          *
@@ -100,7 +103,7 @@ public class InfoMessages {
                 + "{\"text\":\" ... \",\"bold\":true,\"color\":\"white\"},"
                 + "{\"text\":\"\\n \"}]";
     }
-    String infoWorldDeleted(String worldName) {
+    public String worldDeleted(String worldName) {
         /*
          * [i] <worldName> deleted
          *
@@ -114,5 +117,4 @@ public class InfoMessages {
                 + "{\"text\":\" deleted \",\"bold\":true,\"color\":\"white\"},"
                 + "{\"text\":\"\\n \"}]";
     }
-
 }
