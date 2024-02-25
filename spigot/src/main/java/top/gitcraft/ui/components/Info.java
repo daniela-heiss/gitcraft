@@ -1,6 +1,6 @@
 package top.gitcraft.ui.components;
 
-public class InfoMessages {
+public class Info {
     public String noWorldNameProvided(){
         /*
          * [i] Please provide a world name

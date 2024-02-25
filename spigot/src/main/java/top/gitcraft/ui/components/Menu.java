@@ -1,6 +1,6 @@
 package top.gitcraft.ui.components;
 
-public class Menus {
+public class Menu {
     public String mainMenu(){
         /*
          * ══ GitCraft ══

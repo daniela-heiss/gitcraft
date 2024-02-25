@@ -9,7 +9,7 @@ import java.util.List;
 
 ;
 
-public class BranchList {
+public class WorldList {
 
     /**
      * Used to generate a list of worlds to join, create, or delete.
@@ -18,12 +18,12 @@ public class BranchList {
      * @param worldNames List of world names.
      * @return A JSON message representing the action to be performed on the worlds.
      * @apiNote Refrain from providing worldNames manually.<br>
-     *         Use dynamicBranchList(type) instead.
+     *         Use displayAll(type) instead.
      *         It will provide a list of all worlds. <br>
      *         If you only want to provide a subset, use this method.
      */
 
-    public String dynamicBranchList(String type, List<String> worldNames) {
+    public String displaySubset(String type, List<String> worldNames) {
 
         /* ==================================================
          * =========== BRANCH LIST PAGE STRUCTURE ===========
@@ -171,13 +171,13 @@ public class BranchList {
      * @param type       The type of list to generate. Valid values are "join", "create", or "delete".
      * @return A JSON message representing the action to be performed on the worlds.
      * @apiNote If you only want to provide a subset, use <br>
-     *          dynamicBranchList(type, worldNames).
+     *          displaySubset(type, worldNames).
      */
-    public String dynamicBranchList(String type) {
+    public String displayAll(String type) {
         List<String> worldNames = new ArrayList<>();
         for(World world : Bukkit.getWorlds()){
             worldNames.add(world.getName());
         }
-        return dynamicBranchList(type, worldNames);
+        return displaySubset(type, worldNames);
     }
 }
