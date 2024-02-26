@@ -56,8 +56,9 @@ public class CreateCommand implements CommandExecutor {
             worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 
             // Send the second message after the cloning operation is completed
-            new JoinCommand().joinWorldAtCurrentLocation(player, clonedWorldName, "true");
             dispatchTellRawCommand(player, infoWorldCreated(clonedWorldName));
+
+            new JoinCommand().joinWorldAtCurrentLocation(player, clonedWorldName, "true");
         });
     }
 
