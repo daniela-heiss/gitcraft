@@ -1,4 +1,4 @@
-package top.gitcraft.commands;
+package top.gitcraft.commands.schematics;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
@@ -13,6 +13,7 @@ import top.gitcraft.database.entities.WorldEntity;
 
 import java.io.File;
 
+import static top.gitcraft.listeners.AreaSelectListener.getSelection;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
 import static top.gitcraft.utils.WorldEditFunctions.*;
 import static top.gitcraft.utils.FindMinAndMax.*;
@@ -22,7 +23,7 @@ public class GenerateSchematicCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("You must be a player to use this command");
             return false;
         }
@@ -47,7 +48,7 @@ public class GenerateSchematicCommand implements CommandExecutor {
         switch (args[0]) {
             case "area":
                 // Get BlockVector3 Coordinates of the selected Area
-                CuboidRegion selectedArea = null; // regionSelect function
+                CuboidRegion selectedArea = getSelection(player);
 
                 sender.sendMessage("Min Coordinates : " + selectedArea.getPos1());
                 sender.sendMessage("Min Coordinates : " + selectedArea.getPos2());

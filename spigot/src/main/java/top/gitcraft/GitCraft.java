@@ -6,6 +6,9 @@ import top.gitcraft.commands.*;
 import top.gitcraft.commands.areaselect.GetAreaCommand;
 import top.gitcraft.commands.areaselect.SetPos1Command;
 import top.gitcraft.commands.areaselect.SetPos2Command;
+import top.gitcraft.commands.merging.AreaMergeCommand;
+import top.gitcraft.commands.merging.AutoMergeCommand;
+import top.gitcraft.commands.schematics.GenerateSchematicCommand;
 import top.gitcraft.listeners.AreaSelectListener;
 
 import java.sql.SQLException;
