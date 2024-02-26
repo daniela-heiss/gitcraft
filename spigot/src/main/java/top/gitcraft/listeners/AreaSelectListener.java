@@ -2,7 +2,6 @@ package top.gitcraft.listeners;
 
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
-import jdk.tools.jlink.plugin.Plugin;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -10,11 +9,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
-import top.gitcraft.GitCraft;
 
-import java.util.Objects;
+import static top.gitcraft.MetaDataWrapper.getMetadata;
+import static top.gitcraft.MetaDataWrapper.setMetadata;
+
 
 public class AreaSelectListener implements Listener {
 
@@ -50,9 +48,7 @@ public class AreaSelectListener implements Listener {
                 setMetadata(player, "pos2", blockVector3);
             }
 
-            player.sendMessage("Pos1: " + getPos1(player));
-            player.sendMessage("Pos2: " + getPos2(player));
-            player.sendMessage("Selection: " + getSelection(player));
+            //player.sendMessage("Selection: " + getSelection(player));
         }
 
     }
@@ -87,25 +83,13 @@ public class AreaSelectListener implements Listener {
         return BlockVector3.at(block.getX(), block.getY(), block.getZ());
     }
 
-    private void setMetadata(Player player, String key, Object value) {
-        player.setMetadata(key, new FixedMetadataValue(GitCraft.getPlugin(GitCraft.class), value));
-    }
-
-    private static BlockVector3 getMetadata(Player player, String key) {
-        for (MetadataValue metadataValue : player.getMetadata(key)) {
-            if (metadataValue.getOwningPlugin() instanceof GitCraft) {
-                return (BlockVector3) metadataValue.value();
-            }
-        }
-        return null;
-    }
 
     public static BlockVector3 getPos1(Player player) {
-        return getMetadata(player, "pos1");
+        return getMetadata(player, "pos1", BlockVector3.class);
     }
 
     public static BlockVector3 getPos2(Player player) {
-        return getMetadata(player, "pos2");
+        return getMetadata(player, "pos2", BlockVector3.class);
     }
 
     public static boolean hasPos1AndPos2(Player player) {
