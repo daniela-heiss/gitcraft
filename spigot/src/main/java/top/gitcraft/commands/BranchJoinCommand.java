@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.Objects;
 
@@ -28,34 +29,41 @@ public class BranchJoinCommand implements CommandExecutor {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + jsonMessage);
                 return true;
             }
-            if (args.length == 2){
+            if (args.length == 2) {
                 joinBranch(sender, args[0], args[1]);
-            }else {
+            } else {
                 joinBranch(sender, args[0]);
             }
             return true;
-        }
-        else{
+        } else {
             sender.sendMessage("You must be a player to use this command!");
             return false;
         }
     }
-    public void joinBranch(CommandSender sender, String branchName){
+
+    public void joinBranch(CommandSender sender, String branchName) {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         Player player = ((Player) sender).getPlayer();
         World branch = Bukkit.getWorld(branchName);
-        GameMode originalGameMode = player.getGameMode();
 
         joinMessage(sender, branchName);
         player.teleport(branch.getSpawnLocation());
+        setGameMode(player);
+    }
+
+    public void setGameMode(Player player) {
+
+        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+        GameMode originalGameMode = player.getGameMode();
+
         Bukkit.getScheduler().runTaskLater(core, () -> {
             player.setGameMode(originalGameMode);
         }, 5);
     }
 
-    public void joinBranch(CommandSender sender, String branchName, String created){
+    public void joinBranch(CommandSender sender, String branchName, String created) {
 
-        if(Objects.equals(created, "true")){
+        if (Objects.equals(created, "true")) {
             MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
             Player player = ((Player) sender).getPlayer();
             World branch = Bukkit.getWorld(branchName);
@@ -68,7 +76,8 @@ public class BranchJoinCommand implements CommandExecutor {
             joinBranch(sender, branchName);
         }
     }
-    private void joinMessage(CommandSender sender, String branchName){
+
+    private void joinMessage(CommandSender sender, String branchName) {
 
         String jsonMessage = "[\"\","
                 + "{\"text\":\"\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\\n\"},"
@@ -76,7 +85,7 @@ public class BranchJoinCommand implements CommandExecutor {
                 + "{\"text\":\"i\",\"bold\":true},"
                 + "{\"text\":\"]\",\"bold\":true,\"color\":\"green\"},"
                 + "{\"text\":\" Joining \",\"bold\":true},"
-                + "{\"text\":\""+ branchName +"\",\"bold\":true,\"color\":\"green\"},"
+                + "{\"text\":\"" + branchName + "\",\"bold\":true,\"color\":\"green\"},"
                 + "{\"text\":\"\\n \"}]";
 
 
