@@ -27,6 +27,10 @@ public class AutoMergeCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
+        if (args.length != 1) {
+            return false;
+        }
+
         sender.sendMessage("Gathering Coordinates...");
 
         World currentWorld = BukkitAdapter.adapt(player.getWorld());

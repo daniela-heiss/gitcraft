@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import top.gitcraft.database.entities.WorldEntity;
 
 
+import java.io.File;
+
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
 import static top.gitcraft.utils.WorldEditFunctions.*;
 import static top.gitcraft.utils.FindMinAndMax.*;
@@ -25,6 +27,12 @@ public class GenerateSchematicCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
+
+        if (args.length != 2) {
+            return false;
+        }
+
+        File file = null;
 
         sender.sendMessage("Gathering Coordinates...");
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
@@ -45,10 +53,7 @@ public class GenerateSchematicCommand implements CommandExecutor {
                 sender.sendMessage("Min Coordinates : " + selectedArea.getPos2());
                 BlockArrayClipboard clipboard1 = copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
 
-                player.sendMessage("Copied region to clipboard");
-
-                //String schematicName = args[1];
-                //File file1 = saveRegionAsSchematic(clipboard1, schematicName, sender);
+                file = saveRegionAsSchematic(clipboard1, schematicName, sender);
 
                 break;
 
@@ -67,9 +72,7 @@ public class GenerateSchematicCommand implements CommandExecutor {
 
                 BlockArrayClipboard clipboard2 = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
 
-
-                //String schematicName = args[1];
-                //File file2 = saveRegionAsSchematic(clipboard2, schematicName, sender);
+                file = saveRegionAsSchematic(clipboard2, schematicName, sender);
 
                 break;
 

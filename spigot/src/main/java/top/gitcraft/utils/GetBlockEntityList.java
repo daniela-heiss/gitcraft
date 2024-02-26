@@ -14,21 +14,12 @@ import java.util.List;
 
 public class GetBlockEntityList {
 
-    private static WorldDao worldDao;
-    private static BlockDao blockDao;
-    private static UserDao userDao;
-
-    public GetBlockEntityList() throws SQLException {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        worldDao = databaseManager.getWorldDao();
-        blockDao = databaseManager.getBlockDao();
-        userDao = databaseManager.getUserDao();
-    }
-
     public static List<BlockEntity> getBlockChangedByPlayers(String worldName) {
+
         WorldEntity world;
 
         try {
+            WorldDao worldDao = DatabaseManager.getInstance().getWorldDao();
             //get world
             world = worldDao.getWorldByWorldName(worldName);
         } catch (SQLException e) {
@@ -38,6 +29,7 @@ public class GetBlockEntityList {
 
         List<UserEntity> players;
         try {
+            UserDao userDao = DatabaseManager.getInstance().getUserDao();
             //get players from users
             players = userDao.getAllUsersWitUuid();
         } catch (SQLException e) {
@@ -50,6 +42,7 @@ public class GetBlockEntityList {
 
         List<BlockEntity> blockEntityList;
         try {
+            BlockDao blockDao = DatabaseManager.getInstance().getBlockDao();
             //get block changed by players
             blockEntityList = blockDao.getUserBlocksByWorldId(worldId, playerIds);
         } catch (SQLException e) {

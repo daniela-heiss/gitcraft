@@ -28,7 +28,7 @@ commands:
     usage: /areamerge <schematicName>
   generateschematic:
     desciption: Autoamtically merge everything that the player changed
-    usage: /generateschematic [area|all] <schematicName>
+    usage: /generateschematic [area | all] <schematicName>
   gcmenu:
       description: Shows the GitCraft menu
       usage: /gcmenu

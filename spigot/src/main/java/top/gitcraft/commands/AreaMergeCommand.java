@@ -19,13 +19,18 @@ public class AreaMergeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        sender.sendMessage("Gathering Coordinates...");
         if(!(sender instanceof Player)) {
             sender.sendMessage("You must be a player to use this command");
             return false;
         }
         Player player = (Player) sender;
 
+        if (args.length != 1) {
+            return false;
+        }
+
+
+        sender.sendMessage("Gathering Coordinates...");
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
 
         String worldName = player.getWorld().getName();
