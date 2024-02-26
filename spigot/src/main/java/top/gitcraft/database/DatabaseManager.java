@@ -10,6 +10,7 @@ import sun.tools.jconsole.Tab;
 import top.gitcraft.database.daos.*;
 import top.gitcraft.database.entities.CommitEntity;
 import top.gitcraft.database.entities.CommitManagementEntity;
+import top.gitcraft.database.entities.WorldMapEntity;
 
 import java.sql.SQLException;
 
@@ -42,6 +43,7 @@ public class DatabaseManager {
 
         TableUtils.createTableIfNotExists(connectionSource, CommitManagementEntity.class);
         TableUtils.createTableIfNotExists(connectionSource, CommitEntity.class);
+        TableUtils.createTableIfNotExists(connectionSource, WorldMapEntity.class);
     }
 
     private void closeConnection() throws Exception {
@@ -77,4 +79,9 @@ public class DatabaseManager {
     public BlockDataMapDao getBlockDataMapDao() throws SQLException {
         return new BlockDataMapDao(connectionSource);
     }
+
+    public WorldMapDao getWorldMapDao() throws SQLException {
+        return new WorldMapDao(connectionSource);
+    }
+
 }
