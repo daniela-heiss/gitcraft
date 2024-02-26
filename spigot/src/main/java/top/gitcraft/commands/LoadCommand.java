@@ -24,7 +24,7 @@ public class LoadCommand implements CommandExecutor {
     private final WorldDao worldDao;
     private final BlockDao blockDao;*/
     private static UserDao userDao = null;
-    private static BlockDao blockDao;
+    //private static BlockDao blockDao;
     private static SaveDao saveDao;
     private static CoreProtectAPI coreAPI;
 
@@ -32,7 +32,7 @@ public class LoadCommand implements CommandExecutor {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         userDao = databaseManager.getUserDao();
         saveDao = databaseManager.getSaveDao();
-        blockDao = databaseManager.getBlockDao();
+        //blockDao = databaseManager.getBlockDao();
         coreAPI = getCoreProtect();
         if (coreAPI != null){ // Ensure we have access to the API
             coreAPI.testAPI(); // Will print out "[CoreProtect] API test successful." in the console.
@@ -144,13 +144,11 @@ public class LoadCommand implements CommandExecutor {
                             }
                         }
 
-                    } else if(save.get(0).rolledBack ==1)
-
-                    {
+                    } else if(save.get(0).rolledBack == 1) {
                         System.out.println("restore if");
                         if (earlierSaves != null && !earlierSaves.isEmpty()) {
                             if (coreAPI != null) {
-                                coreAPI.performRestore(timeNow - earlierSaves.getLast().time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
+                                coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size()-1).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
                             }
                         } else {
                             if (coreAPI != null) {
