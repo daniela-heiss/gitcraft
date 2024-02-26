@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import top.gitcraft.database.entities.WorldEntity;
 
 
-import static top.gitcraft.utils.GetBlockEntityList.GetBlockEntityList;
+import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
 import static top.gitcraft.utils.WorldEditFunctions.*;
 import static top.gitcraft.utils.FindMinAndMax.*;
 
@@ -54,8 +54,8 @@ public class GenerateSchematicCommand implements CommandExecutor {
 
             case "all":
 
-                Double[] minCoordinatesArray = findMin(GetBlockEntityList(worldName));
-                Double[] maxCoordinatesArray = findMax(GetBlockEntityList(worldName));
+                Double[] minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
+                Double[] maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
 
                 for (Double number : minCoordinatesArray) {
                     sender.sendMessage("Min Coordinates : " + number);

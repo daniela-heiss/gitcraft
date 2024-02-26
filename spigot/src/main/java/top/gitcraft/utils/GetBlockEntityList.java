@@ -25,30 +25,33 @@ public class GetBlockEntityList {
         userDao = databaseManager.getUserDao();
     }
 
-    public static List<BlockEntity> GetBlockEntityList(String worldName) {
+    public static List<BlockEntity> getBlockChangedByPlayers(String worldName) {
         WorldEntity world;
 
         try {
+            //get world
             world = worldDao.getWorldByWorldName(worldName);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         int worldId = world.id;
 
-        List<UserEntity> userEntityList;
+        List<UserEntity> players;
         try {
-            userEntityList = userDao.getAllUsersWitUuid();
+            //get players from users
+            players = userDao.getAllUsersWitUuid();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        List<Integer> userIds = new ArrayList<>();
-        for (UserEntity userEntity : userEntityList) {
-            userIds.add(userEntity.rowId);
+        List<Integer> playerIds = new ArrayList<>();
+        for (UserEntity player : players) {
+            playerIds.add(player.rowId);
         }
 
         List<BlockEntity> blockEntityList;
         try {
-            blockEntityList = blockDao.getUserBlocksByWorldId(worldId, userIds);
+            //get block changed by players
+            blockEntityList = blockDao.getUserBlocksByWorldId(worldId, playerIds);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
