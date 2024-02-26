@@ -19,20 +19,17 @@ import top.gitcraft.database.entities.WorldEntity;
 import top.gitcraft.database.entities.BlockEntity;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class MergeCommand implements CommandExecutor {
+public class AutoMergeCommand implements CommandExecutor {
 
     private final WorldDao worldDao;
     private final BlockDao blockDao;
     private final UserDao userDao;
 
-    public MergeCommand() throws SQLException {
+    public AutoMergeCommand() throws SQLException {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         worldDao = databaseManager.getWorldDao();
         blockDao = databaseManager.getBlockDao();
@@ -156,7 +153,7 @@ public class MergeCommand implements CommandExecutor {
         WorldEditCommands worldEditCommands = new WorldEditCommands();
 
         BlockArrayClipboard clipboard = worldEditCommands.copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
-        player.sendMessage("copied region to clipboard");
+        player.sendMessage("Copied region to clipboard");
 
         String schematicName = args[0];
         File file = worldEditCommands.saveRegionAsSchematic(clipboard, schematicName, sender);

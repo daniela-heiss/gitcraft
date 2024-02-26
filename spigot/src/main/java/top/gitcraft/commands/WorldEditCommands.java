@@ -50,6 +50,27 @@ public class WorldEditCommands {
         return clipboard;
     }
 
+    public BlockArrayClipboard copyRegionToClipboard(BlockVector3 startCoordinates, BlockVector3 endCoordinates, World world, Player player) {
+        CuboidRegion region = new CuboidRegion(startCoordinates, endCoordinates);
+        region.setPos1(startCoordinates);
+        region.setPos2(endCoordinates);
+
+        player.sendMessage(region.getPos1() + "" + region.getPos2());
+        BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
+
+        ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(
+                world, region, clipboard, region.getMinimumPoint()
+        );
+
+        try {
+            Operations.complete(forwardExtentCopy);
+        } catch (WorldEditException e) {
+            throw new RuntimeException(e);
+        }
+
+        return clipboard;
+    }
+
     public File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName, CommandSender sender) {
         String fileEnding = ".schem";
         File file = new File("/minecraft/plugins/WorldEdit/schematics/" + schematicName  + fileEnding);
@@ -82,6 +103,19 @@ public class WorldEditCommands {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
                     .to(BlockVector3.at(startCoordinates[0] + 5, startCoordinates[1], startCoordinates[2]))
+                    // configure here
+                    .build();
+            Operations.complete(operation);
+        } catch (WorldEditException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public  void pasteClipboard(World world, BlockVector3 startCoordinates, Clipboard clipboard) {
+        try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
+            Operation operation = new ClipboardHolder(clipboard)
+                    .createPaste(editSession)
+                    .to(startCoordinates)
                     // configure here
                     .build();
             Operations.complete(operation);
