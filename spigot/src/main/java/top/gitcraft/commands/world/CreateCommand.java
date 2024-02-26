@@ -1,4 +1,4 @@
-package top.gitcraft.commands;
+package top.gitcraft.commands.world;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MVWorldManager;
@@ -16,7 +16,7 @@ import static top.gitcraft.ui.components.Info.infoCreatingWorld;
 import static top.gitcraft.ui.components.Info.infoWorldCreated;
 import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
 
-public class WorldCreateCommand implements CommandExecutor {
+public class CreateCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -56,7 +56,7 @@ public class WorldCreateCommand implements CommandExecutor {
             worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 
             // Send the second message after the cloning operation is completed
-            new WorldJoinCommand().joinWorldAtCurrentLocation(player, clonedWorldName, "true");
+            new JoinCommand().joinWorldAtCurrentLocation(player, clonedWorldName, "true");
             dispatchTellRawCommand(player, infoWorldCreated(clonedWorldName));
         });
     }

@@ -1,4 +1,4 @@
-package top.gitcraft.commands;
+package top.gitcraft.commands.world;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

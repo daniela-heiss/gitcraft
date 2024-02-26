@@ -1,4 +1,4 @@
-package top.gitcraft.commands;
+package top.gitcraft.commands.world;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import org.bukkit.Bukkit;
@@ -14,7 +14,7 @@ import java.util.Objects;
 import static top.gitcraft.ui.components.Info.*;
 import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
 
-public class WorldJoinCommand implements CommandExecutor {
+public class JoinCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

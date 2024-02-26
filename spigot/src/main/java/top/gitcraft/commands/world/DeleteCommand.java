@@ -1,4 +1,4 @@
-package top.gitcraft.commands;
+package top.gitcraft.commands.world;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MVWorldManager;
@@ -13,7 +13,7 @@ import java.util.Objects;
 import static top.gitcraft.ui.components.Info.*;
 import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
 
-public class WorldDeleteCommand implements CommandExecutor {
+public class DeleteCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
