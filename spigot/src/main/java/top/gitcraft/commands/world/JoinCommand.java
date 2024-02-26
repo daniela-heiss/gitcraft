@@ -52,7 +52,6 @@ public class JoinCommand implements CommandExecutor {
     }
 
     public void joinWorldAtCurrentLocation(Player player, String worldName, String created){
-
         if(Objects.equals(created, "true")){
             MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
             World world = Bukkit.getWorld(worldName);

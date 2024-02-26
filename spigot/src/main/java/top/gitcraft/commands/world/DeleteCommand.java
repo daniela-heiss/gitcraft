@@ -40,7 +40,7 @@ public class DeleteCommand implements CommandExecutor {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
 
-        dispatchTellRawCommand(player, infoWorldDeleted(worldName));
+        dispatchTellRawCommand(player, infoDeletingWorld(worldName));
         Bukkit.getScheduler().runTask(core, () -> {
             worldManager.deleteWorld(worldName);
             dispatchTellRawCommand(player, infoWorldDeleted(worldName));
