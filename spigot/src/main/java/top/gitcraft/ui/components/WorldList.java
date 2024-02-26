@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-;
-
 public class WorldList {
 
     /**
@@ -22,7 +20,6 @@ public class WorldList {
      *         It will provide a list of all worlds. <br>
      *         If you only want to provide a subset, use this method.
      */
-
     public String displaySubset(String type, List<String> worldNames) {
 
         /* ==================================================
@@ -164,6 +161,7 @@ public class WorldList {
         // TODO: Error message no such branch list type
         return "ERROR: NO SUCH BRANCH LIST TYPE. VALID TYPES: join, create, delete";
     }
+
     /**
      * Used to generate a list of worlds to join, create, or delete.
      *
