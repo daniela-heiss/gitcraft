@@ -40,7 +40,7 @@ public class WorldList {
 
         if (types.contains(type.toLowerCase())) {
             // {join, create, delete}
-            int[] underlineLengths = {10, 12, 11};
+            int[] underlineLengths = {9, 11, 10};
             String[] typeColors = {"green", "aqua", "red"};
 
             String lowerCaseType = type.toLowerCase();
