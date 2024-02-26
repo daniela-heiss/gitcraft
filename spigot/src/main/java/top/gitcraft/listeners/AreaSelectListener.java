@@ -10,8 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import static top.gitcraft.MetaDataWrapper.getMetadata;
-import static top.gitcraft.MetaDataWrapper.setMetadata;
+import static top.gitcraft.utils.MetaDataWrapper.getMetadata;
+import static top.gitcraft.utils.MetaDataWrapper.setMetadata;
 
 
 public class AreaSelectListener implements Listener {

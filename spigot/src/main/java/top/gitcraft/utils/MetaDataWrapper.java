@@ -1,9 +1,10 @@
-package top.gitcraft;
+package top.gitcraft.utils;
 
 
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
+import top.gitcraft.GitCraft;
 
 public class MetaDataWrapper {
 
