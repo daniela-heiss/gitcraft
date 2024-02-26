@@ -18,6 +18,7 @@ public final class GitCraft extends JavaPlugin {
         try {
             Objects.requireNonNull(this.getCommand("merge")).setExecutor(new MergeCommand());
             Objects.requireNonNull(this.getCommand("gcbranchcreate")).setExecutor(new BranchCreateCommand());
+            Objects.requireNonNull(this.getCommand("gcbranchdelete")).setExecutor(new BranchDeleteCommand());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -25,7 +26,6 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcmenu")).setExecutor(new MenuOpenCommand());
         Objects.requireNonNull(this.getCommand("gcbranchmenu")).setExecutor(new BranchMenuCommand());
         Objects.requireNonNull(this.getCommand("gcbranchjoin")).setExecutor(new BranchJoinCommand());
-        Objects.requireNonNull(this.getCommand("gcbranchdelete")).setExecutor(new BranchDeleteCommand());
         Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());
 
 

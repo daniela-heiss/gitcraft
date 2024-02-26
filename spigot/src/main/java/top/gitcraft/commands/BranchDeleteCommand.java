@@ -9,10 +9,26 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.database.DatabaseManager;
+import top.gitcraft.database.daos.UserDao;
+import top.gitcraft.database.daos.WorldMapDao;
+import top.gitcraft.database.entities.UserEntity;
+import top.gitcraft.database.entities.WorldMapEntity;
 
+import java.sql.SQLException;
 import java.util.Objects;
+import java.util.UUID;
 
 public class BranchDeleteCommand implements CommandExecutor {
+    private final UserDao userDao;
+    private final WorldMapDao worldMapDao;
+
+    public BranchDeleteCommand() throws SQLException {
+        DatabaseManager databaseManager = DatabaseManager.getInstance();
+        userDao = databaseManager.getUserDao();
+        worldMapDao = databaseManager.getWorldMapDao();
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -71,6 +87,19 @@ public class BranchDeleteCommand implements CommandExecutor {
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + jsonMessage);
 
+    }
+
+    private void deleteLog(Player player, String worldName) throws SQLException {
+        try {
+            UUID uuid = player.getUniqueId();
+            UserEntity user = userDao.getUserByUuid(uuid);
+            WorldMapEntity worldMap = worldMapDao.getByPIDAndWorldName(user.rowId, worldName).get(0);
+
+            worldMapDao.deleteWorldMap(worldMap);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

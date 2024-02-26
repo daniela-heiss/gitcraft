@@ -23,7 +23,11 @@ public class WorldMapDao extends BaseDaoImpl<WorldMapEntity, Integer> {
         return queryBuilder().where().eq("user", playerId).query();
     }
 
-    public List<WorldMapEntity> getAllByWID(String worldName) throws SQLException {
+    public List<WorldMapEntity> getAllByWorldName(String worldName) throws SQLException {
         return queryBuilder().where().eq("world_name", worldName).query();
+    }
+
+    public List<WorldMapEntity> getByPIDAndWorldName(int playerId, String worldName) throws SQLException {
+        return queryBuilder().where().eq("user", playerId).and().eq("world_name", worldName).query();
     }
 }
