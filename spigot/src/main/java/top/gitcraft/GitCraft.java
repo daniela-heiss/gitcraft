@@ -14,11 +14,11 @@ public final class GitCraft extends JavaPlugin {
         getLogger().info("Hello, SpigotMC!");
 
         Objects.requireNonNull(this.getCommand("gcmenu")).setExecutor(new MenuOpenCommand());
-        Objects.requireNonNull(this.getCommand("gcbranchmenu")).setExecutor(new BranchMenuCommand());
-        Objects.requireNonNull(this.getCommand("gcbranch")).setExecutor(new BranchCommand());
-        Objects.requireNonNull(this.getCommand("gcbranchjoin")).setExecutor(new BranchJoinCommand());
-        Objects.requireNonNull(this.getCommand("gcbranchcreate")).setExecutor(new BranchCreateCommand());
-        Objects.requireNonNull(this.getCommand("gcbranchdelete")).setExecutor(new BranchDeleteCommand());
+        Objects.requireNonNull(this.getCommand("gcworldmenu")).setExecutor(new WorldMenuCommand());
+        Objects.requireNonNull(this.getCommand("gcworld")).setExecutor(new WorldCommand());
+        Objects.requireNonNull(this.getCommand("gcworldjoin")).setExecutor(new WorldJoinCommand());
+        Objects.requireNonNull(this.getCommand("gcworldcreate")).setExecutor(new WorldCreateCommand());
+        Objects.requireNonNull(this.getCommand("gcworlddelete")).setExecutor(new WorldDeleteCommand());
         Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());
 
         try {

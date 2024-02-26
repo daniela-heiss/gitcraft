@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.ui.components.WorldList;
 
-public class BranchCommand implements CommandExecutor {
+public class WorldCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

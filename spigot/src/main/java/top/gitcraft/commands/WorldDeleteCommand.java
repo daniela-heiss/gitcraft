@@ -11,7 +11,7 @@ import top.gitcraft.ui.components.Info;
 
 import java.util.Objects;
 
-public class BranchDeleteCommand implements CommandExecutor {
+public class WorldDeleteCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -27,19 +27,19 @@ public class BranchDeleteCommand implements CommandExecutor {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldIsProtected("world"));
             return true;
         }
-        deleteBranch(sender, args[0]);
+        deleteWorld(sender, args[0]);
 
         return true;
     }
 
-    public void deleteBranch(CommandSender sender, String branchName){
+    public void deleteWorld(CommandSender sender, String worldName){
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
 
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().deletingWorld(branchName));;
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().deletingWorld(worldName));;
         Bukkit.getScheduler().runTask(core, () -> {
-            worldManager.deleteWorld(branchName);
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldDeleted(branchName));
+            worldManager.deleteWorld(worldName);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldDeleted(worldName));
         });
     }
 }

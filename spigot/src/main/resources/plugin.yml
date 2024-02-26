@@ -26,25 +26,25 @@ commands:
   gcmenu:
       description: Shows the GitCraft menu
       usage: /gcmenu
-  gcbranchmenu:
-    description: Shows the branch menu
-    usage: /branchmenu
+  gcworldmenu:
+    description: Shows the world menu
+    usage: /gcworldmenu
 
-#branch-lists - Join, Create, Delete
-  gcbranch:
-    description: List branches
-    usage: /gcbranch [join|create|delete]
+#world-lists - Join, Create, Delete
+  gcworld:
+    description: List worldes
+    usage: /gcworld [join|create|delete]
 
   #commands - Join, Create, Delete
-  gcbranchjoin:
-    description: Join branch
-    usage: /gcbranchjoin <name>
-  gcbranchcreate:
-      description: Create a branch
-      usage: /gcbranchcreate <name>
-  gcbranchdelete:
-    description: Delete a branch
-    usage: /gcbranchdelete <name>
+  gcworldjoin:
+    description: Join world
+    usage: /gcworldjoin <name>
+  gcworldcreate:
+      description: Create a world
+      usage: /gcworldcreate <name>
+  gcworlddelete:
+    description: Delete a world
+    usage: /gcworlddelete <name>
   gcWETest:
     description: copy an area in front of the player and pastes it  5 xdiff
     usage: /gcWETest

@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.ui.components.Menu;
 
-public class BranchMenuCommand implements CommandExecutor {
+public class WorldMenuCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -16,7 +16,7 @@ public class BranchMenuCommand implements CommandExecutor {
             return false;
         }
 
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Menu().branchMenu());
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Menu().worldMenu());
 
         return true;
     }

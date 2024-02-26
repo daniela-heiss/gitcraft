@@ -1,11 +1,5 @@
 package top.gitcraft.commands;
 
-import top.gitcraft.database.DatabaseManager;
-import top.gitcraft.database.daos.UserDao;
-import top.gitcraft.database.daos.WorldDao;
-import top.gitcraft.database.entities.UserEntity;
-import top.gitcraft.database.entities.WorldEntity;
-
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MVWorldManager;
 import org.bukkit.Bukkit;
@@ -15,13 +9,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.ui.components.Info;
 
-import java.sql.SQLException;
 import java.time.Instant;
-import java.util.UUID;
 
 import java.util.Objects;
 
-public class BranchCreateCommand implements CommandExecutor {
+public class WorldCreateCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -32,56 +24,56 @@ public class BranchCreateCommand implements CommandExecutor {
 
         Player player = (Player) sender;
 
-        String worldName = player.getWorld().getName();
-        String branchName = generateWorldName(player, worldName);
+        String currentWorldName = player.getWorld().getName();
+        String clonedWorldName = generateWorldName(player, currentWorldName);
 
         switch (args.length){
             case 2:
-                createBranch(sender, branchName, args[1]);
+                createWorld(sender, clonedWorldName, args[1]);
                 return true;
             case 1:
-                createBranch(sender, args[0]);
+                createWorld(sender, args[0]);
                 return true;
             default:
-                createBranch(sender, branchName);
+                createWorld(sender, clonedWorldName);
                 return true;
         }
     }
 
-    public void createBranch(CommandSender sender, String branchName) {
+    public void createWorld(CommandSender sender, String clonedWorldName) {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
         Player player = ((Player) sender).getPlayer();
 
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().creatingWorld(branchName));
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().creatingWorld(clonedWorldName));
 
         Bukkit.getScheduler().runTask(core, () -> {
             // Clone the world after the message is sent
-            worldManager.cloneWorld(player.getWorld().getName(), branchName);
+            worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 
             // Send the second message after the cloning operation is completed
-            new BranchJoinCommand().joinBranch(sender, branchName, "true");
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(branchName));
+            new WorldJoinCommand().joinWorld(sender, clonedWorldName, "true");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(clonedWorldName));
         });
     }
 
-    public void createBranch(CommandSender sender, String branchName, String doTeleport) {
+    public void createWorld(CommandSender sender, String clonedWorldName, String doTeleport) {
         if (Objects.equals(doTeleport, "false")) {
             MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
             MVWorldManager worldManager = core.getMVWorldManager();
             Player player = ((Player) sender).getPlayer();
 
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().creatingWorld(branchName));
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().creatingWorld(clonedWorldName));
 
             Bukkit.getScheduler().runTask(core, () -> {
                 // Clone the world after the message is sent
-                worldManager.cloneWorld(player.getWorld().getName(), branchName);
+                worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 
                 // Send the second message after the cloning operation is completed
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(branchName));
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(clonedWorldName));
             });
         } else {
-            createBranch(sender, branchName);
+            createWorld(sender, clonedWorldName);
         }
     }
 
