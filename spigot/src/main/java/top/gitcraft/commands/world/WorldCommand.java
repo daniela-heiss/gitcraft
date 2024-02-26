@@ -1,11 +1,11 @@
 package top.gitcraft.commands.world;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.ui.components.WorldList;
+import top.gitcraft.utils.enums.LISTTYPE;
 
 import static top.gitcraft.ui.components.WorldList.worldListAll;
 import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
@@ -20,21 +20,21 @@ public class WorldCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        // No arguments: "join"
+        // Open join list if no arguments are provided
         if (args.length == 0) {
-            dispatchTellRawCommand(player, worldListAll("join"));
+            dispatchTellRawCommand(player, worldListAll(LISTTYPE.JOIN));
             return true;
         }
         switch (args[0]) {
             case "delete":
-                dispatchTellRawCommand(player, worldListAll("delete"));
+                dispatchTellRawCommand(player, worldListAll(LISTTYPE.DELETE));
                 return true;
             case "create":
-                dispatchTellRawCommand(player, worldListAll("create"));
+                dispatchTellRawCommand(player, worldListAll(LISTTYPE.CREATE));
                 return true;
-                // default: "join"
+            // default: "join"
             default:
-                dispatchTellRawCommand(player, worldListAll("join"));
+                dispatchTellRawCommand(player, worldListAll(LISTTYPE.JOIN));
                 return true;
         }
     }
