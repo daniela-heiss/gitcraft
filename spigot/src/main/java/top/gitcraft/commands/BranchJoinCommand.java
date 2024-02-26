@@ -9,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import java.util.Objects;
 
@@ -46,9 +47,18 @@ public class BranchJoinCommand implements CommandExecutor {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         Player player = ((Player) sender).getPlayer();
         World branch = Bukkit.getWorld(branchName);
+        float originalYaw = player.getLocation().getYaw();
+        float originalPitch = player.getLocation().getPitch();
 
         joinMessage(sender, branchName);
         player.teleport(branch.getSpawnLocation());
+        Bukkit.getScheduler().runTaskLater(core, () -> {
+            Location newLocation = player.getLocation();
+            newLocation.setYaw(originalYaw);
+            newLocation.setPitch(originalPitch);
+
+            player.teleport(newLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
+        }, 5);
     }
     public void joinBranch(CommandSender sender, String branchName, String created){
 
