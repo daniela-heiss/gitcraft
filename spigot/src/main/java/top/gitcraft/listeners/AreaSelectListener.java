@@ -2,6 +2,7 @@ package top.gitcraft.listeners;
 
 import com.sk89q.worldedit.math.BlockVector3;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,6 +18,9 @@ public class AreaSelectListener implements Listener {
 
         //check if the player is holding a stick
         if (checkPlayerItemInHand(player, Material.STICK)) {
+            //cancel the event so the player doesn't break the block
+            event.setCancelled(true);
+
             ClickType clickType = getClickType(event);
             if (clickType == null) {
                 return;
@@ -27,22 +31,23 @@ public class AreaSelectListener implements Listener {
             //if the player left clicks, we want to select the first position
             if (clickType == ClickType.LEFT_CLICK) {
                 player.sendMessage("Pos1 set to " + blockVector3);
-
+                //if the player right clicks, we want to select the second position
             } else if (clickType == ClickType.RIGHT_CLICK) {
                 player.sendMessage("Pos2 set to " + blockVector3);
             }
         }
     }
 
+    //enum to represent the type of click
+    private enum ClickType {
+        LEFT_CLICK,
+        RIGHT_CLICK
+    }
 
     private boolean checkPlayerItemInHand(Player player, Material material) {
         return player.getInventory().getItemInMainHand().getType() == material;
     }
 
-    private enum ClickType {
-        LEFT_CLICK,
-        RIGHT_CLICK
-    }
 
     private ClickType getClickType(PlayerInteractEvent event) {
         Action action = event.getAction();
@@ -55,7 +60,7 @@ public class AreaSelectListener implements Listener {
     }
 
     private BlockVector3 getBlockVector3(PlayerInteractEvent event) {
-        return BlockVector3.at(Objects.requireNonNull(event.getClickedBlock()).getX(), event.getClickedBlock().getY(), event.getClickedBlock().getZ());
+        Block block = event.getClickedBlock();
+        return BlockVector3.at(Objects.requireNonNull(block).getX(), block.getY(), block.getZ());
     }
-
 }
