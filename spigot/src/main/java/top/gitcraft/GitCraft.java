@@ -16,6 +16,7 @@ public final class GitCraft extends JavaPlugin {
         try {
             Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand());
             Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
+            Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());
             Objects.requireNonNull(this.getCommand("gcbranchcreate")).setExecutor(new BranchCreateCommand());
         } catch (SQLException e) {
             throw new RuntimeException(e);
