@@ -47,11 +47,17 @@ public class BranchJoinCommand implements CommandExecutor {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         Player player = ((Player) sender).getPlayer();
         World branch = Bukkit.getWorld(branchName);
-        float originalYaw = player.getLocation().getYaw();
-        float originalPitch = player.getLocation().getPitch();
 
         joinMessage(sender, branchName);
         player.teleport(branch.getSpawnLocation());
+        setDirection(player);
+
+    }
+
+    public void setDirection(Player player ){
+        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+        float originalYaw = player.getLocation().getYaw();
+        float originalPitch = player.getLocation().getPitch();
         Bukkit.getScheduler().runTaskLater(core, () -> {
             Location newLocation = player.getLocation();
             newLocation.setYaw(originalYaw);
@@ -59,6 +65,7 @@ public class BranchJoinCommand implements CommandExecutor {
 
             player.teleport(newLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
         }, 5);
+
     }
     public void joinBranch(CommandSender sender, String branchName, String created){
 
