@@ -2,44 +2,31 @@ package top.gitcraft.commands;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
-import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import top.gitcraft.database.DatabaseManager;
-import top.gitcraft.database.daos.BlockDao;
-import top.gitcraft.database.daos.UserDao;
-import top.gitcraft.database.daos.WorldDao;
-import top.gitcraft.database.entities.BlockEntity;
-import top.gitcraft.database.entities.UserEntity;
 import top.gitcraft.database.entities.WorldEntity;
 
-import java.io.File;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
+import static top.gitcraft.utils.GetBlockEntityList.GetBlockEntityList;
+import static top.gitcraft.utils.WorldEditFunctions.*;
+import static top.gitcraft.utils.FindMinAndMax.*;
 
 public class GenerateSchematicCommand implements CommandExecutor {
-
-    private final WorldDao worldDao;
-    private final BlockDao blockDao;
-    private final UserDao userDao;
-
-    public GenerateSchematicCommand() throws SQLException {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        worldDao = databaseManager.getWorldDao();
-        blockDao = databaseManager.getBlockDao();
-        userDao = databaseManager.getUserDao();
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        sender.sendMessage("Gathering Coordinates...");
+        if(!(sender instanceof Player)) {
+            sender.sendMessage("You must be a player to use this command");
+            return false;
+        }
         Player player = (Player) sender;
+
+        sender.sendMessage("Gathering Coordinates...");
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
 
         String worldName = player.getWorld().getName();
@@ -47,7 +34,6 @@ public class GenerateSchematicCommand implements CommandExecutor {
 
         WorldEntity world;
 
-        WorldEditCommands worldEditCommands = new WorldEditCommands();
         String schematicName = args[1];
 
         switch (args[0]) {
@@ -57,73 +43,34 @@ public class GenerateSchematicCommand implements CommandExecutor {
 
                 sender.sendMessage("Min Coordinates : " + selectedArea.getPos1());
                 sender.sendMessage("Min Coordinates : " + selectedArea.getPos2());
-                BlockArrayClipboard clipboard1 = worldEditCommands.copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
+                BlockArrayClipboard clipboard1 = copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
 
                 player.sendMessage("Copied region to clipboard");
 
                 //String schematicName = args[1];
-                File file1 = worldEditCommands.saveRegionAsSchematic(clipboard1, schematicName, sender);
+                //File file1 = saveRegionAsSchematic(clipboard1, schematicName, sender);
 
-                if (file1 != null) {
-                    sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
-                }
                 break;
 
             case "all":
-                try {
-                    world = worldDao.getWorldByWorldName(worldName);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                int worldId = world.id;
-                System.out.println("World ID: " + worldId);
 
-                List<UserEntity> userEntityList;
-                try {
-                    userEntityList = userDao.getAllUsersWitUuid();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                List<Integer> userIds = new ArrayList<>();
-                for (UserEntity userEntity : userEntityList) {
-                    userIds.add(userEntity.rowId);
-                }
-
-                List<BlockEntity> blockEntityList;
-                try {
-                    blockEntityList = blockDao.getUserBlocksByWorldId(worldId, userIds);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-
-                AutoMergeCommand autoMerge = null;
-                try {
-                    autoMerge = new AutoMergeCommand();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-                Double[] minCoordinatesArray = autoMerge.findMin(blockEntityList);
-                Double[] maxCoordinatesArray = autoMerge.findMax(blockEntityList);
+                Double[] minCoordinatesArray = findMin(GetBlockEntityList(worldName));
+                Double[] maxCoordinatesArray = findMax(GetBlockEntityList(worldName));
 
                 for (Double number : minCoordinatesArray) {
-                    System.out.println("Min Coordinates : " + number);
                     sender.sendMessage("Min Coordinates : " + number);
                 }
                 for (Double number : maxCoordinatesArray) {
-                    System.out.println("Max Coordinates : " + number);
                     sender.sendMessage("Max Coordinates : " + number);
                 }
 
 
-                BlockArrayClipboard clipboard2 = worldEditCommands.copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
-                player.sendMessage("Copied region to clipboard");
+                BlockArrayClipboard clipboard2 = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
+
 
                 //String schematicName = args[1];
-                File file2 = worldEditCommands.saveRegionAsSchematic(clipboard2, schematicName, sender);
+                //File file2 = saveRegionAsSchematic(clipboard2, schematicName, sender);
 
-                if (file2 != null) {
-                    sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
-                }
                 break;
 
             default:
