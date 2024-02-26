@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.GitCraft;
 
 import java.time.Instant;
 
@@ -17,6 +18,10 @@ import static top.gitcraft.ui.components.Info.infoWorldCreated;
 import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class CreateCommand implements CommandExecutor {
+    private final GitCraft gitCraft;
+    public CreateCommand(GitCraft gitCraft) {
+        this.gitCraft = gitCraft;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -51,14 +56,14 @@ public class CreateCommand implements CommandExecutor {
 
         dispatchTellRawCommand(player, infoCreatingWorld(clonedWorldName));
 
-        Bukkit.getScheduler().runTask(core, () -> {
+        Bukkit.getScheduler().runTask(gitCraft, () -> {
             // Clone the world after the message is sent
             worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 
             // Send the second message after the cloning operation is completed
             dispatchTellRawCommand(player, infoWorldCreated(clonedWorldName));
 
-            new JoinCommand().joinWorldAtCurrentLocation(player, clonedWorldName, "true");
+            new JoinCommand(gitCraft).joinWorldAtCurrentLocation(player, clonedWorldName, "true");
         });
     }
 
@@ -69,7 +74,7 @@ public class CreateCommand implements CommandExecutor {
 
             dispatchTellRawCommand(player, infoCreatingWorld(clonedWorldName));
 
-            Bukkit.getScheduler().runTask(core, () -> {
+            Bukkit.getScheduler().runTask(gitCraft, () -> {
                 // Clone the world after the message is sent
                 worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 

@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.GitCraft;
 
 import java.util.Objects;
 
@@ -15,6 +16,10 @@ import static top.gitcraft.ui.components.Info.*;
 import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class JoinCommand implements CommandExecutor {
+    private final GitCraft gitCraft;
+    public JoinCommand(GitCraft gitCraft) {
+        this.gitCraft = gitCraft;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -41,11 +46,10 @@ public class JoinCommand implements CommandExecutor {
     }
 
     public void joinWorldAtWorldSpawn(Player player, String worldName){
-        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         World world = Bukkit.getWorld(worldName);
 
         dispatchTellRawCommand(player, infoJoiningWorld(worldName));
-        Bukkit.getScheduler().runTask(core, () -> {
+        Bukkit.getScheduler().runTask(gitCraft, () -> {
             player.teleport(world.getSpawnLocation());
             dispatchTellRawCommand(player, infoWorldJoined(worldName));
         });
@@ -53,12 +57,11 @@ public class JoinCommand implements CommandExecutor {
 
     public void joinWorldAtCurrentLocation(Player player, String worldName, String created){
         if(Objects.equals(created, "true")){
-            MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
             World world = Bukkit.getWorld(worldName);
             Location location = new Location(world, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
 
             dispatchTellRawCommand(player, infoJoiningWorld(worldName));
-            Bukkit.getScheduler().runTask(core, () -> {
+            Bukkit.getScheduler().runTask(gitCraft, () -> {
                 player.teleport(location);
                 dispatchTellRawCommand(player, infoWorldJoined(worldName));
             });

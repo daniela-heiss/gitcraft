@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.GitCraft;
 
 import java.util.Objects;
 
@@ -14,6 +15,11 @@ import static top.gitcraft.ui.components.Info.*;
 import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class DeleteCommand implements CommandExecutor {
+    private final GitCraft gitCraft;
+    public DeleteCommand(GitCraft gitCraft) {
+        this.gitCraft = gitCraft;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -41,7 +47,7 @@ public class DeleteCommand implements CommandExecutor {
         MVWorldManager worldManager = core.getMVWorldManager();
 
         dispatchTellRawCommand(player, infoDeletingWorld(worldName));
-        Bukkit.getScheduler().runTask(core, () -> {
+        Bukkit.getScheduler().runTask(gitCraft, () -> {
             worldManager.deleteWorld(worldName);
             dispatchTellRawCommand(player, infoWorldDeleted(worldName));
         });
