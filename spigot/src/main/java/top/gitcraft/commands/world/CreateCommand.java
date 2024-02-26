@@ -14,7 +14,7 @@ import java.util.Objects;
 
 import static top.gitcraft.ui.components.Info.infoCreatingWorld;
 import static top.gitcraft.ui.components.Info.infoWorldCreated;
-import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class CreateCommand implements CommandExecutor {
 

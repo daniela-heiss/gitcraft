@@ -4,11 +4,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import top.gitcraft.ui.components.WorldList;
 import top.gitcraft.utils.enums.LISTTYPE;
 
 import static top.gitcraft.ui.components.WorldList.worldListAll;
-import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class WorldCommand implements CommandExecutor {
 

@@ -1,15 +1,12 @@
 package top.gitcraft.ui.logic;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import top.gitcraft.ui.components.Menu;
 
 import static top.gitcraft.ui.components.Menu.menuMainMenu;
-import static top.gitcraft.ui.components.WorldList.worldListAll;
-import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class MainMenuCommand implements CommandExecutor {
 

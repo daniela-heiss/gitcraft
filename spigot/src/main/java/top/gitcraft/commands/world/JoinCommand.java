@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import java.util.Objects;
 
 import static top.gitcraft.ui.components.Info.*;
-import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class JoinCommand implements CommandExecutor {
 
