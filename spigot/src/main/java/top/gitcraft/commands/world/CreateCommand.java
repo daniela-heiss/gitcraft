@@ -32,7 +32,7 @@ public class CreateCommand implements CommandExecutor {
         switch (args.length){
             // Clone world, give name and don't teleport if doTeleport == "false"
             case 2:
-                createWorld(player, clonedWorldName, args[1]);
+                createWorldAndTp(player, clonedWorldName, args[1]);
                 return true;
             // Clone world and give name
             case 1:
@@ -51,7 +51,7 @@ public class CreateCommand implements CommandExecutor {
 
         dispatchTellRawCommand(player, infoCreatingWorld(clonedWorldName));
 
-        Bukkit.getScheduler().runTask(core, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
             // Clone the world after the message is sent
             worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 
@@ -61,14 +61,14 @@ public class CreateCommand implements CommandExecutor {
         });
     }
 
-    public void createWorld(Player player, String clonedWorldName, String doTeleport) {
+    public void createWorldAndTp(Player player, String clonedWorldName, String doTeleport) {
         if (Objects.equals(doTeleport, "false")) {
             MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
             MVWorldManager worldManager = core.getMVWorldManager();
 
             dispatchTellRawCommand(player, infoCreatingWorld(clonedWorldName));
 
-            Bukkit.getScheduler().runTask(core, () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
                 // Clone the world after the message is sent
                 worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 

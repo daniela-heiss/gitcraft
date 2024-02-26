@@ -41,7 +41,7 @@ public class DeleteCommand implements CommandExecutor {
         MVWorldManager worldManager = core.getMVWorldManager();
 
         dispatchTellRawCommand(player, infoWorldDeleted(worldName));
-        Bukkit.getScheduler().runTask(core, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
             worldManager.deleteWorld(worldName);
             dispatchTellRawCommand(player, infoWorldDeleted(worldName));
         });

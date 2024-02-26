@@ -45,7 +45,7 @@ public class JoinCommand implements CommandExecutor {
         World world = Bukkit.getWorld(worldName);
 
         dispatchTellRawCommand(player, infoJoiningWorld(worldName));
-        Bukkit.getScheduler().runTask(core, () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
             player.teleport(world.getSpawnLocation());
             dispatchTellRawCommand(player, infoWorldJoined(worldName));
         });
@@ -59,7 +59,7 @@ public class JoinCommand implements CommandExecutor {
             Location location = new Location(world, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
 
             dispatchTellRawCommand(player, infoJoiningWorld(worldName));
-            Bukkit.getScheduler().runTask(core, () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
                 player.teleport(location);
                 dispatchTellRawCommand(player, infoWorldJoined(worldName));
             });
