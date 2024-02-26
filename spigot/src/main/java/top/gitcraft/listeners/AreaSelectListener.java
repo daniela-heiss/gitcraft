@@ -27,6 +27,9 @@ public class AreaSelectListener implements Listener {
             }
 
             BlockVector3 blockVector3 = getBlockVector3(event);
+            if (blockVector3 == null) {
+                return;
+            }
 
             //if the player left clicks, we want to select the first position
             if (clickType == ClickType.LEFT_CLICK) {
@@ -61,6 +64,10 @@ public class AreaSelectListener implements Listener {
 
     private BlockVector3 getBlockVector3(PlayerInteractEvent event) {
         Block block = event.getClickedBlock();
-        return BlockVector3.at(Objects.requireNonNull(block).getX(), block.getY(), block.getZ());
+        //make sure block is not null
+        if (block == null) {
+            return null;
+        }
+        return BlockVector3.at(block.getX(), block.getY(), block.getZ());
     }
 }
