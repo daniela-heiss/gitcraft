@@ -32,6 +32,8 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcbranchjoinlist")).setExecutor(new BranchJoinListCommand());
         Objects.requireNonNull(this.getCommand("gcbranchcreatelist")).setExecutor(new BranchCreateListCommand());
         Objects.requireNonNull(this.getCommand("gcbranchdeletelist")).setExecutor(new BranchDeleteListCommand());
+
+        getServer().getPluginManager().registerEvents(new top.gitcraft.listeners.AreaSelectListener(), this);
     }
 
     @Override
