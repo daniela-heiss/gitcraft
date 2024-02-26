@@ -6,6 +6,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import top.gitcraft.commands.*;
+import top.gitcraft.commands.areaselect.GetAreaCommand;
+import top.gitcraft.commands.areaselect.SetPos1Command;
+import top.gitcraft.commands.areaselect.SetPos2Command;
 import top.gitcraft.listeners.AreaSelectListener;
 
 import java.sql.SQLException;
@@ -34,6 +37,12 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcbranchjoinlist")).setExecutor(new BranchJoinListCommand());
         Objects.requireNonNull(this.getCommand("gcbranchcreatelist")).setExecutor(new BranchCreateListCommand());
         Objects.requireNonNull(this.getCommand("gcbranchdeletelist")).setExecutor(new BranchDeleteListCommand());
+
+        // area select
+        Objects.requireNonNull(this.getCommand("gcSetPos1")).setExecutor(new SetPos1Command());
+        Objects.requireNonNull(this.getCommand("gcSetPos2")).setExecutor(new SetPos2Command());
+        Objects.requireNonNull(this.getCommand("gcGetArea")).setExecutor(new GetAreaCommand());
+
 
         getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
     }

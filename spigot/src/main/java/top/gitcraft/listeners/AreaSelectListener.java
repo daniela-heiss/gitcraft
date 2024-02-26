@@ -37,18 +37,12 @@ public class AreaSelectListener implements Listener {
 
             //if the player left clicks, we want to select the first position
             if (clickType == ClickType.LEFT_CLICK) {
-                player.sendMessage("Pos1 set to " + blockVector3);
-                //set the metadata for the player
-                setMetadata(player, "pos1", blockVector3);
+                setPos1(player, blockVector3);
             }
             //if the player right clicks, we want to select the second position
             else if (clickType == ClickType.RIGHT_CLICK) {
-                player.sendMessage("Pos2 set to " + blockVector3);
-                //set the metadata for the player
-                setMetadata(player, "pos2", blockVector3);
+                setPos2(player, blockVector3);
             }
-
-            //player.sendMessage("Selection: " + getSelection(player));
         }
 
     }
@@ -57,6 +51,18 @@ public class AreaSelectListener implements Listener {
     private enum ClickType {
         LEFT_CLICK,
         RIGHT_CLICK
+    }
+
+    public static void setPos1(Player player, BlockVector3 pos1) {
+        player.sendMessage("Pos1 set to " + pos1);
+        //set the metadata for the player
+        setMetadata(player, "pos1", pos1);
+    }
+
+    public static void setPos2(Player player, BlockVector3 pos2) {
+        player.sendMessage("Pos2 set to " + pos2);
+        //set the metadata for the player
+        setMetadata(player, "pos2", pos2);
     }
 
     private boolean checkPlayerItemInHand(Player player, Material material) {
@@ -96,7 +102,7 @@ public class AreaSelectListener implements Listener {
         return getPos1(player) != null && getPos2(player) != null;
     }
 
-    public CuboidRegion getSelection(Player player) {
+    public static CuboidRegion getSelection(Player player) {
         if (hasPos1AndPos2(player)) {
             return new CuboidRegion(getPos1(player), getPos2(player));
         }
