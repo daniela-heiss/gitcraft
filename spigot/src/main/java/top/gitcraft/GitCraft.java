@@ -1,8 +1,5 @@
 package top.gitcraft;
 
-import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.extension.platform.Platform;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import top.gitcraft.commands.*;
@@ -21,7 +18,9 @@ public final class GitCraft extends JavaPlugin {
         getLogger().info("Hello, SpigotMC!");
 
         try {
-            Objects.requireNonNull(this.getCommand("merge")).setExecutor(new MergeCommand());
+            Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand());
+            Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
+            Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());
             Objects.requireNonNull(this.getCommand("gcbranchcreate")).setExecutor(new BranchCreateCommand());
         } catch (SQLException e) {
             throw new RuntimeException(e);

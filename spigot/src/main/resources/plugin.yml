@@ -20,9 +20,15 @@ commands:
   testLoad:
     description: Load a specific commit
     usage: /load <commitName>
-  merge:
-    desciption: Load Coordinates for later Merge
-    usage: /merge <schematicName>
+  automerge:
+    desciption: Autoamtically merge everything that the player changed
+    usage: /automerge <schematicName>
+  areamerge:
+    desciption: Autoamtically merge a player selected area
+    usage: /areamerge <schematicName>
+  generateschematic:
+    desciption: Autoamtically merge everything that the player changed
+    usage: /generateschematic [area | all] <schematicName>
   gcmenu:
     description: Shows the GitCraft menu
     usage: /gcmenu
