@@ -40,7 +40,7 @@ public class WorldList {
         String capitalizedType = type.toString().substring(0, 1).toUpperCase() + type.toString().substring(1);
 
         int underlineLength = type.getUnderlineLength();
-        String typeColor = type.getColor().getName();
+        String typeColor = type.getColor().name().toLowerCase();
 
         // Different page titles need different lengths of underlining
         StringBuilder underline = new StringBuilder();
