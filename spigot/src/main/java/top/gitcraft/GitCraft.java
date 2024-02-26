@@ -43,7 +43,7 @@ public final class GitCraft extends JavaPlugin {
         // area select
         Objects.requireNonNull(this.getCommand("gcSetPos1")).setExecutor(new SetPos1Command());
         Objects.requireNonNull(this.getCommand("gcSetPos2")).setExecutor(new SetPos2Command());
-        Objects.requireNonNull(this.getCommand("gcGetArea")).setExecutor(new GetAreaCommand());
+        Objects.requireNonNull(this.getCommand("gcGetSelection")).setExecutor(new GetAreaCommand());
 
 
         getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
