@@ -8,9 +8,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import top.gitcraft.ui.components.Info;
 
 import java.util.Objects;
+
+import static top.gitcraft.ui.components.Info.*;
+import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class WorldJoinCommand implements CommandExecutor {
 
@@ -20,46 +22,49 @@ public class WorldJoinCommand implements CommandExecutor {
             sender.sendMessage("You must be a player to use this command!");
             return false;
         }
+        Player player = (Player) sender;
 
-        if (args.length == 0) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().noWorldNameProvided());
-            return true;
+        switch (args.length){
+            // No world provided
+            case 0:
+                dispatchTellRawCommand(player, infoNoWorldNameProvided());
+                return true;
+            // Join world at current position if created == "true"
+            case 2:
+                joinWorldAtCurrentLocation(player, args[0], args[1]);
+                return true;
+            // Join world at world spawn
+            default:
+                joinWorldAtWorldSpawn(player, args[0]);
+                return true;
         }
-        if (args.length == 2){
-            joinWorld(sender, args[0], args[1]);
-        }else {
-            joinWorld(sender, args[0]);
-        }
-        return true;
     }
 
-    public void joinWorld(CommandSender sender, String worldName){
+    public void joinWorldAtWorldSpawn(Player player, String worldName){
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        Player player = ((Player) sender).getPlayer();
         World world = Bukkit.getWorld(worldName);
 
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().joiningWorld(worldName));
+        dispatchTellRawCommand(player, infoJoiningWorld(worldName));
         Bukkit.getScheduler().runTask(core, () -> {
             player.teleport(world.getSpawnLocation());
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldJoined(worldName));
+            dispatchTellRawCommand(player, infoWorldJoined(worldName));
         });
     }
 
-    public void joinWorld(CommandSender sender, String worldName, String created){
+    public void joinWorldAtCurrentLocation(Player player, String worldName, String created){
 
         if(Objects.equals(created, "true")){
             MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-            Player player = ((Player) sender).getPlayer();
             World world = Bukkit.getWorld(worldName);
             Location location = new Location(world, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
 
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().joiningWorld(worldName));
+            dispatchTellRawCommand(player, infoJoiningWorld(worldName));
             Bukkit.getScheduler().runTask(core, () -> {
                 player.teleport(location);
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldJoined(worldName));
+                dispatchTellRawCommand(player, infoWorldJoined(worldName));
             });
         } else {
-            joinWorld(sender, worldName);
+            joinWorldAtWorldSpawn(player, worldName);
         }
     }
 }

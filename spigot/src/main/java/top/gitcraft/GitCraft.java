@@ -3,6 +3,8 @@ package top.gitcraft;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import top.gitcraft.commands.*;
+import top.gitcraft.ui.logic.MainMenuCommand;
+import top.gitcraft.ui.logic.WorldMenuCommand;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -13,7 +15,7 @@ public final class GitCraft extends JavaPlugin {
 
         getLogger().info("Hello, SpigotMC!");
 
-        Objects.requireNonNull(this.getCommand("gcmenu")).setExecutor(new MenuOpenCommand());
+        Objects.requireNonNull(this.getCommand("gcmenu")).setExecutor(new MainMenuCommand());
         Objects.requireNonNull(this.getCommand("gcworldmenu")).setExecutor(new WorldMenuCommand());
         Objects.requireNonNull(this.getCommand("gclist")).setExecutor(new WorldCommand());
         Objects.requireNonNull(this.getCommand("gcjoin")).setExecutor(new WorldJoinCommand());

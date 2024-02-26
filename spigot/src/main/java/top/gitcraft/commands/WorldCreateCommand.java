@@ -7,11 +7,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import top.gitcraft.ui.components.Info;
 
 import java.time.Instant;
 
 import java.util.Objects;
+
+import static top.gitcraft.ui.components.Info.infoCreatingWorld;
+import static top.gitcraft.ui.components.Info.infoWorldCreated;
+import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class WorldCreateCommand implements CommandExecutor {
 
@@ -21,59 +24,59 @@ public class WorldCreateCommand implements CommandExecutor {
             sender.sendMessage("You must be a player to use this command!");
             return false;
         }
-
         Player player = (Player) sender;
 
         String currentWorldName = player.getWorld().getName();
         String clonedWorldName = generateWorldName(player, currentWorldName);
 
         switch (args.length){
+            // Clone world, give name and don't teleport if doTeleport == "false"
             case 2:
-                createWorld(sender, clonedWorldName, args[1]);
+                createWorld(player, clonedWorldName, args[1]);
                 return true;
+            // Clone world and give name
             case 1:
-                createWorld(sender, args[0]);
+                createWorld(player, args[0]);
                 return true;
+            // Clone world and give random name
             default:
-                createWorld(sender, clonedWorldName);
+                createWorld(player, clonedWorldName);
                 return true;
         }
     }
 
-    public void createWorld(CommandSender sender, String clonedWorldName) {
+    public void createWorld(Player player, String clonedWorldName) {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
-        Player player = ((Player) sender).getPlayer();
 
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().creatingWorld(clonedWorldName));
+        dispatchTellRawCommand(player, infoCreatingWorld(clonedWorldName));
 
         Bukkit.getScheduler().runTask(core, () -> {
             // Clone the world after the message is sent
             worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 
             // Send the second message after the cloning operation is completed
-            new WorldJoinCommand().joinWorld(sender, clonedWorldName, "true");
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(clonedWorldName));
+            new WorldJoinCommand().joinWorldAtCurrentLocation(player, clonedWorldName, "true");
+            dispatchTellRawCommand(player, infoWorldCreated(clonedWorldName));
         });
     }
 
-    public void createWorld(CommandSender sender, String clonedWorldName, String doTeleport) {
+    public void createWorld(Player player, String clonedWorldName, String doTeleport) {
         if (Objects.equals(doTeleport, "false")) {
             MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
             MVWorldManager worldManager = core.getMVWorldManager();
-            Player player = ((Player) sender).getPlayer();
 
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().creatingWorld(clonedWorldName));
+            dispatchTellRawCommand(player, infoCreatingWorld(clonedWorldName));
 
             Bukkit.getScheduler().runTask(core, () -> {
                 // Clone the world after the message is sent
                 worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 
                 // Send the second message after the cloning operation is completed
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(clonedWorldName));
+                dispatchTellRawCommand(player, infoWorldCreated(clonedWorldName));
             });
         } else {
-            createWorld(sender, clonedWorldName);
+            createWorld(player, clonedWorldName);
         }
     }
 
@@ -81,5 +84,4 @@ public class WorldCreateCommand implements CommandExecutor {
         long time = Instant.now().getEpochSecond();
         return worldName + "copy" + Long.toString(time);
     }
-
 }

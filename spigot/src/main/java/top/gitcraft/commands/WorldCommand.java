@@ -7,6 +7,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.ui.components.WorldList;
 
+import static top.gitcraft.ui.components.WorldList.worldListAll;
+import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
+
 public class WorldCommand implements CommandExecutor {
 
     @Override
@@ -15,19 +18,23 @@ public class WorldCommand implements CommandExecutor {
             sender.sendMessage("You must be a player to use this command!");
             return false;
         }
+        Player player = (Player) sender;
+
+        // No arguments: "join"
         if (args.length == 0) {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new WorldList().displayAll("join"));
+            dispatchTellRawCommand(player, worldListAll("join"));
             return true;
         }
         switch (args[0]) {
             case "delete":
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new WorldList().displayAll("delete"));
+                dispatchTellRawCommand(player, worldListAll("delete"));
                 return true;
             case "create":
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new WorldList().displayAll("create"));
+                dispatchTellRawCommand(player, worldListAll("create"));
                 return true;
+                // default: "join"
             default:
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new WorldList().displayAll("join"));
+                dispatchTellRawCommand(player, worldListAll("join"));
                 return true;
         }
     }
