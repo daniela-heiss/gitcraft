@@ -34,12 +34,15 @@ public class BranchJoinCommand implements CommandExecutor {
     }
 
     public void joinBranch(CommandSender sender, String branchName){
+        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         Player player = ((Player) sender).getPlayer();
         World branch = Bukkit.getWorld(branchName);
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().joiningWorld(branchName));
-        player.teleport(branch.getSpawnLocation());
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldJoined(branchName));
+        Bukkit.getScheduler().runTask(core, () -> {
+            player.teleport(branch.getSpawnLocation());
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldJoined(branchName));
+        });
     }
 
     public void joinBranch(CommandSender sender, String branchName, String created){
@@ -51,9 +54,10 @@ public class BranchJoinCommand implements CommandExecutor {
             Location location = new Location(branch, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
 
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().joiningWorld(branchName));
-            player.teleport(location);
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldJoined(branchName));
-
+            Bukkit.getScheduler().runTask(core, () -> {
+                player.teleport(location);
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldJoined(branchName));
+            });
         } else {
             joinBranch(sender, branchName);
         }

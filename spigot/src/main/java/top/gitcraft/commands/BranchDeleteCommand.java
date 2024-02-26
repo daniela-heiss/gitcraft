@@ -34,10 +34,12 @@ public class BranchDeleteCommand implements CommandExecutor {
 
     public void deleteBranch(CommandSender sender, String branchName){
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-
         MVWorldManager worldManager = core.getMVWorldManager();
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().deletingWorld(branchName));
-        worldManager.deleteWorld(branchName);
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldDeleted(branchName));
+
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().deletingWorld(branchName));;
+        Bukkit.getScheduler().runTask(core, () -> {
+            worldManager.deleteWorld(branchName);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldDeleted(branchName));
+        });
     }
 }

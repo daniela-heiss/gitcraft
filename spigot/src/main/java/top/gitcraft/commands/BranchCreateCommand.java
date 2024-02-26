@@ -23,15 +23,6 @@ import java.util.Objects;
 
 public class BranchCreateCommand implements CommandExecutor {
 
-    private final WorldDao worldDao;
-    private final UserDao userDao;
-
-    public BranchCreateCommand() throws SQLException {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        worldDao = databaseManager.getWorldDao();
-        userDao = databaseManager.getUserDao();
-    }
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -39,26 +30,22 @@ public class BranchCreateCommand implements CommandExecutor {
             return false;
         }
 
-
         Player player = (Player) sender;
 
         String worldName = player.getWorld().getName();
         String branchName = generateWorldName(player, worldName);
 
-        if (args.length == 0) {
-
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().noWorldNameProvided());
-            return false;
+        switch (args.length){
+            case 2:
+                createBranch(sender, branchName, args[1]);
+                return true;
+            case 1:
+                createBranch(sender, args[0]);
+                return true;
+            default:
+                createBranch(sender, branchName);
+                return true;
         }
-        if (args.length == 2) {
-            createBranch(sender, branchName, args[1]);
-        } else {
-            createBranch(sender, branchName);
-        }
-
-        return true;
-
-
     }
 
     public void createBranch(CommandSender sender, String branchName) {
@@ -67,9 +54,15 @@ public class BranchCreateCommand implements CommandExecutor {
         Player player = ((Player) sender).getPlayer();
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().creatingWorld(branchName));
-        worldManager.cloneWorld(player.getWorld().getName(), branchName);
-        new BranchJoinCommand().joinBranch(sender, branchName, "true");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(branchName));
+
+        Bukkit.getScheduler().runTask(core, () -> {
+            // Clone the world after the message is sent
+            worldManager.cloneWorld(player.getWorld().getName(), branchName);
+
+            // Send the second message after the cloning operation is completed
+            new BranchJoinCommand().joinBranch(sender, branchName, "true");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(branchName));
+        });
     }
 
     public void createBranch(CommandSender sender, String branchName, String doTeleport) {
@@ -79,8 +72,14 @@ public class BranchCreateCommand implements CommandExecutor {
             Player player = ((Player) sender).getPlayer();
 
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().creatingWorld(branchName));
-            worldManager.cloneWorld(player.getWorld().getName(), branchName);
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(branchName));
+
+            Bukkit.getScheduler().runTask(core, () -> {
+                // Clone the world after the message is sent
+                worldManager.cloneWorld(player.getWorld().getName(), branchName);
+
+                // Send the second message after the cloning operation is completed
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "tellraw " + sender.getName() + " " + new Info().worldCreated(branchName));
+            });
         } else {
             createBranch(sender, branchName);
         }
@@ -91,33 +90,4 @@ public class BranchCreateCommand implements CommandExecutor {
         return worldName + "copy" + Long.toString(time);
     }
 
-    private boolean setPlayerId(Player player, String worldName) throws SQLException {
-        try {
-            player.sendMessage(worldName);
-
-            WorldEntity world = worldDao.getWorldByWorldName(worldName);
-            if (world == null) {
-                player.sendMessage("World " + worldName + " not found!");
-                return false;
-            }
-            player.sendMessage(world.toString());
-
-
-            Thread.sleep(1000);
-            UUID uuid = player.getUniqueId();
-            UserEntity user = userDao.getUserByUuid(uuid);
-
-
-            world.playerId = user.rowId;
-            player.sendMessage(world.toString());
-            worldDao.update(world);
-            player.sendMessage("Updating world " + worldName + " with player id " + user.rowId);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        return true;
-    }
 }
