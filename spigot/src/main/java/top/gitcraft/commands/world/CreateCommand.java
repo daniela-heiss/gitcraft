@@ -51,7 +51,7 @@ public class CreateCommand implements CommandExecutor {
 
         dispatchTellRawCommand(player, infoCreatingWorld(clonedWorldName));
 
-        Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
+        Bukkit.getScheduler().runTask(core, () -> {
             // Clone the world after the message is sent
             worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 
@@ -68,7 +68,7 @@ public class CreateCommand implements CommandExecutor {
 
             dispatchTellRawCommand(player, infoCreatingWorld(clonedWorldName));
 
-            Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
+            Bukkit.getScheduler().runTask(core, () -> {
                 // Clone the world after the message is sent
                 worldManager.cloneWorld(player.getWorld().getName(), clonedWorldName);
 
