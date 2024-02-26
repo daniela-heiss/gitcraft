@@ -22,16 +22,17 @@ public class WorldDeleteCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
+        // No world provided
         if (args.length == 0) {
             dispatchTellRawCommand(player, infoNoWorldNameProvided());
             return true;
         }
+        // "world" is protected from accidental deletion
         if (Objects.equals(args[0], "world")){
             dispatchTellRawCommand(player, infoWorldIsProtected("world"));
             return true;
         }
         deleteWorld(player, args[0]);
-
         return true;
     }
 
