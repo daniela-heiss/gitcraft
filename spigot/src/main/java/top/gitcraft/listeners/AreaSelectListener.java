@@ -1,6 +1,8 @@
 package top.gitcraft.listeners;
 
 import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import jdk.tools.jlink.plugin.Plugin;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -8,10 +10,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
+import top.gitcraft.GitCraft;
 
 import java.util.Objects;
 
 public class AreaSelectListener implements Listener {
+
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
@@ -34,11 +40,21 @@ public class AreaSelectListener implements Listener {
             //if the player left clicks, we want to select the first position
             if (clickType == ClickType.LEFT_CLICK) {
                 player.sendMessage("Pos1 set to " + blockVector3);
-                //if the player right clicks, we want to select the second position
-            } else if (clickType == ClickType.RIGHT_CLICK) {
-                player.sendMessage("Pos2 set to " + blockVector3);
+                //set the metadata for the player
+                setMetadata(player, "pos1", blockVector3);
             }
+            //if the player right clicks, we want to select the second position
+            else if (clickType == ClickType.RIGHT_CLICK) {
+                player.sendMessage("Pos2 set to " + blockVector3);
+                //set the metadata for the player
+                setMetadata(player, "pos2", blockVector3);
+            }
+
+            player.sendMessage("Pos1: " + getPos1(player));
+            player.sendMessage("Pos2: " + getPos2(player));
+            player.sendMessage("Selection: " + getSelection(player));
         }
+
     }
 
     //enum to represent the type of click
@@ -69,5 +85,37 @@ public class AreaSelectListener implements Listener {
             return null;
         }
         return BlockVector3.at(block.getX(), block.getY(), block.getZ());
+    }
+
+    private void setMetadata(Player player, String key, Object value) {
+        player.setMetadata(key, new FixedMetadataValue(GitCraft.getPlugin(GitCraft.class), value));
+    }
+
+    private static BlockVector3 getMetadata(Player player, String key) {
+        for (MetadataValue metadataValue : player.getMetadata(key)) {
+            if (metadataValue.getOwningPlugin() instanceof GitCraft) {
+                return (BlockVector3) metadataValue.value();
+            }
+        }
+        return null;
+    }
+
+    public static BlockVector3 getPos1(Player player) {
+        return getMetadata(player, "pos1");
+    }
+
+    public static BlockVector3 getPos2(Player player) {
+        return getMetadata(player, "pos2");
+    }
+
+    public static boolean hasPos1AndPos2(Player player) {
+        return getPos1(player) != null && getPos2(player) != null;
+    }
+
+    public CuboidRegion getSelection(Player player) {
+        if (hasPos1AndPos2(player)) {
+            return new CuboidRegion(getPos1(player), getPos2(player));
+        }
+        return null;
     }
 }

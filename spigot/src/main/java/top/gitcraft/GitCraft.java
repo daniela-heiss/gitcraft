@@ -2,9 +2,11 @@ package top.gitcraft;
 
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.extension.platform.Platform;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import top.gitcraft.commands.*;
+import top.gitcraft.listeners.AreaSelectListener;
 
 import java.sql.SQLException;
 import java.util.Objects;
@@ -33,7 +35,7 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcbranchcreatelist")).setExecutor(new BranchCreateListCommand());
         Objects.requireNonNull(this.getCommand("gcbranchdeletelist")).setExecutor(new BranchDeleteListCommand());
 
-        getServer().getPluginManager().registerEvents(new top.gitcraft.listeners.AreaSelectListener(), this);
+        getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
     }
 
     @Override
