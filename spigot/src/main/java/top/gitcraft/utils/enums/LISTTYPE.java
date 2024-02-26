@@ -7,6 +7,7 @@ public enum LISTTYPE {
 
     private final int underlineLength;
     private final CHATCOLOR color;
+
     private LISTTYPE(int underlineLength, CHATCOLOR color){
         this.underlineLength = underlineLength;
         this.color = color;
