@@ -2,9 +2,7 @@ package top.gitcraft.commands;
 
 import com.onarandombox.MultiverseCore.MVWorld;
 import com.onarandombox.MultiverseCore.MultiverseCore;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -46,10 +44,15 @@ public class BranchJoinCommand implements CommandExecutor {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         Player player = ((Player) sender).getPlayer();
         World branch = Bukkit.getWorld(branchName);
+        GameMode originalGameMode = player.getGameMode();
 
         joinMessage(sender, branchName);
         player.teleport(branch.getSpawnLocation());
+        Bukkit.getScheduler().runTaskLater(core, () -> {
+            player.setGameMode(originalGameMode);
+        }, 5);
     }
+
     public void joinBranch(CommandSender sender, String branchName, String created){
 
         if(Objects.equals(created, "true")){
