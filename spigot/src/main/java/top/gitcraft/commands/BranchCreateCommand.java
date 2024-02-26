@@ -6,6 +6,7 @@ import com.j256.ormlite.table.TableUtils;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.UserDao;
 import top.gitcraft.database.daos.WorldDao;
+import top.gitcraft.database.daos.WorldMapDao;
 import top.gitcraft.database.entities.UserEntity;
 import top.gitcraft.database.entities.WorldEntity;
 
@@ -16,6 +17,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.database.entities.WorldMapEntity;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -29,11 +31,13 @@ public class BranchCreateCommand implements CommandExecutor {
 
     private final WorldDao worldDao;
     private final UserDao userDao;
+    private final WorldMapDao worldMapDao;
 
     public BranchCreateCommand() throws SQLException {
         DatabaseManager databaseManager = DatabaseManager.getInstance();
         worldDao = databaseManager.getWorldDao();
         userDao = databaseManager.getUserDao();
+        worldMapDao = databaseManager.getWorldMapDao();
     }
 
     @Override
@@ -143,5 +147,21 @@ public class BranchCreateCommand implements CommandExecutor {
             throw new RuntimeException(e);
         }
         return true;
+    }
+
+    private void logWorld(Player player, String worldName) throws SQLException {
+        try {
+            UUID uuid = player.getUniqueId();
+            UserEntity user = userDao.getUserByUuid(uuid);
+
+            WorldMapEntity worldMap = null;
+            worldMap.playerId = user.rowId;
+            worldMap.worldName = worldName;
+
+            worldMapDao.createWorldMap(worldMap);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

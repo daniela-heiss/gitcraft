@@ -12,6 +12,6 @@ public class WorldMapEntity {
     @DatabaseField (dataType = DataType.INTEGER, columnName = "user")
     public int playerId;
 
-    @DatabaseField(dataType = DataType.INTEGER, columnName = "wid")
-    public int worldId;
+    @DatabaseField(dataType = DataType.STRING, columnName = "world_name")
+    public String worldName;
 }
