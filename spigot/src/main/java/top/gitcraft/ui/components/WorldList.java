@@ -90,9 +90,9 @@ public class WorldList {
             String firstWorldName = worldNames.get(0);
             jsonMessage.append(",{\"text\":\"\\n\",\"bold\":true},")
                     .append("{\"text\":\"\\u2554\",\"color\":\"white\"},")
-                    .append("{\"text\":\"[\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcworld").append(lowerCaseType).append(" ").append(firstWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(firstWorldName).append("\"}},")
-                    .append("{\"text\":\"").append(upperCaseType).append("\",\"bold\":true,\"color\":\"").append(typeColor).append("\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcworld").append(lowerCaseType).append(" ").append(firstWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(firstWorldName).append("\"}},")
-                    .append("{\"text\":\"] ").append(firstWorldName).append("\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcworld").append(lowerCaseType).append(" ").append(firstWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(firstWorldName).append("\"}}");
+                    .append("{\"text\":\"[\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gclist").append(lowerCaseType).append(" ").append(firstWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(firstWorldName).append("\"}},")
+                    .append("{\"text\":\"").append(upperCaseType).append("\",\"bold\":true,\"color\":\"").append(typeColor).append("\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gclist").append(lowerCaseType).append(" ").append(firstWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(firstWorldName).append("\"}},")
+                    .append("{\"text\":\"] ").append(firstWorldName).append("\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gclist").append(lowerCaseType).append(" ").append(firstWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(firstWorldName).append("\"}}");
 
             /* ================================================== */
 
@@ -119,9 +119,9 @@ public class WorldList {
             for (String worldName : worldNames) {
                 jsonMessage.append(",{\"text\":\"\\n\",\"bold\":true},")
                         .append("{\"text\":\"\\u2560\",\"color\":\"white\"},")
-                        .append("{\"text\":\"[\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcworld").append(lowerCaseType).append(" ").append(worldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(worldName).append("\"}},")
-                        .append("{\"text\":\"").append(upperCaseType).append("\",\"bold\":true,\"color\":\"").append(typeColor).append("\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcworld").append(lowerCaseType).append(" ").append(worldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(worldName).append("\"}},")
-                        .append("{\"text\":\"] ").append(worldName).append("\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcworld").append(lowerCaseType).append(" ").append(worldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(worldName).append("\"}}");
+                        .append("{\"text\":\"[\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gclist").append(lowerCaseType).append(" ").append(worldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(worldName).append("\"}},")
+                        .append("{\"text\":\"").append(upperCaseType).append("\",\"bold\":true,\"color\":\"").append(typeColor).append("\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gclist").append(lowerCaseType).append(" ").append(worldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(worldName).append("\"}},")
+                        .append("{\"text\":\"] ").append(worldName).append("\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gclist").append(lowerCaseType).append(" ").append(worldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(worldName).append("\"}}");
             }
 
             /* ==================================================
@@ -136,9 +136,9 @@ public class WorldList {
 
             jsonMessage.append(",{\"text\":\"\\n\",\"bold\":true},")
                     .append("{\"text\":\"\\u255a\",\"color\":\"white\"},")
-                    .append("{\"text\":\"[\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcworld").append(lowerCaseType).append(" ").append(lastWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(lastWorldName).append("\"}},")
-                    .append("{\"text\":\"").append(upperCaseType).append("\",\"bold\":true,\"color\":\"").append(typeColor).append("\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcworld").append(lowerCaseType).append(" ").append(lastWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(lastWorldName).append("\"}},")
-                    .append("{\"text\":\"] ").append(lastWorldName).append("\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gcworld").append(lowerCaseType).append(" ").append(lastWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(lastWorldName).append("\"}}");
+                    .append("{\"text\":\"[\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gclist").append(lowerCaseType).append(" ").append(lastWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(lastWorldName).append("\"}},")
+                    .append("{\"text\":\"").append(upperCaseType).append("\",\"bold\":true,\"color\":\"").append(typeColor).append("\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gclist").append(lowerCaseType).append(" ").append(lastWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(lastWorldName).append("\"}},")
+                    .append("{\"text\":\"] ").append(lastWorldName).append("\",\"bold\":true,\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/gclist").append(lowerCaseType).append(" ").append(lastWorldName).append("\"},\"hoverEvent\":{\"action\":\"show_text\",\"contents\":\"Click to ").append(lowerCaseType).append(" ").append(lastWorldName).append("\"}}");
             /* ==================================================
              * ================= V. WORLD MENU =================
              * ==================================================

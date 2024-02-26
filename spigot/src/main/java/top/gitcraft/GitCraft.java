@@ -15,10 +15,10 @@ public final class GitCraft extends JavaPlugin {
 
         Objects.requireNonNull(this.getCommand("gcmenu")).setExecutor(new MenuOpenCommand());
         Objects.requireNonNull(this.getCommand("gcworldmenu")).setExecutor(new WorldMenuCommand());
-        Objects.requireNonNull(this.getCommand("gcworld")).setExecutor(new WorldCommand());
-        Objects.requireNonNull(this.getCommand("gcworldjoin")).setExecutor(new WorldJoinCommand());
-        Objects.requireNonNull(this.getCommand("gcworldcreate")).setExecutor(new WorldCreateCommand());
-        Objects.requireNonNull(this.getCommand("gcworlddelete")).setExecutor(new WorldDeleteCommand());
+        Objects.requireNonNull(this.getCommand("gclist")).setExecutor(new WorldCommand());
+        Objects.requireNonNull(this.getCommand("gcjoin")).setExecutor(new WorldJoinCommand());
+        Objects.requireNonNull(this.getCommand("gccreate")).setExecutor(new WorldCreateCommand());
+        Objects.requireNonNull(this.getCommand("gcdelete")).setExecutor(new WorldDeleteCommand());
         Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());
 
         try {

@@ -31,20 +31,20 @@ commands:
     usage: /gcworldmenu
 
 #world-lists - Join, Create, Delete
-  gcworld:
+  gclist:
     description: List worldes
-    usage: /gcworld [join|create|delete]
+    usage: /gclist [join|create|delete]
 
   #commands - Join, Create, Delete
-  gcworldjoin:
+  gcjoin:
     description: Join world
-    usage: /gcworldjoin <name>
-  gcworldcreate:
+    usage: /gcjoin <name>
+  gccreate:
       description: Create a world
-      usage: /gcworldcreate <name>
-  gcworlddelete:
+      usage: /gccreate <name>
+  gcdelete:
     description: Delete a world
-    usage: /gcworlddelete <name>
+    usage: /gcdelete <name>
   gcWETest:
     description: copy an area in front of the player and pastes it  5 xdiff
     usage: /gcWETest
