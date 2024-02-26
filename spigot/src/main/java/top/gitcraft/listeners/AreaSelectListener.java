@@ -8,6 +8,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.Objects;
+
 public class AreaSelectListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
@@ -53,7 +55,7 @@ public class AreaSelectListener implements Listener {
     }
 
     private BlockVector3 getBlockVector3(PlayerInteractEvent event) {
-        return BlockVector3.at(event.getClickedBlock().getX(), event.getClickedBlock().getY(), event.getClickedBlock().getZ());
+        return BlockVector3.at(Objects.requireNonNull(event.getClickedBlock()).getX(), event.getClickedBlock().getY(), event.getClickedBlock().getZ());
     }
 
 }
