@@ -1,7 +1,7 @@
 package top.gitcraft.ui.components;
 
 public class Info {
-    public String noWorldNameProvided(){
+    public static String infoNoWorldNameProvided(){
         /*
          * [i] Please provide a world name
          *
@@ -15,7 +15,7 @@ public class Info {
                 + "{\"text\":\"\\n \"}]";
     }
 
-    public String creatingWorld(String worldName) {
+    public static String infoCreatingWorld(String worldName) {
         /*
          * [i] Creating <worldName> ...
          *
@@ -30,7 +30,7 @@ public class Info {
                 + "{\"text\":\" ... \",\"bold\":true,\"color\":\"white\"},"
                 + "{\"text\":\"\\n \"}]";
     }
-    public String worldCreated(String worldName) {
+    public static String infoWorldCreated(String worldName) {
         /*
          * [i] <worldName> created
          *
@@ -45,7 +45,7 @@ public class Info {
                 + "{\"text\":\"\\n \"}]";
     }
 
-    public String joiningWorld(String worldName) {
+    public static String infoJoiningWorld(String worldName) {
         /*
          * [i] Joining <worldName> ...
          *
@@ -60,7 +60,7 @@ public class Info {
                 + "{\"text\":\" ... \",\"bold\":true,\"color\":\"white\"},"
                 + "{\"text\":\"\\n \"}]";
     }
-    public String worldJoined(String worldName) {
+    public static String infoWorldJoined(String worldName) {
         /*
          * [i] <worldName> created
          *
@@ -75,7 +75,7 @@ public class Info {
                 + "{\"text\":\"\\n \"}]";
     }
 
-    public String worldIsProtected(String worldName) {
+    public static String infoWorldIsProtected(String worldName) {
         /*
          * [!] <worldName> is protected and will not be deleted
          *
@@ -88,7 +88,7 @@ public class Info {
                 + "{\"text\":\"" + worldName + "\",\"bold\":true,\"color\":\"green\"},"
                 + "{\"text\":\" is protected and will not be deleted\\n\",\"bold\":true}]";
     }
-    public String deletingWorld(String worldName) {
+    public static String infoDeletingWorld(String worldName) {
         /*
          * [i] Deleting <worldName> ...
          *
@@ -103,7 +103,7 @@ public class Info {
                 + "{\"text\":\" ... \",\"bold\":true,\"color\":\"white\"},"
                 + "{\"text\":\"\\n \"}]";
     }
-    public String worldDeleted(String worldName) {
+    public static String infoWorldDeleted(String worldName) {
         /*
          * [i] <worldName> deleted
          *

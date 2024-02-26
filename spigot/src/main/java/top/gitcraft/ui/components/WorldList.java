@@ -16,11 +16,11 @@ public class WorldList {
      * @param worldNames List of world names.
      * @return A JSON message representing the action to be performed on the worlds.
      * @apiNote Refrain from providing worldNames manually.<br>
-     *         Use displayAll(type) instead.
+     *         Use worldListAll(type) instead.
      *         It will provide a list of all worlds. <br>
      *         If you only want to provide a subset, use this method.
      */
-    public String displaySubset(String type, List<String> worldNames) {
+    public static String worldListSubset(String type, List<String> worldNames) {
 
         /* ==================================================
          * =========== WORLD LIST PAGE STRUCTURE ===========
@@ -168,13 +168,13 @@ public class WorldList {
      * @param type       The type of list to generate. Valid values are "join", "create", or "delete".
      * @return A JSON message representing the action to be performed on the worlds.
      * @apiNote If you only want to provide a subset, use <br>
-     *          displaySubset(type, worldNames).
+     *          worldListSubset(type, worldNames).
      */
-    public String displayAll(String type) {
+    public static String worldListAll(String type) {
         List<String> worldNames = new ArrayList<>();
         for(World world : Bukkit.getWorlds()){
             worldNames.add(world.getName());
         }
-        return displaySubset(type, worldNames);
+        return worldListSubset(type, worldNames);
     }
 }
