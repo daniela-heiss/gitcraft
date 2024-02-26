@@ -65,13 +65,13 @@ commands:
     description: copy an area in front of the player and pastes it  5 xdiff
     usage: /gcWETest
 
-    #commands - Set positions for area select
-    gcSetPos1:
-      description: Set position 1 below the player
-      usage: /gcSetPos1
-    gcSetPos2:
-      description: Set position 2 below the player
-      usage: /gcSetPos2
-    gcGetSelection:
-      description: Get the selection
-      usage: /gcGetSelection
+  #commands - Set positions for area select
+  gcSetPos1:
+    description: Set position 1 below the player
+    usage: /gcSetPos1
+  gcSetPos2:
+    description: Set position 2 below the player
+    usage: /gcSetPos2
+  gcGetSelection:
+    description: Get the selection
+    usage: /gcGetSelection
