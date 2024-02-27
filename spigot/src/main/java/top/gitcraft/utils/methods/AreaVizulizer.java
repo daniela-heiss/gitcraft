@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.BlockVector;
 import top.gitcraft.GitCraft;
 
 public class AreaVizulizer{
@@ -16,7 +17,7 @@ public class AreaVizulizer{
         this.plugin = plugin;
     }
 
-    public boolean visualizeAreaSelection(World world, Vector3 pos1, Vector3 pos2) {
+    public boolean visualizeAreaSelection(World world, BlockVector pos1, BlockVector pos2) {
 
         if (particlesActive) {
             // If particles are active, cancel the task and set particlesActive to false
