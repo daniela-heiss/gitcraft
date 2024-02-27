@@ -63,9 +63,13 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
-            <id>coreprotect-repo</id>
-            <url>https://maven.playpro.com/net/coreprotect/</url>
+            <id>OnARandomBox</id>
+            <url>https://repo.onarandombox.com/content/groups/public/</url>
         </repository>
+            <repository>
+                <id>enginehub-repo</id>
+                <url>https://maven.enginehub.org/repo/</url>
+            </repository>
         <repository>
             <id>playpro-repo</id>
             <url>https://maven.playpro.com</url>
@@ -94,6 +98,18 @@
             <groupId>io.github.cdimascio</groupId>
             <artifactId>java-dotenv</artifactId>
             <version>5.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>7.2.9</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.onarandombox.multiversecore</groupId>
+            <artifactId>Multiverse-Core</artifactId>
+            <version>4.3.12</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

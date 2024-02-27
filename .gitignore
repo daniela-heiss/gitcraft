@@ -7,6 +7,8 @@ spigot/.idea/
 spigot/.vscode/
 spigot/bin/
 spigot/build/
+spigot/.idea/
 spigot/server/
 spigot/target/
-.vscode
+spigot/bin/
+

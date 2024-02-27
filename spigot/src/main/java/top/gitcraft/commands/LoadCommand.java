@@ -20,10 +20,14 @@ public class LoadCommand implements CommandExecutor {
     private static SaveDao saveDao;
     private static CoreProtectAPI coreAPI;
 
-    public LoadCommand() throws SQLException {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        userDao = databaseManager.getUserDao();
-        saveDao = databaseManager.getSaveDao();
+    public LoadCommand() {
+        try {
+            DatabaseManager databaseManager = DatabaseManager.getInstance();
+            userDao = databaseManager.getUserDao();
+            saveDao = databaseManager.getSaveDao();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void loadSave(String saveName, String userName) {

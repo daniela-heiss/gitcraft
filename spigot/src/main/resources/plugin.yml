@@ -2,7 +2,7 @@ name: gitcraft
 version: '${project.version}'
 main: top.gitcraft.GitCraft
 api-version: '1.20'
-depend: [CoreProtect]
+depend: [ CoreProtect ]
 # Replace "kit" with the name of your command.
 commands:
   gcsave:
@@ -21,5 +21,52 @@ commands:
     description: saves a timestamp with a name
     usage: /save saveName
   testLoad:
-    desciption: Load a specific commit
+    description: Load a specific commit
     usage: /load <commitName>
+  automerge:
+    desciption: Autoamtically merge everything that the player changed
+    usage: /automerge <schematicName>
+  areamerge:
+    desciption: Autoamtically merge a player selected area
+    usage: /areamerge <schematicName>
+  generateschematic:
+    desciption: Autoamtically merge everything that the player changed
+    usage: /generateschematic [area | all] <schematicName>
+
+  #menu commands
+  gcmenu:
+    description: Shows the GitCraft menu
+    usage: /gcmenu
+  gcworldmenu:
+    description: Shows the world menu
+    usage: /gcworldmenu
+
+  #world-lists - Join, Create, Delete
+  gclist:
+    description: List worldes
+    usage: /gclist [join|create|delete]
+
+  #commands - Join, Create, Delete
+  gcjoin:
+    description: Join world
+    usage: /gcjoin <name>
+  gccreate:
+    description: Create a world
+    usage: /gccreate <name>
+  gcdelete:
+    description: Delete a world
+    usage: /gcdelete <name>
+  gcWETest:
+    description: copy an area in front of the player and pastes it  5 xdiff
+    usage: /gcWETest
+
+  #commands - Set positions for area select
+  gcSetPos1:
+    description: Set position 1 below the player
+    usage: /gcSetPos1
+  gcSetPos2:
+    description: Set position 2 below the player
+    usage: /gcSetPos2
+  gcGetSelection:
+    description: Get the selection
+    usage: /gcGetSelection

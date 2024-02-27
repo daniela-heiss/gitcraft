@@ -17,10 +17,15 @@ public class SaveCommand implements CommandExecutor {
 
     private static UserDao userDao = null;
     private static SaveDao saveDao;
-    public SaveCommand() throws SQLException {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        userDao = databaseManager.getUserDao();
-        saveDao = databaseManager.getSaveDao();
+
+    public SaveCommand(){
+        try {
+            DatabaseManager databaseManager = DatabaseManager.getInstance();
+            userDao = databaseManager.getUserDao();
+            saveDao = databaseManager.getSaveDao();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
     public static void logSave(String saveName, String userName){
         SaveEntity newSave = new SaveEntity();
