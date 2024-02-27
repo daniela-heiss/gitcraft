@@ -58,9 +58,8 @@ public class JoinCommand implements CommandExecutor {
         });
     }
     public void setDirection(Player player, float originalYaw, float originalPitch){
-        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
 
-        Bukkit.getScheduler().runTaskLater(core, () -> {
+        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
             Location newLocation = player.getLocation();
             newLocation.setYaw(originalYaw);
             newLocation.setPitch(originalPitch);
