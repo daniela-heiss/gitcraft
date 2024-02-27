@@ -55,17 +55,6 @@ public class JoinCommand implements CommandExecutor {
             dispatchTellRawCommand(player, infoWorldJoined(worldName));
         });
     }
-    public void setDirection(Player player, float originalYaw, float originalPitch){
-
-        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
-            Location newLocation = player.getLocation();
-            newLocation.setYaw(originalYaw);
-            newLocation.setPitch(originalPitch);
-
-            player.teleport(newLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
-        }, 5);
-
-    }
 
     public void joinWorldAtCurrentLocation(Player player, String worldName, String created){
         if(Objects.equals(created, "true")){
@@ -84,4 +73,17 @@ public class JoinCommand implements CommandExecutor {
             joinWorldAtWorldSpawn(player, worldName);
         }
     }
+
+    public void setDirection(Player player, float yaw, float pitch){
+
+        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
+            Location location = player.getLocation();
+            location.setYaw(yaw);
+            location.setPitch(pitch);
+
+            player.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
+        }, 5);
+
+    }
+
 }
