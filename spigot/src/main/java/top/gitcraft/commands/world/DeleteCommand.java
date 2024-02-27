@@ -77,9 +77,9 @@ public class DeleteCommand implements CommandExecutor {
         try {
             UUID uuid = player.getUniqueId();
             UserEntity user = userDao.getUserByUuid(uuid);
-            WorldMapEntity worldMap = worldMapDao.getByPIDAndWorldName(user.rowId, worldName).get(0);
+            WorldMapEntity worldMap = worldMapDao.getByPIDAndWorldName(user.rowId, worldName);
 
-            worldMapDao.deleteWorldMap(worldMap);
+            worldMapDao.deleteWorldMapping(worldMap);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

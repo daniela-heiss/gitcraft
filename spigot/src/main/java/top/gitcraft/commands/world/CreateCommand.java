@@ -118,11 +118,11 @@ public class CreateCommand implements CommandExecutor {
             UUID uuid = player.getUniqueId();
             UserEntity user = userDao.getUserByUuid(uuid);
 
-            WorldMapEntity worldMap = null;
+            WorldMapEntity worldMap = new WorldMapEntity();
             worldMap.playerId = user.rowId;
             worldMap.worldName = worldName;
 
-            worldMapDao.createWorldMap(worldMap);
+            worldMapDao.createWorldMapping(worldMap);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

@@ -11,11 +11,11 @@ public class WorldMapDao extends BaseDaoImpl<WorldMapEntity, Integer> {
         super(connectionSource, WorldMapEntity.class);
     }
 
-    public void createWorldMap(WorldMapEntity worldMap) throws SQLException {
+    public void createWorldMapping(WorldMapEntity worldMap) throws SQLException {
         create(worldMap);
     }
 
-    public void deleteWorldMap(WorldMapEntity worldMap) throws SQLException {
+    public void deleteWorldMapping(WorldMapEntity worldMap) throws SQLException {
         delete(worldMap);
     }
 
@@ -27,7 +27,7 @@ public class WorldMapDao extends BaseDaoImpl<WorldMapEntity, Integer> {
         return queryBuilder().where().eq("world_name", worldName).query();
     }
 
-    public List<WorldMapEntity> getByPIDAndWorldName(int playerId, String worldName) throws SQLException {
-        return queryBuilder().where().eq("user", playerId).and().eq("world_name", worldName).query();
+    public WorldMapEntity getByPIDAndWorldName(int playerId, String worldName) throws SQLException {
+        return queryBuilder().where().eq("user", playerId).and().eq("world_name", worldName).queryForFirst();
     }
 }
