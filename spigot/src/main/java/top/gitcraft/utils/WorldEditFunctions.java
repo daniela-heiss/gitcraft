@@ -1,4 +1,4 @@
-package top.gitcraft.commands;
+package top.gitcraft.utils;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
@@ -22,8 +22,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class WorldEditCommands {
-    public CuboidRegion createCube(Double[] startCoordinates, Double[] endCoordinates) {
+public class WorldEditFunctions {
+    public static CuboidRegion createCube(Double[] startCoordinates, Double[] endCoordinates) {
 
         BlockVector3 start = BlockVector3.at(startCoordinates[0], startCoordinates[1], startCoordinates[2]);
         BlockVector3 end = BlockVector3.at(endCoordinates[0], endCoordinates[1], endCoordinates[2]);
@@ -31,7 +31,7 @@ public class WorldEditCommands {
         return new CuboidRegion(start, end);
     }
 
-    public BlockArrayClipboard copyRegionToClipboard(Double[] startCoordinates, Double[] endCoordinates, World world, Player player) {
+    public static BlockArrayClipboard copyRegionToClipboard(Double[] startCoordinates, Double[] endCoordinates, World world, Player player) {
 
         CuboidRegion region = createCube(startCoordinates, endCoordinates);
         player.sendMessage(region.getPos1() + "" + region.getPos2());
@@ -50,7 +50,28 @@ public class WorldEditCommands {
         return clipboard;
     }
 
-    public File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName, CommandSender sender) {
+    public static BlockArrayClipboard copyRegionToClipboard(BlockVector3 startCoordinates, BlockVector3 endCoordinates, World world, Player player) {
+        CuboidRegion region = new CuboidRegion(startCoordinates, endCoordinates);
+        region.setPos1(startCoordinates);
+        region.setPos2(endCoordinates);
+
+        player.sendMessage(region.getPos1() + "" + region.getPos2());
+        BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
+
+        ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(
+                world, region, clipboard, region.getMinimumPoint()
+        );
+
+        try {
+            Operations.complete(forwardExtentCopy);
+        } catch (WorldEditException e) {
+            throw new RuntimeException(e);
+        }
+        player.sendMessage("Copied region to clipboard");
+        return clipboard;
+    }
+
+    public static File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName, CommandSender sender) {
         String fileEnding = ".schem";
         File file = new File("/minecraft/plugins/WorldEdit/schematics/" + schematicName  + fileEnding);
         if (!file.exists()) {
@@ -63,10 +84,11 @@ public class WorldEditCommands {
             sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: Schematic Name already used");
             return null;
         }
+        sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
         return file;
     }
 
-    public Clipboard loadSchematic(File file) {
+    public static Clipboard loadSchematic(File file) {
         Clipboard clipboard;
         ClipboardFormat format = ClipboardFormats.findByFile(file);
         try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
@@ -77,11 +99,24 @@ public class WorldEditCommands {
         return clipboard;
     }
 
-    public void pasteClipboard(World world, Double[] startCoordinates, Clipboard clipboard) {
+    public static void pasteClipboard(World world, Double[] startCoordinates, Clipboard clipboard) {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
                     .to(BlockVector3.at(startCoordinates[0] + 5, startCoordinates[1], startCoordinates[2]))
+                    // configure here
+                    .build();
+            Operations.complete(operation);
+        } catch (WorldEditException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void pasteClipboard(World world, BlockVector3 startCoordinates, Clipboard clipboard) {
+        try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
+            Operation operation = new ClipboardHolder(clipboard)
+                    .createPaste(editSession)
+                    .to(startCoordinates)
                     // configure here
                     .build();
             Operations.complete(operation);
