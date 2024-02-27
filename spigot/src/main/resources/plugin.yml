@@ -20,15 +20,22 @@ commands:
   testLoad:
     description: Load a specific commit
     usage: /load <commitName>
+
+  #merge commands
   automerge:
-    desciption: Autoamtically merge everything that the player changed
+    desciption: Automatically merge everything that the player changed
     usage: /automerge <schematicName>
   areamerge:
-    desciption: Autoamtically merge a player selected area
+    desciption: Automatically merge a player selected area
     usage: /areamerge <schematicName>
+
+  #schematic commands
   generateschematic:
-    desciption: Autoamtically merge everything that the player changed
+    desciption: Automatically generate schematic from all player made changes or player selected area
     usage: /generateschematic [area | all] <schematicName>
+  pasteschematic:
+    desciption: Automatically paste schematic into the original world
+    usage: /pasteschematic [area | all] <schematicName>
 
   #menu commands
   gcmenu:

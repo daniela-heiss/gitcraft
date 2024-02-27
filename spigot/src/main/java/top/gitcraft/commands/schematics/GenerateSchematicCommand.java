@@ -4,6 +4,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -49,6 +50,9 @@ public class GenerateSchematicCommand implements CommandExecutor {
             case "area":
                 // Get BlockVector3 Coordinates of the selected Area
                 CuboidRegion selectedArea = getSelection(player);
+                if(selectedArea == null) {
+                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
+                }
 
                 sender.sendMessage("Min Coordinates : " + selectedArea.getPos1());
                 sender.sendMessage("Min Coordinates : " + selectedArea.getPos2());
