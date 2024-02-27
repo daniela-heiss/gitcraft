@@ -48,21 +48,20 @@ public class JoinCommand implements CommandExecutor {
 
     public void joinWorldAtWorldSpawn(Player player, String worldName){
         World world = Bukkit.getWorld(worldName);
+        GameMode originalGameMode = player.getGameMode();
+
 
         dispatchTellRawCommand(player, infoJoiningWorld(worldName));
         Bukkit.getScheduler().runTask(gitCraft, () -> {
             player.teleport(world.getSpawnLocation());
-            setGameMode(player);
+            setGameMode(player, originalGameMode);
             dispatchTellRawCommand(player, infoWorldJoined(worldName));
         });
     }
 
-    public void setGameMode(Player player) {
+    public void setGameMode(Player player, GameMode originalGameMode) {
 
-        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        GameMode originalGameMode = player.getGameMode();
-
-        Bukkit.getScheduler().runTaskLater(core, () -> {
+        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
             player.setGameMode(originalGameMode);
         }, 5);
     }
