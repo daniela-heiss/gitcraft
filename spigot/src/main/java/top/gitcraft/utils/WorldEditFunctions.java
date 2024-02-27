@@ -103,7 +103,7 @@ public class WorldEditFunctions {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
-                    .to(BlockVector3.at(startCoordinates[0] + 5, startCoordinates[1], startCoordinates[2]))
+                    .to(BlockVector3.at(startCoordinates[0], startCoordinates[1], startCoordinates[2]))
                     // configure here
                     .build();
             Operations.complete(operation);
