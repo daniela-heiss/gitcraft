@@ -23,18 +23,18 @@ commands:
 
   #merge commands
   automerge:
-    desciption: Automatically merge everything that the player changed
+    description: Automatically merge everything that the player changed into the original world
     usage: /automerge <schematicName>
   areamerge:
-    desciption: Automatically merge a player selected area
+    description: Automatically merge a player selected area into the original world
     usage: /areamerge <schematicName>
 
   #schematic commands
   generateschematic:
-    desciption: Automatically generate schematic from all player made changes or player selected area
+    description: Automatically generate schematic from all player made changes or player selected area
     usage: /generateschematic [area | all] <schematicName>
   pasteschematic:
-    desciption: Automatically paste schematic into the original world
+    description: Automatically paste schematic into the original world
     usage: /pasteschematic [area | all] <schematicName>
 
   #menu commands
