@@ -3,6 +3,10 @@ package top.gitcraft.commands;
 import com.j256.ormlite.field.types.SqlDateStringType;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.onarandombox.MultiverseCore.MVWorld;
+import com.onarandombox.MultiverseCore.api.MultiverseWorld;
+import com.onarandombox.MultiverseCore.utils.WorldManager;
+import org.bukkit.GameMode;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.UserDao;
 import top.gitcraft.database.daos.WorldDao;
@@ -48,6 +52,8 @@ public class BranchCreateCommand implements CommandExecutor {
 
         String worldName = player.getWorld().getName();
         String branchName = generateWorldName(player, worldName);
+
+        setGamemodeForWorld(worldName, player);
 
         if (args.length == 0) {
             String jsonMessage = "[\"\","
@@ -113,6 +119,13 @@ public class BranchCreateCommand implements CommandExecutor {
     private String generateWorldName(Player player, String worldName) {
         long time = Instant.now().getEpochSecond();
         return worldName + "copy" + Long.toString(time);
+    }
+
+    private  void setGamemodeForWorld(String worldName, Player player) {
+        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+        MultiverseWorld world = core.getMVWorldManager().getMVWorld(worldName);
+        GameMode gamemode = world.getGameMode();
+        world.setGameMode(gamemode);
     }
 
     private boolean setPlayerId(Player player, String worldName) throws SQLException {
