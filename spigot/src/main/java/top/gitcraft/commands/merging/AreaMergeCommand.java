@@ -1,22 +1,21 @@
-package top.gitcraft.commands;
+package top.gitcraft.commands.merging;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.io.*;
+import java.io.File;
 
-import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
+import static top.gitcraft.listeners.AreaSelectListener.getSelection;
 import static top.gitcraft.utils.WorldEditFunctions.*;
-import static top.gitcraft.utils.FindMinAndMax.*;
 
-public class AutoMergeCommand implements CommandExecutor {
+public class AreaMergeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -31,34 +30,29 @@ public class AutoMergeCommand implements CommandExecutor {
             return false;
         }
 
-        sender.sendMessage("Gathering Coordinates...");
 
+        sender.sendMessage("Gathering Coordinates...");
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
 
         String worldName = player.getWorld().getName();
         sender.sendMessage("Current World Name: " + worldName);
 
-        Double[] minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
-        Double[] maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
+        // Get BlockVector3 Coordinates of the selected Area
+        CuboidRegion selectedArea = getSelection(player);
 
-        for (Double number : minCoordinatesArray) {
-            sender.sendMessage("Min Coordinates : " + number);
-        }
-        for (Double number : maxCoordinatesArray) {
-            sender.sendMessage("Max Coordinates : " + number);
-        }
 
-        BlockArrayClipboard clipboard = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
+        BlockArrayClipboard clipboard = copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
         player.sendMessage("Copied region to clipboard");
 
         String schematicName = args[0];
         File file = saveRegionAsSchematic(clipboard, schematicName, sender);
 
         if (file != null) {
+            sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
             Clipboard loadedClipboard = loadSchematic(file);
             sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
 
-            pasteClipboard(currentWorld, minCoordinatesArray, loadedClipboard);
+            pasteClipboard(currentWorld, selectedArea.getPos1(), loadedClipboard);
             sender.sendMessage("Pasted Schematic " + schematicName + " into Clipboard");
 
         }

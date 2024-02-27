@@ -30,27 +30,48 @@ commands:
     desciption: Autoamtically merge everything that the player changed
     usage: /generateschematic [area | all] <schematicName>
   gcmenu:
-      description: Shows the GitCraft menu
-      usage: /gcmenu
-  gcworldmenu:
-    description: Shows the world menu
-    usage: /gcworldmenu
+    description: Shows the GitCraft menu
+    usage: /gcmenu
+  gcbranchmenu:
+    description: Shows the branch menu
+    usage: /branchmenu
 
-#world-lists - Join, Create, Delete
-  gclist:
-    description: List worldes
-    usage: /gclist [join|create|delete]
+  #branch-lists - Join, Create, Delete
+  gcbranchlist:
+    description: List branches
+    usage: /gcbranchlist [join|create|delete]
+
+  gcbranchjoinlist:
+    description: List branches to join
+    usage: /gcbranchjoinlist
+  gcbranchcreatelist:
+    description: List branches to create
+    usage: /gcbranchcreatelist
+  gcbranchdeletelist:
+    description: List branches to delete
+    usage: /gcbranchdeletelist
 
   #commands - Join, Create, Delete
-  gcjoin:
-    description: Join world
-    usage: /gcjoin <name>
-  gccreate:
-      description: Create a world
-      usage: /gccreate <name>
-  gcdelete:
-    description: Delete a world
-    usage: /gcdelete <name>
+  gcbranchjoin:
+    description: Join branch
+    usage: /gcbranchjoin <name>
+  gcbranchcreate:
+    description: Create a branch
+    usage: /gcbranchcreate <name>
+  gcbranchdelete:
+    description: Delete a branch
+    usage: /gcbranchdelete <name>
   gcWETest:
     description: copy an area in front of the player and pastes it  5 xdiff
     usage: /gcWETest
+
+  #commands - Set positions for area select
+  gcSetPos1:
+    description: Set position 1 below the player
+    usage: /gcSetPos1
+  gcSetPos2:
+    description: Set position 2 below the player
+    usage: /gcSetPos2
+  gcGetSelection:
+    description: Get the selection
+    usage: /gcGetSelection

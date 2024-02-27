@@ -3,6 +3,13 @@ package top.gitcraft;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import top.gitcraft.commands.*;
+import top.gitcraft.commands.areaselect.GetAreaCommand;
+import top.gitcraft.commands.areaselect.SetPos1Command;
+import top.gitcraft.commands.areaselect.SetPos2Command;
+import top.gitcraft.commands.merging.AreaMergeCommand;
+import top.gitcraft.commands.merging.AutoMergeCommand;
+import top.gitcraft.commands.schematics.GenerateSchematicCommand;
+import top.gitcraft.listeners.AreaSelectListener;
 import top.gitcraft.commands.world.WorldCommand;
 import top.gitcraft.commands.world.CreateCommand;
 import top.gitcraft.commands.world.DeleteCommand;
@@ -27,13 +34,19 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcdelete")).setExecutor(new DeleteCommand(this));
         Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());
 
-        try {
-            Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand());
-            Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
-            Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand());
+        Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
+        Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());
+
+        Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());
+
+        // area select
+        Objects.requireNonNull(this.getCommand("gcSetPos1")).setExecutor(new SetPos1Command());
+        Objects.requireNonNull(this.getCommand("gcSetPos2")).setExecutor(new SetPos2Command());
+        Objects.requireNonNull(this.getCommand("gcGetSelection")).setExecutor(new GetAreaCommand());
+
+
+        getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
     }
 
     @Override
