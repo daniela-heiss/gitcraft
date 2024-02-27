@@ -1,6 +1,8 @@
-package top.gitcraft.utils.methods;
+package top.gitcraft.utils.areavisualizer;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.util.BlockVector;
 
 import java.util.HashMap;
@@ -31,6 +33,7 @@ public class AreaVisualizerManager{
         playerVisualizers.put(player, visualizer);
     }
     public void removeVisualizeArea(Player player){
+        playerVisualizers.get(player).removeVisualizeAreaSelection();
         playerVisualizers.remove(player);
     }
 }

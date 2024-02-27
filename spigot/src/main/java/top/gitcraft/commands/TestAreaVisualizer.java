@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.BlockVector;
-import top.gitcraft.utils.methods.AreaVisualizerManager;
+import top.gitcraft.utils.areavisualizer.AreaVisualizerManager;
 
 public class TestAreaVisualizer implements CommandExecutor {
     @Override

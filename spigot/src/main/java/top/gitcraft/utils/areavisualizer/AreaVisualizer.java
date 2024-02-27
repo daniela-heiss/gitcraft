@@ -1,21 +1,24 @@
-package top.gitcraft.utils.methods;
+package top.gitcraft.utils.areavisualizer;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.BlockVector;
 import top.gitcraft.GitCraft;
 
 public class AreaVisualizer {
 
-    public boolean removeVisualizeAreaSelection(){
-        Plugin plugin = GitCraft.getPlugin(GitCraft.class);
+    private BukkitTask task;
 
-            Bukkit.getScheduler().cancelTasks(plugin);
+    public boolean removeVisualizeAreaSelection() {
+        if (task != null) {
+            task.cancel();
             return true;
+        }
+        return false;
     }
 
     public boolean createVisualizeAreaSelection(World world, BlockVector pos1, BlockVector pos2) {
@@ -26,7 +29,7 @@ public class AreaVisualizer {
         Location corner2 = new Location(world, pos2.getX(), pos2.getY(), pos2.getZ());
 
         // Schedule a task to spawn particles for each edge of the cube
-        new BukkitRunnable() {
+        this.task = new BukkitRunnable() {
             @Override
             public void run() {
                 spawnEdgeParticles(corner1, new Location(corner1.getWorld(), corner2.getX(), corner1.getY(), corner1.getZ()));
