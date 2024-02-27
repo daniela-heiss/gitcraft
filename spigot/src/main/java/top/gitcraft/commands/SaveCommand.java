@@ -27,34 +27,54 @@ public class SaveCommand implements CommandExecutor {
             throw new RuntimeException(e);
         }
     }
-    public static void logSave(String saveName, String userName){
-        SaveEntity newSave = new SaveEntity();
+    public static int logSave(String saveName, String userName){
+        List<SaveEntity> allSaves;
         List<UserEntity> user;
-        int time = (int) (System.currentTimeMillis() / 1000L);
-        int rolledBack = 0;
+        boolean checkUnique = false;
 
         try {
             user = userDao.getUserByName(userName);
+            allSaves = saveDao.getSaveByUser(user.get(0).rowId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        newSave.playerId = user.get(0).rowId;
-        newSave.time = time;
-        newSave.saveName = saveName;
-        newSave.rolledBack = rolledBack;
-
-        try {
-            saveDao.createSave(newSave);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        for (SaveEntity save : allSaves) {
+            if (save.saveName.equals(saveName)){
+                checkUnique = true;
+            }
         }
+
+        if (checkUnique == true){
+            return -1;
+        } else {
+            SaveEntity newSave = new SaveEntity();
+
+            int time = (int) (System.currentTimeMillis() / 1000L);
+            int rolledBack = 0;
+
+            newSave.playerId = user.get(0).rowId;
+            newSave.time = time;
+            newSave.saveName = saveName;
+            newSave.rolledBack = rolledBack;
+
+            try {
+                saveDao.createSave(newSave);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return 0;
     }
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         sender.sendMessage("Save in progress...");
-        logSave(args[0], sender.getName());
-        sender.sendMessage("Saved!");
+        if (logSave(args[0], sender.getName()) == -1){
+            sender.sendMessage("You already have a save named " + args[0]);
+            sender.sendMessage("Please try another name");
+        } else {
+            sender.sendMessage("Saved!");
+        }
         return true;
     }
 }

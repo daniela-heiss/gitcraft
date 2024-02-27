@@ -59,7 +59,6 @@ public class LoadCommand implements CommandExecutor {
                         if (coreAPI != null) {
                             System.out.println("rollback if");
                             coreAPI.performRollback(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
-                            save.get(0).rolledBack = 1;
 
                             if (laterSaves != null && !laterSaves.isEmpty()) {
                                 for (SaveEntity saves : laterSaves) {
