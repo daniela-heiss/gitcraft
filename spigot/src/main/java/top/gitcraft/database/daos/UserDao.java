@@ -21,13 +21,14 @@ public class UserDao extends BaseDaoImpl<UserEntity, Integer> {
         return queryForId(rowid);
     }
 
-    public List<UserEntity> getUserByName(String userName) throws SQLException {
-        return queryBuilder().where().eq("user", userName).query();
+    public UserEntity getUserByName(String userName) throws SQLException {
+        return queryBuilder().where().eq("user", userName).queryForFirst();
     }
 
     public List<UserEntity> getAllUsersWitUuid() throws SQLException {
         return queryBuilder().where().isNotNull("uuid").query();
-    }    public UserEntity getUserByUuid(UUID uuid) throws SQLException {
+    }
+    public UserEntity getUserByUuid(UUID uuid) throws SQLException {
         return queryBuilder().where().eq("uuid", uuid.toString()).queryForFirst();
     }
 }

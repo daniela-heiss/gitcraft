@@ -1,10 +1,7 @@
 package top.gitcraft.database.daos;
 
 import com.j256.ormlite.dao.BaseDaoImpl;
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.support.ConnectionSource;
-import top.gitcraft.database.entities.CommitManagementEntity;
 import top.gitcraft.database.entities.SaveEntity;
 
 import java.sql.SQLException;
@@ -36,12 +33,12 @@ public class SaveDao extends BaseDaoImpl<SaveEntity, Integer>{
         delete(save);
     }
 
-    public List<SaveEntity> getSaveByUser(Integer playerId) throws SQLException {
+    public List<SaveEntity> getAllSavesByUser(Integer playerId) throws SQLException {
         return queryBuilder().where().eq("user", playerId).query();
     }
 
-    public List<SaveEntity> getSaveByUserAndName(Integer playerId, String saveName) throws SQLException {
-        return queryBuilder().where().eq("save_name", saveName).and().eq("user", playerId).query();
+    public SaveEntity getSaveByUserAndName(Integer playerId, String saveName) throws SQLException {
+        return queryBuilder().where().eq("save_name", saveName).and().eq("user", playerId).queryForFirst();
     }
 
     public List<SaveEntity> getAllEarlierSavesByPlayerAndTime(Integer playerId, int time) throws SQLException {

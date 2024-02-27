@@ -29,12 +29,12 @@ public class SaveCommand implements CommandExecutor {
     }
     public static int logSave(String saveName, String userName){
         List<SaveEntity> allSaves;
-        List<UserEntity> user;
+        UserEntity user;
         boolean checkUnique = false;
 
         try {
             user = userDao.getUserByName(userName);
-            allSaves = saveDao.getSaveByUser(user.get(0).rowId);
+            allSaves = saveDao.getAllSavesByUser(user.rowId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -53,7 +53,7 @@ public class SaveCommand implements CommandExecutor {
             int time = (int) (System.currentTimeMillis() / 1000L);
             int rolledBack = 0;
 
-            newSave.playerId = user.get(0).rowId;
+            newSave.playerId = user.rowId;
             newSave.time = time;
             newSave.saveName = saveName;
             newSave.rolledBack = rolledBack;

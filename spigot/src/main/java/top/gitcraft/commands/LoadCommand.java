@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.*;
@@ -31,8 +32,8 @@ public class LoadCommand implements CommandExecutor {
     }
 
     public void loadSave(String saveName, String userName) {
-        List<UserEntity> user;
-        List<SaveEntity> save;
+        UserEntity user;
+        SaveEntity save;
         List<SaveEntity> earlierSaves;
         List<SaveEntity> laterSaves;
         int timeNow = (int) (System.currentTimeMillis() / 1000L);
@@ -44,21 +45,22 @@ public class LoadCommand implements CommandExecutor {
 
         try {
             user = userDao.getUserByName(userName);
-            save = saveDao.getSaveByUserAndName(user.get(0).rowId, saveName);
-            earlierSaves = saveDao.getAllEarlierSavesByPlayerAndTime(user.get(0).rowId, save.get(0).time);
-            laterSaves = saveDao.getAllLaterSavesByPlayerAndTime(user.get(0).rowId, save.get(0).time);
+            save = saveDao.getSaveByUserAndName(user.rowId, saveName);
+            earlierSaves = saveDao.getAllEarlierSavesByPlayerAndTime(user.rowId, save.time);
+            laterSaves = saveDao.getAllLaterSavesByPlayerAndTime(user.rowId, save.time);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
+        Player player = Bukkit.getPlayer(user.userName);
+
         class LoadThread implements Runnable {
             @Override
             public void run(){
-                if(save.get(0).rolledBack == 0)
+                if(save.rolledBack == 0)
                     {
                         if (coreAPI != null) {
-                            System.out.println("rollback if");
-                            coreAPI.performRollback(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
+                            coreAPI.performRollback(timeNow - save.time, Arrays.asList(user.userName), null, null, null, null, 0, null);
 
                             if (laterSaves != null && !laterSaves.isEmpty()) {
                                 for (SaveEntity saves : laterSaves) {
@@ -73,25 +75,20 @@ public class LoadCommand implements CommandExecutor {
                             }
                         }
 
-                    } else if(save.get(0).rolledBack == 1) {
-                        System.out.println("restore if");
-                        if (earlierSaves != null && !earlierSaves.isEmpty()) {
-                            if (coreAPI != null) {
-                                coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size()-1).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
-                            }
-                        } else {
-                            if (coreAPI != null) {
-                                coreAPI.performRestore(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
-                            }
-                        }
+                    } else if(save.rolledBack == 1) {
                         if (coreAPI != null) {
-                            coreAPI.performRollback(timeNow - save.get(0).time, Arrays.asList(user.get(0).userName), null, null, null, null, 0, null);
-                            save.get(0).rolledBack = 0;
+                            if (earlierSaves != null && !earlierSaves.isEmpty()) {
+                                coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size()-1).time, Arrays.asList(user.userName), null, null, null, null, 0, null);
+                                coreAPI.performRollback(timeNow - save.time, Arrays.asList(user.userName), null, null, null, null, 0, null);
+                                save.rolledBack = 0;
+                            } else {
+                                player.sendMessage("There is no earlier save that can be restored");
+                            }
                         }
                     }
 
                 try{
-                    saveDao.updateSave(save.get(0));
+                    saveDao.updateSave(save);
                 }catch(SQLException e){
                     throw new RuntimeException(e);
                 }
@@ -101,6 +98,7 @@ public class LoadCommand implements CommandExecutor {
         Thread thread = new Thread(runnable);
         thread.start();
     }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         sender.sendMessage("Loading save...");

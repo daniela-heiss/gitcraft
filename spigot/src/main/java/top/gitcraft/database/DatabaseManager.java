@@ -6,10 +6,7 @@ import com.j256.ormlite.table.TableUtils;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-import sun.tools.jconsole.Tab;
 import top.gitcraft.database.daos.*;
-import top.gitcraft.database.entities.CommitEntity;
-import top.gitcraft.database.entities.CommitManagementEntity;
 import top.gitcraft.database.entities.SaveEntity;
 
 import java.sql.SQLException;
