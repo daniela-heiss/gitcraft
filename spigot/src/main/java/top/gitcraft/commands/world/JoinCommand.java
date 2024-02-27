@@ -69,10 +69,12 @@ public class JoinCommand implements CommandExecutor {
         if(Objects.equals(created, "true")){
             World world = Bukkit.getWorld(worldName);
             Location location = new Location(world, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
+            GameMode originalGameMode = player.getGameMode();
 
             dispatchTellRawCommand(player, infoJoiningWorld(worldName));
             Bukkit.getScheduler().runTask(gitCraft, () -> {
                 player.teleport(location);
+                setGameMode(player, originalGameMode);
                 dispatchTellRawCommand(player, infoWorldJoined(worldName));
             });
         } else {
