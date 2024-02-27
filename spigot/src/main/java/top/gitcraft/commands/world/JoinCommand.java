@@ -18,6 +18,7 @@ import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCo
 
 public class JoinCommand implements CommandExecutor {
     private final GitCraft gitCraft;
+
     public JoinCommand(GitCraft gitCraft) {
         this.gitCraft = gitCraft;
     }
@@ -30,7 +31,7 @@ public class JoinCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        switch (args.length){
+        switch (args.length) {
             // No world provided
             case 0:
                 dispatchTellRawCommand(player, infoNoWorldNameProvided());
@@ -46,10 +47,9 @@ public class JoinCommand implements CommandExecutor {
         }
     }
 
-    public void joinWorldAtWorldSpawn(Player player, String worldName){
+    public void joinWorldAtWorldSpawn(Player player, String worldName) {
         World world = Bukkit.getWorld(worldName);
         GameMode originalGameMode = player.getGameMode();
-
 
         dispatchTellRawCommand(player, infoJoiningWorld(worldName));
         Bukkit.getScheduler().runTask(gitCraft, () -> {
@@ -59,14 +59,9 @@ public class JoinCommand implements CommandExecutor {
         });
     }
 
-    public void setGameMode(Player player, GameMode originalGameMode) {
 
-        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
-            player.setGameMode(originalGameMode);
-        }, 5);
-    }
-    public void joinWorldAtCurrentLocation(Player player, String worldName, String created){
-        if(Objects.equals(created, "true")){
+    public void joinWorldAtCurrentLocation(Player player, String worldName, String created) {
+        if (Objects.equals(created, "true")) {
             World world = Bukkit.getWorld(worldName);
             Location location = new Location(world, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
             GameMode originalGameMode = player.getGameMode();
@@ -80,5 +75,12 @@ public class JoinCommand implements CommandExecutor {
         } else {
             joinWorldAtWorldSpawn(player, worldName);
         }
+    }
+
+    public void setGameMode(Player player, GameMode gameMode) {
+
+        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
+            player.setGameMode(gameMode);
+        }, 5);
     }
 }
