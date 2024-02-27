@@ -8,6 +8,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import top.gitcraft.GitCraft;
 
 import java.util.Objects;
@@ -51,8 +52,22 @@ public class JoinCommand implements CommandExecutor {
         dispatchTellRawCommand(player, infoJoiningWorld(worldName));
         Bukkit.getScheduler().runTask(gitCraft, () -> {
             player.teleport(world.getSpawnLocation());
+            setDirection(player);
             dispatchTellRawCommand(player, infoWorldJoined(worldName));
         });
+    }
+    public void setDirection(Player player ){
+        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+        float originalYaw = player.getLocation().getYaw();
+        float originalPitch = player.getLocation().getPitch();
+        Bukkit.getScheduler().runTaskLater(core, () -> {
+            Location newLocation = player.getLocation();
+            newLocation.setYaw(originalYaw);
+            newLocation.setPitch(originalPitch);
+
+            player.teleport(newLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
+        }, 5);
+
     }
 
     public void joinWorldAtCurrentLocation(Player player, String worldName, String created){
