@@ -54,7 +54,7 @@ public class JoinCommand implements CommandExecutor {
         dispatchTellRawCommand(player, infoJoiningWorld(worldName));
         Bukkit.getScheduler().runTask(gitCraft, () -> {
             player.teleport(world.getSpawnLocation());
-            setGameMode(player, originalGameMode);
+            player.setGameMode(originalGameMode);
             dispatchTellRawCommand(player, infoWorldJoined(worldName));
         });
     }
@@ -69,7 +69,7 @@ public class JoinCommand implements CommandExecutor {
             dispatchTellRawCommand(player, infoJoiningWorld(worldName));
             Bukkit.getScheduler().runTask(gitCraft, () -> {
                 player.teleport(location);
-                setGameMode(player, originalGameMode);
+                player.setGameMode(originalGameMode);
                 dispatchTellRawCommand(player, infoWorldJoined(worldName));
             });
         } else {
@@ -77,10 +77,5 @@ public class JoinCommand implements CommandExecutor {
         }
     }
 
-    public void setGameMode(Player player, GameMode gameMode) {
 
-        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
-            player.setGameMode(gameMode);
-        }, 5);
-    }
 }
