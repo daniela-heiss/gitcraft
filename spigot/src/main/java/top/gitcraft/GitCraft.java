@@ -17,7 +17,6 @@ import top.gitcraft.commands.world.JoinCommand;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
 
-import java.sql.SQLException;
 import java.util.Objects;
 
 public final class GitCraft extends JavaPlugin {
@@ -45,7 +44,7 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcSetPos2")).setExecutor(new SetPos2Command());
         Objects.requireNonNull(this.getCommand("gcGetSelection")).setExecutor(new GetAreaCommand());
 
-        Objects.requireNonNull(this.getCommand("testareavisulize")).setExecutor(new TestAreaVisulize(this));
+        Objects.requireNonNull(this.getCommand("testareavisulize")).setExecutor(new TestAreaVisualizer());
 
         getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
     }
