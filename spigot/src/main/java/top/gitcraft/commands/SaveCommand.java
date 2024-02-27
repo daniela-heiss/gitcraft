@@ -23,6 +23,7 @@ public class SaveCommand implements CommandExecutor {
         worldDao = databaseManager.getWorldDao();
         blockDao = databaseManager.getBlockDao();
     }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         System.out.println("command: " + command + " label: " + label + " args: " + args[0]);
@@ -39,20 +40,18 @@ public class SaveCommand implements CommandExecutor {
         return true;
     }
 
-    public void getChangeCount(CommandSender sender)
-    {
+    public void getChangeCount(CommandSender sender) {
         int changecount = 0;
-        try{
+        try {
             // Retrieves a list of BlockEntity objects for blocks changed by a user identified by their ID
             Iterable<BlockEntity> blocks = blockDao.getBlocksByUserId(3);
             ArrayList<BlockEntity> list = new ArrayList<>();
             blocks.forEach(list::add);
             changecount = list.size();
-        } catch (SQLException e)
-        {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        sender.sendMessage("You changed"+ changecount +" blocks!");
+        sender.sendMessage("You changed" + changecount + " blocks!");
     }
 }
