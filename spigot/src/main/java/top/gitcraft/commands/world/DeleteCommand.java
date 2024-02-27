@@ -70,9 +70,10 @@ public class DeleteCommand implements CommandExecutor {
             worldManager.deleteWorld(worldName);
             dispatchTellRawCommand(player, infoWorldDeleted(worldName));
         });
+        deleteLog(player, worldName);
     }
 
-    private void deleteLog(Player player, String worldName) throws SQLException {
+    private void deleteLog(Player player, String worldName){
         try {
             UUID uuid = player.getUniqueId();
             UserEntity user = userDao.getUserByUuid(uuid);

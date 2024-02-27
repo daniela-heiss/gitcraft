@@ -82,6 +82,9 @@ public class CreateCommand implements CommandExecutor {
             // Send the second message after the cloning operation is completed
             dispatchTellRawCommand(player, infoWorldCreated(clonedWorldName));
 
+            //log world in database
+            logWorld(player,clonedWorldName);
+
             new JoinCommand(gitCraft).joinWorldAtCurrentLocation(player, clonedWorldName, "true");
         });
     }
@@ -110,7 +113,7 @@ public class CreateCommand implements CommandExecutor {
         return worldName + "copy" + Long.toString(time);
     }
 
-    private void logWorld(Player player, String worldName) throws SQLException {
+    private void logWorld(Player player, String worldName) {
         try {
             UUID uuid = player.getUniqueId();
             UserEntity user = userDao.getUserByUuid(uuid);
