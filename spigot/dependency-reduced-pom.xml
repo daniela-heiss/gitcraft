@@ -57,10 +57,6 @@
       <url>https://maven.enginehub.org/repo/</url>
     </repository>
     <repository>
-      <id>coreprotect-repo</id>
-      <url>https://maven.playpro.com/net/coreprotect/</url>
-    </repository>
-    <repository>
       <id>playpro-repo</id>
       <url>https://maven.playpro.com</url>
     </repository>
@@ -73,6 +69,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>net.coreprotect</groupId>
+      <artifactId>coreprotect</artifactId>
+      <version>22.2</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>com.sk89q.worldedit</groupId>
       <artifactId>worldedit-bukkit</artifactId>
       <version>7.2.9</version>
@@ -82,12 +84,6 @@
       <groupId>com.onarandombox.multiversecore</groupId>
       <artifactId>Multiverse-Core</artifactId>
       <version>4.3.12</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>net.coreprotect</groupId>
-      <artifactId>coreprotect</artifactId>
-      <version>22.2</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
