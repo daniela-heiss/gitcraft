@@ -5,18 +5,28 @@ import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.world.World;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import top.gitcraft.GitCraft;
+import top.gitcraft.commands.world.JoinCommand;
 
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
 import static top.gitcraft.utils.WorldEditFunctions.*;
 import static top.gitcraft.utils.FindMinAndMax.*;
 
 public class AutoMergeCommand implements CommandExecutor {
+
+    private final GitCraft gitCraft;
+    public AutoMergeCommand(GitCraft gitCraft) {
+        this.gitCraft = gitCraft;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -55,11 +65,22 @@ public class AutoMergeCommand implements CommandExecutor {
         File file = saveRegionAsSchematic(clipboard, schematicName, sender);
 
         if (file != null) {
-            Clipboard loadedClipboard = loadSchematic(file);
-            sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
 
-            pasteClipboard(currentWorld, minCoordinatesArray, loadedClipboard);
-            sender.sendMessage("Pasted Schematic " + schematicName + " into Clipboard");
+            new JoinCommand(gitCraft).joinWorldAtCurrentLocation(player, "world", "true");
+
+            Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
+                @Override
+                public void run() {
+                    Clipboard loadedClipboard = loadSchematic(file);
+                    sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
+
+                    World originalWorld = BukkitAdapter.adapt(player.getWorld());
+                    sender.sendMessage("Current World Name: " + originalWorld);
+
+                    pasteClipboard(originalWorld, minCoordinatesArray, loadedClipboard);
+                    sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
+                }
+            }, 50L);
 
         }
         return true;

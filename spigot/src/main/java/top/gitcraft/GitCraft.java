@@ -34,8 +34,8 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcdelete")).setExecutor(new DeleteCommand(this));
         Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());
 
-        Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand());
-        Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
+        Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand(this));
+        Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand(this));
         Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());
 
         Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());
