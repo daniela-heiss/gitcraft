@@ -17,8 +17,8 @@ public class UserDao extends BaseDaoImpl<UserEntity, Integer> {
         super(connectionSource, UserEntity.class);
     }
 
-    public UserEntity getUserByRowId(int rowid) throws SQLException {
-        return queryForId(rowid);
+    public UserEntity getUserByRowId(int rowId) throws SQLException {
+        return queryForId(rowId);
     }
 
     public UserEntity getUserByName(String userName) throws SQLException {

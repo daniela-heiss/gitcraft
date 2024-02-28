@@ -15,10 +15,10 @@ import top.gitcraft.database.entities.UserEntity;
 
 public class SaveCommand implements CommandExecutor {
 
-    private static UserDao userDao = null;
+    private static UserDao userDao;
     private static SaveDao saveDao;
 
-    public SaveCommand(){
+    public SaveCommand() {
         try {
             DatabaseManager databaseManager = DatabaseManager.getInstance();
             userDao = databaseManager.getUserDao();
@@ -27,10 +27,25 @@ public class SaveCommand implements CommandExecutor {
             throw new RuntimeException(e);
         }
     }
-    public static int logSave(String saveName, String userName){
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        String saveName = args[0];
+
+        sender.sendMessage("Save in progress...");
+        if (logSave(saveName, sender.getName()) == false) {
+            sender.sendMessage("You already have a save named " + args[0]);
+            sender.sendMessage("Please try another name");
+        } else {
+            sender.sendMessage("Saved!");
+        }
+        return true;
+    }
+
+    public static boolean logSave(String saveName, String userName) {
         List<SaveEntity> allSaves;
         UserEntity user;
-        boolean checkUnique = false;
+        boolean isUnique = true;
 
         try {
             user = userDao.getUserByName(userName);
@@ -40,13 +55,14 @@ public class SaveCommand implements CommandExecutor {
         }
 
         for (SaveEntity save : allSaves) {
-            if (save.saveName.equals(saveName)){
-                checkUnique = true;
+            if (save.saveName.equals(saveName)) {
+                isUnique = false;
+                break;
             }
         }
 
-        if (checkUnique == true){
-            return -1;
+        if (!isUnique) {
+            return false;
         } else {
             SaveEntity newSave = new SaveEntity();
 
@@ -63,17 +79,6 @@ public class SaveCommand implements CommandExecutor {
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        }
-        return 0;
-    }
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        sender.sendMessage("Save in progress...");
-        if (logSave(args[0], sender.getName()) == -1){
-            sender.sendMessage("You already have a save named " + args[0]);
-            sender.sendMessage("Please try another name");
-        } else {
-            sender.sendMessage("Saved!");
         }
         return true;
     }
