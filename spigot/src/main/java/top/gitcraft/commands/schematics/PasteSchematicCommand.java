@@ -25,10 +25,52 @@ import static top.gitcraft.utils.WorldEditFunctions.*;
 
 public class PasteSchematicCommand implements CommandExecutor {
 
-    private final GitCraft gitCraft;
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-    public PasteSchematicCommand(GitCraft gitCraft) {
-        this.gitCraft = gitCraft;
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("You must be a player to use this command");
+            return false;
+        }
+        Player player = (Player) sender;
+
+        if (args.length != 2) {
+            return false;
+        }
+
+        String worldName = player.getWorld().getName();
+        sender.sendMessage("Current World Name: " + worldName);
+
+        Double[] minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
+
+        String schematicName = args[1];
+        String allOrAreaType = args[0];
+
+        String fileEnding = ".schem";
+
+        File file = new File("/minecraft/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
+
+        joinWorldAtCurrentLocation(player, "world");
+        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
+            @Override
+            public void run() {
+
+                switch (allOrAreaType) {
+                    case "area":
+                        pasteSchematicIntoArea(player, sender, file, schematicName);
+                        break;
+
+                    case "all":
+                        pasteSchematicToMinCoordinates(player, sender, file, schematicName, minCoordinatesArray);
+                        break;
+
+                    default:
+                        player.sendMessage("/pasteschematic [area | all] <schematicName>");
+                        break;
+                }
+            }
+        }, 50L);
+        return true;
     }
 
     public static void pasteSchematicIntoArea(Player player, CommandSender sender, File file, String schematicName) {
@@ -57,55 +99,5 @@ public class PasteSchematicCommand implements CommandExecutor {
         sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!(sender instanceof Player)) {
-            sender.sendMessage("You must be a player to use this command");
-            return false;
-        }
-        Player player = (Player) sender;
-
-        if (args.length != 2) {
-            return false;
-        }
-
-        String worldName = player.getWorld().getName();
-        sender.sendMessage("Current World Name: " + worldName);
-
-        Double[] minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
-
-        String schematicName = args[1];
-
-        String fileEnding = ".schem";
-
-        File file = new File("/minecraft/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
-
-        if (file != null) {
-
-            joinWorldAtCurrentLocation(player, "world");
-
-            Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
-                @Override
-                public void run() {
-
-                    switch (args[0]) {
-                        case "area":
-                            pasteSchematicIntoArea(player, sender, file, schematicName);
-
-                            break;
-
-                        case "all":
-                            pasteSchematicToMinCoordinates(player, sender, file, schematicName, minCoordinatesArray);
-                            break;
-
-                        default:
-                            player.sendMessage("/pasteschematic [area | all] <schematicName>");
-                            break;
-                    }
-                }
-            }, 50L);
-        }
-        return true;
-    }
 }
