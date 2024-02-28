@@ -31,6 +31,32 @@ public class PasteSchematicCommand implements CommandExecutor {
         this.gitCraft = gitCraft;
     }
 
+    public static void pasteSchematicIntoArea(Player player, CommandSender sender, File file, String schematicName) {
+        CuboidRegion selectedArea = getSelection(player);
+        if (selectedArea == null) {
+            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
+        }
+        Clipboard loadedClipboardAll = loadSchematic(file);
+        sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
+
+        World originalWorldArea = BukkitAdapter.adapt(player.getWorld());
+        sender.sendMessage("Current World Name: " + originalWorldArea);
+
+        pasteClipboard(originalWorldArea, selectedArea.getPos1(), loadedClipboardAll);
+        sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
+    }
+
+    public static void pasteSchematicToMinCoordinates(Player player, CommandSender sender, File file, String schematicName, Double[] minCoordinatesArray) {
+        Clipboard loadedClipboardArea = loadSchematic(file);
+        sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
+
+        World originalWorldAll = BukkitAdapter.adapt(player.getWorld());
+        sender.sendMessage("Current World Name: " + originalWorldAll);
+
+        pasteClipboard(originalWorldAll, minCoordinatesArray, loadedClipboardArea);
+        sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -51,46 +77,26 @@ public class PasteSchematicCommand implements CommandExecutor {
 
         String schematicName = args[1];
 
-        File file = null;
         String fileEnding = ".schem";
 
-        file = new File("/minecraft/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
+        File file = new File("/minecraft/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
 
         if (file != null) {
 
             joinWorldAtCurrentLocation(player, "world");
 
-            File finalFile = file;
             Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
                 @Override
                 public void run() {
 
                     switch (args[0]) {
                         case "area":
-                            CuboidRegion selectedArea = getSelection(player);
-                            if (selectedArea == null) {
-                                player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
-                            }
-                            Clipboard loadedClipboardAll = loadSchematic(finalFile);
-                            sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
-
-                            World originalWorldArea = BukkitAdapter.adapt(player.getWorld());
-                            sender.sendMessage("Current World Name: " + originalWorldArea);
-
-                            pasteClipboard(originalWorldArea, selectedArea.getPos1(), loadedClipboardAll);
-                            sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
+                            pasteSchematicIntoArea(player, sender, file, schematicName);
 
                             break;
 
                         case "all":
-                            Clipboard loadedClipboardArea = loadSchematic(finalFile);
-                            sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
-
-                            World originalWorldAll = BukkitAdapter.adapt(player.getWorld());
-                            sender.sendMessage("Current World Name: " + originalWorldAll);
-
-                            pasteClipboard(originalWorldAll, minCoordinatesArray, loadedClipboardArea);
-                            sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
+                            pasteSchematicToMinCoordinates(player, sender, file, schematicName, minCoordinatesArray);
                             break;
 
                         default:
