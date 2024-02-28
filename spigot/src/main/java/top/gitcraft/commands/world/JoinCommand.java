@@ -18,6 +18,7 @@ import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCo
 
 public class JoinCommand implements CommandExecutor {
     private final GitCraft gitCraft;
+
     public JoinCommand(GitCraft gitCraft) {
         this.gitCraft = gitCraft;
     }
@@ -30,7 +31,7 @@ public class JoinCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        switch (args.length){
+        switch (args.length) {
             // No world provided
             case 0:
                 dispatchTellRawCommand(player, infoNoWorldNameProvided());
@@ -46,44 +47,33 @@ public class JoinCommand implements CommandExecutor {
         }
     }
 
-    public void joinWorldAtWorldSpawn(Player player, String worldName){
+    public void joinWorldAtWorldSpawn(Player player, String worldName) {
         World world = Bukkit.getWorld(worldName);
 
         dispatchTellRawCommand(player, infoJoiningWorld(worldName));
         Bukkit.getScheduler().runTask(gitCraft, () -> {
-            player.teleport(world.getSpawnLocation());
+            Location spawnLocation = world.getSpawnLocation();
+            player.teleport(spawnLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
             dispatchTellRawCommand(player, infoWorldJoined(worldName));
         });
     }
 
-    public void joinWorldAtCurrentLocation(Player player, String worldName, String created){
-        if(Objects.equals(created, "true")){
+    public void joinWorldAtCurrentLocation(Player player, String worldName, String created) {
+        if (Objects.equals(created, "true")) {
             World world = Bukkit.getWorld(worldName);
-            Location location = new Location(world, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
-            float originalYaw = player.getLocation().getYaw();
-            float originalPitch = player.getLocation().getPitch();
+
+            //change world
+            Location location = player.getLocation();
+            location.setWorld(world);
 
             dispatchTellRawCommand(player, infoJoiningWorld(worldName));
             Bukkit.getScheduler().runTask(gitCraft, () -> {
-                player.teleport(location);
-                setDirection(player, originalYaw, originalPitch);
+                player.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
                 dispatchTellRawCommand(player, infoWorldJoined(worldName));
             });
         } else {
             joinWorldAtWorldSpawn(player, worldName);
         }
-    }
-
-    public void setDirection(Player player, float yaw, float pitch){
-
-        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
-            Location location = player.getLocation();
-            location.setYaw(yaw);
-            location.setPitch(pitch);
-
-            player.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
-        }, 5);
-
     }
 
 }
