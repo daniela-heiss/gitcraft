@@ -24,19 +24,17 @@ import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCo
 public class DeleteCommand implements CommandExecutor {
     private final UserDao userDao;
     private final WorldMapDao worldMapDao;
-    private final GitCraft gitCraft;
 
-    public DeleteCommand(GitCraft gitCraft) {
-        this.gitCraft = gitCraft;
+    public DeleteCommand() {
 
         try {
-        DatabaseManager databaseManager = DatabaseManager.getInstance();
-        userDao = databaseManager.getUserDao();
-        worldMapDao = databaseManager.getWorldMapDao();
-        } catch(SQLException e){
+            DatabaseManager databaseManager = DatabaseManager.getInstance();
+            userDao = databaseManager.getUserDao();
+            worldMapDao = databaseManager.getWorldMapDao();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    
+
     }
 
     @Override
@@ -53,7 +51,7 @@ public class DeleteCommand implements CommandExecutor {
             return true;
         }
         // "world" is protected from accidental deletion
-        if (Objects.equals(args[0], "world")){
+        if (Objects.equals(args[0], "world")) {
             dispatchTellRawCommand(player, infoWorldIsProtected("world"));
             return true;
         }
@@ -61,19 +59,19 @@ public class DeleteCommand implements CommandExecutor {
         return true;
     }
 
-    public void deleteWorld(Player player, String worldName){
+    public void deleteWorld(Player player, String worldName) {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
 
         dispatchTellRawCommand(player, infoDeletingWorld(worldName));
-        Bukkit.getScheduler().runTask(gitCraft, () -> {
+        Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
             worldManager.deleteWorld(worldName);
             dispatchTellRawCommand(player, infoWorldDeleted(worldName));
         });
         deleteLog(player, worldName);
     }
 
-    private void deleteLog(Player player, String worldName){
+    private void deleteLog(Player player, String worldName) {
         try {
             UUID uuid = player.getUniqueId();
             UserEntity user = userDao.getUserByUuid(uuid);

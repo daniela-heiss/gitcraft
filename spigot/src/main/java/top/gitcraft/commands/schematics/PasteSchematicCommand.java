@@ -16,6 +16,7 @@ import top.gitcraft.commands.world.JoinCommand;
 
 import java.io.File;
 
+import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
 import static top.gitcraft.utils.FindMinAndMax.findMax;
 import static top.gitcraft.utils.FindMinAndMax.findMin;
@@ -25,6 +26,7 @@ import static top.gitcraft.utils.WorldEditFunctions.*;
 public class PasteSchematicCommand implements CommandExecutor {
 
     private final GitCraft gitCraft;
+
     public PasteSchematicCommand(GitCraft gitCraft) {
         this.gitCraft = gitCraft;
     }
@@ -56,7 +58,7 @@ public class PasteSchematicCommand implements CommandExecutor {
 
         if (file != null) {
 
-            new JoinCommand(gitCraft).joinWorldAtCurrentLocation(player, "world", "true");
+            joinWorldAtCurrentLocation(player, "world");
 
             File finalFile = file;
             Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
@@ -66,7 +68,7 @@ public class PasteSchematicCommand implements CommandExecutor {
                     switch (args[0]) {
                         case "area":
                             CuboidRegion selectedArea = getSelection(player);
-                            if(selectedArea == null) {
+                            if (selectedArea == null) {
                                 player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
                             }
                             Clipboard loadedClipboardAll = loadSchematic(finalFile);

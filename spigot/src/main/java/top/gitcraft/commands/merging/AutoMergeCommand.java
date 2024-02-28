@@ -17,6 +17,7 @@ import top.gitcraft.commands.world.JoinCommand;
 import java.io.*;
 import java.util.concurrent.TimeUnit;
 
+import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
 import static top.gitcraft.utils.WorldEditFunctions.*;
 import static top.gitcraft.utils.FindMinAndMax.*;
@@ -24,6 +25,7 @@ import static top.gitcraft.utils.FindMinAndMax.*;
 public class AutoMergeCommand implements CommandExecutor {
 
     private final GitCraft gitCraft;
+
     public AutoMergeCommand(GitCraft gitCraft) {
         this.gitCraft = gitCraft;
     }
@@ -31,7 +33,7 @@ public class AutoMergeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if(!(sender instanceof Player)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage("You must be a player to use this command");
             return false;
         }
@@ -66,7 +68,7 @@ public class AutoMergeCommand implements CommandExecutor {
 
         if (file != null) {
 
-            new JoinCommand(gitCraft).joinWorldAtCurrentLocation(player, "world", "true");
+           joinWorldAtCurrentLocation(player, "world");
 
             Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
                 @Override
