@@ -2,6 +2,7 @@ package top.gitcraft.commands.world;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -17,6 +18,7 @@ import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCo
 
 public class JoinCommand implements CommandExecutor {
     private final GitCraft gitCraft;
+
     public JoinCommand(GitCraft gitCraft) {
         this.gitCraft = gitCraft;
     }
@@ -29,7 +31,7 @@ public class JoinCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        switch (args.length){
+        switch (args.length) {
             // No world provided
             case 0:
                 dispatchTellRawCommand(player, infoNoWorldNameProvided());
@@ -45,28 +47,35 @@ public class JoinCommand implements CommandExecutor {
         }
     }
 
-    public void joinWorldAtWorldSpawn(Player player, String worldName){
+    public void joinWorldAtWorldSpawn(Player player, String worldName) {
         World world = Bukkit.getWorld(worldName);
+        GameMode originalGameMode = player.getGameMode();
 
         dispatchTellRawCommand(player, infoJoiningWorld(worldName));
         Bukkit.getScheduler().runTask(gitCraft, () -> {
             player.teleport(world.getSpawnLocation());
+            player.setGameMode(originalGameMode);
             dispatchTellRawCommand(player, infoWorldJoined(worldName));
         });
     }
 
-    public void joinWorldAtCurrentLocation(Player player, String worldName, String created){
-        if(Objects.equals(created, "true")){
+
+    public void joinWorldAtCurrentLocation(Player player, String worldName, String created) {
+        if (Objects.equals(created, "true")) {
             World world = Bukkit.getWorld(worldName);
             Location location = new Location(world, player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ());
+            GameMode originalGameMode = player.getGameMode();
 
             dispatchTellRawCommand(player, infoJoiningWorld(worldName));
             Bukkit.getScheduler().runTask(gitCraft, () -> {
                 player.teleport(location);
+                player.setGameMode(originalGameMode);
                 dispatchTellRawCommand(player, infoWorldJoined(worldName));
             });
         } else {
             joinWorldAtWorldSpawn(player, worldName);
         }
     }
+
+
 }
