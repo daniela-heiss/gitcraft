@@ -50,6 +50,7 @@ public final class GitCraft extends JavaPlugin {
         //save-load
         Objects.requireNonNull(this.getCommand("load")).setExecutor(new LoadCommand());
         Objects.requireNonNull(this.getCommand("save")).setExecutor(new SaveCommand());
+        Objects.requireNonNull(this.getCommand("deleteSave")).setExecutor(new DeleteSaveCommand());
 
 
         getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);

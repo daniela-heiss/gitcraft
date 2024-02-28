@@ -17,7 +17,7 @@ import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
 public class LoadCommand implements CommandExecutor {
-    private static UserDao userDao = null;
+    private static UserDao userDao;
     private static SaveDao saveDao;
     private static CoreProtectAPI coreAPI;
 

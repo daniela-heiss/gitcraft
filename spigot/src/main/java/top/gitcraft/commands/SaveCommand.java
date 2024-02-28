@@ -15,7 +15,7 @@ import top.gitcraft.database.entities.UserEntity;
 
 public class SaveCommand implements CommandExecutor {
 
-    private static UserDao userDao = null;
+    private static UserDao userDao;
     private static SaveDao saveDao;
 
     public SaveCommand(){
