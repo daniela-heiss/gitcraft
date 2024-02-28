@@ -9,7 +9,9 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.BlockVector;
 import top.gitcraft.GitCraft;
 
-/** Used to create an instance of a particle box
+/**
+ * Used to create an instance of a particle box
+ *
  * @apiNote Do not use directly. Create instance with
  * AreaVisualizerHandler. Instances created directly are
  * not bound to a player and will not be destroyed on
@@ -22,26 +24,31 @@ public class AreaVisualizer {
     private Particle particle = Particle.FLAME;
     private boolean force = true;
 
-    /** Empty constructor of AreaVisualizer.
+    /**
+     * Empty constructor of AreaVisualizer.
      * Creates a particle box every 10 ticks (0.5 sec)
      * with particle flame and force flag set to true.
      */
     public AreaVisualizer() {
     }
-    /** Constructor of AreaVisualizer with parameters
-     * @param period Interval at which particles are spawned in ticks (20 ticks = 1s).
+
+    /**
+     * Constructor of AreaVisualizer with parameters
+     *
+     * @param period   Interval at which particles are spawned in ticks (20 ticks = 1s).
      * @param particle What particle should be displayed.
-     * @param force If the particles should be forced. The users particle settings
-     *                       are ignored and the particles are rendered up to 256 block away.
+     * @param force    If the particles should be forced. The users particle settings
+     *                 are ignored and the particles are rendered up to 256 block away.
      * @apiNote A low period and force particle may lead to severely decreased performance.
      */
-    public AreaVisualizer(int period, Particle particle, boolean force){
+    public AreaVisualizer(int period, Particle particle, boolean force) {
         this.period = period;
         this.particle = particle;
         this.force = force;
     }
 
-    /** Will destroy the AreaVisualizer instance if
+    /**
+     * Will destroy the AreaVisualizer instance if
      * no further reference exists.
      */
     public void removeVisualizeAreaSelection() {
@@ -50,18 +57,19 @@ public class AreaVisualizer {
         }
     }
 
-    /** Method to create a new particle box
+    /**
+     * Method to create a new particle box
      *
      * @param world What world the particles are spawned in
-     * @param pos1 First corner of the particle box
-     * @param pos2 Second corner of the particle box
+     * @param pos1  First corner of the particle box
+     * @param pos2  Second corner of the particle box
      * @apiNote This method schedules a task on a background thread.
      * If the class instance is not kept track of, the task can only
      * be cancelled by canceling all plugin tasks potentially leading
      * to side effects<br>
      * <code>plugin.getServer().getScheduler().cancelTasks(plugin);</code>
      */
-    public void createVisualizeAreaSelection(World world, BlockVector pos1, BlockVector pos2) {
+    public void visualizeCubeBoundaries(World world, BlockVector pos1, BlockVector pos2) {
         Plugin plugin = GitCraft.getPlugin(GitCraft.class);
 
         Location corner1 = new Location(world, pos1.getX(), pos1.getY(), pos1.getZ());
@@ -88,10 +96,11 @@ public class AreaVisualizer {
         }.runTaskTimer(plugin, 0, period); // Spawning particle at specified period in ticks (20 ticks = 1s)
     }
 
-    /** Method responsible for spawning the particles
+    /**
+     * Method responsible for spawning the particles
      *
      * @param start Starting coordinate of the vector
-     * @param end End coordinate of the vector
+     * @param end   End coordinate of the vector
      */
     private void spawnEdgeParticles(Location start, Location end) {
         double particleSpacing = 0.5; // Adjust spacing between particles
