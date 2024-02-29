@@ -42,10 +42,9 @@ public class AutoMergeCommand implements CommandExecutor {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        args[0] = String.valueOf(timestamp);
-        if (args.length != 1) {
-            return false;
-        }
+        //if (args.length != 1) {
+        //    return false;
+        //}
 
         sender.sendMessage("Gathering Coordinates...");
 
@@ -67,7 +66,7 @@ public class AutoMergeCommand implements CommandExecutor {
         BlockArrayClipboard clipboard = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
         player.sendMessage("Copied region to clipboard");
 
-        String schematicName = args[0];
+        String schematicName = String.valueOf(timestamp);
         File file = saveRegionAsSchematic(clipboard, schematicName, sender);
 
         if (file != null) {
