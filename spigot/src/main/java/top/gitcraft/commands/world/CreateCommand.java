@@ -58,6 +58,8 @@ public class CreateCommand implements CommandExecutor {
             if (doTeleport) joinWorldAtCurrentLocation(player, worldName);
         };
         cloneWorld(currentWorldName, worldName, callback);
+        logWorld(player, worldName);
+
         return true;
     }
 
@@ -67,11 +69,9 @@ public class CreateCommand implements CommandExecutor {
                 (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
 
-        // Clone the world asynchronously in a separate thread
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
             worldManager.cloneWorld(currentWorldName, newWorldName);
 
-            // Once the cloning operation is completed, invoke the callback
             Bukkit.getScheduler()
                     .runTask(GitCraft.getPlugin(GitCraft.class), callback);
         });
