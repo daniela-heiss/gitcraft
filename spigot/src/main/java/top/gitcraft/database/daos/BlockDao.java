@@ -11,9 +11,9 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
 
     public BlockDao(ConnectionSource connectionSource) throws SQLException {
         super(connectionSource, BlockEntity.class);
-        if (!checkColumnExists("commitId")) {
+        /*if (!checkColumnExists("commitId")) {
             addColumn("commitId", "INT");
-        }
+        }*/
     }
 
     public void createBlock(BlockEntity block) throws SQLException {
@@ -40,10 +40,6 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
         return queryBuilder().where().eq("user", userId).query();
     }
 
-    public List<BlockEntity> getBlocksWithoutCommitByUserId(Integer userId) throws SQLException {
-        return queryBuilder().where().eq("user", userId).and().isNull("commitId").query();
-    }
-
     public List<BlockEntity> getBlocksByLocation(int x, int y, int z) throws SQLException {
         return queryBuilder().where().eq("x", x).and().eq("y", y).and().eq("z", z).query();
     }
@@ -56,10 +52,6 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
             }
         }
         return false;
-    }
-
-    public void addColumn(String columnName, String columnType) throws SQLException {
-        executeRaw("ALTER TABLE co_block ADD COLUMN " + columnName + " " + columnType);
     }
 
     public List<BlockEntity> getUserBlocksByWorldId(Integer worldId, List<Integer> userIds) throws SQLException {
