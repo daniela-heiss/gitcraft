@@ -80,10 +80,30 @@ public class FindMinAndMax {
         double endY = endCoordinates.getY();
         double endZ = endCoordinates.getZ();
 
-        List<BlockEntity> areaBlocks = new ArrayList<>();
-        for (int i = 0; i < list.size() - 1; i++) {
+        if (startX > endX) {
+            double tmp = startX;
+            startX = endX;
+            endX = tmp;
+        }
+        if (startY > endY) {
+            double tmp = startY;
+            startY = endY;
+            endY = tmp;
+        }
+        if (startZ > endZ) {
+            double tmp = startZ;
+            startZ = endZ;
+            endZ = tmp;
+        }
+
+        System.out.println("Test: " + startX + " " + startY + " " + startZ);
+        System.out.println("Test: " + endX + " " + endY + " " + endZ);
+
+        List<BlockEntity> areaBlocks = new ArrayList<>(list.size());
+        for (int i = 0; i < list.size(); i++) {
             if (list.get(i).x >= startX && list.get(i).x <= endX && list.get(i).y >= startY && list.get(i).y <= endY && list.get(i).z >= startZ && list.get(i).z <= endZ) {
             //if ((list.get(i).x >= startX && list.get(i).y >= startY && list.get(i).z >= startZ) && (list.get(i).x <= endX && list.get(i).y <= endY && list.get(i).z <= endZ)) {
+                System.out.println(list.get(i));
                 areaBlocks.add(list.get(i));
             }
         }

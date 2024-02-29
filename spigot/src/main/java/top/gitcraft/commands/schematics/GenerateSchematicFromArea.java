@@ -33,7 +33,7 @@ public class GenerateSchematicFromArea implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        if (args.length != 2) {
+        if (args.length != 1) {
             return false;
         }
 
@@ -43,7 +43,7 @@ public class GenerateSchematicFromArea implements CommandExecutor {
         String worldName = player.getWorld().getName();
         sender.sendMessage("Current World Name: " + worldName);
 
-        String schematicName = args[1];
+        String schematicName = args[0];
         //File file = null;
 
         // Get BlockVector3 Coordinates of the selected Area
@@ -59,6 +59,10 @@ public class GenerateSchematicFromArea implements CommandExecutor {
         List<BlockEntity> allBPlayerChangedBlocks = getBlockChangedByPlayers(worldName);
 
         List<BlockEntity> playerChangedBlocksInArea = findArea(allBPlayerChangedBlocks, startCoordinates, endCoordinates);
+
+        for (BlockEntity blocks: playerChangedBlocksInArea) {
+            System.out.println("Test: " + blocks.x + " " + blocks.y + " " + blocks.z);
+        }
 
         Double[] minCoordinatesArray = findMin(playerChangedBlocksInArea);
         Double[] maxCoordinatesArray = findMax(playerChangedBlocksInArea);
