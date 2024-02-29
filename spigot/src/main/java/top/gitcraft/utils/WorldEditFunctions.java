@@ -50,30 +50,26 @@ public class WorldEditFunctions {
         return clipboard;
     }
 
-    public static BlockArrayClipboard copyRegionToClipboard(BlockVector3 startCoordinates, BlockVector3 endCoordinates, World world, Player player) {
-        CuboidRegion region = new CuboidRegion(startCoordinates, endCoordinates);
-        region.setPos1(startCoordinates);
-        region.setPos2(endCoordinates);
-
-        player.sendMessage(region.getPos1() + "" + region.getPos2());
+    public static BlockArrayClipboard copyRegionToClipboard(CuboidRegion region, World world, Player player) {
+        player.sendMessage("Copying region" + region.toString() + " to clipboard");
         BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
-
         ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(
                 world, region, clipboard, region.getMinimumPoint()
         );
 
         try {
             Operations.complete(forwardExtentCopy);
+            return clipboard;
+
         } catch (WorldEditException e) {
+            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: " + e.getMessage());
             throw new RuntimeException(e);
         }
-        player.sendMessage("Copied region to clipboard");
-        return clipboard;
     }
 
     public static File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName, CommandSender sender) {
         String fileEnding = ".schem";
-        File file = new File("/minecraft/plugins/WorldEdit/schematics/" + schematicName  + fileEnding);
+        File file = new File("/minecraft/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
         if (!file.exists()) {
             try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
                 writer.write(clipboard);

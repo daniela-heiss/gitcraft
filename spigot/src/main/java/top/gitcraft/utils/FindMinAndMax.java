@@ -1,16 +1,22 @@
 package top.gitcraft.utils;
 
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import top.gitcraft.database.entities.BlockEntity;
 
 import java.util.List;
 
 public class FindMinAndMax {
-    public static Double[] findMin(List<BlockEntity> list) {
+
+    public static CuboidRegion getMinMaxPos(List<BlockEntity> list) {
+        BlockVector3 min = findMin(list);
+        BlockVector3 max = findMax(list);
+        return new CuboidRegion(min, max);
+    }
+    public static BlockVector3 findMin(List<BlockEntity> list) {
         int minX = 0;
         int minY = 0;
         int minZ = 0;
-
-        Double[] coordinates = new Double[3];
 
         for (int i = 0; i < list.size() - 1; i++) {
             if (i == 0) {
@@ -29,19 +35,14 @@ public class FindMinAndMax {
                 }
             }
         }
-        coordinates[0] = (double) minX;
-        coordinates[1] = (double) minY;
-        coordinates[2] = (double) minZ;
-
-        return coordinates;
+        return BlockVector3.at(minX, minY, minZ);
     }
 
-    public static Double[] findMax(List<BlockEntity> list) {
+    public static BlockVector3 findMax(List<BlockEntity> list) {
         int maxX = 0;
         int maxY = 0;
         int maxZ = 0;
 
-        Double[] coordinates = new Double[3];
 
         for (int i = 0; i < list.size() - 1; i++) {
             if (i == 0) {
@@ -60,10 +61,6 @@ public class FindMinAndMax {
                 }
             }
         }
-        coordinates[0] = (double) maxX;
-        coordinates[1] = (double) maxY;
-        coordinates[2] = (double) maxZ;
-
-        return coordinates;
+        return BlockVector3.at(maxX, maxY, maxZ);
     }
 }
