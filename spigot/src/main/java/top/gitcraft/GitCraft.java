@@ -15,6 +15,8 @@ import top.gitcraft.commands.world.WorldCommand;
 import top.gitcraft.commands.world.CreateCommand;
 import top.gitcraft.commands.world.DeleteCommand;
 import top.gitcraft.commands.world.JoinCommand;
+import top.gitcraft.commands.loadsave.LoadCommand;
+import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
 import top.gitcraft.utils.areavisualizer.PlayerQuitListener;
@@ -48,6 +50,10 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcGetSelection")).setExecutor(new GetAreaCommand());
 
         Objects.requireNonNull(this.getCommand("testareavisulize")).setExecutor(new TestAreaVisualizer());
+        //save-load
+        Objects.requireNonNull(this.getCommand("gcLoad")).setExecutor(new LoadCommand());
+        Objects.requireNonNull(this.getCommand("gcSave")).setExecutor(new SaveCommand());
+
 
         getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);

@@ -6,10 +6,8 @@ import com.j256.ormlite.table.TableUtils;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
-import sun.tools.jconsole.Tab;
 import top.gitcraft.database.daos.*;
-import top.gitcraft.database.entities.CommitEntity;
-import top.gitcraft.database.entities.CommitManagementEntity;
+import top.gitcraft.database.entities.SaveEntity;
 import top.gitcraft.database.entities.WorldMapEntity;
 
 import java.sql.SQLException;
@@ -41,9 +39,9 @@ public class DatabaseManager {
     private void initializeDatabase() throws SQLException {
         connectionSource = new JdbcConnectionSource(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
 
-        TableUtils.createTableIfNotExists(connectionSource, CommitManagementEntity.class);
-        TableUtils.createTableIfNotExists(connectionSource, CommitEntity.class);
-        TableUtils.createTableIfNotExists(connectionSource, WorldMapEntity.class);
+        //TableUtils.createTableIfNotExists(connectionSource, CommitManagementEntity.class);
+        //TableUtils.createTableIfNotExists(connectionSource, CommitEntity.class);
+        TableUtils.createTableIfNotExists(connectionSource, SaveEntity.class);
     }
 
     private void closeConnection() throws Exception {
@@ -64,12 +62,16 @@ public class DatabaseManager {
         return new MaterialMapDao(connectionSource);
     }
 
-    public CommitManagementDao getCommitManagementDao() throws SQLException {
+    /*public CommitManagementDao getCommitManagementDao() throws SQLException {
         return new CommitManagementDao(connectionSource);
-    }
+    }*/
 
-    public CommitDao getCommitDao() throws SQLException {
+    /*public CommitDao getCommitDao() throws SQLException {
         return new CommitDao(connectionSource);
+    }*/
+
+    public SaveDao getSaveDao() throws SQLException {
+        return new SaveDao(connectionSource);
     }
 
     public WorldDao getWorldDao() throws SQLException {
