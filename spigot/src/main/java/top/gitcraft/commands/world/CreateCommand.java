@@ -16,12 +16,9 @@ import top.gitcraft.database.entities.WorldMapEntity;
 
 import java.sql.SQLException;
 import java.time.Instant;
-
-import java.util.Objects;
 import java.util.UUID;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
-import static top.gitcraft.ui.components.Info.infoCreatingWorld;
 import static top.gitcraft.ui.components.Info.infoWorldCreated;
 import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
 
@@ -50,69 +47,34 @@ public class CreateCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         String currentWorldName = player.getWorld().getName();
-        String worldName = args[0];
-        Boolean doTeleport = Boolean.parseBoolean(args[1]);
+        String worldName = args.length > 0 ? args[0] : generateWorldName(currentWorldName);
+        boolean doTeleport = !(args.length > 1 && Boolean.parseBoolean(args[1]));
 
-        //if no world name use clone world name
-        if (worldName == null) {
-            worldName = generateWorldName(currentWorldName);
-        }
+        player.sendMessage("Cloning world " + currentWorldName + " to " + worldName);
+        player.sendMessage("Teleporting to new world: " + doTeleport);
 
-        if (doTeleport) {
-            return cloneWorld(player, worldName);
-        }
-        return cloneWorldAndTeleport(player, worldName);
-    }
-
-    /**
-     * This method is clones the world the player is currently in and gives it a new name.
-     *
-     * @param player    The player who executed the command
-     * @param worldName The name of the new world
-     */
-    public boolean cloneWorld(Player player, String worldName) {
-        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        MVWorldManager worldManager = core.getMVWorldManager();
-
-        dispatchTellRawCommand(player, infoCreatingWorld(worldName));
-
-        Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
-            // Clone the world after the message is sent
-            worldManager.cloneWorld(player.getWorld().getName(), worldName);
-
-            // Send the second message after the cloning operation is completed
+        Runnable callback = () -> {
             dispatchTellRawCommand(player, infoWorldCreated(worldName));
-
-            //log world in database
-            logWorld(player, worldName);
-
-        });
+            if (doTeleport) joinWorldAtCurrentLocation(player, worldName);
+        };
+        cloneWorld(currentWorldName, worldName, callback);
         return true;
     }
 
-    /**
-     * This method is clones the world the player is currently in and gives it a new name.
-     * It also teleports the player to the new world.
-     *
-     * @param player    The player who executed the command
-     * @param worldName The name of the new world
-     */
-    public boolean cloneWorldAndTeleport(Player player, String worldName) {
-        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+
+    public void cloneWorld(String currentWorldName, String newWorldName, Runnable callback) {
+        MultiverseCore core =
+                (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
 
-        dispatchTellRawCommand(player, infoCreatingWorld(worldName));
-
+        // Clone the world asynchronously in a separate thread
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
-            // Clone the world after the message is sent
-            worldManager.cloneWorld(player.getWorld().getName(), worldName);
+            worldManager.cloneWorld(currentWorldName, newWorldName);
 
-            // Send the second message after the cloning operation is completed
-            dispatchTellRawCommand(player, infoWorldCreated(worldName));
+            // Once the cloning operation is completed, invoke the callback
+            Bukkit.getScheduler()
+                    .runTask(GitCraft.getPlugin(GitCraft.class), callback);
         });
-       joinWorldAtCurrentLocation(player, worldName);
-        return true;
-
     }
 
     /**
@@ -123,7 +85,7 @@ public class CreateCommand implements CommandExecutor {
      */
     private String generateWorldName(String worldName) {
         long time = Instant.now().getEpochSecond();
-        return worldName + "copy" + Long.toString(time);
+        return worldName + "copy" + time;
     }
 
     private void logWorld(Player player, String worldName) {

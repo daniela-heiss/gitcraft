@@ -1,6 +1,5 @@
 package top.gitcraft.commands.world;
 
-import com.onarandombox.MultiverseCore.MultiverseCore;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -11,8 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import top.gitcraft.GitCraft;
-
-import java.util.Objects;
 
 import static top.gitcraft.ui.components.Info.*;
 import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
@@ -43,7 +40,7 @@ public class JoinCommand implements CommandExecutor {
             return true;
         }
         String worldName = args[0];
-        boolean created = Boolean.parseBoolean(args[1]);
+        boolean created = args.length > 1 && Boolean.parseBoolean(args[1]);
 
         if (created) {
             return joinWorldAtCurrentLocation(player, worldName);
