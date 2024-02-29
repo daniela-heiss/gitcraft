@@ -15,6 +15,7 @@ import top.gitcraft.GitCraft;
 import top.gitcraft.commands.world.JoinCommand;
 
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
@@ -39,6 +40,9 @@ public class AutoMergeCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        args[0] = String.valueOf(timestamp);
         if (args.length != 1) {
             return false;
         }
