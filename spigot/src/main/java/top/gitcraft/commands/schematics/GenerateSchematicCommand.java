@@ -2,6 +2,7 @@ package top.gitcraft.commands.schematics;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.ChatColor;
@@ -67,27 +68,21 @@ public class GenerateSchematicCommand implements CommandExecutor {
         CuboidRegion selectedArea = getSelection(player);
         if (selectedArea == null) {
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
+            return;
         }
 
-        sender.sendMessage("Min Coordinates : " + selectedArea.getPos1());
-        sender.sendMessage("Min Coordinates : " + selectedArea.getPos2());
-        BlockArrayClipboard clipboard1 = copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
+        BlockArrayClipboard clipboard1 = copyRegionToClipboard(selectedArea, currentWorld, player);
 
         saveRegionAsSchematic(clipboard1, schematicName, sender);
     }
 
     public static void generateSchematicFromAllChanges(Player player, CommandSender sender, World currentWorld, String worldName, String schematicName) {
-        Double[] minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
-        Double[] maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
+        BlockVector3 minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
+        BlockVector3 maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
 
-        for (Double number : minCoordinatesArray) {
-            sender.sendMessage("Min Coordinates : " + number);
-        }
-        for (Double number : maxCoordinatesArray) {
-            sender.sendMessage("Max Coordinates : " + number);
-        }
+        CuboidRegion region = new CuboidRegion(minCoordinatesArray, maxCoordinatesArray);
 
-        BlockArrayClipboard clipboard2 = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
+        BlockArrayClipboard clipboard2 = copyRegionToClipboard(region, currentWorld, player);
 
         saveRegionAsSchematic(clipboard2, schematicName, sender);
     }

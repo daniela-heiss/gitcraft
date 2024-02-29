@@ -3,6 +3,7 @@ package top.gitcraft.commands.schematics;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.Bukkit;
@@ -39,7 +40,7 @@ public class PasteSchematicCommand implements CommandExecutor {
         String worldName = player.getWorld().getName();
         sender.sendMessage("Current World Name: " + worldName);
 
-        Double[] minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
+        BlockVector3 minPos = findMin(getBlockChangedByPlayers(worldName));
 
         String schematicName = args[1];
         String allOrAreaType = args[0];
@@ -59,7 +60,7 @@ public class PasteSchematicCommand implements CommandExecutor {
                         break;
 
                     case "all":
-                        pasteSchematicToMinCoordinates(player, sender, file, schematicName, minCoordinatesArray);
+                        pasteSchematicToMinCoordinates(player, sender, file, schematicName, minPos);
                         break;
 
                     default:
@@ -86,14 +87,14 @@ public class PasteSchematicCommand implements CommandExecutor {
         sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
     }
 
-    public static void pasteSchematicToMinCoordinates(Player player, CommandSender sender, File file, String schematicName, Double[] minCoordinatesArray) {
+    public static void pasteSchematicToMinCoordinates(Player player, CommandSender sender, File file, String schematicName, BlockVector3 minPos) {
         Clipboard loadedClipboardArea = loadSchematic(file);
         sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
 
         World originalWorldAll = BukkitAdapter.adapt(player.getWorld());
         sender.sendMessage("Current World Name: " + originalWorldAll);
 
-        pasteClipboard(originalWorldAll, minCoordinatesArray, loadedClipboardArea);
+        pasteClipboard(originalWorldAll, minPos, loadedClipboardArea);
         sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
     }
 
