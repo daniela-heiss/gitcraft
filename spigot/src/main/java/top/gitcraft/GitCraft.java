@@ -1,5 +1,6 @@
 package top.gitcraft;
 
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import top.gitcraft.commands.*;
@@ -10,11 +11,8 @@ import top.gitcraft.commands.merging.AreaMergeCommand;
 import top.gitcraft.commands.merging.AutoMergeCommand;
 import top.gitcraft.commands.schematics.GenerateSchematicCommand;
 import top.gitcraft.commands.schematics.PasteSchematicCommand;
+import top.gitcraft.commands.world.*;
 import top.gitcraft.listeners.AreaSelectListener;
-import top.gitcraft.commands.world.WorldCommand;
-import top.gitcraft.commands.world.CreateCommand;
-import top.gitcraft.commands.world.DeleteCommand;
-import top.gitcraft.commands.world.JoinCommand;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
 import top.gitcraft.utils.areavisualizer.PlayerQuitListener;
@@ -57,5 +55,11 @@ public final class GitCraft extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         getLogger().info("Goodbye, SpigotMC!");
+    }
+
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id)
+    {
+        return new MergeWGenerator(id);
     }
 }
