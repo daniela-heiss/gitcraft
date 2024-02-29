@@ -24,11 +24,6 @@ import static top.gitcraft.utils.FindMinAndMax.*;
 
 public class AutoMergeCommand implements CommandExecutor {
 
-    private final GitCraft gitCraft;
-
-    public AutoMergeCommand(GitCraft gitCraft) {
-        this.gitCraft = gitCraft;
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -68,7 +63,7 @@ public class AutoMergeCommand implements CommandExecutor {
 
         if (file != null) {
 
-           joinWorldAtCurrentLocation(player, "world");
+            joinWorldAtCurrentLocation(player, "world");
 
             Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
                 @Override
