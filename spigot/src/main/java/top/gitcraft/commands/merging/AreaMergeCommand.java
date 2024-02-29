@@ -19,6 +19,9 @@ import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation
 import static top.gitcraft.utils.AreaSelect.getSelection;
 import static top.gitcraft.utils.WorldEditFunctions.*;
 
+/**
+ * This command merges a previous selected area into a schematic and then pastes it into the world
+ */
 public class AreaMergeCommand implements CommandExecutor {
 
 
@@ -30,49 +33,56 @@ public class AreaMergeCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-
         if (args.length != 1) {
             return false;
         }
 
+        String schematicName = args[0];
+        CuboidRegion selectedArea = getSelection(player);
 
-        sender.sendMessage("Gathering Coordinates...");
+        File file = createSchematicFile(selectedArea, schematicName, player);
+        if (!file.exists()) {
+            return false;
+        }
+
+        player.sendMessage("Created Schematic " + schematicName + " from Clipboard");
+
+        joinWorldAtCurrentLocation(player, "world");
+        pasteSchematic(file, schematicName, selectedArea, player);
+
+        return true;
+
+    }
+
+
+    private File createSchematicFile(CuboidRegion selectedArea, String schematicName, Player player) {
+        player.sendMessage("Gathering Coordinates...");
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
 
         String worldName = player.getWorld().getName();
-        sender.sendMessage("Current World Name: " + worldName);
-
-        // Get BlockVector3 Coordinates of the selected Area
-        CuboidRegion selectedArea = getSelection(player);
+        player.sendMessage("Current World Name: " + worldName);
 
 
         BlockArrayClipboard clipboard = copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
         player.sendMessage("Copied region to clipboard");
 
-        String schematicName = args[0];
-        File file = saveRegionAsSchematic(clipboard, schematicName, sender);
+        return saveRegionAsSchematic(clipboard, schematicName, player);
+    }
 
-        if (file != null) {
+    private void pasteSchematic(File file, String schematicName, CuboidRegion selectedArea, Player player) {
+        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
+            @Override
+            public void run() {
+                Clipboard loadedClipboard = loadSchematic(file);
+                player.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
 
-            sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
+                World originalWorld = BukkitAdapter.adapt(player.getWorld());
 
-            joinWorldAtCurrentLocation(player, "world");
+                pasteClipboard(originalWorld, selectedArea.getPos1(), loadedClipboard);
+                player.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
+            }
+        }, 50L);
 
-            Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
-                @Override
-                public void run() {
-                    Clipboard loadedClipboard = loadSchematic(file);
-                    sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
-
-                    World originalWorld = BukkitAdapter.adapt(player.getWorld());
-
-                    pasteClipboard(originalWorld, selectedArea.getPos1(), loadedClipboard);
-                    sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
-                }
-            }, 50L);
-
-        }
-        return true;
     }
 
 }
