@@ -1,4 +1,4 @@
-package top.gitcraft.commands;
+package top.gitcraft.commands.loadsave;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import org.bukkit.entity.Player;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.entities.SaveEntity;
 import top.gitcraft.database.daos.UserDao;
@@ -32,12 +33,19 @@ public class SaveCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         String saveName = args[0];
 
-        sender.sendMessage("Save in progress...");
-        if (logSave(saveName, sender.getName()) == false) {
-            sender.sendMessage("You already have a save named " + args[0]);
-            sender.sendMessage("Please try another name");
+        if(!(sender instanceof Player)) {
+            sender.sendMessage("You must be a player to use this command");
+            return false;
+        }
+
+        Player player = (Player) sender;
+
+        player.sendMessage("Save in progress...");
+        if (logSave(saveName, player.getName()) == false) {
+            player.sendMessage("You already have a save named " + args[0]);
+            player.sendMessage("Please try another name");
         } else {
-            sender.sendMessage("Saved!");
+            player.sendMessage("Saved!");
         }
         return true;
     }
@@ -63,23 +71,23 @@ public class SaveCommand implements CommandExecutor {
 
         if (!isUnique) {
             return false;
-        } else {
-            SaveEntity newSave = new SaveEntity();
-
-            int time = (int) (System.currentTimeMillis() / 1000L);
-            int rolledBack = 0;
-
-            newSave.playerId = user.rowId;
-            newSave.time = time;
-            newSave.saveName = saveName;
-            newSave.rolledBack = rolledBack;
-
-            try {
-                saveDao.createSave(newSave);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
+
+        int time = (int) (System.currentTimeMillis() / 1000L);
+        int rolledBack = 0;
+
+        SaveEntity newSave = new SaveEntity();
+        newSave.playerId = user.rowId;
+        newSave.time = time;
+        newSave.saveName = saveName;
+        newSave.rolledBack = rolledBack;
+
+        try {
+            saveDao.createSave(newSave);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         return true;
     }
 }

@@ -1,4 +1,4 @@
-package top.gitcraft.commands;
+package top.gitcraft.commands.loadsave;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -36,8 +36,15 @@ public class LoadCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         String saveName = args[0];
 
-        sender.sendMessage("Loading save...");
-        loadSave(saveName, sender.getName());
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("You must be a player to use this command");
+            return false;
+        }
+
+        Player player = (Player) sender;
+
+        player.sendMessage("Loading save...");
+        loadSave(saveName, player.getName());
 
         return true;
     }
