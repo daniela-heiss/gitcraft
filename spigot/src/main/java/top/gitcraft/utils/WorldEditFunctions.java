@@ -73,7 +73,8 @@ public class WorldEditFunctions {
 
     public static File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName, CommandSender sender) {
         String fileEnding = ".schem";
-        File file = new File("/minecraft/plugins/WorldEdit/schematics/" + schematicName  + fileEnding);
+
+        File file = new File("./plugins/WorldEdit/schematics/" + schematicName  + fileEnding);
         if (!file.exists()) {
             try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
                 writer.write(clipboard);
