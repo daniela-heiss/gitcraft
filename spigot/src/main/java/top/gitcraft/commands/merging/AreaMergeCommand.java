@@ -33,56 +33,26 @@ public class AreaMergeCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        if (args.length != 1) {
-            return false;
-        }
 
-        String schematicName = args[0];
         CuboidRegion selectedArea = getSelection(player);
-
-        File file = createSchematicFile(selectedArea, schematicName, player);
-        if (!file.exists()) {
+        if (selectedArea == null) {
+            player.sendMessage("You must select an area first");
             return false;
         }
 
-        player.sendMessage("Created Schematic " + schematicName + " from Clipboard");
-
-        joinWorldAtCurrentLocation(player, "world");
-        pasteSchematic(file, schematicName, selectedArea, player);
-
-        return true;
-
-    }
-
-
-    private File createSchematicFile(CuboidRegion selectedArea, String schematicName, Player player) {
-        player.sendMessage("Gathering Coordinates...");
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
 
-        String worldName = player.getWorld().getName();
-        player.sendMessage("Current World Name: " + worldName);
-
-
-        BlockArrayClipboard clipboard = copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
+        BlockArrayClipboard clipboard = copyRegionToClipboard(selectedArea, currentWorld, player);
         player.sendMessage("Copied region to clipboard");
 
-        return saveRegionAsSchematic(clipboard, schematicName, player);
+        joinWorldAtCurrentLocation(player, "world");
+
+        World originalWorld = BukkitAdapter.adapt(player.getWorld());
+        player.sendMessage("Pasting clipboard into " + currentWorld.getName());
+        pasteClipboard(originalWorld, selectedArea.getPos1(), clipboard);
+
+        return true;
     }
 
-    private void pasteSchematic(File file, String schematicName, CuboidRegion selectedArea, Player player) {
-        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
-            @Override
-            public void run() {
-                Clipboard loadedClipboard = loadSchematic(file);
-                player.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
-
-                World originalWorld = BukkitAdapter.adapt(player.getWorld());
-
-                pasteClipboard(originalWorld, selectedArea.getPos1(), loadedClipboard);
-                player.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
-            }
-        }, 50L);
-
-    }
 
 }
