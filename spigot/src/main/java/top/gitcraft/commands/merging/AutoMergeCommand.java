@@ -15,6 +15,7 @@ import top.gitcraft.GitCraft;
 import top.gitcraft.commands.world.JoinCommand;
 
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
@@ -39,9 +40,11 @@ public class AutoMergeCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        if (args.length != 1) {
-            return false;
-        }
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        //if (args.length != 1) {
+        //    return false;
+        //}
 
         sender.sendMessage("Gathering Coordinates...");
 
@@ -63,7 +66,7 @@ public class AutoMergeCommand implements CommandExecutor {
         BlockArrayClipboard clipboard = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
         player.sendMessage("Copied region to clipboard");
 
-        String schematicName = args[0];
+        String schematicName = String.valueOf(timestamp);
         File file = saveRegionAsSchematic(clipboard, schematicName, sender);
 
         if (file != null) {
