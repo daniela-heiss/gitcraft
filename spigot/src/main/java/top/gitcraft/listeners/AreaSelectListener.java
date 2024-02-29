@@ -62,7 +62,7 @@ public class AreaSelectListener implements Listener {
         //set the metadata for the player
         setMetadata(player, "pos1", pos1);
 
-        if(getPos1(player) != null) {
+        if(hasPos1AndPos2(player)) {
             AreaVisualizerHandler instance = AreaVisualizerHandler.getInstance();
             UUID uuid = player.getUniqueId();
             BlockVector3 pos2 = getPos2(player);
@@ -78,7 +78,7 @@ public class AreaSelectListener implements Listener {
         //set the metadata for the player
         setMetadata(player, "pos2", pos2);
 
-        if(getPos2(player) != null) {
+        if(hasPos1AndPos2(player)) {
             AreaVisualizerHandler instance = AreaVisualizerHandler.getInstance();
             UUID uuid = player.getUniqueId();
             BlockVector3 pos1 = getPos1(player);
