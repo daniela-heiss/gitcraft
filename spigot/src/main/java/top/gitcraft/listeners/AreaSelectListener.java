@@ -62,18 +62,7 @@ public class AreaSelectListener implements Listener {
         //set the metadata for the player
         setMetadata(player, "pos1", pos1);
 
-        if(hasPos1AndPos2(player)) {
-            AreaVisualizerHandler instance = AreaVisualizerHandler.getInstance();
-            UUID uuid = player.getUniqueId();
-            BlockVector3 pos2 = getPos2(player);
-            int[] visModifierPos1 = getVisualizationModifierPos1(pos2, pos1);
-            int[] visModifierPos2 = getVisualizationModifierPos2(pos1, pos2);
-
-            BlockVector parsedPos1 = new BlockVector(pos1.getX()+visModifierPos1[0], pos1.getBlockY()+visModifierPos1[1], pos1.getZ()+visModifierPos1[2]);
-            BlockVector parsedPos2 = new BlockVector(pos2.getX()+visModifierPos2[0], pos2.getBlockY()+visModifierPos2[1], pos2.getZ()+visModifierPos2[2]);
-
-            instance.createVisualizeArea(uuid, parsedPos1, parsedPos2);
-        }
+        visualizeArea(player);
     }
 
     public static void setPos2(Player player, BlockVector3 pos2) {
@@ -81,18 +70,7 @@ public class AreaSelectListener implements Listener {
         //set the metadata for the player
         setMetadata(player, "pos2", pos2);
 
-        if(hasPos1AndPos2(player)) {
-            AreaVisualizerHandler instance = AreaVisualizerHandler.getInstance();
-            UUID uuid = player.getUniqueId();
-            BlockVector3 pos1 = getPos1(player);
-            int[] visModifierPos1 = getVisualizationModifierPos1(pos2, pos1);
-            int[] visModifierPos2 = getVisualizationModifierPos2(pos1, pos2);
-
-            BlockVector parsedPos1 = new BlockVector(pos1.getX()+visModifierPos1[0], pos1.getBlockY()+visModifierPos1[1], pos1.getZ()+visModifierPos1[2]);
-            BlockVector parsedPos2 = new BlockVector(pos2.getX()+visModifierPos2[0], pos2.getBlockY()+visModifierPos2[1], pos2.getZ()+visModifierPos2[2]);
-
-            instance.createVisualizeArea(uuid, parsedPos1, parsedPos2);
-        }
+        visualizeArea(player);
     }
 
     private boolean checkPlayerItemInHand(Player player, Material material) {
@@ -139,22 +117,24 @@ public class AreaSelectListener implements Listener {
         return null;
     }
 
-    public static int[] getVisualizationModifierPos1(BlockVector3 pos1, BlockVector3 pos2){
+    public static int[] getVisualizationModifierPos1(BlockVector3 pos1, BlockVector3 pos2) {
+
+
         int[] visModifier = new int[3];
 
-        if(pos1.getX() <= pos2.getX()){
+        if (pos1.getX() <= pos2.getX()) {
             visModifier[0] = 1;
         } else {
             visModifier[0] = 0;
         }
 
-        if(pos1.getY() <= pos2.getY()){
+        if (pos1.getY() <= pos2.getY()) {
             visModifier[1] = 1;
         } else {
             visModifier[1] = 0;
         }
 
-        if(pos1.getZ() <= pos2.getZ()){
+        if (pos1.getZ() <= pos2.getZ()) {
             visModifier[2] = 1;
         } else {
             visModifier[2] = 0;
@@ -163,27 +143,49 @@ public class AreaSelectListener implements Listener {
         return visModifier;
     }
 
-    public static int[] getVisualizationModifierPos2(BlockVector3 pos1, BlockVector3 pos2){
+    public static int[] getVisualizationModifierPos2(BlockVector3 pos1, BlockVector3 pos2) {
+
         int[] visModifier = new int[3];
 
-        if(pos1.getX() < pos2.getX()){
+        if (pos1.getX() < pos2.getX()) {
             visModifier[0] = 1;
         } else {
             visModifier[0] = 0;
         }
 
-        if(pos1.getY() < pos2.getY()){
+        if (pos1.getY() < pos2.getY()) {
             visModifier[1] = 1;
         } else {
             visModifier[1] = 0;
         }
 
-        if(pos1.getZ() < pos2.getZ()){
+        if (pos1.getZ() < pos2.getZ()) {
             visModifier[2] = 1;
         } else {
             visModifier[2] = 0;
         }
 
         return visModifier;
+    }
+
+    private static void visualizeArea(Player player) {
+        CuboidRegion region = getSelection(player);
+
+        if (region == null) {
+            return;
+        }
+
+        AreaVisualizerHandler instance = AreaVisualizerHandler.getInstance();
+        UUID uuid = player.getUniqueId();
+        BlockVector3 pos1 = region.getPos1();
+        BlockVector3 pos2 = region.getPos2();
+
+        int[] visModifierPos1 = getVisualizationModifierPos1(pos2, pos1);
+        int[] visModifierPos2 = getVisualizationModifierPos2(pos1, pos2);
+
+        BlockVector parsedPos1 = new BlockVector(pos1.getX() + visModifierPos1[0], pos1.getBlockY() + visModifierPos1[1], pos1.getZ() + visModifierPos1[2]);
+        BlockVector parsedPos2 = new BlockVector(pos2.getX() + visModifierPos2[0], pos2.getBlockY() + visModifierPos2[1], pos2.getZ() + visModifierPos2[2]);
+
+        instance.createVisualizeArea(uuid, parsedPos1, parsedPos2);
     }
 }
