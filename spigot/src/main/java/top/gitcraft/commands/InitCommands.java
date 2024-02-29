@@ -18,6 +18,10 @@ import top.gitcraft.ui.logic.WorldMenuCommand;
 
 import java.util.Objects;
 
+/**
+ * InitCommands
+ * This class is responsible for initializing all the commands in the plugin.
+ */
 public class InitCommands {
     GitCraft gitCraft;
 
@@ -26,15 +30,25 @@ public class InitCommands {
         initCommands();
     }
 
+    /**
+     * This method initializes all the commands in the plugin.
+     */
     private void initCommands() {
         initAreaSelectCommands();
         initWorldCommands();
         initSchematicCommands();
         initMergeCommands();
         initMenuCommands();
-        Objects.requireNonNull(gitCraft.getCommand("testareavisulize")).setExecutor(new TestAreaVisualizer());
+        initTestCommands();
         //initSaveLoadCommands();
+    }
 
+    /**
+     * This method initializes the test commands in the plugin.
+     * Please add temporary commands here for testing purposes.
+     */
+    private void initTestCommands() {
+        Objects.requireNonNull(gitCraft.getCommand("testareavisulize")).setExecutor(new TestAreaVisualizer());
     }
 
     private void initAreaSelectCommands() {

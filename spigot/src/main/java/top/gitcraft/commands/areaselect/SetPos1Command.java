@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static top.gitcraft.listeners.AreaSelectListener.setPos1;
+import static top.gitcraft.utils.AreaSelect.setPos1;
 
 public class SetPos1Command implements CommandExecutor {
     @Override

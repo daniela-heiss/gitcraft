@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import static top.gitcraft.listeners.AreaSelectListener.getSelection;
+import static top.gitcraft.utils.AreaSelect.getSelection;
 
 public class GetAreaCommand implements CommandExecutor {
     @Override

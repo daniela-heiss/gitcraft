@@ -16,7 +16,7 @@ import top.gitcraft.commands.world.JoinCommand;
 import java.io.File;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
-import static top.gitcraft.listeners.AreaSelectListener.getSelection;
+import static top.gitcraft.utils.AreaSelect.getSelection;
 import static top.gitcraft.utils.WorldEditFunctions.*;
 
 public class AreaMergeCommand implements CommandExecutor {

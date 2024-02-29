@@ -1,8 +1,9 @@
-package top.gitcraft.utils.areavisualizer;
+package top.gitcraft.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import top.gitcraft.utils.areavisualizer.AreaVisualizerHandler;
 
 import java.util.UUID;
 

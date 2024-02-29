@@ -12,13 +12,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.GitCraft;
-import top.gitcraft.commands.world.JoinCommand;
 
 import java.io.File;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
-import static top.gitcraft.listeners.AreaSelectListener.getSelection;
-import static top.gitcraft.utils.FindMinAndMax.findMax;
+import static top.gitcraft.utils.AreaSelect.getSelection;
 import static top.gitcraft.utils.FindMinAndMax.findMin;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
 import static top.gitcraft.utils.WorldEditFunctions.*;

@@ -14,7 +14,7 @@ import top.gitcraft.database.entities.WorldEntity;
 
 import java.io.File;
 
-import static top.gitcraft.listeners.AreaSelectListener.getSelection;
+import static top.gitcraft.utils.AreaSelect.getSelection;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
 import static top.gitcraft.utils.WorldEditFunctions.*;
 import static top.gitcraft.utils.FindMinAndMax.*;
