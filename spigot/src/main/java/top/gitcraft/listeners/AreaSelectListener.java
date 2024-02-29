@@ -9,6 +9,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.util.BlockVector;
+import top.gitcraft.utils.areavisualizer.AreaVisualizerHandler;
+
+import java.util.UUID;
 
 import static top.gitcraft.utils.MetaDataWrapper.getMetadata;
 import static top.gitcraft.utils.MetaDataWrapper.setMetadata;
@@ -57,12 +61,32 @@ public class AreaSelectListener implements Listener {
         player.sendMessage("Pos1 set to " + pos1);
         //set the metadata for the player
         setMetadata(player, "pos1", pos1);
+
+        if(getPos1(player) != null) {
+            AreaVisualizerHandler instance = AreaVisualizerHandler.getInstance();
+            UUID uuid = player.getUniqueId();
+            BlockVector3 pos2 = getPos2(player);
+            BlockVector parsedPos1 = new BlockVector(pos1.getX(), pos1.getBlockY(), pos1.getZ());
+            BlockVector parsedPos2 = new BlockVector(pos2.getX(), pos2.getBlockY(), pos2.getZ());
+
+            instance.createVisualizeArea(uuid, parsedPos1, parsedPos2);
+        }
     }
 
     public static void setPos2(Player player, BlockVector3 pos2) {
         player.sendMessage("Pos2 set to " + pos2);
         //set the metadata for the player
         setMetadata(player, "pos2", pos2);
+
+        if(getPos2(player) != null) {
+            AreaVisualizerHandler instance = AreaVisualizerHandler.getInstance();
+            UUID uuid = player.getUniqueId();
+            BlockVector3 pos1 = getPos1(player);
+            BlockVector parsedPos1 = new BlockVector(pos1.getX(), pos1.getBlockY(), pos1.getZ());
+            BlockVector parsedPos2 = new BlockVector(pos2.getX(), pos2.getBlockY(), pos2.getZ());
+
+            instance.createVisualizeArea(uuid, parsedPos1, parsedPos2);
+        }
     }
 
     private boolean checkPlayerItemInHand(Player player, Material material) {
