@@ -12,11 +12,14 @@ import java.util.Random;
 
 public class MergeWGenerator extends ChunkGenerator {
 
+    private int layerheight;
+
     public MergeWGenerator() {
         this("");
     }
 
     public MergeWGenerator(String id) {
+        layerheight = Integer.parseInt(id);
     }
 
     @Override
@@ -24,7 +27,7 @@ public class MergeWGenerator extends ChunkGenerator {
 
         ChunkData chunk = createChunkData(world);
 
-        chunk.setRegion(0, 1, 0, 16, 2, 16, Material.BARRIER);
+        chunk.setRegion(0, layerheight, 0, 16, layerheight +1, 16, Material.BARRIER);
         return chunk;
     }
     @Override
