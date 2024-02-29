@@ -27,34 +27,10 @@ public final class GitCraft extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        getLogger().info("Hello, SpigotMC!");
+        // Register commands
+        new InitCommands();
 
-        Objects.requireNonNull(this.getCommand("gcmenu")).setExecutor(new MainMenuCommand());
-        Objects.requireNonNull(this.getCommand("gcworldmenu")).setExecutor(new WorldMenuCommand());
-        Objects.requireNonNull(this.getCommand("gclist")).setExecutor(new WorldCommand());
-        Objects.requireNonNull(this.getCommand("gcjoin")).setExecutor(new JoinCommand());
-        Objects.requireNonNull(this.getCommand("gccreate")).setExecutor(new CreateCommand());
-        Objects.requireNonNull(this.getCommand("gcdelete")).setExecutor(new DeleteCommand());
-        Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());
-
-        Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand(this));
-        Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand(this));
-        Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());
-        Objects.requireNonNull(this.getCommand("pasteschematic")).setExecutor(new PasteSchematicCommand());
-
-        Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());
-
-        // area select
-        Objects.requireNonNull(this.getCommand("gcSetPos1")).setExecutor(new SetPos1Command());
-        Objects.requireNonNull(this.getCommand("gcSetPos2")).setExecutor(new SetPos2Command());
-        Objects.requireNonNull(this.getCommand("gcGetSelection")).setExecutor(new GetAreaCommand());
-
-        Objects.requireNonNull(this.getCommand("testareavisulize")).setExecutor(new TestAreaVisualizer());
-        //save-load
-        Objects.requireNonNull(this.getCommand("gcLoad")).setExecutor(new LoadCommand());
-        Objects.requireNonNull(this.getCommand("gcSave")).setExecutor(new SaveCommand());
-
-
+        // Register listeners
         getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
     }
