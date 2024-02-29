@@ -9,6 +9,7 @@ import top.gitcraft.commands.areaselect.SetPos2Command;
 import top.gitcraft.commands.merging.AreaMergeCommand;
 import top.gitcraft.commands.merging.AutoMergeCommand;
 import top.gitcraft.commands.schematics.GenerateSchematicCommand;
+import top.gitcraft.commands.schematics.GenerateSchematicFromArea;
 import top.gitcraft.commands.schematics.PasteSchematicCommand;
 import top.gitcraft.listeners.AreaSelectListener;
 import top.gitcraft.commands.world.WorldCommand;
@@ -38,6 +39,7 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand(this));
         Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand(this));
         Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());
+        Objects.requireNonNull(this.getCommand("generateschematicfromarea")).setExecutor(new GenerateSchematicFromArea());
         Objects.requireNonNull(this.getCommand("pasteschematic")).setExecutor(new PasteSchematicCommand(this));
 
         Objects.requireNonNull(this.getCommand("gcWETest")).setExecutor(new WETestCommand());

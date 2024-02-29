@@ -1,7 +1,10 @@
 package top.gitcraft.utils;
 
+import com.sk89q.worldedit.math.BlockVector3;
 import top.gitcraft.database.entities.BlockEntity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class FindMinAndMax {
@@ -65,5 +68,26 @@ public class FindMinAndMax {
         coordinates[2] = (double) maxZ;
 
         return coordinates;
+    }
+
+    public static List<BlockEntity> findArea(List<BlockEntity> list,BlockVector3 startCoordinates, BlockVector3 endCoordinates) {
+        
+        double startX = startCoordinates.getX();
+        double startY = startCoordinates.getY();
+        double startZ = startCoordinates.getZ();
+
+        double endX = endCoordinates.getX();
+        double endY = endCoordinates.getY();
+        double endZ = endCoordinates.getZ();
+
+        List<BlockEntity> areaBlocks = new ArrayList<>();
+        for (int i = 0; i < list.size() - 1; i++) {
+            if (list.get(i).x >= startX && list.get(i).x <= endX && list.get(i).y >= startY && list.get(i).y <= endY && list.get(i).z >= startZ && list.get(i).z <= endZ) {
+            //if ((list.get(i).x >= startX && list.get(i).y >= startY && list.get(i).z >= startZ) && (list.get(i).x <= endX && list.get(i).y <= endY && list.get(i).z <= endZ)) {
+                areaBlocks.add(list.get(i));
+            }
+        }
+        return areaBlocks;
+        
     }
 }

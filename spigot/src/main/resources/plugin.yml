@@ -33,6 +33,9 @@ commands:
   generateschematic:
     description: Automatically generate schematic from all player made changes or player selected area
     usage: /generateschematic [area | all] <schematicName>
+  generateschematicfromarea:
+    description: Automatically generate schematic from all player changed blocks in a pre-selected area
+    usage: /generateschematicfromarea <schematicName>
   pasteschematic:
     description: Automatically paste schematic into the original world
     usage: /pasteschematic [area | all] <schematicName>
