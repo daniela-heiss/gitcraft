@@ -1,5 +1,6 @@
 package top.gitcraft.utils.areavisualizer;
 
+import com.sk89q.worldedit.math.BlockVector3;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -69,7 +70,7 @@ public class AreaVisualizer {
      * to side effects<br>
      * <code>plugin.getServer().getScheduler().cancelTasks(plugin);</code>
      */
-    public void visualizeCubeBoundaries(World world, BlockVector pos1, BlockVector pos2) {
+    public void visualizeCubeBoundaries(World world, BlockVector3 pos1, BlockVector3 pos2) {
         Plugin plugin = GitCraft.getPlugin(GitCraft.class);
 
         Location corner1 = new Location(world, pos1.getX(), pos1.getY(), pos1.getZ());

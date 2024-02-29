@@ -1,5 +1,6 @@
 package top.gitcraft.utils.areavisualizer;
 
+import com.sk89q.worldedit.math.BlockVector3;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.util.BlockVector;
@@ -45,7 +46,7 @@ public class AreaVisualizerHandler {
      * @param pos2 Second corner of the particle box
      * @apiNote Use this to create a particle box at a specific location with the default settings
      */
-    public void createVisualizeArea(UUID uuid, BlockVector pos1, BlockVector pos2) {
+    public void createVisualizeArea(UUID uuid, BlockVector3 pos1, BlockVector3 pos2) {
         if (playerVisualizers.containsKey(uuid)) {
             destroyVisualizeArea(uuid);
         }
@@ -68,7 +69,7 @@ public class AreaVisualizerHandler {
      *                 are ignored and the particles are rendered up to 256 block away.
      * @apiNote Use this to create a particle box at a specific location and custom options
      */
-    public void createVisualizeArea(UUID uuid, BlockVector pos1, BlockVector pos2, int period, Particle particle, boolean force) {
+    public void createVisualizeArea(UUID uuid, BlockVector3 pos1, BlockVector3 pos2, int period, Particle particle, boolean force) {
         if (playerVisualizers.containsKey(uuid)) {
             destroyVisualizeArea(uuid);
         }
