@@ -5,56 +5,67 @@ api-version: '1.20'
 depend: [ CoreProtect ]
 # Replace "kit" with the name of your command.
 commands:
-  gcsave:
-    description: Saves the current changes to the DB
-    usage: /gcsave
-  helloblock:
-    description: Places a snowy grass block at the coordinates and greets the world
-    usage: /helloblock <x> <y> <z>
-  remove:
-    description: Places an air block at x,y,z and says that they destroy something
-    usage: /remove x y z
-  load:
+  gcload:
     description: Loads a savestate
-    usage: /load commitname
-  testLoad:
-    description: Load a specific commit
-    usage: /load <commitName>
-  merge:
-    desciption: Load Coordinates for later Merge
-    usage: /merge <schematicName>
+    usage: /gcload saveName
+  gcsave:
+    description: saves a timestamp with a name
+    usage: /gcsave saveName
+
+  #merge commands
+  automerge:
+    description: Automatically merge everything that the player changed into the original world
+    usage: /automerge <schematicName>
+  areamerge:
+    description: Automatically merge a player selected area into the original world
+    usage: /areamerge <schematicName>
+
+  #schematic commands
+  generateschematic:
+    description: Automatically generate schematic from all player made changes or player selected area
+    usage: /generateschematic [area | all] <schematicName>
+  pasteschematic:
+    description: Automatically paste schematic into the original world
+    usage: /pasteschematic [area | all] <schematicName>
+
+  #menu commands
   gcmenu:
-      description: Shows the GitCraft menu
-      usage: /gcmenu
-  gcbranchmenu:
-    description: Shows the branch menu
-    usage: /branchmenu
+    description: Shows the GitCraft menu
+    usage: /gcmenu
+  gcworldmenu:
+    description: Shows the world menu
+    usage: /gcworldmenu
 
-#branch-lists - Join, Create, Delete
-  gcbranchlist:
-    description: List branches
-    usage: /gcbranchlist [join|create|delete]
-
-  gcbranchjoinlist:
-    description: List branches to join
-    usage: /gcbranchjoinlist
-  gcbranchcreatelist:
-    description: List branches to create
-    usage: /gcbranchcreatelist
-  gcbranchdeletelist:
-    description: List branches to delete
-    usage: /gcbranchdeletelist
+  #world-lists - Join, Create, Delete
+  gclist:
+    description: List worldes
+    usage: /gclist [join|create|delete]
 
   #commands - Join, Create, Delete
-  gcbranchjoin:
-    description: Join branch
-    usage: /gcbranchjoin <name>
-  gcbranchcreate:
-      description: Create a branch
-      usage: /gcbranchcreate <name>
-  gcbranchdelete:
-    description: Delete a branch
-    usage: /gcbranchdelete <name>
+  gcjoin:
+    description: Join world
+    usage: /gcjoin <name>
+  gccreate:
+    description: Create a world
+    usage: /gccreate <name>
+  gcdelete:
+    description: Delete a world
+    usage: /gcdelete <name>
   gcWETest:
     description: copy an area in front of the player and pastes it  5 xdiff
     usage: /gcWETest
+
+  #commands - Set positions for area select
+  gcSetPos1:
+    description: Set position 1 below the player
+    usage: /gcSetPos1
+  gcSetPos2:
+    description: Set position 2 below the player
+    usage: /gcSetPos2
+  gcGetSelection:
+    description: Get the selection
+    usage: /gcGetSelection
+
+  testareavisulize:
+    description: Visulize Area
+    usage: /testareavisulize
