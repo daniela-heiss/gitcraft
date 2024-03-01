@@ -69,9 +69,7 @@ public class AreaVisualizerHandler {
      * @apiNote Use this to create a particle box at a specific location and custom options
      */
     public void createVisualizeArea(UUID uuid, BlockVector pos1, BlockVector pos2, int period, Particle particle, boolean force) {
-        if (playerVisualizers.containsKey(uuid)) {
-            destroyVisualizeArea(uuid);
-        }
+        destroyVisualizeArea(uuid);
 
         AreaVisualizer visualizer = new AreaVisualizer(period, particle, force);
         visualizer.visualizeCubeBoundaries(Bukkit.getPlayer(uuid).getWorld(), pos1, pos2);
@@ -84,7 +82,9 @@ public class AreaVisualizerHandler {
      * @param uuid The UUID of the player
      */
     public void destroyVisualizeArea(UUID uuid) {
-        playerVisualizers.get(uuid).removeVisualizeAreaSelection();
-        playerVisualizers.remove(uuid);
+        if (playerVisualizers.containsKey(uuid)) {
+            playerVisualizers.get(uuid).removeVisualizeAreaSelection();
+            playerVisualizers.remove(uuid);
+        }
     }
 }
