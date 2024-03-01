@@ -66,12 +66,12 @@ public class AutoMergeCommand implements CommandExecutor {
         BlockArrayClipboard clipboard = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
         player.sendMessage("Copied region to clipboard");
 
-        String schematicName = String.valueOf(timestamp);
+        String schematicName = "AutoMerge" + timestamp.getTime();
         File file = saveRegionAsSchematic(clipboard, schematicName, sender);
 
         if (file != null) {
 
-           joinWorldAtCurrentLocation(player, "world");
+            joinWorldAtCurrentLocation(player, "world");
 
             Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
                 @Override
