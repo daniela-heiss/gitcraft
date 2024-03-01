@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class WorldEditFunctions {
     public static CuboidRegion createCube(Double[] startCoordinates, Double[] endCoordinates) {
@@ -74,7 +76,10 @@ public class WorldEditFunctions {
     public static File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName, CommandSender sender) {
         String fileEnding = ".schem";
 
-        File file = new File("./plugins/WorldEdit/schematics/" + schematicName  + fileEnding);
+        Path currentWorkingDirectory = Paths.get(".").toAbsolutePath();
+        System.out.println(currentWorkingDirectory.normalize().toString());
+
+        File file = new File(currentWorkingDirectory.normalize().toString() + "/plugins/WorldEdit/schematics/" + schematicName  + fileEnding);
         if (!file.exists()) {
             try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
                 writer.write(clipboard);
