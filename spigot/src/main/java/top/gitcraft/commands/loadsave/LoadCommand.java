@@ -94,17 +94,18 @@ public class LoadCommand implements CommandExecutor {
                         }
                         return;
                     }
+                }
 
-                    if (save.rolledBack == 1) {
-                        if (earlierSaves != null && !earlierSaves.isEmpty()) {
-                            coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size() - 1).time, Arrays.asList(user.userName), null, null, null, null, 0, null);
-                            coreAPI.performRollback(timeNow - save.time, Arrays.asList(user.userName), null, null, null, null, 0, null);
-                            save.rolledBack = 0;
-                        } else {
-                            player.sendMessage("There is no earlier save that can be restored");
-                        }
+                if (save.rolledBack == 1) {
+                    if (earlierSaves != null && !earlierSaves.isEmpty()) {
+                        coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size() - 1).time, Arrays.asList(user.userName), null, null, null, null, 0, null);
+                        coreAPI.performRollback(timeNow - save.time, Arrays.asList(user.userName), null, null, null, null, 0, null);
+                        save.rolledBack = 0;
+                    } else {
+                        player.sendMessage("There is no earlier save that can be restored");
                     }
                 }
+
 
                 try {
                     saveDao.updateSave(save);

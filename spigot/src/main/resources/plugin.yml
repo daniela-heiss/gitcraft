@@ -5,24 +5,12 @@ api-version: '1.20'
 depend: [ CoreProtect ]
 # Replace "kit" with the name of your command.
 commands:
-  gcsave:
-    description: Saves the current changes to the DB
-    usage: /gcsave
-  helloblock:
-    description: Places a snowy grass block at the coordinates and greets the world
-    usage: /helloblock <x> <y> <z>
-  remove:
-    description: Places an air block at x,y,z and says that they destroy something
-    usage: /remove x y z
-  load:
+  gcload:
     description: Loads a savestate
-    usage: /load saveName
-  save:
+    usage: /gcload saveName
+  gcsave:
     description: saves a timestamp with a name
-    usage: /save saveName
-  testLoad:
-    description: Load a specific commit
-    usage: /load <commitName>
+    usage: /gcsave saveName
 
   #merge commands
   automerge:
