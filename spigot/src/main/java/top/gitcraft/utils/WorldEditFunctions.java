@@ -75,11 +75,9 @@ public class WorldEditFunctions {
 
     public static File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName, CommandSender sender) {
         String fileEnding = ".schem";
+        String currentDirectory = System.getProperty("user.dir");
+        File file = new File(currentDirectory + "/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
 
-        Path currentWorkingDirectory = Paths.get(".").toAbsolutePath();
-        System.out.println(currentWorkingDirectory.normalize().toString());
-
-        File file = new File(currentWorkingDirectory.normalize().toString() + "/plugins/WorldEdit/schematics/" + schematicName  + fileEnding);
         if (!file.exists()) {
             try (ClipboardWriter writer = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getWriter(new FileOutputStream(file))) {
                 writer.write(clipboard);
