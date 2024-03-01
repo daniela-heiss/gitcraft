@@ -13,9 +13,9 @@ import top.gitcraft.database.entities.WorldMapEntity;
 import java.sql.SQLException;
 
 public class DatabaseManager {
-    
+
     private static final Dotenv dotenv = Dotenv.load();
-    
+
     private static final String DATABASE_URL = dotenv.get("DATABASE_URL");
     private static final String DATABASE_USERNAME = dotenv.get("DATABASE_USERNAME");
     private static final String DATABASE_PASSWORD = dotenv.get("DATABASE_PASSWORD");
@@ -42,6 +42,7 @@ public class DatabaseManager {
         //TableUtils.createTableIfNotExists(connectionSource, CommitManagementEntity.class);
         //TableUtils.createTableIfNotExists(connectionSource, CommitEntity.class);
         TableUtils.createTableIfNotExists(connectionSource, SaveEntity.class);
+        TableUtils.createTableIfNotExists(connectionSource, WorldMapEntity.class);
     }
 
     private void closeConnection() throws Exception {
