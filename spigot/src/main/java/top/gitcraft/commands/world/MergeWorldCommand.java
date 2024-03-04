@@ -5,6 +5,9 @@ import com.onarandombox.MultiverseCore.api.MVWorldManager;
 import com.onarandombox.MultiverseCore.*;
 import com.onarandombox.MultiverseCore.api.MultiverseWorld;
 import com.onarandombox.MultiverseCore.api.WorldPurger;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import top.gitcraft.GitCraft;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -14,7 +17,14 @@ import org.bukkit.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class MergeWorldCommand {
+public class MergeWorldCommand implements CommandExecutor {
+
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        sender.sendMessage("Create void world...");
+        createMergeWorld("void", 2);
+
+        return true;
+    }
 
 
     public void createMergeWorld(String worldName,int layerheight) {
