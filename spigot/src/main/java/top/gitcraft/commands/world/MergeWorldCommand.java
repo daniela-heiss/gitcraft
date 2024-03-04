@@ -35,7 +35,7 @@ public class MergeWorldCommand implements CommandExecutor {
         MVWorldManager worldManager = core.getMVWorldManager();
         WorldPurger purger = worldManager.getTheWorldPurger();
         String newname = "Merge" + Instant.now().getEpochSecond();
-        //adding the world creation
+        //change gamerules on creation completion with a callback
         Runnable callback = () -> {
             MultiverseWorld mergeWorld = worldManager.getMVWorld(newname);
             mergeWorld.setGameMode(GameMode.CREATIVE);
