@@ -57,7 +57,7 @@ public class MergeWorldCommand implements CommandExecutor {
         //adding the world creation
 
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
-            worldManager.addWorld(worldName, World.Environment.NORMAL, null, WorldType.NORMAL, false, "gitcraft." + layerheight);
+            worldManager.addWorld(worldName, World.Environment.NORMAL, null, WorldType.NORMAL, false, "gitcraft:" + layerheight);
             if (callback != null) {
                 callback.run();
             }
