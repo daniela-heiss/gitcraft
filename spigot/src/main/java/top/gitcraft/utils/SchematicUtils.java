@@ -14,11 +14,8 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import top.gitcraft.GitCraft;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,17 +25,9 @@ import java.io.IOException;
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
 
 public class SchematicUtils {
-    public static CuboidRegion createCube(BlockVector3 start, BlockVector3 end) {
 
-        return new CuboidRegion(start, end);
-    }
-
-    public static BlockArrayClipboard copyRegionToClipboard(BlockVector3 startCoordinates, BlockVector3 endCoordinates, World world, Player player) {
+    public static BlockArrayClipboard createClipboard(BlockVector3 startCoordinates, BlockVector3 endCoordinates, World world, Player player) {
         CuboidRegion region = new CuboidRegion(startCoordinates, endCoordinates);
-        region.setPos1(startCoordinates);
-        region.setPos2(endCoordinates);
-
-        player.sendMessage(region.getPos1() + "" + region.getPos2());
         BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
 
         ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(
@@ -54,7 +43,7 @@ public class SchematicUtils {
         return clipboard;
     }
 
-    public static File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName, CommandSender sender) {
+    public static File saveClipboardAsSchematic(BlockArrayClipboard clipboard, String schematicName, Player player) {
         String fileEnding = ".schem";
         String currentDirectory = System.getProperty("user.dir");
         File file = new File(currentDirectory + "/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
@@ -66,67 +55,54 @@ public class SchematicUtils {
                 throw new RuntimeException(e);
             }
         } else {
-            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: Schematic Name already used");
+            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: Schematic Name already used");
             return null;
         }
-        sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
+        player.sendMessage("Created Schematic " + schematicName + " from Clipboard");
         return file;
     }
 
-    public static Clipboard loadSchematic(File file) {
-        Clipboard clipboard;
+    public static Clipboard loadSchematicAsClipboard(File file) {
         ClipboardFormat format = ClipboardFormats.findByFile(file);
         try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
-            clipboard = reader.read();
+            return reader.read();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return clipboard;
     }
 
-    public static void pasteClipboard(World world, Double[] startCoordinates, Clipboard clipboard) {
+    public static void pasteClipboard(World world, BlockVector3 to, Clipboard clipboard) {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
-                    .to(BlockVector3.at(startCoordinates[0], startCoordinates[1], startCoordinates[2]))
+                    .to(to)
                     .build();
             Operations.complete(operation);
         } catch (WorldEditException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    public static void pasteClipboard(World world, BlockVector3 startCoordinates, Clipboard clipboard) {
-        try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
-            Operation operation = new ClipboardHolder(clipboard)
-                    .createPaste(editSession)
-                    .to(startCoordinates)
-                    // configure here
-                    .build();
-            Operations.complete(operation);
-        } catch (WorldEditException e) {
-            e.printStackTrace();
-        }
+    public static boolean pasteSchematicAndJoin(File file, Player player, String schematicName, BlockVector3 to, String targetWorldName) {
+
+        Runnable callback = () -> {
+            Clipboard loadedClipboard = loadSchematicAsClipboard(file);
+            World targetWorld = BukkitAdapter.adapt(player.getWorld());
+            pasteClipboard(targetWorld, to, loadedClipboard);
+        };
+
+        joinWorldAtCurrentLocation(player, targetWorldName, callback);
+        return true;
     }
 
-    public static boolean pasteSchematicAndJoin(File file, Player player, String schematicName, BlockVector3 minCoordinatesArray, String worldName) {
+    public static boolean pasteClipboardAndJoin(BlockArrayClipboard clipboard, Player player, String targetWorldName, BlockVector3 to) {
 
-        joinWorldAtCurrentLocation(player, worldName);
-
-        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
-            @Override
-            public void run() {
-                Clipboard loadedClipboard = loadSchematic(file);
-                player.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
-
-                World originalWorld = BukkitAdapter.adapt(player.getWorld());
-                player.sendMessage("Current World Name: " + originalWorld);
-
-                pasteClipboard(originalWorld, minCoordinatesArray, loadedClipboard);
-                player.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
-            }
-        }, 50L);
-
+        Runnable callback = () -> {
+            World targetWorld = BukkitAdapter.adapt(player.getWorld());
+            pasteClipboard(targetWorld, to, clipboard);
+        };
+        
+        joinWorldAtCurrentLocation(player, targetWorldName, callback);
         return true;
     }
 }

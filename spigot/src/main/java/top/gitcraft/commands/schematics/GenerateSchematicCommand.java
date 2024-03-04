@@ -15,8 +15,8 @@ import static top.gitcraft.listeners.AreaSelectListener.getSelection;
 import static top.gitcraft.utils.FindMinAndMaxUtils.findMax;
 import static top.gitcraft.utils.FindMinAndMaxUtils.findMin;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
-import static top.gitcraft.utils.SchematicUtils.copyRegionToClipboard;
-import static top.gitcraft.utils.SchematicUtils.saveRegionAsSchematic;
+import static top.gitcraft.utils.SchematicUtils.createClipboard;
+import static top.gitcraft.utils.SchematicUtils.saveClipboardAsSchematic;
 
 public class GenerateSchematicCommand implements CommandExecutor {
 
@@ -43,11 +43,11 @@ public class GenerateSchematicCommand implements CommandExecutor {
 
         switch (args[0]) {
             case "area":
-                generateSchematicFromArea(player, sender, currentWorld, schematicName);
+                generateSchematicFromArea(player, currentWorld, schematicName);
                 break;
 
             case "all":
-                generateSchematicFromAllChanges(player, sender, currentWorld, worldName, schematicName);
+                generateSchematicFromAllChanges(player, currentWorld, worldName, schematicName);
                 break;
 
             default:
@@ -57,32 +57,30 @@ public class GenerateSchematicCommand implements CommandExecutor {
         return true;
     }
 
-    public static void generateSchematicFromArea(Player player, CommandSender sender, World currentWorld, String schematicName) {
+    public static void generateSchematicFromArea(Player player, World currentWorld, String schematicName) {
         // Get BlockVector3 Coordinates of the selected Area
         CuboidRegion selectedArea = getSelection(player);
         if (selectedArea == null) {
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
         }
 
-        sender.sendMessage("Min Coordinates : " + selectedArea.getPos1());
-        sender.sendMessage("Min Coordinates : " + selectedArea.getPos2());
+        player.sendMessage("Min Coordinates : " + selectedArea.getPos1());
+        player.sendMessage("Min Coordinates : " + selectedArea.getPos2());
 
-        BlockArrayClipboard clipboard1 = copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
+        BlockArrayClipboard clipboard1 = createClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
 
-        saveRegionAsSchematic(clipboard1, schematicName, sender);
+        saveClipboardAsSchematic(clipboard1, schematicName, player);
     }
 
-    public static void generateSchematicFromAllChanges(Player player, CommandSender sender, World currentWorld, String worldName, String schematicName) {
+    public static void generateSchematicFromAllChanges(Player player, World currentWorld, String worldName, String schematicName) {
         BlockVector3 minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
         BlockVector3 maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
 
-        sender.sendMessage("Min Coordinates : " + minCoordinatesArray);
-        sender.sendMessage("Min Coordinates : " + maxCoordinatesArray);
+        player.sendMessage("Min Coordinates : " + minCoordinatesArray);
+        player.sendMessage("Min Coordinates : " + maxCoordinatesArray);
 
-        BlockArrayClipboard clipboard2 = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
+        BlockArrayClipboard clipboard2 = createClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
 
-        saveRegionAsSchematic(clipboard2, schematicName, sender);
+        saveClipboardAsSchematic(clipboard2, schematicName, player);
     }
-
-
 }

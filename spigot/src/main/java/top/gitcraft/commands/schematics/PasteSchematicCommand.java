@@ -19,7 +19,7 @@ import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
 import static top.gitcraft.utils.FindMinAndMaxUtils.findMin;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
-import static top.gitcraft.utils.SchematicUtils.loadSchematic;
+import static top.gitcraft.utils.SchematicUtils.loadSchematicAsClipboard;
 import static top.gitcraft.utils.SchematicUtils.pasteClipboard;
 
 public class PasteSchematicCommand implements CommandExecutor {
@@ -77,7 +77,7 @@ public class PasteSchematicCommand implements CommandExecutor {
         if (selectedArea == null) {
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
         }
-        Clipboard loadedClipboardAll = loadSchematic(file);
+        Clipboard loadedClipboardAll = loadSchematicAsClipboard(file);
         sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
 
         World originalWorldArea = BukkitAdapter.adapt(player.getWorld());
@@ -88,7 +88,7 @@ public class PasteSchematicCommand implements CommandExecutor {
     }
 
     public static void pasteSchematicToMinCoordinates(Player player, CommandSender sender, File file, String schematicName, BlockVector3 minCoordinatesArray) {
-        Clipboard loadedClipboardArea = loadSchematic(file);
+        Clipboard loadedClipboardArea = loadSchematicAsClipboard(file);
         sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
 
         World originalWorldAll = BukkitAdapter.adapt(player.getWorld());

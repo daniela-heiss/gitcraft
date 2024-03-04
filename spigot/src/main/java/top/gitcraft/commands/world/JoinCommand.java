@@ -92,4 +92,22 @@ public class JoinCommand implements CommandExecutor {
         return true;
     }
 
+
+    public static void joinWorldAtCurrentLocation(Player player, String worldName, Runnable callback) {
+        World world = Bukkit.getWorld(worldName);
+
+        //change world
+        Location location = player.getLocation();
+        location.setWorld(world);
+
+        dispatchTellRawCommand(player, infoJoiningWorld(worldName));
+        Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
+            player.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
+            dispatchTellRawCommand(player, infoWorldJoined(worldName));
+            if (callback != null) {
+                callback.run();
+            }
+        });
+    }
+
 }

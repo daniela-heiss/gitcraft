@@ -29,22 +29,22 @@ public class AreaMergeCommand implements CommandExecutor {
             return false;
         }
 
-        sender.sendMessage("Gathering Coordinates...");
+        player.sendMessage("Gathering Coordinates...");
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
 
         String worldName = player.getWorld().getName();
-        sender.sendMessage("Current World Name: " + worldName);
+        player.sendMessage("Current World Name: " + worldName);
 
         // Get BlockVector3 Coordinates of the selected Area
         CuboidRegion selectedArea = getSelection(player);
 
-        BlockArrayClipboard clipboard = copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
+        BlockArrayClipboard clipboard = createClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
         player.sendMessage("Copied region to clipboard");
 
         String schematicName = args[0];
-        File file = saveRegionAsSchematic(clipboard, schematicName, sender);
+        File file = saveClipboardAsSchematic(clipboard, schematicName, player);
 
-        return pasteSchematicAndJoin(file, player, schematicName, selectedArea.getPos1(), worldName);
+        return pasteClipboardAndJoin(clipboard, player, "world", selectedArea.getPos1());
     }
 
 }

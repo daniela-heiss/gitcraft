@@ -30,25 +30,25 @@ public class AutoMergeCommand implements CommandExecutor {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        sender.sendMessage("Gathering Coordinates...");
+        player.sendMessage("Gathering Coordinates...");
 
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
 
         String worldName = player.getWorld().getName();
-        sender.sendMessage("Current World Name: " + worldName);
+        player.sendMessage("Current World Name: " + worldName);
 
-        BlockVector3 minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
-        BlockVector3 maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
+        BlockVector3 pos1 = findMin(getBlockChangedByPlayers(worldName));
+        BlockVector3 pos2 = findMax(getBlockChangedByPlayers(worldName));
 
-        player.sendMessage("Min: " + minCoordinatesArray + " Max: " + maxCoordinatesArray);
+        player.sendMessage("Min: " + pos1 + " Max: " + pos2);
 
-        BlockArrayClipboard clipboard = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
+        BlockArrayClipboard clipboard = createClipboard(pos1, pos2, currentWorld, player);
         player.sendMessage("Copied region to clipboard");
 
         String schematicName = "AutoMerge" + timestamp.getTime();
-        File file = saveRegionAsSchematic(clipboard, schematicName, sender);
+        File file = saveClipboardAsSchematic(clipboard, schematicName, player);
 
 
-        return pasteSchematicAndJoin(file, player, schematicName, minCoordinatesArray, worldName);
+        return pasteClipboardAndJoin(clipboard, player, "world", pos1);
     }
 }
