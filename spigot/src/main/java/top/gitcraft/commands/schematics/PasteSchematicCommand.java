@@ -36,6 +36,6 @@ public class PasteSchematicCommand implements CommandExecutor {
         String currentDirectory = System.getProperty("user.dir");
         File file = new File(currentDirectory + "/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
 
-        return pasteSchematicAndJoin(file, player, schematicName, pos1, "world");
+        return pasteSchematicAndJoin(file, player, pos1, "world");
     }
 }

@@ -88,7 +88,7 @@ public class SchematicUtils {
         }
     }
 
-    public static boolean pasteSchematicAndJoin(File file, Player player, String schematicName, BlockVector3 to, String targetWorldName) {
+    public static boolean pasteSchematicAndJoin(File file, Player player, BlockVector3 to, String targetWorldName) {
 
         Runnable callback = () -> {
             Clipboard loadedClipboard = loadSchematicAsClipboard(file);
