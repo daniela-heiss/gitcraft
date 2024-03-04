@@ -1,6 +1,7 @@
 package top.gitcraft.utils;
 
 import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -13,6 +14,8 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldedit.session.SessionManager;
+import com.sk89q.worldedit.session.SessionOwner;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -71,13 +74,15 @@ public class SchematicUtils {
         }
     }
 
-    public static void pasteClipboard(World world, BlockVector3 to, Clipboard clipboard) {
+    public static void pasteClipboard(World world, Player player, BlockVector3 to, Clipboard clipboard) {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
                     .to(to)
                     .build();
             Operations.complete(operation);
+
+            storeWordEditSession(player, editSession);
         } catch (WorldEditException e) {
             throw new RuntimeException(e);
         }
@@ -88,7 +93,7 @@ public class SchematicUtils {
         Runnable callback = () -> {
             Clipboard loadedClipboard = loadSchematicAsClipboard(file);
             World targetWorld = BukkitAdapter.adapt(player.getWorld());
-            pasteClipboard(targetWorld, to, loadedClipboard);
+            pasteClipboard(targetWorld, player, to, loadedClipboard);
         };
 
         joinWorldAtCurrentLocation(player, targetWorldName, callback);
@@ -99,10 +104,17 @@ public class SchematicUtils {
 
         Runnable callback = () -> {
             World targetWorld = BukkitAdapter.adapt(player.getWorld());
-            pasteClipboard(targetWorld, to, clipboard);
+            pasteClipboard(targetWorld, player, to, clipboard);
         };
 
         joinWorldAtCurrentLocation(player, targetWorldName, callback);
         return true;
+    }
+
+    private static void storeWordEditSession(Player player, EditSession editSession) {
+        SessionManager manger = WorldEdit.getInstance().getSessionManager();
+        SessionOwner actor = BukkitAdapter.adapt(player);
+        LocalSession localSession = manger.get(actor);
+        localSession.remember(editSession);
     }
 }
