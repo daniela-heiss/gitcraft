@@ -20,6 +20,8 @@ import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
 import top.gitcraft.utils.areavisualizer.PlayerQuitListener;
+import org.bukkit.generator.ChunkGenerator;
+import top.gitcraft.commands.world.*;
 
 import java.util.Objects;
 
@@ -51,8 +53,8 @@ public final class GitCraft extends JavaPlugin {
 
         Objects.requireNonNull(this.getCommand("testareavisulize")).setExecutor(new TestAreaVisualizer());
         //save-load
-         Objects.requireNonNull(this.getCommand("gcload")).setExecutor(new LoadCommand());
-         Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new SaveCommand());
+        Objects.requireNonNull(this.getCommand("gcload")).setExecutor(new LoadCommand());
+        Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new SaveCommand());
 
 
         getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
@@ -63,5 +65,11 @@ public final class GitCraft extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         getLogger().info("Goodbye, SpigotMC!");
+    }
+
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+        return new MergeWGenerator(id);
+
     }
 }
