@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import top.gitcraft.commands.areaselect.GetAreaCommand;
 import top.gitcraft.commands.areaselect.SetPos1Command;
 import top.gitcraft.commands.areaselect.SetPos2Command;
+import top.gitcraft.commands.loadsave.DeleteSaveCommand;
 import top.gitcraft.commands.loadsave.LoadCommand;
 import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.commands.merging.AreaMergeCommand;
@@ -55,6 +56,7 @@ public final class GitCraft extends JavaPlugin {
     public void registerSaveLoadCommands() {
         Objects.requireNonNull(this.getCommand("gcload")).setExecutor(new LoadCommand());
         Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new SaveCommand());
+        Objects.requireNonNull(this.getCommand("gcdeletesave")).setExecutor(new DeleteSaveCommand());
     }
 
     public void registerMergeCommands() {

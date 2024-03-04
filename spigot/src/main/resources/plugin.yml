@@ -11,6 +11,9 @@ commands:
   gcsave:
     description: saves a timestamp with a name
     usage: /gcsave saveName
+  gcDeleteSave:
+    description: deletes a timestamp with a name
+    usage: /gcDeleteSave saveName
 
   #merge commands
   automerge:
