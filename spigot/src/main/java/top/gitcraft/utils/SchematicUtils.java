@@ -3,6 +3,7 @@ package top.gitcraft.utils;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.*;
@@ -13,16 +14,20 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.GitCraft;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class WorldEditUtils {
+import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
+
+public class SchematicUtils {
     public static CuboidRegion createCube(BlockVector3 start, BlockVector3 end) {
 
         return new CuboidRegion(start, end);
@@ -102,5 +107,26 @@ public class WorldEditUtils {
         } catch (WorldEditException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean pasteSchematicAndJoin(File file, Player player, String schematicName, BlockVector3 minCoordinatesArray, String worldName) {
+
+        joinWorldAtCurrentLocation(player, worldName);
+
+        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
+            @Override
+            public void run() {
+                Clipboard loadedClipboard = loadSchematic(file);
+                player.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
+
+                World originalWorld = BukkitAdapter.adapt(player.getWorld());
+                player.sendMessage("Current World Name: " + originalWorld);
+
+                pasteClipboard(originalWorld, minCoordinatesArray, loadedClipboard);
+                player.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
+            }
+        }, 50L);
+
+        return true;
     }
 }

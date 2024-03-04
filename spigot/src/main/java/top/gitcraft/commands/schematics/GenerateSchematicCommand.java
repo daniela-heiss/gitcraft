@@ -15,8 +15,8 @@ import static top.gitcraft.listeners.AreaSelectListener.getSelection;
 import static top.gitcraft.utils.FindMinAndMaxUtils.findMax;
 import static top.gitcraft.utils.FindMinAndMaxUtils.findMin;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
-import static top.gitcraft.utils.WorldEditUtils.copyRegionToClipboard;
-import static top.gitcraft.utils.WorldEditUtils.saveRegionAsSchematic;
+import static top.gitcraft.utils.SchematicUtils.copyRegionToClipboard;
+import static top.gitcraft.utils.SchematicUtils.saveRegionAsSchematic;
 
 public class GenerateSchematicCommand implements CommandExecutor {
 

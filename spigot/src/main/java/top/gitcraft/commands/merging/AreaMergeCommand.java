@@ -2,21 +2,17 @@ package top.gitcraft.commands.merging;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
-import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import top.gitcraft.GitCraft;
 
 import java.io.File;
 
-import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
-import static top.gitcraft.utils.WorldEditUtils.*;
+import static top.gitcraft.utils.SchematicUtils.*;
 
 public class AreaMergeCommand implements CommandExecutor {
 
@@ -48,27 +44,7 @@ public class AreaMergeCommand implements CommandExecutor {
         String schematicName = args[0];
         File file = saveRegionAsSchematic(clipboard, schematicName, sender);
 
-        if (file != null) {
-
-            sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
-
-            joinWorldAtCurrentLocation(player, "world");
-
-            Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
-                @Override
-                public void run() {
-                    Clipboard loadedClipboard = loadSchematic(file);
-                    sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
-
-                    World originalWorld = BukkitAdapter.adapt(player.getWorld());
-
-                    pasteClipboard(originalWorld, selectedArea.getPos1(), loadedClipboard);
-                    sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
-                }
-            }, 50L);
-
-        }
-        return true;
+        return pasteSchematicAndJoin(file, player, schematicName, selectedArea.getPos1(), worldName);
     }
 
 }
