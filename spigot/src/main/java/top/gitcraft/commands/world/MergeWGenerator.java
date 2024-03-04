@@ -38,6 +38,6 @@ public class MergeWGenerator extends ChunkGenerator {
         }
 
         int highestBlock = world.getHighestBlockYAt(0, 0);
-        return new Location(world, 0, highestBlock, 0);
+        return new Location(world, 0, highestBlock+1, 0);
     }
 }

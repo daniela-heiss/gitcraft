@@ -15,6 +15,7 @@ import org.bukkit.World;
 import org.bukkit.WorldType;
 import org.bukkit.*;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -29,35 +30,31 @@ public class MergeWorldCommand implements CommandExecutor {
 
 
     public void createMergeWorld(String worldName,int layerheight) {
+
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
         WorldPurger purger = worldManager.getTheWorldPurger();
-
+        String newname = "Merge" + Instant.now().getEpochSecond();
         //adding the world creation
-        /*worldManager.addWorld(worldName, World.Environment.NORMAL, null, WorldType.NORMAL, false, "gitcraft."+layerheight);
-*/
         Runnable callback = () -> {
-            MultiverseWorld mergeWorld = worldManager.getMVWorld(worldName);
+            MultiverseWorld mergeWorld = worldManager.getMVWorld(newname);
             mergeWorld.setGameMode(GameMode.CREATIVE);
             mergeWorld.setAllowAnimalSpawn(false);
             mergeWorld.setAllowMonsterSpawn(false);
-            /*ArrayList<String> thingsToKill = new ArrayList<String>();
-            thingsToKill.add("ALL");
-            purger.purgeWorld(mergeWorld, thingsToKill, false, false);*/
             purger.purgeWorld(mergeWorld);
+            //add new gamerules here if they are deemed necessary
         };
 
-        createWorldSendCallback(worldName, layerheight, callback);
+        createWorldSendCallback(newname,layerheight, callback);
     }
 
-    public static void createWorldSendCallback(String worldName, int layerheight, Runnable callback) {
+    public static void createWorldSendCallback(String newname,int layerheight, Runnable callback) {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
-
         //adding the world creation
 
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
-            worldManager.addWorld(worldName, World.Environment.NORMAL, null, WorldType.NORMAL, false, "gitcraft:" + layerheight);
+            worldManager.addWorld(newname, World.Environment.NORMAL, null, WorldType.NORMAL, false, "gitcraft:"+layerheight);
             if (callback != null) {
                 callback.run();
             }
