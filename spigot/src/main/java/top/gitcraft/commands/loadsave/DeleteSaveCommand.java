@@ -1,4 +1,4 @@
-package top.gitcraft.commands;
+package top.gitcraft.commands.loadsave;
 
 import java.sql.SQLException;
 import java.util.List;

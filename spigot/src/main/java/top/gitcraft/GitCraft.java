@@ -15,6 +15,7 @@ import top.gitcraft.commands.world.WorldCommand;
 import top.gitcraft.commands.world.CreateCommand;
 import top.gitcraft.commands.world.DeleteCommand;
 import top.gitcraft.commands.world.JoinCommand;
+import top.gitcraft.commands.loadsave.DeleteSaveCommand;
 import top.gitcraft.commands.loadsave.LoadCommand;
 import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.ui.logic.MainMenuCommand;
@@ -53,7 +54,7 @@ public final class GitCraft extends JavaPlugin {
         //save-load
          Objects.requireNonNull(this.getCommand("gcload")).setExecutor(new LoadCommand());
          Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new SaveCommand());
-        Objects.requireNonNull(this.getCommand("gcdeleteSave")).setExecutor(new DeleteSaveCommand());
+        Objects.requireNonNull(this.getCommand("gcdeletesave")).setExecutor(new DeleteSaveCommand());
 
 
         getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
