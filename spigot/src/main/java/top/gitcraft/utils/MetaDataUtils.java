@@ -6,7 +6,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
 import top.gitcraft.GitCraft;
 
-public class MetaDataWrapper {
+public class MetaDataUtils {
 
     public static void setMetadata(Player player, String key, Object value) {
         player.setMetadata(key, new FixedMetadataValue(GitCraft.getPlugin(GitCraft.class), value));
