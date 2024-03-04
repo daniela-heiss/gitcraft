@@ -11,7 +11,7 @@ import org.bukkit.WorldType;
 public class MergeWorldCommand {
 
 
-    public void createMerge(String worldName,int layerheight) {
+    public void createMergeWorld(String worldName,int layerheight) {
         /*MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
 
