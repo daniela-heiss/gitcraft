@@ -21,9 +21,13 @@ stages:
   - deploy
 
 build-job:       
+before_script:
+  - apt-get update -qy
+  - apt-get install -y maven
+
   stage: build
   script:
-    - mvm clean install
+    - mvn clean install
 
 
 deploy-job:      
@@ -31,4 +35,4 @@ deploy-job:
   script:
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - ssh -o StrictHostKeyChecking=no user@your-server "your-deploy-script.sh"
+    - ssh -o StrictHostKeyChecking=no gitcraft@gitcraft.projekte.it.hs-worms.de "your-deploy-script.sh"
