@@ -8,6 +8,7 @@ import com.onarandombox.MultiverseCore.api.WorldPurger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.generator.ChunkGenerator;
 import top.gitcraft.GitCraft;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -21,7 +22,7 @@ public class MergeWorldCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         sender.sendMessage("Create void world...");
-        createMergeWorld("void", 2);
+        createMergeWorld("void2", 20);
 
         return true;
     }

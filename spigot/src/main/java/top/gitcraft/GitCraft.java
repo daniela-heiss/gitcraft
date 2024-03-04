@@ -32,6 +32,7 @@ public final class GitCraft extends JavaPlugin {
         registerWorldCommands();
 
         registerMergeCommands();
+        registerMergeWorldCommands();
         registerSchematicCommands();
 
         registerAreaSelectCommands();
@@ -64,6 +65,10 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
     }
 
+    public void registerMergeWorldCommands() {
+        Objects.requireNonNull(this.getCommand("gccreatemergeworld")).setExecutor(new MergeWorldCommand());
+    }
+
     public void registerSchematicCommands() {
         Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());
         Objects.requireNonNull(this.getCommand("pasteschematic")).setExecutor(new PasteSchematicCommand());
@@ -79,5 +84,10 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcjoin")).setExecutor(new JoinCommand());
         Objects.requireNonNull(this.getCommand("gccreate")).setExecutor(new CreateCommand());
         Objects.requireNonNull(this.getCommand("gcdelete")).setExecutor(new DeleteCommand());
+    }
+
+    @Override
+    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+        return new MergeWGenerator(id);
     }
 }
