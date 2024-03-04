@@ -16,22 +16,6 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
-#stages:
-#  - build
-#  - deploy
-
-#build-job:       
-#  stage: build
-#  script:
-#    - mvn clean install
-
-#deploy-job:      
-#  stage: deploy  
-#  script:
-#    - eval $(ssh-agent -s)
-#    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-#    - ssh -o StrictHostKeyChecking=no gitcraft@gitcraft.projekte.it.hs-worms.de "your-deploy-script.sh"
-#
 
 stages:
   - build
@@ -57,5 +41,5 @@ job_deploy:
   script:
     - echo "Deploying the project"
   #  - sudo systemctl stop spigot
-    - mv gitcraft-1.0-SNAPSHOT.jar /home/gitcraft/server/plugins
+    - sudo mv gitcraft-1.0-SNAPSHOT.jar /home/gitcraft/server/plugins
   #  - sudo systemctl start spigot
