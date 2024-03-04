@@ -94,6 +94,7 @@ public class SaveList {
     public static String saveListAll(LISTTYPE type, String playerName) {
         List<String> saveNames = new ArrayList<>();
         List<SaveEntity> saves;
+        System.out.println("SaveListFile: " + playerName);
         try{
         UserEntity user = userDao.getUserByName(playerName);
         saves = saveDao.getAllSavesByUser(user.rowId);}

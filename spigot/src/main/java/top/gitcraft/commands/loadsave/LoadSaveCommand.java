@@ -19,7 +19,7 @@ public class LoadSaveCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-
+        System.out.println("LoadSaveCommandFile: " + player.getName());
         // Open join list if no arguments are provided
         if (args.length == 0) {
             dispatchTellRawCommand(player, saveListAll(LISTTYPE.LOAD, player.getName()));
