@@ -23,8 +23,7 @@ public class MergeWorldCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         sender.sendMessage("Create void world...");
-        createMergeWorld(20);
-
+        createMergeWorld(Integer.parseInt(args[0]));
         return true;
     }
 
