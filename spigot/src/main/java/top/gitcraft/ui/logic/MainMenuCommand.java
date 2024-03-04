@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import static top.gitcraft.ui.components.Menu.menuMainMenu;
-import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class MainMenuCommand implements CommandExecutor {
 

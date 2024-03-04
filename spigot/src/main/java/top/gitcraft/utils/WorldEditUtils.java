@@ -21,16 +21,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-public class WorldEditFunctions {
+public class WorldEditUtils {
     public static CuboidRegion createCube(BlockVector3 start, BlockVector3 end) {
 
         return new CuboidRegion(start, end);
     }
-
-
 
     public static BlockArrayClipboard copyRegionToClipboard(BlockVector3 startCoordinates, BlockVector3 endCoordinates, World world, Player player) {
         CuboidRegion region = new CuboidRegion(startCoordinates, endCoordinates);
@@ -88,7 +84,6 @@ public class WorldEditFunctions {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
                     .to(BlockVector3.at(startCoordinates[0], startCoordinates[1], startCoordinates[2]))
-                    // configure here
                     .build();
             Operations.complete(operation);
         } catch (WorldEditException e) {

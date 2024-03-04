@@ -16,7 +16,7 @@ import java.io.File;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
-import static top.gitcraft.utils.WorldEditFunctions.*;
+import static top.gitcraft.utils.WorldEditUtils.*;
 
 public class AreaMergeCommand implements CommandExecutor {
 
@@ -33,7 +33,6 @@ public class AreaMergeCommand implements CommandExecutor {
             return false;
         }
 
-
         sender.sendMessage("Gathering Coordinates...");
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
 
@@ -42,7 +41,6 @@ public class AreaMergeCommand implements CommandExecutor {
 
         // Get BlockVector3 Coordinates of the selected Area
         CuboidRegion selectedArea = getSelection(player);
-
 
         BlockArrayClipboard clipboard = copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
         player.sendMessage("Copied region to clipboard");

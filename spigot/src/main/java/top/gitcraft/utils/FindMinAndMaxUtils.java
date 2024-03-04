@@ -5,7 +5,7 @@ import top.gitcraft.database.entities.BlockEntity;
 
 import java.util.List;
 
-public class FindMinAndMax {
+public class FindMinAndMaxUtils {
     public static BlockVector3 findMin(List<BlockEntity> list) {
         int minX = 0;
         int minY = 0;

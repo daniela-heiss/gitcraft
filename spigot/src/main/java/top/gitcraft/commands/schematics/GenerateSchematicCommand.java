@@ -12,11 +12,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
-import static top.gitcraft.utils.FindMinAndMax.findMax;
-import static top.gitcraft.utils.FindMinAndMax.findMin;
+import static top.gitcraft.utils.FindMinAndMaxUtils.findMax;
+import static top.gitcraft.utils.FindMinAndMaxUtils.findMin;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
-import static top.gitcraft.utils.WorldEditFunctions.copyRegionToClipboard;
-import static top.gitcraft.utils.WorldEditFunctions.saveRegionAsSchematic;
+import static top.gitcraft.utils.WorldEditUtils.copyRegionToClipboard;
+import static top.gitcraft.utils.WorldEditUtils.saveRegionAsSchematic;
 
 public class GenerateSchematicCommand implements CommandExecutor {
 

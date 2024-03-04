@@ -20,7 +20,7 @@ import java.util.UUID;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
 import static top.gitcraft.ui.components.Info.infoWorldCreated;
-import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class CreateCommand implements CommandExecutor {
 

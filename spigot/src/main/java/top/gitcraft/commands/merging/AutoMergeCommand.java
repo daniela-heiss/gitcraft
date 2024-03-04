@@ -16,13 +16,13 @@ import java.io.File;
 import java.sql.Timestamp;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
-import static top.gitcraft.utils.FindMinAndMax.findMax;
-import static top.gitcraft.utils.FindMinAndMax.findMin;
+import static top.gitcraft.utils.FindMinAndMaxUtils.findMax;
+import static top.gitcraft.utils.FindMinAndMaxUtils.findMin;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
-import static top.gitcraft.utils.WorldEditFunctions.*;
+import static top.gitcraft.utils.WorldEditUtils.*;
 
 public class AutoMergeCommand implements CommandExecutor {
-    
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 

@@ -17,10 +17,10 @@ import java.io.File;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
-import static top.gitcraft.utils.FindMinAndMax.findMin;
+import static top.gitcraft.utils.FindMinAndMaxUtils.findMin;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
-import static top.gitcraft.utils.WorldEditFunctions.loadSchematic;
-import static top.gitcraft.utils.WorldEditFunctions.pasteClipboard;
+import static top.gitcraft.utils.WorldEditUtils.loadSchematic;
+import static top.gitcraft.utils.WorldEditUtils.pasteClipboard;
 
 public class PasteSchematicCommand implements CommandExecutor {
 

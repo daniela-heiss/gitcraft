@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import top.gitcraft.GitCraft;
 
 import static top.gitcraft.ui.components.Info.*;
-import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 /**
  * JoinCommand

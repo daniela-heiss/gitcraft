@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static top.gitcraft.ui.components.Info.*;
-import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class DeleteCommand implements CommandExecutor {
     private final UserDao userDao;
