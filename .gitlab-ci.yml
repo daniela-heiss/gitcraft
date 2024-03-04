@@ -16,18 +16,33 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
 
+#stages:
+#  - build
+#  - deploy
+
+#build-job:       
+#  stage: build
+#  script:
+#    - mvn clean install
+
+#deploy-job:      
+#  stage: deploy  
+#  script:
+#    - eval $(ssh-agent -s)
+#    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+#    - ssh -o StrictHostKeyChecking=no gitcraft@gitcraft.projekte.it.hs-worms.de "your-deploy-script.sh"
+#
+
 stages:
   - build
-  - deploy
+  - test
 
-build-job:       
+job_build:
   stage: build
   script:
-    - mvn clean install
+    - echo "Building the project"
 
-deploy-job:      
-  stage: deploy  
+job_test:
+  stage: test
   script:
-    - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
-    - ssh -o StrictHostKeyChecking=no gitcraft@gitcraft.projekte.it.hs-worms.de "your-deploy-script.sh"
+    - echo "Running tests"
