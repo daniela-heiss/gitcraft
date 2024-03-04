@@ -18,6 +18,7 @@ import top.gitcraft.commands.world.WorldCommand;
 import top.gitcraft.listeners.AreaSelectListener;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
+import top.gitcraft.utils.MergeWGenerator;
 import top.gitcraft.utils.areavisualizer.PlayerQuitListener;
 import org.bukkit.generator.ChunkGenerator;
 import top.gitcraft.commands.world.*;

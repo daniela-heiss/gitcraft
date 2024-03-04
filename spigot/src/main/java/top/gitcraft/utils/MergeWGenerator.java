@@ -1,4 +1,4 @@
-package top.gitcraft.commands.world;
+package top.gitcraft.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
