@@ -3,10 +3,12 @@ package top.gitcraft.commands.world;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MVWorldManager;
 import com.onarandombox.MultiverseCore.*;
+import com.onarandombox.MultiverseCore.api.MultiverseWorld;
 import top.gitcraft.GitCraft;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldType;
+import org.bukkit.*;
 
 public class MergeWorldCommand {
 
@@ -19,7 +21,8 @@ public class MergeWorldCommand {
         worldManager.addWorld(worldName, World.Environment.NORMAL, null, WorldType.NORMAL, false, "gitcraft."+layerheight);
 */
         Runnable callback = () -> {
-
+            MultiverseWorld mergeWorld = world.getMVWorld(worldName);
+            mergeWorld.setGameMode(GameMode.CREATIVE);
         };
 
         createWorldSendCallback(worldName, layerheight, callback);
