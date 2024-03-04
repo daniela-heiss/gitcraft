@@ -4,11 +4,15 @@ import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MVWorldManager;
 import com.onarandombox.MultiverseCore.*;
 import com.onarandombox.MultiverseCore.api.MultiverseWorld;
+import com.onarandombox.MultiverseCore.api.WorldPurger;
 import top.gitcraft.GitCraft;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldType;
 import org.bukkit.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MergeWorldCommand {
 
@@ -16,6 +20,7 @@ public class MergeWorldCommand {
     public void createMergeWorld(String worldName,int layerheight) {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
+        WorldPurger purger = worldManager.getTheWorldPurger();
 
         //adding the world creation
         /*worldManager.addWorld(worldName, World.Environment.NORMAL, null, WorldType.NORMAL, false, "gitcraft."+layerheight);
@@ -25,7 +30,10 @@ public class MergeWorldCommand {
             mergeWorld.setGameMode(GameMode.CREATIVE);
             mergeWorld.setAllowAnimalSpawn(false);
             mergeWorld.setAllowMonsterSpawn(false);
-
+            /*ArrayList<String> thingsToKill = new ArrayList<String>();
+            thingsToKill.add("ALL");
+            purger.purgeWorld(mergeWorld, thingsToKill, false, false);*/
+            purger.purgeWorld(mergeWorld);
         };
 
         createWorldSendCallback(worldName, layerheight, callback);
