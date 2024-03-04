@@ -37,7 +37,7 @@ public class SaveList {
         }
     }
 
-    public static String saveListSubset(LISTTYPE type, List<String> worldNames) {
+    public static String saveListSubset(LISTTYPE type, List<String> saveNames) {
         // Initialize JsonBuilder
         JsonBuilder jsonBuilder = new JsonBuilder();
 
@@ -50,34 +50,34 @@ public class SaveList {
         // First world
         jsonBuilder.text("\\u2554")
                 .text("[").bold()
-                .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + worldNames.get(0)).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + worldNames.get(0))
+                .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saveNames.get(0)).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saveNames.get(0))
                 .text("] ").bold()
-                .text(worldNames.get(0)).bold()
+                .text(saveNames.get(0)).bold()
                 .spacing(1);
 
-        worldNames.remove(0);
-        String lastWorld = null;
-        if (!worldNames.isEmpty()) {
-            lastWorld = worldNames.get(worldNames.size()-1);
-            worldNames.remove(worldNames.size()-1);
+        saveNames.remove(0);
+        String lastSave = null;
+        if (!saveNames.isEmpty()) {
+            lastSave = saveNames.get(saveNames.size()-1);
+            saveNames.remove(saveNames.size()-1);
         }
         // Iterate through world names
-        for (String worldName : worldNames) {
+        for (String saveName : saveNames) {
             jsonBuilder.text("\\u2560")
                     .text("[").bold()
-                    .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + worldName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + worldName)
+                    .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saveName)
                     .text("] ").bold()
-                    .text(worldName).bold()
+                    .text(saveName).bold()
                     .spacing(1);
         }
 
         // Last world
-        if(!(lastWorld == null)) {
+        if(!(lastSave == null)) {
             jsonBuilder.text("\\u255a")
                     .text("[").bold()
-                    .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastWorld).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastWorld)
+                    .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastSave).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastSave)
                     .text("] ").bold()
-                    .text(lastWorld).bold()
+                    .text(lastSave).bold()
                     .spacing(1);
         }
 
@@ -91,11 +91,11 @@ public class SaveList {
         return jsonBuilder.build();
     }
 
-    public static String saveListAll(LISTTYPE type) {
+    public static String saveListAll(LISTTYPE type, String playerName) {
         List<String> saveNames = new ArrayList<>();
         List<SaveEntity> saves;
         try{
-        UserEntity user = userDao.getUserByName();
+        UserEntity user = userDao.getUserByName(playerName);
         saves = saveDao.getAllSavesByUser(user.rowId);}
         catch(SQLException e) {
             throw new RuntimeException(e);

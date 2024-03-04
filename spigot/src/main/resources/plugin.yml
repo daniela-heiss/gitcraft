@@ -14,6 +14,9 @@ commands:
   gcdeleteSave:
     description: deletes a timestamp with a name
     usage: /gcdeleteSave saveName
+  gclistsaves:
+    description: List worldes
+    usage: /gclistsaves [load|delete]
 
   #merge commands
   automerge:

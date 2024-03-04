@@ -15,8 +15,8 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.UUID;
 
-import static top.gitcraft.ui.components.Info.infoDeletingWorld;
-import static top.gitcraft.ui.components.Info.infoWorldDeleted;
+//import static top.gitcraft.ui.components.InfoMessages.infoDeletingWorld;
+//import static top.gitcraft.ui.components.InfoMessages.infoWorldDeleted;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class WorldUtils {
@@ -65,10 +65,10 @@ public class WorldUtils {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
 
-        dispatchTellRawCommand(player, infoDeletingWorld(worldName));
+       // dispatchTellRawCommand(player, infoDeletingWorld(worldName));
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
             worldManager.deleteWorld(worldName);
-            dispatchTellRawCommand(player, infoWorldDeleted(worldName));
+          //  dispatchTellRawCommand(player, infoWorldDeleted(worldName));
         });
     }
 
