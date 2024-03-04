@@ -13,12 +13,13 @@ import top.gitcraft.database.daos.UserDao;
 import top.gitcraft.database.daos.WorldMapDao;
 import top.gitcraft.database.entities.UserEntity;
 import top.gitcraft.database.entities.WorldMapEntity;
+import top.gitcraft.utils.enums.JSONCOLOR;
 
 import java.sql.SQLException;
 import java.util.Objects;
 import java.util.UUID;
 
-import static top.gitcraft.ui.components.Info.*;
+import static top.gitcraft.ui.components.InfoMessages.*;
 import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class DeleteCommand implements CommandExecutor {
@@ -47,12 +48,12 @@ public class DeleteCommand implements CommandExecutor {
 
         // No world provided
         if (args.length == 0) {
-            dispatchTellRawCommand(player, infoNoWorldNameProvided());
+            dispatchTellRawCommand(player, infoContent(JSONCOLOR.BLUE, "Please provide a world name"));
             return true;
         }
         // "world" is protected from accidental deletion
         if (Objects.equals(args[0], "world")) {
-            dispatchTellRawCommand(player, infoWorldIsProtected("world"));
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.RED, "world", "is protected and will not be deleted"));
             return true;
         }
         deleteWorld(player, args[0]);
@@ -63,10 +64,10 @@ public class DeleteCommand implements CommandExecutor {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
 
-        dispatchTellRawCommand(player, infoDeletingWorld(worldName));
+        dispatchTellRawCommand(player, infoActionWorld(JSONCOLOR.RED, "Deleting", worldName));
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
             worldManager.deleteWorld(worldName);
-            dispatchTellRawCommand(player, infoWorldDeleted(worldName));
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.RED, worldName, "Deleting"));
         });
         deleteLog(player, worldName);
     }

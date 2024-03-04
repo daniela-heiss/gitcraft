@@ -10,8 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import top.gitcraft.GitCraft;
+import top.gitcraft.utils.enums.JSONCOLOR;
 
-import static top.gitcraft.ui.components.Info.*;
+import static top.gitcraft.ui.components.InfoMessages.*;
 import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 /**
@@ -36,7 +37,7 @@ public class JoinCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            dispatchTellRawCommand(player, infoNoWorldNameProvided());
+            dispatchTellRawCommand(player, infoContent(JSONCOLOR.BLUE, "Please provide a world name"));
             return true;
         }
         String worldName = args[0];
@@ -60,11 +61,11 @@ public class JoinCommand implements CommandExecutor {
         World world = Bukkit.getWorld(worldName);
         GameMode originalGameMode = player.getGameMode();
 
-        dispatchTellRawCommand(player, infoJoiningWorld(worldName));
+        dispatchTellRawCommand(player, infoActionWorld(JSONCOLOR.GREEN, "Joining", worldName));
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
             Location spawnLocation = world.getSpawnLocation();
             player.teleport(spawnLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
-            dispatchTellRawCommand(player, infoWorldJoined(worldName));
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.GREEN, worldName, "joined"));
         });
         return true;
     }
@@ -83,10 +84,10 @@ public class JoinCommand implements CommandExecutor {
         Location location = player.getLocation();
         location.setWorld(world);
 
-        dispatchTellRawCommand(player, infoJoiningWorld(worldName));
+        dispatchTellRawCommand(player, infoActionWorld(JSONCOLOR.GREEN, "Joining", worldName));
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
             player.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
-            dispatchTellRawCommand(player, infoWorldJoined(worldName));
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.GREEN, worldName, "joined"));
         });
 
         return true;

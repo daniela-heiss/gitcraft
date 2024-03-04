@@ -13,13 +13,14 @@ import top.gitcraft.database.daos.UserDao;
 import top.gitcraft.database.daos.WorldMapDao;
 import top.gitcraft.database.entities.UserEntity;
 import top.gitcraft.database.entities.WorldMapEntity;
+import top.gitcraft.utils.enums.JSONCOLOR;
 
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.UUID;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
-import static top.gitcraft.ui.components.Info.infoWorldCreated;
+import static top.gitcraft.ui.components.InfoMessages.*;
 import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
 
 public class CreateCommand implements CommandExecutor {
@@ -54,9 +55,10 @@ public class CreateCommand implements CommandExecutor {
         player.sendMessage("Teleporting to new world: " + doTeleport);
 
         Runnable callback = () -> {
-            dispatchTellRawCommand(player, infoWorldCreated(worldName));
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.AQUA, worldName, "created"));
             if (doTeleport) joinWorldAtCurrentLocation(player, worldName);
         };
+        dispatchTellRawCommand(player, infoActionWorld(JSONCOLOR.AQUA, "created", worldName));
         cloneWorld(currentWorldName, worldName, callback);
         logWorld(player, worldName);
 
