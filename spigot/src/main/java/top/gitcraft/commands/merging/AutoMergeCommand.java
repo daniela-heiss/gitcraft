@@ -3,34 +3,26 @@ package top.gitcraft.commands.merging;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.World;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import top.gitcraft.GitCraft;
-import top.gitcraft.commands.world.JoinCommand;
 
-import java.io.*;
+import java.io.File;
 import java.sql.Timestamp;
-import java.util.concurrent.TimeUnit;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
+import static top.gitcraft.utils.FindMinAndMax.findMax;
+import static top.gitcraft.utils.FindMinAndMax.findMin;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
 import static top.gitcraft.utils.WorldEditFunctions.*;
-import static top.gitcraft.utils.FindMinAndMax.*;
 
 public class AutoMergeCommand implements CommandExecutor {
-
-    private final GitCraft gitCraft;
-
-    public AutoMergeCommand(GitCraft gitCraft) {
-        this.gitCraft = gitCraft;
-    }
-
+    
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -42,10 +34,6 @@ public class AutoMergeCommand implements CommandExecutor {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        //if (args.length != 1) {
-        //    return false;
-        //}
-
         sender.sendMessage("Gathering Coordinates...");
 
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
@@ -53,15 +41,10 @@ public class AutoMergeCommand implements CommandExecutor {
         String worldName = player.getWorld().getName();
         sender.sendMessage("Current World Name: " + worldName);
 
-        Double[] minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
-        Double[] maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
+        BlockVector3 minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
+        BlockVector3 maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
 
-        for (Double number : minCoordinatesArray) {
-            sender.sendMessage("Min Coordinates : " + number);
-        }
-        for (Double number : maxCoordinatesArray) {
-            sender.sendMessage("Max Coordinates : " + number);
-        }
+        player.sendMessage("Min: " + minCoordinatesArray + " Max: " + maxCoordinatesArray);
 
         BlockArrayClipboard clipboard = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
         player.sendMessage("Copied region to clipboard");

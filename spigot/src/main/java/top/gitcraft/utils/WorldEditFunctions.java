@@ -25,32 +25,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class WorldEditFunctions {
-    public static CuboidRegion createCube(Double[] startCoordinates, Double[] endCoordinates) {
-
-        BlockVector3 start = BlockVector3.at(startCoordinates[0], startCoordinates[1], startCoordinates[2]);
-        BlockVector3 end = BlockVector3.at(endCoordinates[0], endCoordinates[1], endCoordinates[2]);
+    public static CuboidRegion createCube(BlockVector3 start, BlockVector3 end) {
 
         return new CuboidRegion(start, end);
     }
 
-    public static BlockArrayClipboard copyRegionToClipboard(Double[] startCoordinates, Double[] endCoordinates, World world, Player player) {
 
-        CuboidRegion region = createCube(startCoordinates, endCoordinates);
-        player.sendMessage(region.getPos1() + "" + region.getPos2());
-        BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
-
-        ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(
-                world, region, clipboard, region.getMinimumPoint()
-        );
-
-        try {
-            Operations.complete(forwardExtentCopy);
-        } catch (WorldEditException e) {
-            throw new RuntimeException(e);
-        }
-
-        return clipboard;
-    }
 
     public static BlockArrayClipboard copyRegionToClipboard(BlockVector3 startCoordinates, BlockVector3 endCoordinates, World world, Player player) {
         CuboidRegion region = new CuboidRegion(startCoordinates, endCoordinates);

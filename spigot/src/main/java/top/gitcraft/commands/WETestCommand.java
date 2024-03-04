@@ -13,9 +13,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.world.World;
-
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,7 +28,6 @@ public class WETestCommand implements CommandExecutor {
             sender.sendMessage("sender is not a player");
             return true;
         }
-        sender.sendMessage("sender is a player");
 
         Player player = (Player) sender;
         World world = BukkitAdapter.adapt(player.getWorld());
@@ -71,7 +68,6 @@ public class WETestCommand implements CommandExecutor {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
                     .to(BlockVector3.at(playerLocation.getBlockX() + 5, playerLocation.getBlockY(), playerLocation.getBlockZ()))
-                    // configure here
                     .build();
             Operations.complete(operation);
         } catch (WorldEditException e) {

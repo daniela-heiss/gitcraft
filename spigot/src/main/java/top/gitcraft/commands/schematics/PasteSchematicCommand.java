@@ -1,8 +1,8 @@
 package top.gitcraft.commands.schematics;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.Bukkit;
@@ -12,16 +12,15 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.GitCraft;
-import top.gitcraft.commands.world.JoinCommand;
 
 import java.io.File;
 
 import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
-import static top.gitcraft.utils.FindMinAndMax.findMax;
 import static top.gitcraft.utils.FindMinAndMax.findMin;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
-import static top.gitcraft.utils.WorldEditFunctions.*;
+import static top.gitcraft.utils.WorldEditFunctions.loadSchematic;
+import static top.gitcraft.utils.WorldEditFunctions.pasteClipboard;
 
 public class PasteSchematicCommand implements CommandExecutor {
 
@@ -41,7 +40,7 @@ public class PasteSchematicCommand implements CommandExecutor {
         String worldName = player.getWorld().getName();
         sender.sendMessage("Current World Name: " + worldName);
 
-        Double[] minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
+        BlockVector3 minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
 
         String schematicName = args[1];
         String allOrAreaType = args[0];
@@ -88,7 +87,7 @@ public class PasteSchematicCommand implements CommandExecutor {
         sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
     }
 
-    public static void pasteSchematicToMinCoordinates(Player player, CommandSender sender, File file, String schematicName, Double[] minCoordinatesArray) {
+    public static void pasteSchematicToMinCoordinates(Player player, CommandSender sender, File file, String schematicName, BlockVector3 minCoordinatesArray) {
         Clipboard loadedClipboardArea = loadSchematic(file);
         sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
 

@@ -11,7 +11,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.GitCraft;
-import top.gitcraft.commands.world.JoinCommand;
 
 import java.io.File;
 
@@ -20,12 +19,6 @@ import static top.gitcraft.listeners.AreaSelectListener.getSelection;
 import static top.gitcraft.utils.WorldEditFunctions.*;
 
 public class AreaMergeCommand implements CommandExecutor {
-
-    private final GitCraft gitCraft;
-
-    public AreaMergeCommand(GitCraft gitCraft) {
-        this.gitCraft = gitCraft;
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -61,7 +54,7 @@ public class AreaMergeCommand implements CommandExecutor {
 
             sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
 
-          joinWorldAtCurrentLocation(player, "world");
+            joinWorldAtCurrentLocation(player, "world");
 
             Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
                 @Override
