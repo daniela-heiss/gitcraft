@@ -41,7 +41,7 @@ before_script:
   - source /etc/profile  # Laden des globalen Profils
   - source ~/.bashrc     # Laden des Benutzerprofils
   - apt-get update -qy
-  - echo "$SUDO_PASSWORD" | sudo -S apt-get install -y maven
+  - echo "$SUDO_PASSWORD"
 
 job_build:
   stage: build
