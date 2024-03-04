@@ -41,7 +41,7 @@ before_script:
   - source /etc/profile  # Laden des globalen Profils
   - source ~/.bashrc     # Laden des Benutzerprofils
   - apt-get update -qy
-  - apt-get install -y maven
+  - sudo apt-get install -y maven
 
 job_build:
   stage: build
