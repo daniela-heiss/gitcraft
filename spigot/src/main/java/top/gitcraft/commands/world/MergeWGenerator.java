@@ -38,11 +38,6 @@ public class MergeWGenerator extends ChunkGenerator {
         }
 
         int highestBlock = world.getHighestBlockYAt(0, 0);
-
-        if ((highestBlock <= 0) && (world.getBlockAt(0, 0, 0).getType() == Material.AIR)) {
-            return new Location(world, 0, 64, 0);
-        }
-
         return new Location(world, 0, highestBlock, 0);
     }
 }
