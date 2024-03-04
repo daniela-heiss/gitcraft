@@ -29,7 +29,7 @@ public class MergeWorldCommand implements CommandExecutor {
     }
 
 
-    public void createMergeWorld(String worldName,int layerheight) {
+    public void createMergeWorld(int layerheight) {
 
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
