@@ -21,14 +21,12 @@ stages:
   - deploy
 
 build-job:       
-before_script:
-  - apt-get update -qy
-  - apt-get install -y maven
-
   stage: build
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y maven
   script:
     - mvn clean install
-
 
 deploy-job:      
   stage: deploy  
