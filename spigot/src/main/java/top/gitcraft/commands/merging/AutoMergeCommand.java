@@ -9,12 +9,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.sql.Timestamp;
 
-import static top.gitcraft.utils.FindMinAndMaxUtils.findMax;
-import static top.gitcraft.utils.FindMinAndMaxUtils.findMin;
-import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
+import static top.gitcraft.utils.BlockUtils.*;
 import static top.gitcraft.utils.SchematicUtils.*;
 
 public class AutoMergeCommand implements CommandExecutor {
@@ -27,28 +24,19 @@ public class AutoMergeCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-
-        player.sendMessage("Gathering Coordinates...");
+        String schematicName = "AutoMerge" + timestamp.getTime();
 
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
-
         String worldName = player.getWorld().getName();
-        player.sendMessage("Current World Name: " + worldName);
 
         BlockVector3 pos1 = findMin(getBlockChangedByPlayers(worldName));
         BlockVector3 pos2 = findMax(getBlockChangedByPlayers(worldName));
 
-        player.sendMessage("Min: " + pos1 + " Max: " + pos2);
-
         BlockArrayClipboard clipboard = createClipboard(pos1, pos2, currentWorld, player);
         player.sendMessage("Copied region to clipboard");
 
-        String schematicName = "AutoMerge" + timestamp.getTime();
-        File file = saveClipboardAsSchematic(clipboard, schematicName, player);
-
-
+        saveClipboardAsSchematic(clipboard, schematicName, player);
         return pasteClipboardAndJoin(clipboard, player, "world", pos1);
     }
 }

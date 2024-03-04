@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import top.gitcraft.utils.WorldUtils;
 
 import static top.gitcraft.ui.components.Info.infoWorldCreated;
-import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
 public class CreateCommand implements CommandExecutor {
@@ -33,6 +33,7 @@ public class CreateCommand implements CommandExecutor {
             dispatchTellRawCommand(player, infoWorldCreated(worldName));
             if (doTeleport) joinWorldAtCurrentLocation(player, worldName);
         };
+
         worldUtils.cloneWorld(currentWorldName, worldName, callback);
         worldUtils.logWorldCreate(player, worldName);
 

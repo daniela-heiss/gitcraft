@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import static top.gitcraft.ui.components.Info.infoDeletingWorld;
 import static top.gitcraft.ui.components.Info.infoWorldDeleted;
-import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class WorldUtils {
 
@@ -49,8 +49,9 @@ public class WorldUtils {
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
             worldManager.cloneWorld(currentWorldName, newWorldName);
 
-            Bukkit.getScheduler()
-                    .runTask(GitCraft.getPlugin(GitCraft.class), callback);
+            if (callback != null) {
+                callback.run();
+            }
         });
     }
 
@@ -69,8 +70,8 @@ public class WorldUtils {
             worldManager.deleteWorld(worldName);
             dispatchTellRawCommand(player, infoWorldDeleted(worldName));
         });
-        logWorldDelete(player, worldName);
     }
+
 
     /**
      * Generate a new world name based on the current time
@@ -83,6 +84,12 @@ public class WorldUtils {
         return worldName + "copy" + time;
     }
 
+    /**
+     * Log the creation of a world
+     *
+     * @param player    The player who created the world
+     * @param worldName The name of the world
+     */
     public void logWorldCreate(Player player, String worldName) {
         try {
             UUID uuid = player.getUniqueId();
@@ -99,7 +106,13 @@ public class WorldUtils {
         }
     }
 
-    private void logWorldDelete(Player player, String worldName) {
+    /**
+     * Log the deletion of a world
+     *
+     * @param player    The player who deleted the world
+     * @param worldName The name of the world
+     */
+    public void logWorldDelete(Player player, String worldName) {
         try {
             UUID uuid = player.getUniqueId();
             UserEntity user = userDao.getUserByUuid(uuid);

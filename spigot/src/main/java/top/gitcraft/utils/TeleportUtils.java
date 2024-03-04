@@ -10,7 +10,7 @@ import top.gitcraft.GitCraft;
 
 import static top.gitcraft.ui.components.Info.infoJoiningWorld;
 import static top.gitcraft.ui.components.Info.infoWorldJoined;
-import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class TeleportUtils {
 

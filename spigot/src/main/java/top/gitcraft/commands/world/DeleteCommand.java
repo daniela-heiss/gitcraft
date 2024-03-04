@@ -10,7 +10,7 @@ import java.util.Objects;
 
 import static top.gitcraft.ui.components.Info.infoNoWorldNameProvided;
 import static top.gitcraft.ui.components.Info.infoWorldIsProtected;
-import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class DeleteCommand implements CommandExecutor {
 
@@ -27,12 +27,16 @@ public class DeleteCommand implements CommandExecutor {
             dispatchTellRawCommand(player, infoNoWorldNameProvided());
             return true;
         }
+        String worldName = args[0];
         // "world" is protected from accidental deletion
         if (Objects.equals(args[0], "world")) {
             dispatchTellRawCommand(player, infoWorldIsProtected("world"));
             return true;
         }
-        new WorldUtils().deleteWorld(player, args[0]);
+        WorldUtils worldUtils = new WorldUtils();
+        worldUtils.deleteWorld(player, worldName);
+        worldUtils.logWorldDelete(player, worldName);
+
         return true;
     }
 

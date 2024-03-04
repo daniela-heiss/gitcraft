@@ -22,9 +22,38 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import static top.gitcraft.listeners.AreaSelectListener.getSelection;
+import static top.gitcraft.utils.BlockUtils.*;
 import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
 public class SchematicUtils {
+
+    public static void generateSchematicFromArea(Player player, World currentWorld, String schematicName) {
+        // Get BlockVector3 Coordinates of the selected Area
+        CuboidRegion selectedArea = getSelection(player);
+        if (selectedArea == null) {
+            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
+        }
+
+        player.sendMessage("Min Coordinates : " + selectedArea.getPos1());
+        player.sendMessage("Min Coordinates : " + selectedArea.getPos2());
+
+        BlockArrayClipboard clipboard1 = createClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
+
+        saveClipboardAsSchematic(clipboard1, schematicName, player);
+    }
+
+    public static void generateSchematicFromAllChanges(Player player, World currentWorld, String worldName, String schematicName) {
+        BlockVector3 minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
+        BlockVector3 maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
+
+        player.sendMessage("Min Coordinates : " + minCoordinatesArray);
+        player.sendMessage("Min Coordinates : " + maxCoordinatesArray);
+
+        BlockArrayClipboard clipboard2 = createClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
+
+        saveClipboardAsSchematic(clipboard2, schematicName, player);
+    }
 
     public static BlockArrayClipboard createClipboard(BlockVector3 startCoordinates, BlockVector3 endCoordinates, World world, Player player) {
         CuboidRegion region = new CuboidRegion(startCoordinates, endCoordinates);

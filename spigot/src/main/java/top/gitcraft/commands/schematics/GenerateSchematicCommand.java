@@ -12,9 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
-import static top.gitcraft.utils.FindMinAndMaxUtils.findMax;
-import static top.gitcraft.utils.FindMinAndMaxUtils.findMin;
-import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
+import static top.gitcraft.utils.BlockUtils.*;
 import static top.gitcraft.utils.SchematicUtils.createClipboard;
 import static top.gitcraft.utils.SchematicUtils.saveClipboardAsSchematic;
 
@@ -32,14 +30,9 @@ public class GenerateSchematicCommand implements CommandExecutor {
         if (args.length != 2) {
             return false;
         }
-
-        sender.sendMessage("Gathering Coordinates...");
-        World currentWorld = BukkitAdapter.adapt(player.getWorld());
-
-        String worldName = player.getWorld().getName();
-        sender.sendMessage("Current World Name: " + worldName);
-
         String schematicName = args[1];
+        World currentWorld = BukkitAdapter.adapt(player.getWorld());
+        String worldName = player.getWorld().getName();
 
         switch (args[0]) {
             case "area":

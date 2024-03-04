@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import static top.gitcraft.ui.components.Info.infoNoWorldNameProvided;
-import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 import static top.gitcraft.utils.TeleportUtils.joinWorldAtWorldSpawn;
 
