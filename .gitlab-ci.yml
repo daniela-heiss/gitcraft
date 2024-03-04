@@ -57,5 +57,5 @@ job_deploy:
   script:
     - echo "Deploying the project"
   #  - sudo systemctl stop spigot
-    - mv gitcraft-1.0-SNAPSHOT.jar /home/gitcraft/server/plugins
+    - sudo mv gitcraft-1.0-SNAPSHOT.jar /home/gitcraft/server/plugins | $SUDO_PASSWORD
   #  - sudo systemctl start spigot
