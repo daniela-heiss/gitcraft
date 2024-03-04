@@ -82,8 +82,9 @@ public class AutoMergeCommand implements CommandExecutor {
                     World originalWorld = BukkitAdapter.adapt(player.getWorld());
                     sender.sendMessage("Current World Name: " + originalWorld);
 
-                    pasteClipboard(originalWorld, minCoordinatesArray, loadedClipboard);
+                    pasteClipboard(player, originalWorld, minCoordinatesArray, loadedClipboard);
                     sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
+
                 }
             }, 50L);
 

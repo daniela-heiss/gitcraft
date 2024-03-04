@@ -71,7 +71,7 @@ public class AreaMergeCommand implements CommandExecutor {
 
                     World originalWorld = BukkitAdapter.adapt(player.getWorld());
 
-                    pasteClipboard(originalWorld, selectedArea.getPos1(), loadedClipboard);
+                    pasteClipboard(player, originalWorld, selectedArea.getPos1(), loadedClipboard);
                     sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
                 }
             }, 50L);

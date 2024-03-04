@@ -1,8 +1,10 @@
 package top.gitcraft.utils;
 
 import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.*;
@@ -12,6 +14,8 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.session.ClipboardHolder;
+import com.sk89q.worldedit.session.SessionManager;
+import com.sk89q.worldedit.session.SessionOwner;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -103,7 +107,7 @@ public class WorldEditFunctions {
         return clipboard;
     }
 
-    public static void pasteClipboard(World world, Double[] startCoordinates, Clipboard clipboard) {
+    public static void pasteClipboard(Player player, World world, Double[] startCoordinates, Clipboard clipboard) {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
@@ -111,12 +115,13 @@ public class WorldEditFunctions {
                     // configure here
                     .build();
             Operations.complete(operation);
+            storeWordEditSession(player, world, editSession);
         } catch (WorldEditException e) {
             e.printStackTrace();
         }
     }
 
-    public static void pasteClipboard(World world, BlockVector3 startCoordinates, Clipboard clipboard) {
+    public static void pasteClipboard(Player player, World world, BlockVector3 startCoordinates, Clipboard clipboard) {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
@@ -124,8 +129,16 @@ public class WorldEditFunctions {
                     // configure here
                     .build();
             Operations.complete(operation);
+            storeWordEditSession(player, world, editSession);
         } catch (WorldEditException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void storeWordEditSession(Player player, World world, EditSession editSession) {
+        SessionManager manger = WorldEdit.getInstance().getSessionManager();
+        SessionOwner actor = BukkitAdapter.adapt(player);
+        LocalSession localSession = manger.get(actor);
+        localSession.remember(editSession);
     }
 }

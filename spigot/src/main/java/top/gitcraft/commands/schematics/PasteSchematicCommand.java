@@ -84,7 +84,7 @@ public class PasteSchematicCommand implements CommandExecutor {
         World originalWorldArea = BukkitAdapter.adapt(player.getWorld());
         sender.sendMessage("Current World Name: " + originalWorldArea);
 
-        pasteClipboard(originalWorldArea, selectedArea.getPos1(), loadedClipboardAll);
+        pasteClipboard(player, originalWorldArea, selectedArea.getPos1(), loadedClipboardAll);
         sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
     }
 
@@ -95,7 +95,7 @@ public class PasteSchematicCommand implements CommandExecutor {
         World originalWorldAll = BukkitAdapter.adapt(player.getWorld());
         sender.sendMessage("Current World Name: " + originalWorldAll);
 
-        pasteClipboard(originalWorldAll, minCoordinatesArray, loadedClipboardArea);
+        pasteClipboard(player, originalWorldAll, minCoordinatesArray, loadedClipboardArea);
         sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
     }
 
