@@ -3,14 +3,14 @@ package top.gitcraft.utils.enums;
 import org.bukkit.ChatColor;
 
 public enum LISTTYPE {
-    JOIN(9, ChatColor.GREEN),
-    CREATE(11, ChatColor.AQUA),
-    DELETE(10, ChatColor.RED);
+    JOIN(9, JSONCOLOR.GREEN),
+    CREATE(11, JSONCOLOR.AQUA),
+    DELETE(10, JSONCOLOR.RED);
 
     private final int underlineLength;
-    private final ChatColor color;
+    private final JSONCOLOR color;
 
-    private LISTTYPE(int underlineLength, ChatColor color){
+    private LISTTYPE(int underlineLength, JSONCOLOR color){
         this.underlineLength = underlineLength;
         this.color = color;
     }
@@ -19,7 +19,7 @@ public enum LISTTYPE {
         return underlineLength;
     }
 
-    public ChatColor getColor(){
+    public JSONCOLOR getColor(){
         return color;
     }
 }

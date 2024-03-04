@@ -5,8 +5,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.utils.WorldUtils;
+import top.gitcraft.utils.enums.JSONCOLOR;
 
-import static top.gitcraft.ui.components.Info.infoWorldCreated;
+import static top.gitcraft.ui.components.InfoMessages.infoWorldAction;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
@@ -26,7 +27,7 @@ public class CreateCommand implements CommandExecutor {
         boolean doTeleport = !(args.length > 1 && Boolean.parseBoolean(args[1]));
         
         Runnable callback = () -> {
-            dispatchTellRawCommand(player, infoWorldCreated(worldName));
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.AQUA, worldName, "created"));
             if (doTeleport) joinWorldAtCurrentLocation(player, worldName);
         };
 

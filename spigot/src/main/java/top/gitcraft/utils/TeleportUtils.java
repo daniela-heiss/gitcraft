@@ -7,9 +7,10 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import top.gitcraft.GitCraft;
+import top.gitcraft.utils.enums.JSONCOLOR;
 
-import static top.gitcraft.ui.components.Info.infoJoiningWorld;
-import static top.gitcraft.ui.components.Info.infoWorldJoined;
+import static top.gitcraft.ui.components.InfoMessages.infoActionWorld;
+import static top.gitcraft.ui.components.InfoMessages.infoWorldAction;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class TeleportUtils {
@@ -28,10 +29,10 @@ public class TeleportUtils {
         Location location = player.getLocation();
         location.setWorld(world);
 
-        dispatchTellRawCommand(player, infoJoiningWorld(worldName));
+        dispatchTellRawCommand(player, infoActionWorld(JSONCOLOR.GREEN, "Joining", worldName));
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
             player.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
-            dispatchTellRawCommand(player, infoWorldJoined(worldName));
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.GREEN, worldName, "joined"));
         });
 
         return true;
@@ -51,10 +52,10 @@ public class TeleportUtils {
         Location location = player.getLocation();
         location.setWorld(world);
 
-        dispatchTellRawCommand(player, infoJoiningWorld(worldName));
+        dispatchTellRawCommand(player, infoActionWorld(JSONCOLOR.GREEN, "Joining", worldName));
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
             player.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
-            dispatchTellRawCommand(player, infoWorldJoined(worldName));
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.GREEN, worldName, "joined"));
             if (callback != null) {
                 callback.run();
             }
@@ -71,11 +72,11 @@ public class TeleportUtils {
         World world = Bukkit.getWorld(worldName);
         GameMode originalGameMode = player.getGameMode();
 
-        dispatchTellRawCommand(player, infoJoiningWorld(worldName));
+        dispatchTellRawCommand(player, infoActionWorld(JSONCOLOR.GREEN, "Joining", worldName));
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
             Location spawnLocation = world.getSpawnLocation();
             player.teleport(spawnLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
-            dispatchTellRawCommand(player, infoWorldJoined(worldName));
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.GREEN, worldName, "joined"));
         });
         return true;
     }
