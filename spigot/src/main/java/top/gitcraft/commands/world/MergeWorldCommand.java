@@ -14,7 +14,11 @@ public class MergeWorldCommand {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
 
-
+        //adding the world creation
         worldManager.addWorld(worldName, World.Environment.NORMAL, null, WorldType.NORMAL, false, "gitcraft."+layerheight);
+
+
+
+
     }
 }
