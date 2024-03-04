@@ -23,6 +23,9 @@ public class MergeWorldCommand {
         Runnable callback = () -> {
             MultiverseWorld mergeWorld = worldManager.getMVWorld(worldName);
             mergeWorld.setGameMode(GameMode.CREATIVE);
+            mergeWorld.setAllowAnimalSpawn(false);
+            mergeWorld.setAllowMonsterSpawn(false);
+
         };
 
         createWorldSendCallback(worldName, layerheight, callback);
