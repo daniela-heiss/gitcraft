@@ -18,50 +18,19 @@ import com.sk89q.worldedit.session.SessionManager;
 import com.sk89q.worldedit.session.SessionOwner;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-public class WorldEditFunctions {
-    public static CuboidRegion createCube(Double[] startCoordinates, Double[] endCoordinates) {
+import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
-        BlockVector3 start = BlockVector3.at(startCoordinates[0], startCoordinates[1], startCoordinates[2]);
-        BlockVector3 end = BlockVector3.at(endCoordinates[0], endCoordinates[1], endCoordinates[2]);
+public class SchematicUtils {
 
-        return new CuboidRegion(start, end);
-    }
-
-    public static BlockArrayClipboard copyRegionToClipboard(Double[] startCoordinates, Double[] endCoordinates, World world, Player player) {
-
-        CuboidRegion region = createCube(startCoordinates, endCoordinates);
-        player.sendMessage(region.getPos1() + "" + region.getPos2());
-        BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
-
-        ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(
-                world, region, clipboard, region.getMinimumPoint()
-        );
-
-        try {
-            Operations.complete(forwardExtentCopy);
-        } catch (WorldEditException e) {
-            throw new RuntimeException(e);
-        }
-
-        return clipboard;
-    }
-
-    public static BlockArrayClipboard copyRegionToClipboard(BlockVector3 startCoordinates, BlockVector3 endCoordinates, World world, Player player) {
+    public static BlockArrayClipboard createClipboard(BlockVector3 startCoordinates, BlockVector3 endCoordinates, World world, Player player) {
         CuboidRegion region = new CuboidRegion(startCoordinates, endCoordinates);
-        region.setPos1(startCoordinates);
-        region.setPos2(endCoordinates);
-
-        player.sendMessage(region.getPos1() + "" + region.getPos2());
         BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
 
         ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(
@@ -77,7 +46,7 @@ public class WorldEditFunctions {
         return clipboard;
     }
 
-    public static File saveRegionAsSchematic(BlockArrayClipboard clipboard, String schematicName, CommandSender sender) {
+    public static File saveClipboardAsSchematic(BlockArrayClipboard clipboard, String schematicName, Player player) {
         String fileEnding = ".schem";
         String currentDirectory = System.getProperty("user.dir");
         File file = new File(currentDirectory + "/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
@@ -89,53 +58,60 @@ public class WorldEditFunctions {
                 throw new RuntimeException(e);
             }
         } else {
-            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: Schematic Name already used");
+            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: Schematic Name already used");
             return null;
         }
-        sender.sendMessage("Created Schematic " + schematicName + " from Clipboard");
+        player.sendMessage("Created Schematic " + schematicName + " from Clipboard");
         return file;
     }
 
-    public static Clipboard loadSchematic(File file) {
-        Clipboard clipboard;
+    public static Clipboard loadSchematicAsClipboard(File file) {
         ClipboardFormat format = ClipboardFormats.findByFile(file);
         try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
-            clipboard = reader.read();
+            return reader.read();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return clipboard;
     }
 
-    public static void pasteClipboard(Player player, World world, Double[] startCoordinates, Clipboard clipboard) {
+    public static void pasteClipboard(World world, Player player, BlockVector3 to, Clipboard clipboard) {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
-                    .to(BlockVector3.at(startCoordinates[0], startCoordinates[1], startCoordinates[2]))
-                    // configure here
+                    .to(to)
                     .build();
             Operations.complete(operation);
-            storeWordEditSession(player, world, editSession);
+
+            storeWordEditSession(player, editSession);
         } catch (WorldEditException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    public static void pasteClipboard(Player player, World world, BlockVector3 startCoordinates, Clipboard clipboard) {
-        try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {
-            Operation operation = new ClipboardHolder(clipboard)
-                    .createPaste(editSession)
-                    .to(startCoordinates)
-                    // configure here
-                    .build();
-            Operations.complete(operation);
-            storeWordEditSession(player, world, editSession);
-        } catch (WorldEditException e) {
-            e.printStackTrace();
-        }
+    public static boolean pasteSchematicAndJoin(File file, Player player, String schematicName, BlockVector3 to, String targetWorldName) {
+
+        Runnable callback = () -> {
+            Clipboard loadedClipboard = loadSchematicAsClipboard(file);
+            World targetWorld = BukkitAdapter.adapt(player.getWorld());
+            pasteClipboard(targetWorld, player, to, loadedClipboard);
+        };
+
+        joinWorldAtCurrentLocation(player, targetWorldName, callback);
+        return true;
     }
 
-    public static void storeWordEditSession(Player player, World world, EditSession editSession) {
+    public static boolean pasteClipboardAndJoin(BlockArrayClipboard clipboard, Player player, String targetWorldName, BlockVector3 to) {
+
+        Runnable callback = () -> {
+            World targetWorld = BukkitAdapter.adapt(player.getWorld());
+            pasteClipboard(targetWorld, player, to, clipboard);
+        };
+
+        joinWorldAtCurrentLocation(player, targetWorldName, callback);
+        return true;
+    }
+
+    private static void storeWordEditSession(Player player, EditSession editSession) {
         SessionManager manger = WorldEdit.getInstance().getSessionManager();
         SessionOwner actor = BukkitAdapter.adapt(player);
         LocalSession localSession = manger.get(actor);

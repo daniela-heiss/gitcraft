@@ -14,8 +14,8 @@ import top.gitcraft.utils.areavisualizer.AreaVisualizerHandler;
 
 import java.util.UUID;
 
-import static top.gitcraft.utils.MetaDataWrapper.getMetadata;
-import static top.gitcraft.utils.MetaDataWrapper.setMetadata;
+import static top.gitcraft.utils.MetaDataUtils.getMetadata;
+import static top.gitcraft.utils.MetaDataUtils.setMetadata;
 
 
 public class AreaSelectListener implements Listener {
