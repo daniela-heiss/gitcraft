@@ -3,7 +3,7 @@ version: '${project.version}'
 main: top.gitcraft.GitCraft
 api-version: '1.20'
 depend: [ CoreProtect ]
-# Replace "kit" with the name of your command.
+
 commands:
   gcload:
     description: Loads a savestate
@@ -54,9 +54,6 @@ commands:
   gcdelete:
     description: Delete a world
     usage: /gcdelete <name>
-  gcWETest:
-    description: copy an area in front of the player and pastes it  5 xdiff
-    usage: /gcWETest
 
   #commands - Set positions for area select
   gcSetPos1:
