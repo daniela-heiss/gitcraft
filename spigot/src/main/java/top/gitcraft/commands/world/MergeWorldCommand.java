@@ -14,14 +14,14 @@ public class MergeWorldCommand {
 
 
     public void createMergeWorld(String worldName,int layerheight) {
-        /*MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
+        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
 
         //adding the world creation
-        worldManager.addWorld(worldName, World.Environment.NORMAL, null, WorldType.NORMAL, false, "gitcraft."+layerheight);
+        /*worldManager.addWorld(worldName, World.Environment.NORMAL, null, WorldType.NORMAL, false, "gitcraft."+layerheight);
 */
         Runnable callback = () -> {
-            MultiverseWorld mergeWorld = world.getMVWorld(worldName);
+            MultiverseWorld mergeWorld = worldManager.getMVWorld(worldName);
             mergeWorld.setGameMode(GameMode.CREATIVE);
         };
 
