@@ -68,7 +68,3 @@ commands:
   gcGetSelection:
     description: Get the selection
     usage: /gcGetSelection
-
-  testareavisulize:
-    description: Visulize Area
-    usage: /testareavisulize
