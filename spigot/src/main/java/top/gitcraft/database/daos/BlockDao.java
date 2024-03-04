@@ -40,14 +40,6 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
         return queryBuilder().where().eq("user", userId).query();
     }
 
-    public List<BlockEntity> getBlocksByUserIdWithoutInteract(Integer userId) throws SQLException {
-        return queryBuilder().where().eq("user", userId).and().ne("action", 2).query();
-    }
-
-    /*public List<BlockEntity> getBlocksWithoutCommitByUserId(Integer userId) throws SQLException {
-        return queryBuilder().where().eq("user", userId).and().isNull("commitId").query();
-    }*/
-
     public List<BlockEntity> getBlocksByLocation(int x, int y, int z) throws SQLException {
         return queryBuilder().where().eq("x", x).and().eq("y", y).and().eq("z", z).query();
     }
@@ -61,10 +53,6 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
         }
         return false;
     }
-
-   /* public void addColumn(String columnName, String columnType) throws SQLException {
-        executeRaw("ALTER TABLE co_block ADD COLUMN " + columnName + " " + columnType);
-    }*/
 
     public List<BlockEntity> getUserBlocksByWorldId(Integer worldId, List<Integer> userIds) throws SQLException {
         return queryBuilder().where().eq("wid", worldId).and().in("user", userIds).query();

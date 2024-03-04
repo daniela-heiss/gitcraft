@@ -5,36 +5,31 @@ api-version: '1.20'
 depend: [ CoreProtect ]
 # Replace "kit" with the name of your command.
 commands:
-  gcsave:
-    description: Saves the current changes to the DB
-    usage: /gcsave
-  helloblock:
-    description: Places a snowy grass block at the coordinates and greets the world
-    usage: /helloblock <x> <y> <z>
-  remove:
-    description: Places an air block at x,y,z and says that they destroy something
-    usage: /remove x y z
-  load:
+  gcload:
     description: Loads a savestate
-    usage: /load saveName
-  save:
+    usage: /gcload saveName
+  gcsave:
     description: saves a timestamp with a name
-    usage: /save saveName
-  deleteSave:
+    usage: /gcsave saveName
+  gcDeleteSave:
     description: deletes a timestamp with a name
-    usage: /deleteSave saveName
-  testLoad:
-    description: Load a specific commit
-    usage: /load <commitName>
+    usage: /gcDeleteSave saveName
+
+  #merge commands
   automerge:
-    desciption: Autoamtically merge everything that the player changed
+    description: Automatically merge everything that the player changed into the original world
     usage: /automerge <schematicName>
   areamerge:
-    desciption: Autoamtically merge a player selected area
+    description: Automatically merge a player selected area into the original world
     usage: /areamerge <schematicName>
+
+  #schematic commands
   generateschematic:
-    desciption: Autoamtically merge everything that the player changed
+    description: Automatically generate schematic from all player made changes or player selected area
     usage: /generateschematic [area | all] <schematicName>
+  pasteschematic:
+    description: Automatically paste schematic into the original world
+    usage: /pasteschematic [area | all] <schematicName>
 
   #menu commands
   gcmenu:
@@ -73,3 +68,7 @@ commands:
   gcGetSelection:
     description: Get the selection
     usage: /gcGetSelection
+
+  testareavisulize:
+    description: Visulize Area
+    usage: /testareavisulize

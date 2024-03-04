@@ -1,4 +1,4 @@
-package top.gitcraft.commands;
+package top.gitcraft.commands.loadsave;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -13,6 +13,7 @@ import top.gitcraft.database.entities.*;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
@@ -31,6 +32,23 @@ public class LoadCommand implements CommandExecutor {
         }
     }
 
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        String saveName = args[0];
+
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("You must be a player to use this command");
+            return false;
+        }
+
+        Player player = (Player) sender;
+
+        player.sendMessage("Loading save...");
+        loadSave(saveName, player.getName());
+
+        return true;
+    }
+
     public void loadSave(String saveName, String userName) {
         UserEntity user;
         SaveEntity save;
@@ -39,7 +57,7 @@ public class LoadCommand implements CommandExecutor {
         int timeNow = (int) (System.currentTimeMillis() / 1000L);
 
         coreAPI = getCoreProtect();
-        if (coreAPI != null){ // Ensure we have access to the API
+        if (coreAPI != null) { // Ensure we have access to the API
             coreAPI.testAPI(); // Will print out "[CoreProtect] API test successful." in the console.
         }
 
@@ -56,40 +74,42 @@ public class LoadCommand implements CommandExecutor {
 
         class LoadThread implements Runnable {
             @Override
-            public void run(){
-                if(save.rolledBack == 0)
-                    {
-                        if (coreAPI != null) {
-                            coreAPI.performRollback(timeNow - save.time, Arrays.asList(user.userName), null, null, null, null, 0, null);
+            public void run() {
+                if (coreAPI == null) {
+                    return;
+                }
 
-                            if (laterSaves != null && !laterSaves.isEmpty()) {
-                                for (SaveEntity saves : laterSaves) {
-                                    saves.rolledBack = 1;
+                if (save.rolledBack == 0) {
+                    coreAPI.performRollback(timeNow - save.time, Arrays.asList(user.userName), null, null, null, null, 0, null);
 
-                                    try {
-                                        saveDao.updateSave(saves);
-                                    } catch (SQLException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                }
+                    if (laterSaves != null && !laterSaves.isEmpty()) {
+                        for (SaveEntity saves : laterSaves) {
+                            saves.rolledBack = 1;
+
+                            try {
+                                saveDao.updateSave(saves);
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
                             }
                         }
-
-                    } else if(save.rolledBack == 1) {
-                        if (coreAPI != null) {
-                            if (earlierSaves != null && !earlierSaves.isEmpty()) {
-                                coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size()-1).time, Arrays.asList(user.userName), null, null, null, null, 0, null);
-                                coreAPI.performRollback(timeNow - save.time, Arrays.asList(user.userName), null, null, null, null, 0, null);
-                                save.rolledBack = 0;
-                            } else {
-                                player.sendMessage("There is no earlier save that can be restored");
-                            }
-                        }
+                        return;
                     }
+                }
 
-                try{
+                if (save.rolledBack == 1) {
+                    if (earlierSaves != null && !earlierSaves.isEmpty()) {
+                        coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size() - 1).time, Arrays.asList(user.userName), null, null, null, null, 0, null);
+                        coreAPI.performRollback(timeNow - save.time, Arrays.asList(user.userName), null, null, null, null, 0, null);
+                        save.rolledBack = 0;
+                    } else {
+                        player.sendMessage("There is no earlier save that can be restored");
+                    }
+                }
+
+
+                try {
                     saveDao.updateSave(save);
-                }catch(SQLException e){
+                } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
             }
@@ -97,14 +117,6 @@ public class LoadCommand implements CommandExecutor {
         Runnable runnable = new LoadThread();
         Thread thread = new Thread(runnable);
         thread.start();
-    }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        sender.sendMessage("Loading save...");
-        loadSave(args[0], sender.getName());
-
-        return true;
     }
 
     private CoreProtectAPI getCoreProtect() {

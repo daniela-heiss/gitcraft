@@ -4,6 +4,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -47,34 +48,11 @@ public class GenerateSchematicCommand implements CommandExecutor {
 
         switch (args[0]) {
             case "area":
-                // Get BlockVector3 Coordinates of the selected Area
-                CuboidRegion selectedArea = getSelection(player);
-
-                sender.sendMessage("Min Coordinates : " + selectedArea.getPos1());
-                sender.sendMessage("Min Coordinates : " + selectedArea.getPos2());
-                BlockArrayClipboard clipboard1 = copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
-
-                file = saveRegionAsSchematic(clipboard1, schematicName, sender);
-
+                generateSchematicFromArea(player, sender, currentWorld, schematicName);
                 break;
 
             case "all":
-
-                Double[] minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
-                Double[] maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
-
-                for (Double number : minCoordinatesArray) {
-                    sender.sendMessage("Min Coordinates : " + number);
-                }
-                for (Double number : maxCoordinatesArray) {
-                    sender.sendMessage("Max Coordinates : " + number);
-                }
-
-
-                BlockArrayClipboard clipboard2 = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
-
-                file = saveRegionAsSchematic(clipboard2, schematicName, sender);
-
+                generateSchematicFromAllChanges(player, sender, currentWorld, worldName, schematicName);
                 break;
 
             default:
@@ -83,4 +61,36 @@ public class GenerateSchematicCommand implements CommandExecutor {
 
         return true;
     }
+
+    public static void generateSchematicFromArea(Player player, CommandSender sender, World currentWorld, String schematicName) {
+        // Get BlockVector3 Coordinates of the selected Area
+        CuboidRegion selectedArea = getSelection(player);
+        if (selectedArea == null) {
+            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
+        }
+
+        sender.sendMessage("Min Coordinates : " + selectedArea.getPos1());
+        sender.sendMessage("Min Coordinates : " + selectedArea.getPos2());
+        BlockArrayClipboard clipboard1 = copyRegionToClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
+
+        saveRegionAsSchematic(clipboard1, schematicName, sender);
+    }
+
+    public static void generateSchematicFromAllChanges(Player player, CommandSender sender, World currentWorld, String worldName, String schematicName) {
+        Double[] minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
+        Double[] maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
+
+        for (Double number : minCoordinatesArray) {
+            sender.sendMessage("Min Coordinates : " + number);
+        }
+        for (Double number : maxCoordinatesArray) {
+            sender.sendMessage("Max Coordinates : " + number);
+        }
+
+        BlockArrayClipboard clipboard2 = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
+
+        saveRegionAsSchematic(clipboard2, schematicName, sender);
+    }
+
+
 }
