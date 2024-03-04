@@ -12,7 +12,6 @@ import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
 public class CreateCommand implements CommandExecutor {
 
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
@@ -25,10 +24,7 @@ public class CreateCommand implements CommandExecutor {
         String currentWorldName = player.getWorld().getName();
         String worldName = args.length > 0 ? args[0] : worldUtils.generateWorldName(currentWorldName);
         boolean doTeleport = !(args.length > 1 && Boolean.parseBoolean(args[1]));
-
-        player.sendMessage("Cloning world " + currentWorldName + " to " + worldName);
-        player.sendMessage("Teleporting to new world: " + doTeleport);
-
+        
         Runnable callback = () -> {
             dispatchTellRawCommand(player, infoWorldCreated(worldName));
             if (doTeleport) joinWorldAtCurrentLocation(player, worldName);

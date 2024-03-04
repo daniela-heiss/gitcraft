@@ -24,6 +24,7 @@ public class PasteSchematicCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length != 1) {
+            player.sendMessage("Usage: /PasteSchematic <schematicName>");
             return false;
         }
         String schematicName = args[0];
