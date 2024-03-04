@@ -22,7 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
+import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
 public class SchematicUtils {
 
@@ -101,7 +101,7 @@ public class SchematicUtils {
             World targetWorld = BukkitAdapter.adapt(player.getWorld());
             pasteClipboard(targetWorld, to, clipboard);
         };
-        
+
         joinWorldAtCurrentLocation(player, targetWorldName, callback);
         return true;
     }

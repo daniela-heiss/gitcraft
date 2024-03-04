@@ -15,12 +15,12 @@ import top.gitcraft.GitCraft;
 
 import java.io.File;
 
-import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
 import static top.gitcraft.utils.FindMinAndMaxUtils.findMin;
 import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
 import static top.gitcraft.utils.SchematicUtils.loadSchematicAsClipboard;
 import static top.gitcraft.utils.SchematicUtils.pasteClipboard;
+import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
 public class PasteSchematicCommand implements CommandExecutor {
 

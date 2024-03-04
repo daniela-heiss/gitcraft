@@ -18,9 +18,9 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.UUID;
 
-import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
 import static top.gitcraft.ui.components.Info.infoWorldCreated;
 import static top.gitcraft.utils.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
 public class CreateCommand implements CommandExecutor {
 
