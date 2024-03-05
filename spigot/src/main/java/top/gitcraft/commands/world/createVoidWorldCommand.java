@@ -32,7 +32,7 @@ public class createVoidWorldCommand implements CommandExecutor {
         String newName = "Merge" + Instant.now().getEpochSecond(); //generating new name for the mergeworld
         //change gamerules on creation completion with a callback
         Runnable callback = () -> {
-            MultiverseWorld mergeWorld = worldManager.getMVWorld(newname);
+            MultiverseWorld mergeWorld = worldManager.getMVWorld(newName);
             mergeWorld.setGameMode(GameMode.CREATIVE);
             mergeWorld.setAllowAnimalSpawn(false);
             mergeWorld.setAllowMonsterSpawn(false);
