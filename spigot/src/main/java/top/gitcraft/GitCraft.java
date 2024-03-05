@@ -67,7 +67,7 @@ public final class GitCraft extends JavaPlugin {
     }
 
     public void registerMergeWorldCommands() {
-        Objects.requireNonNull(this.getCommand("gccreatemergeworld")).setExecutor(new MergeWorldCommand());
+        Objects.requireNonNull(this.getCommand("gccreatemergeworld")).setExecutor(new createVoidWorldCommand());
     }
 
     public void registerSchematicCommands() {
