@@ -21,22 +21,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class SaveList {
-    private static UserDao userDao;
-    private static SaveDao saveDao;
-    private final Logger logger;
-
-    public SaveList() {
-        logger = GitCraft.getPlugin(GitCraft.class).getLogger();
-        try {
-            DatabaseManager databaseManager = DatabaseManager.getInstance();
-            userDao = databaseManager.getUserDao();
-            saveDao = databaseManager.getSaveDao();
-        } catch (SQLException e) {
-            logger.severe("Failed to get database manager");
-            throw new RuntimeException(e);
-        }
-    }
-
     public static String saveListSubset(LISTTYPE type, List<SaveEntity> saves) {
         // Initialize JsonBuilder
         JsonBuilder jsonBuilder = new JsonBuilder();
@@ -44,7 +28,7 @@ public class SaveList {
 
         // Building the JSON message
         jsonBuilder.addBuilt(Menu.header())
-                .text("Save " + type.name().substring(0, 1).toUpperCase() + type.name().substring(1).toLowerCase() + " List\\n").bold()
+                .text(type.name().substring(0, 1).toUpperCase() + type.name().substring(1).toLowerCase() + " List\\n").bold()
                 .repeat("═", type.getUnderlineLength()).bold()
                 .spacing(2);
 
@@ -109,8 +93,15 @@ public class SaveList {
             }
         }
 
-        // Adding World Menu button
-        jsonBuilder.spacing(3)
+        // Adding Reload button
+        jsonBuilder.spacing(1)
+                .text("[").bold()
+                .text("Reload").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gclistsaves " + type.name().toLowerCase()).hover(HOVERACTION.show_text, "Reloads list")
+                .text("]").bold()
+                .spacing(1);
+
+        // Adding Save Menu button
+        jsonBuilder.spacing(1)
                 .text("[").bold()
                 .text("Save Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu")
                 .text("]").bold()
@@ -121,6 +112,8 @@ public class SaveList {
 
     public static String saveListAll(LISTTYPE type, String playerName) {
         List<SaveEntity> saves;
+        UserDao userDao;
+        SaveDao saveDao;
 
         try {
             DatabaseManager databaseManager = DatabaseManager.getInstance();

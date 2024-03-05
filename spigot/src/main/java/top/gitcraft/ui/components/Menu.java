@@ -24,7 +24,7 @@ public class Menu {
          *  ══════
          *
          * ╔[World Menu]
-         * ║
+         * ╠[Save Menu]
          * ╚[Config]
          *
          */
@@ -102,7 +102,7 @@ public class Menu {
                 .text("Save Menu").bold()
                 .spacing(1)
                 .repeat("═",  7).bold()
-                .text("\\n\\n\\u2554").text("[").bold().text("SAVE").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.suggest_command, "/gcsave").hover(HOVERACTION.show_text, "Get the command to set a savepoint. You need to choose a name for your save").text("]").bold()
+                .text("\\n\\n\\u2554").text("[").bold().text("SAVE").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.suggest_command, "/gcsave ").hover(HOVERACTION.show_text, "Get the command to set a savepoint. You need to choose a name for your save").text("]").bold()
                 .text("\\n\\u2560").text("[").bold().text("LOAD").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gclistsaves load").hover(HOVERACTION.show_text, "Load a savepoint").text("]").bold()
                 .text("\\n\\u2551")
                 .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gclistsaves deletesave").hover(HOVERACTION.show_text, "Delete a savepoint").text("]").bold()

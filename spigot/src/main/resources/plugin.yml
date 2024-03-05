@@ -11,9 +11,9 @@ commands:
   gcsave:
     description: saves a timestamp with a name
     usage: /gcsave saveName
-  gcdeleteSave:
+  gcdeletesave:
     description: deletes a timestamp with a name
-    usage: /gcdeleteSave saveName
+    usage: /gcdeletesave saveName
   gclistsaves:
     description: List worldes
     usage: /gclistsaves [load|delete]

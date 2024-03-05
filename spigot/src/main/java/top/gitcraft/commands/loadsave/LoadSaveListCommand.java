@@ -7,10 +7,9 @@ import org.bukkit.entity.Player;
 import top.gitcraft.utils.enums.LISTTYPE;
 
 import static top.gitcraft.ui.components.SaveList.saveListAll;
-import static top.gitcraft.ui.components.WorldList.worldListAll;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
-public class LoadSaveCommand implements CommandExecutor {
+public class LoadSaveListCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -19,8 +18,8 @@ public class LoadSaveCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        System.out.println("LoadSaveCommandFile: " + player.getName());
-        // Open join list if no arguments are provided
+
+        // Opens load if no arguments are provided
         if (args.length == 0) {
             dispatchTellRawCommand(player, saveListAll(LISTTYPE.LOAD, player.getName()));
             return true;
@@ -29,10 +28,6 @@ public class LoadSaveCommand implements CommandExecutor {
             case "deletesave":
                 dispatchTellRawCommand(player, saveListAll(LISTTYPE.DELETESAVE, player.getName()));
                 return true;
-           /* case "save":
-                dispatchTellRawCommand(player, saveListAll(LISTTYPE.SAVE, player.getName()));
-                return true;*/
-            // default: "join"
             default:
                 dispatchTellRawCommand(player, saveListAll(LISTTYPE.LOAD, player.getName()));
                 return true;
