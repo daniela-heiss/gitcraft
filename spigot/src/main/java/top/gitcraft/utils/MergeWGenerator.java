@@ -9,6 +9,7 @@ import org.bukkit.generator.WorldInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -17,7 +18,11 @@ public class MergeWGenerator extends ChunkGenerator {
     private int layerHeight = 0;
 
     public MergeWGenerator(String id) {
-        layerHeight = Integer.parseInt(id);//actually needed(afaik) cause the generator is called by string as a command. i know its cursed af
+        if(!Objects.equals(id, "")& id != null) {
+            layerHeight = Integer.parseInt(id);//actually needed(afaik) cause the generator is also called by string as a command. i know its cursed af
+        }else {
+            layerHeight = 0;
+        }
     }
 
     @Override

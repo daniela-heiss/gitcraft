@@ -7,6 +7,7 @@ import com.onarandombox.MultiverseCore.api.WorldPurger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.SpawnCategory;
 import top.gitcraft.GitCraft;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -14,6 +15,8 @@ import org.bukkit.WorldType;
 import org.bukkit.*;
 
 import java.time.Instant;
+
+import static org.bukkit.Bukkit.getWorld;
 
 public class createVoidWorldCommand implements CommandExecutor {
 
@@ -33,11 +36,17 @@ public class createVoidWorldCommand implements CommandExecutor {
         //change gamerules on creation completion with a callback
         Runnable callback = () -> {
             MultiverseWorld mergeWorld = worldManager.getMVWorld(newName);
+            World mergeWorldBukkit = getWorld(newName);
             mergeWorld.setGameMode(GameMode.CREATIVE);
-            mergeWorld.setAllowAnimalSpawn(false);
-            mergeWorld.setAllowMonsterSpawn(false);
+            mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("ANIMAL"),0);
+            mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("MONSTER"),0);
+            mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("AXOLOTL"),0);
+            mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("MISC"),0);
+            mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_AMBIENT"),0);
+            mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_ANIMAL"),0);
+            mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_UNDERGROUND_CREATURE"),0);
             purger.purgeWorld(mergeWorld);
-            //add new gamerules here if they are deemed necessary
+            //add new gamerules here if they are deemed necessary. yes i also hate that there is no combined one for everything
         };
 
         createWorldSendCallback(newName,layerHeight, callback);
