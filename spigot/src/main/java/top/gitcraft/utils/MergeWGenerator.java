@@ -15,7 +15,7 @@ public class MergeWGenerator extends ChunkGenerator {
     private int layerHeight = 0;
 
     public MergeWGenerator(String id) {
-        layerheight = Integer.parseInt(id);
+        layerHeight = Integer.parseInt(id);//actually needed(afaik) cause the generator is called by string as a command. i know its cursed af
     }
 
     @Override
