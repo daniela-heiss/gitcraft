@@ -114,7 +114,7 @@ public class Menu {
                 .text(" → Into: ").bold().text("world\\n").bold().color(JSONCOLOR.GREEN)
                 .spacing(2);
                 if(args.equals("true")) {
-                    jsonMessage.text("All changes [X]").bold().underlined().text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmerge false").hover(HOVERACTION.show_text, "Activate rea select");
+                    jsonMessage.text("All changes [X]").bold().underlined().text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmerge false").hover(HOVERACTION.show_text, "Activate area select");
                 } else {
                     jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmerge true").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined();
                 }

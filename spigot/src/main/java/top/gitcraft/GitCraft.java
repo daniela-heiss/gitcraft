@@ -1,6 +1,7 @@
 package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import top.gitcraft.commands.GitcCommand;
 import top.gitcraft.commands.areaselect.GetAreaCommand;
 import top.gitcraft.commands.areaselect.SetPos1Command;
 import top.gitcraft.commands.areaselect.SetPos2Command;
@@ -26,6 +27,8 @@ import java.util.Objects;
 public final class GitCraft extends JavaPlugin {
     @Override
     public void onEnable() {
+
+        Objects.requireNonNull(this.getCommand("gitc")).setExecutor(new GitcCommand());
 
         registerMenuCommands();
         registerWorldCommands();
