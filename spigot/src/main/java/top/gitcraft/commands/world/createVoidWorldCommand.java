@@ -24,7 +24,12 @@ public class createVoidWorldCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         Player player = (Player) sender;
         player.sendMessage("Create void world...");
-        createMergeWorld(Integer.parseInt(args[0]));
+        if(args[0].isEmpty()){
+            createMergeWorld(0);
+        }else{
+            createMergeWorld(Integer.parseInt(args[0]));
+        }
+
         return true;
     }
 
@@ -46,7 +51,6 @@ public class createVoidWorldCommand implements CommandExecutor {
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_AMBIENT"),0);
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_ANIMAL"),0);
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_UNDERGROUND_CREATURE"),0);
-            purger.purgeWorld(mergeWorld);
             //add new gamerules here if they are deemed necessary. yes i also hate that there is no combined one for everything
         };
 
