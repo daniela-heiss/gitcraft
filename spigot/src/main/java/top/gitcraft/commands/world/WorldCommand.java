@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import top.gitcraft.utils.enums.LISTTYPE;
 
 import static top.gitcraft.ui.components.WorldList.worldListAll;
-import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class WorldCommand implements CommandExecutor {
 

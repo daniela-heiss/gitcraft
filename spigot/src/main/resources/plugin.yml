@@ -3,23 +3,17 @@ version: '${project.version}'
 main: top.gitcraft.GitCraft
 api-version: '1.20'
 depend: [ CoreProtect ]
-# Replace "kit" with the name of your command.
+
 commands:
-  gcsave:
-    description: Saves the current changes to the DB
-    usage: /gcsave
-  helloblock:
-    description: Places a snowy grass block at the coordinates and greets the world
-    usage: /helloblock <x> <y> <z>
-  remove:
-    description: Places an air block at x,y,z and says that they destroy something
-    usage: /remove x y z
-  load:
+  gcload:
     description: Loads a savestate
-    usage: /load commitname
-  testLoad:
-    description: Load a specific commit
-    usage: /load <commitName>
+    usage: /gcload saveName
+  gcsave:
+    description: saves a timestamp with a name
+    usage: /gcsave saveName
+  gcDeleteSave:
+    description: deletes a timestamp with a name
+    usage: /gcDeleteSave saveName
 
   #merge commands
   automerge:
@@ -63,9 +57,6 @@ commands:
   gcdelete:
     description: Delete a world
     usage: /gcdelete <name>
-  gcWETest:
-    description: copy an area in front of the player and pastes it  5 xdiff
-    usage: /gcWETest
 
   #commands - Set positions for area select
   gcSetPos1:

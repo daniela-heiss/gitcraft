@@ -1,45 +1,17 @@
 package top.gitcraft.commands.world;
 
-import com.onarandombox.MultiverseCore.MultiverseCore;
-import com.onarandombox.MultiverseCore.api.MVWorldManager;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import top.gitcraft.GitCraft;
-import top.gitcraft.database.DatabaseManager;
-import top.gitcraft.database.daos.UserDao;
-import top.gitcraft.database.daos.WorldMapDao;
-import top.gitcraft.database.entities.UserEntity;
-import top.gitcraft.database.entities.WorldMapEntity;
+import top.gitcraft.utils.WorldUtils;
+import top.gitcraft.utils.enums.JSONCOLOR;
 
-import java.sql.SQLException;
-import java.time.Instant;
-
-import java.util.Objects;
-import java.util.UUID;
-
-import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
-import static top.gitcraft.ui.components.Info.infoCreatingWorld;
-import static top.gitcraft.ui.components.Info.infoWorldCreated;
-import static top.gitcraft.utils.methods.ExecuteConsoleCommand.dispatchTellRawCommand;
+import static top.gitcraft.ui.components.InfoMessages.infoWorldAction;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
+import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
 public class CreateCommand implements CommandExecutor {
-
-    private final UserDao userDao;
-    private final WorldMapDao worldMapDao;
-
-    public CreateCommand() {
-
-        try {
-            DatabaseManager databaseManager = DatabaseManager.getInstance();
-            userDao = databaseManager.getUserDao();
-            worldMapDao = databaseManager.getWorldMapDao();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -48,97 +20,20 @@ public class CreateCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
+        WorldUtils worldUtils = new WorldUtils();
 
         String currentWorldName = player.getWorld().getName();
-        String worldName = args[0];
-        Boolean doTeleport = Boolean.parseBoolean(args[1]);
+        String worldName = args.length > 0 ? args[0] : worldUtils.generateWorldName(currentWorldName);
+        boolean doTeleport = !(args.length > 1 && Boolean.parseBoolean(args[1]));
+        
+        Runnable callback = () -> {
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.AQUA, worldName, "created"));
+            if (doTeleport) joinWorldAtCurrentLocation(player, worldName);
+        };
 
-        //if no world name use clone world name
-        if (worldName == null) {
-            worldName = generateWorldName(currentWorldName);
-        }
+        worldUtils.cloneWorld(currentWorldName, worldName, callback);
+        worldUtils.logWorldCreate(player, worldName);
 
-        if (doTeleport) {
-            return cloneWorld(player, worldName);
-        }
-        return cloneWorldAndTeleport(player, worldName);
-    }
-
-    /**
-     * This method is clones the world the player is currently in and gives it a new name.
-     *
-     * @param player    The player who executed the command
-     * @param worldName The name of the new world
-     */
-    public boolean cloneWorld(Player player, String worldName) {
-        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        MVWorldManager worldManager = core.getMVWorldManager();
-
-        dispatchTellRawCommand(player, infoCreatingWorld(worldName));
-
-        Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
-            // Clone the world after the message is sent
-            worldManager.cloneWorld(player.getWorld().getName(), worldName);
-
-            // Send the second message after the cloning operation is completed
-            dispatchTellRawCommand(player, infoWorldCreated(worldName));
-
-            //log world in database
-            logWorld(player, worldName);
-
-        });
         return true;
-    }
-
-    /**
-     * This method is clones the world the player is currently in and gives it a new name.
-     * It also teleports the player to the new world.
-     *
-     * @param player    The player who executed the command
-     * @param worldName The name of the new world
-     */
-    public boolean cloneWorldAndTeleport(Player player, String worldName) {
-        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        MVWorldManager worldManager = core.getMVWorldManager();
-
-        dispatchTellRawCommand(player, infoCreatingWorld(worldName));
-
-        Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
-            // Clone the world after the message is sent
-            worldManager.cloneWorld(player.getWorld().getName(), worldName);
-
-            // Send the second message after the cloning operation is completed
-            dispatchTellRawCommand(player, infoWorldCreated(worldName));
-        });
-       joinWorldAtCurrentLocation(player, worldName);
-        return true;
-
-    }
-
-    /**
-     * Generate a new world name based on the current time
-     *
-     * @param worldName The name of the world to be cloned
-     * @return The new world name
-     */
-    private String generateWorldName(String worldName) {
-        long time = Instant.now().getEpochSecond();
-        return worldName + "copy" + Long.toString(time);
-    }
-
-    private void logWorld(Player player, String worldName) {
-        try {
-            UUID uuid = player.getUniqueId();
-            UserEntity user = userDao.getUserByUuid(uuid);
-
-            WorldMapEntity worldMap = new WorldMapEntity();
-            worldMap.playerId = user.rowId;
-            worldMap.worldName = worldName;
-
-            worldMapDao.createWorldMapping(worldMap);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

@@ -1,19 +1,47 @@
 package top.gitcraft.utils;
 
 import com.sk89q.worldedit.math.BlockVector3;
+import top.gitcraft.database.DatabaseManager;
+import top.gitcraft.database.daos.BlockDao;
+import top.gitcraft.database.daos.UserDao;
+import top.gitcraft.database.daos.WorldDao;
 import top.gitcraft.database.entities.BlockEntity;
+import top.gitcraft.database.entities.UserEntity;
+import top.gitcraft.database.entities.WorldEntity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class FindMinAndMax {
-    public static Double[] findMin(List<BlockEntity> list) {
+public class BlockUtils {
+
+    public static List<BlockEntity> getBlockChangedByPlayers(String worldName) {
+        try {
+
+            DatabaseManager instance = DatabaseManager.getInstance();
+            UserDao userDao = instance.getUserDao();
+            WorldDao worldDao = instance.getWorldDao();
+            BlockDao blockDao = instance.getBlockDao();
+
+            WorldEntity world = worldDao.getWorldByWorldName(worldName);
+            List<UserEntity> players = userDao.getAllUsersWitUuid();
+
+            List<Integer> playerIds = new ArrayList<>();
+            for (UserEntity player : players) {
+                playerIds.add(player.rowId);
+            }
+            return blockDao.getUserBlocksByWorldId(world.id, playerIds);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static BlockVector3 findMin(List<BlockEntity> list) {
         int minX = 0;
         int minY = 0;
         int minZ = 0;
 
-        Double[] coordinates = new Double[3];
 
         for (int i = 0; i < list.size() - 1; i++) {
             if (i == 0) {
@@ -32,19 +60,16 @@ public class FindMinAndMax {
                 }
             }
         }
-        coordinates[0] = (double) minX;
-        coordinates[1] = (double) minY;
-        coordinates[2] = (double) minZ;
 
-        return coordinates;
+
+        return BlockVector3.at(minX, minY, minZ);
     }
 
-    public static Double[] findMax(List<BlockEntity> list) {
+    public static BlockVector3 findMax(List<BlockEntity> list) {
         int maxX = 0;
         int maxY = 0;
         int maxZ = 0;
 
-        Double[] coordinates = new Double[3];
 
         for (int i = 0; i < list.size() - 1; i++) {
             if (i == 0) {
@@ -63,15 +88,13 @@ public class FindMinAndMax {
                 }
             }
         }
-        coordinates[0] = (double) maxX;
-        coordinates[1] = (double) maxY;
-        coordinates[2] = (double) maxZ;
 
-        return coordinates;
+        return BlockVector3.at(maxX, maxY, maxZ);
     }
 
-    public static List<BlockEntity> findArea(List<BlockEntity> list,BlockVector3 startCoordinates, BlockVector3 endCoordinates) {
-        
+    public static List<BlockEntity> findArea(List<BlockEntity> list, BlockVector3 startCoordinates,
+                                             BlockVector3 endCoordinates) {
+
         double startX = startCoordinates.getX();
         double startY = startCoordinates.getY();
         double startZ = startCoordinates.getZ();
@@ -96,18 +119,15 @@ public class FindMinAndMax {
             endZ = tmp;
         }
 
-        System.out.println("Test: " + startX + " " + startY + " " + startZ);
-        System.out.println("Test: " + endX + " " + endY + " " + endZ);
-
         List<BlockEntity> areaBlocks = new ArrayList<>(list.size());
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).x >= startX && list.get(i).x <= endX && list.get(i).y >= startY && list.get(i).y <= endY && list.get(i).z >= startZ && list.get(i).z <= endZ) {
-            //if ((list.get(i).x >= startX && list.get(i).y >= startY && list.get(i).z >= startZ) && (list.get(i).x <= endX && list.get(i).y <= endY && list.get(i).z <= endZ)) {
-                System.out.println(list.get(i));
-                areaBlocks.add(list.get(i));
+        for (BlockEntity blockEntity : list) {
+            if (blockEntity.x >= startX && blockEntity.x <= endX && blockEntity.y >= startY &&
+                    blockEntity.y <= endY && blockEntity.z >= startZ && blockEntity.z <= endZ) {
+                areaBlocks.add(blockEntity);
             }
         }
+
         return areaBlocks;
-        
+
     }
 }
