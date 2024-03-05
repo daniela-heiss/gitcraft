@@ -47,7 +47,7 @@ public class SaveList {
                 .repeat("═", type.getUnderlineLength()).bold()
                 .spacing(2);
 
-        // First world
+        // First Save
         jsonBuilder.text("\\u2554")
                 .text("[").bold()
                 .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saveNames.get(0)).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saveNames.get(0))
@@ -96,6 +96,9 @@ public class SaveList {
         List<SaveEntity> saves;
         System.out.println("SaveListFile: " + playerName);
         try{
+            DatabaseManager databaseManager = DatabaseManager.getInstance();
+            userDao = databaseManager.getUserDao();
+            saveDao = databaseManager.getSaveDao();
         UserEntity user = userDao.getUserByName(playerName);
         saves = saveDao.getAllSavesByUser(user.rowId);}
         catch(SQLException e) {
@@ -103,6 +106,7 @@ public class SaveList {
         }
 
         for (SaveEntity save : saves) {
+            System.out.println("Loop: " + save.saveName);
             saveNames.add(save.saveName);
         }
         return saveListSubset(type, saveNames);
