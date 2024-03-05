@@ -29,7 +29,7 @@ public class createVoidWorldCommand implements CommandExecutor {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
         WorldPurger purger = worldManager.getTheWorldPurger();
-        String newname = "Merge" + Instant.now().getEpochSecond(); //generating new name for the mergeworld
+        String newName = "Merge" + Instant.now().getEpochSecond(); //generating new name for the mergeworld
         //change gamerules on creation completion with a callback
         Runnable callback = () -> {
             MultiverseWorld mergeWorld = worldManager.getMVWorld(newname);
