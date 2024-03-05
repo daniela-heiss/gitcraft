@@ -23,7 +23,7 @@ public class MergeWGenerator extends ChunkGenerator {
 
         ChunkData chunk = createChunkData(world);
 
-        chunk.setRegion(0, layerHeight, 0, 16, layerheight + 1, 16, Material.BARRIER);
+        chunk.setRegion(0, layerHeight, 0, 16, layerHeight + 1, 16, Material.BARRIER);
         return chunk;
     }
 
