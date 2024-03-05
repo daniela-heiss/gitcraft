@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class MergeWGenerator extends ChunkGenerator {
 
-    private int layerheight = 0;
+    private int layerHeight = 0;
 
     public MergeWGenerator(String id) {
         layerheight = Integer.parseInt(id);
