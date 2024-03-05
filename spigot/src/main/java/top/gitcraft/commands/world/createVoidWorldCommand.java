@@ -24,7 +24,7 @@ public class createVoidWorldCommand implements CommandExecutor {
     }
 
 
-    public void createMergeWorld(int layerheight) {
+    public void createMergeWorld(int layerHeight) {
 
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
