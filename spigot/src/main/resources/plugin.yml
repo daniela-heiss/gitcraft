@@ -22,6 +22,9 @@ commands:
   areamerge:
     description: Automatically merge a player selected area into the original world
     usage: /areamerge <schematicName>
+  gcmerge:
+    description: Open the merge menu
+    usage: /gcmerge
 
   #schematic commands
   generateschematic:
