@@ -43,7 +43,7 @@ public class createVoidWorldCommand implements CommandExecutor {
         createWorldSendCallback(newName,layerHeight, callback);
     }
 
-    public static void createWorldSendCallback(String newname,int layerheight, Runnable callback) {
+    public static void createWorldSendCallback(String newName,int layerheight, Runnable callback) {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
         //adding the world creation
