@@ -14,10 +14,6 @@ public class MergeWGenerator extends ChunkGenerator {
 
     private int layerheight = 0;
 
-    public MergeWGenerator() {
-        this("");
-    }
-
     public MergeWGenerator(String id) {
         layerheight = Integer.parseInt(id);
     }
