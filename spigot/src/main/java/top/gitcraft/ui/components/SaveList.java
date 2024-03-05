@@ -37,9 +37,10 @@ public class SaveList {
         }
     }
 
-    public static String saveListSubset(LISTTYPE type, List<String> saveNames) {
+    public static String saveListSubset(LISTTYPE type, List<SaveEntity> saves) {
         // Initialize JsonBuilder
         JsonBuilder jsonBuilder = new JsonBuilder();
+        JSONCOLOR rolledBackColor = JSONCOLOR.DARK_GRAY;
 
         // Building the JSON message
         jsonBuilder.addBuilt(Menu.header())
@@ -48,37 +49,64 @@ public class SaveList {
                 .spacing(2);
 
         // First Save
-        jsonBuilder.text("\\u2554")
-                .text("[").bold()
-                .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saveNames.get(0)).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saveNames.get(0))
-                .text("] ").bold()
-                .text(saveNames.get(0)).bold()
-                .spacing(1);
-
-        saveNames.remove(0);
-        String lastSave = null;
-        if (!saveNames.isEmpty()) {
-            lastSave = saveNames.get(saveNames.size()-1);
-            saveNames.remove(saveNames.size()-1);
-        }
-        // Iterate through world names
-        for (String saveName : saveNames) {
-            jsonBuilder.text("\\u2560")
+        if (saves.get(0).rolledBack == 0) {
+            jsonBuilder.text("\\u2554")
                     .text("[").bold()
-                    .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saveName)
+                    .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saves.get(0).saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saves.get(0).saveName)
                     .text("] ").bold()
-                    .text(saveName).bold()
+                    .text(saves.get(0).saveName).bold()
+                    .spacing(1);
+        } else {
+            jsonBuilder.text("\\u2554")
+                    .text("[").bold()
+                    .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saves.get(0).saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saves.get(0).saveName)
+                    .text("] ").bold()
+                    .text(saves.get(0).saveName).bold().color(rolledBackColor)
                     .spacing(1);
         }
 
-        // Last world
-        if(!(lastSave == null)) {
-            jsonBuilder.text("\\u255a")
-                    .text("[").bold()
-                    .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastSave).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastSave)
-                    .text("] ").bold()
-                    .text(lastSave).bold()
-                    .spacing(1);
+        saves.remove(0);
+        SaveEntity lastSave = null;
+        if (!saves.isEmpty()) {
+            lastSave = saves.get(saves.size() - 1);
+            saves.remove(saves.size() - 1);
+        }
+        // Iterate through saves
+        for (SaveEntity save : saves) {
+            if (save.rolledBack == 0) {
+                jsonBuilder.text("\\u2560")
+                        .text("[").bold()
+                        .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + save.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + save.saveName)
+                        .text("] ").bold()
+                        .text(save.saveName).bold()
+                        .spacing(1);
+            } else {
+                jsonBuilder.text("\\u2560")
+                        .text("[").bold()
+                        .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + save.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + save.saveName)
+                        .text("] ").bold()
+                        .text(save.saveName).bold().color(rolledBackColor)
+                        .spacing(1);
+            }
+        }
+
+        // Last save
+        if (!(lastSave == null)) {
+            if (lastSave.rolledBack == 0) {
+                jsonBuilder.text("\\u255a")
+                        .text("[").bold()
+                        .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastSave.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastSave.saveName)
+                        .text("] ").bold()
+                        .text(lastSave.saveName).bold()
+                        .spacing(1);
+            } else {
+                jsonBuilder.text("\\u255a")
+                        .text("[").bold()
+                        .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastSave.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastSave.saveName)
+                        .text("] ").bold()
+                        .text(lastSave.saveName).bold().color(rolledBackColor)
+                        .spacing(1);
+            }
         }
 
         // Adding World Menu button
@@ -92,23 +120,19 @@ public class SaveList {
     }
 
     public static String saveListAll(LISTTYPE type, String playerName) {
-        List<String> saveNames = new ArrayList<>();
         List<SaveEntity> saves;
-        System.out.println("SaveListFile: " + playerName);
-        try{
+
+        try {
             DatabaseManager databaseManager = DatabaseManager.getInstance();
             userDao = databaseManager.getUserDao();
             saveDao = databaseManager.getSaveDao();
-        UserEntity user = userDao.getUserByName(playerName);
-        saves = saveDao.getAllSavesByUser(user.rowId);}
-        catch(SQLException e) {
+
+            UserEntity user = userDao.getUserByName(playerName);
+            saves = saveDao.getAllSavesByUser(user.rowId);
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        for (SaveEntity save : saves) {
-            System.out.println("Loop: " + save.saveName);
-            saveNames.add(save.saveName);
-        }
-        return saveListSubset(type, saveNames);
+        return saveListSubset(type, saves);
     }
 }
