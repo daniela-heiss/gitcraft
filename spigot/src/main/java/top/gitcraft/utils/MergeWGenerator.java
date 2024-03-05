@@ -5,6 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.generator.WorldInfo;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -19,13 +21,10 @@ public class MergeWGenerator extends ChunkGenerator {
     }
 
     @Override
-    public ChunkData generateChunkData(World world, Random random, int chunkX, int chunkZ, BiomeGrid biome) {
-
-        ChunkData chunk = createChunkData(world);
-
-        chunk.setRegion(0, layerHeight, 0, 16, layerHeight + 1, 16, Material.BARRIER);
-        return chunk;
+    public void generateBedrock(@NotNull WorldInfo worldInfo, @NotNull Random random, int chunkX, int chunkZ, @NotNull ChunkData chunkData) {
+        chunkData.setRegion(0, layerHeight, 0, 16, layerHeight + 1, 16, Material.BARRIER);
     }
+
 
     @Override
     public Location getFixedSpawnLocation(World world, Random random) {
