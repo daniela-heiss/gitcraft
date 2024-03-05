@@ -40,7 +40,7 @@ public class createVoidWorldCommand implements CommandExecutor {
             //add new gamerules here if they are deemed necessary
         };
 
-        createWorldSendCallback(newname,layerheight, callback);
+        createWorldSendCallback(newName,layerheight, callback);
     }
 
     public static void createWorldSendCallback(String newname,int layerheight, Runnable callback) {
