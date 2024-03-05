@@ -18,6 +18,7 @@ public class MergeUtils {
         return BlockVector3.at(x, y, z);
     }
 
+    // Calculates three areas based on the player's current location in the world
     public static MergeMetaData calculateAreaCoordinates(Player player, BlockVector3 startOrigin, BlockVector3 endOrigin) {
 
         BlockVector3 size = calculateSize(startOrigin, endOrigin);
@@ -27,9 +28,14 @@ public class MergeUtils {
         double playerCoordinateY = playerCoordinates.getY();
         double playerCoordinateZ = playerCoordinates.getZ();
 
-        BlockVector3 areaOriginal = BlockVector3.at(playerCoordinateX + 5, playerCoordinateY, (playerCoordinateZ - ((double) size.getY() / 2)) - 5 - size.getZ());
-        BlockVector3 areaChanges = BlockVector3.at(playerCoordinateX + 5, playerCoordinateY , playerCoordinateZ - ((double) size.getY() / 2));
-        BlockVector3 areaCombined = BlockVector3.at(playerCoordinateX + 5, playerCoordinateY, (playerCoordinateZ + ((double) size.getY() / 2)) + 5 + size.getZ());
+        // Area on the player's left
+        BlockVector3 areaOriginal = BlockVector3.at(playerCoordinateX + 10, playerCoordinateY, (playerCoordinateZ - ((double) size.getY() / 2)) - 5 - size.getZ());
+
+        // Area right in front of the player
+        BlockVector3 areaChanges = BlockVector3.at(playerCoordinateX + 10, playerCoordinateY , playerCoordinateZ - ((double) size.getY() / 2));
+
+        // Area on the player's right
+        BlockVector3 areaCombined = BlockVector3.at(playerCoordinateX + 10, playerCoordinateY, (playerCoordinateZ + ((double) size.getY() / 2)) + 5 + size.getZ());
 
         return new MergeMetaData(startOrigin, areaOriginal, areaChanges, areaCombined);
     }
