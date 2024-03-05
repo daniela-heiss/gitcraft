@@ -24,7 +24,7 @@ public class createVoidWorldCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         Player player = (Player) sender;
         player.sendMessage("Create void world...");
-        if(args[0].isEmpty()){
+        if(args.length == 0){
             createMergeWorld(0);
         }else{
             createMergeWorld(Integer.parseInt(args[0]));
