@@ -1,6 +1,7 @@
 package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import top.gitcraft.commands.MergeUtilTestCommand;
 import top.gitcraft.commands.areaselect.GetAreaCommand;
 import top.gitcraft.commands.areaselect.SetPos1Command;
 import top.gitcraft.commands.areaselect.SetPos2Command;
@@ -60,6 +61,8 @@ public final class GitCraft extends JavaPlugin {
     public void registerMergeCommands() {
         Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand());
         Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
+        // Test Command
+        Objects.requireNonNull(this.getCommand("testmergeutils")).setExecutor(new MergeUtilTestCommand());
     }
 
     public void registerSchematicCommands() {
