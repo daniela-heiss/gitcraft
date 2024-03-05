@@ -1,6 +1,7 @@
 package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import top.gitcraft.commands.areaselect.DeselectAreaCommand;
 import top.gitcraft.commands.areaselect.GetAreaCommand;
 import top.gitcraft.commands.areaselect.SetPos1Command;
 import top.gitcraft.commands.areaselect.SetPos2Command;
@@ -50,6 +51,7 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcSetPos1")).setExecutor(new SetPos1Command());
         Objects.requireNonNull(this.getCommand("gcSetPos2")).setExecutor(new SetPos2Command());
         Objects.requireNonNull(this.getCommand("gcGetSelection")).setExecutor(new GetAreaCommand());
+        Objects.requireNonNull(this.getCommand("gcDeselectArea")).setExecutor(new DeselectAreaCommand());
     }
 
     public void registerSaveLoadCommands() {

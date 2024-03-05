@@ -68,3 +68,6 @@ commands:
   gcGetSelection:
     description: Get the selection
     usage: /gcGetSelection
+  gcDeselectArea:
+    description: Deselects the player's selection
+    usage: /gcdeselectarea
