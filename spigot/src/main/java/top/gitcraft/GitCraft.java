@@ -11,6 +11,7 @@ import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.commands.merging.AreaMergeCommand;
 import top.gitcraft.commands.merging.AutoMergeCommand;
 import top.gitcraft.commands.schematics.GenerateSchematicCommand;
+import top.gitcraft.commands.schematics.GenerateSchematicFromArea;
 import top.gitcraft.commands.schematics.PasteSchematicCommand;
 import top.gitcraft.commands.world.CreateCommand;
 import top.gitcraft.commands.world.DeleteCommand;
@@ -68,6 +69,7 @@ public final class GitCraft extends JavaPlugin {
     public void registerSchematicCommands() {
         Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());
         Objects.requireNonNull(this.getCommand("pasteschematic")).setExecutor(new PasteSchematicCommand());
+        Objects.requireNonNull(this.getCommand("generateschematicfromarea")).setExecutor(new GenerateSchematicFromArea());
     }
 
     public void registerMenuCommands() {

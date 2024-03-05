@@ -10,13 +10,14 @@ import top.gitcraft.database.daos.UserDao;
 import top.gitcraft.database.daos.WorldMapDao;
 import top.gitcraft.database.entities.UserEntity;
 import top.gitcraft.database.entities.WorldMapEntity;
+import top.gitcraft.utils.enums.JSONCOLOR;
 
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.UUID;
 
-//import static top.gitcraft.ui.components.InfoMessages.infoDeletingWorld;
-//import static top.gitcraft.ui.components.InfoMessages.infoWorldDeleted;
+import static top.gitcraft.ui.components.InfoMessages.infoActionWorld;
+import static top.gitcraft.ui.components.InfoMessages.infoWorldAction;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class WorldUtils {
@@ -65,10 +66,10 @@ public class WorldUtils {
         MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
         MVWorldManager worldManager = core.getMVWorldManager();
 
-       // dispatchTellRawCommand(player, infoDeletingWorld(worldName));
+        dispatchTellRawCommand(player, infoActionWorld(JSONCOLOR.RED, "Deleting", worldName));
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
             worldManager.deleteWorld(worldName);
-          //  dispatchTellRawCommand(player, infoWorldDeleted(worldName));
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.RED, worldName, "deleted"));
         });
     }
 
