@@ -7,6 +7,7 @@ import com.onarandombox.MultiverseCore.api.WorldPurger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.SpawnCategory;
 import top.gitcraft.GitCraft;
 import org.bukkit.Bukkit;
@@ -21,7 +22,8 @@ import static org.bukkit.Bukkit.getWorld;
 public class createVoidWorldCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        sender.sendMessage("Create void world...");
+        Player player = (Player) sender;
+        player.sendMessage("Create void world...");
         createMergeWorld(Integer.parseInt(args[0]));
         return true;
     }
@@ -41,7 +43,6 @@ public class createVoidWorldCommand implements CommandExecutor {
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("ANIMAL"),0);
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("MONSTER"),0);
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("AXOLOTL"),0);
-            mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("MISC"),0);
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_AMBIENT"),0);
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_ANIMAL"),0);
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_UNDERGROUND_CREATURE"),0);
