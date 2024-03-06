@@ -26,7 +26,6 @@ before_script:
   - export PATH="$M2_HOME/bin:$PATH"
   - source /etc/profile  # Laden des globalen Profils
   - source ~/.bashrc     # Laden des Benutzerprofils
-  - apt-get update -qy
 
 job_build:
   stage: build
