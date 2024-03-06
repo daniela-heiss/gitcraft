@@ -46,7 +46,8 @@ public class Menu {
                 .text("\\n\\u2554").text("[").bold().text("World Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Opens the world menu").text("]").bold()
                 .text("\\n\\u2551")
                 .text("\\n\\u255a").text("[").bold().text("Config").bold().color(JSONCOLOR.YELLOW).text("]").bold()
-                .spacing(5)
+                .spacing(9)
+                .addBuilt(consoleFooter(1, "Main Menu"))
                 .build();
     }
 
@@ -77,14 +78,14 @@ public class Menu {
                 .text("World Menu").bold()
                 .spacing(1)
                 .repeat("═", 7).bold()
-                .text("\\n\\n\\u2554").text("[").bold().text("JOIN").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gclist join").hover(HOVERACTION.show_text, "Join a world").text("]").bold()
+                .spacing(3)
+                .text("\\u2554").text("[").bold().text("JOIN").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gclist join").hover(HOVERACTION.show_text, "Join a world").text("]").bold()
                 .text("\\n\\u2560").text("[").bold().text("CREATE").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gccreate").hover(HOVERACTION.show_text, "Create a new world").text("]").bold()
                 .text("\\n\\u2560").text("[").bold().text("MERGE").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcmerge false").hover(HOVERACTION.show_text, "Open merge menu").text("]").bold()
                 .text("\\n\\u2551")
                 .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gclist delete").hover(HOVERACTION.show_text, "Delete a world").text("]").bold()
-                .spacing(3)
-                .text("[").bold().text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").text("]").bold()
-                .spacing(1)
+                .spacing(7)
+                .addBuilt(consoleFooter(2, "World Menu"))
                 .build();
     }
 
@@ -120,7 +121,7 @@ public class Menu {
                 .spacing(2);
         if (args.equals("area")) {
             if (cr == null) {
-                jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmerge auto").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined()
+                jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmerge auto").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined().click(CLICKACTION.run_command, "/gcmerge area").hover(HOVERACTION.show_text, "Refresh area select")
                         .spacing(2)
                         .text("Pos1: ").bold().text("No area selected").color(JSONCOLOR.RED).bold()
                         .spacing(1)
@@ -129,25 +130,44 @@ public class Menu {
             } else {
                 pos1 = cr.getPos1();
                 pos2 = cr.getPos2();
-                jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmerge auto").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined()
+                jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmerge auto").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined().click(CLICKACTION.run_command, "/gcmerge area").hover(HOVERACTION.show_text, "Refresh area select")
                         .spacing(2)
                         .text("Pos1: ").bold().text(String.valueOf(pos1.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos1.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos1.getZ())).color(JSONCOLOR.BLUE)
                         .spacing(1)
                         .text("Pos2: ").bold().text(String.valueOf(pos2.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos2.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos2.getZ())).color(JSONCOLOR.BLUE);
             }
         } else {
-            jsonMessage.text("All changes [X]").bold().underlined().text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmerge area").hover(HOVERACTION.show_text, "Activate area select")
+            jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmerge auto").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmerge area").hover(HOVERACTION.show_text, "Activate area select")
                     .spacing(2)
                     .text("Pos1: ").bold().text(String.valueOf(pos1.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos1.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos1.getZ())).color(JSONCOLOR.BLUE)
                     .spacing(1)
                     .text("Pos2: ").bold().text(String.valueOf(pos2.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos2.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos2.getZ())).color(JSONCOLOR.BLUE);
 
         }
-        jsonMessage.spacing(2)
+        jsonMessage.spacing(3)
                 .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/automerge").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold()
                 .spacing(3)
-                .text("[").bold().text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").text("]").bold()
-                .spacing(1);
+                //.text("[").bold().text("World Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Open world menu").text("]").bold()
+                .addBuilt(consoleFooter(3, "Merge Menu"))
+                .spacing(0);
+
+        return jsonMessage.build();
+    }
+
+    public static String consoleFooter(int level, String menu) {
+        JSONCOLOR[] highlight = new JSONCOLOR[]{JSONCOLOR.YELLOW, JSONCOLOR.YELLOW, JSONCOLOR.YELLOW, JSONCOLOR.YELLOW, JSONCOLOR.YELLOW};
+        highlight[level] = JSONCOLOR.GOLD;
+        JsonBuilder jsonMessage = new JsonBuilder();
+
+        jsonMessage.text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
+        .text("Main Menu").bold().color(highlight[1]).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold();
+        if (level > 1) {
+            jsonMessage.text("\\\\").bold().text("World Menu").bold().color(highlight[2]).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Open world menu").bold();
+        }
+        if (level > 2) {
+            jsonMessage.text("\\\\").bold().text(menu).color(highlight[3]).hover(HOVERACTION.show_text, "You are here").bold();
+        }
+        jsonMessage.text(">").bold();
 
         return jsonMessage.build();
     }
