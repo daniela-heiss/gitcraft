@@ -32,65 +32,71 @@ public class SaveList {
                 .repeat("═", type.getUnderlineLength()).bold()
                 .spacing(2);
 
-        // First Save
-        if (saves.get(0).rolledBack == 0) {
-            jsonBuilder.text("\\u2554")
-                    .text("[").bold()
-                    .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saves.get(0).saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saves.get(0).saveName)
-                    .text("] ").bold()
-                    .text(saves.get(0).saveName).bold()
-                    .spacing(1);
-        } else {
-            jsonBuilder.text("\\u2554")
-                    .text("[").bold()
-                    .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saves.get(0).saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saves.get(0).saveName)
-                    .text("] ").bold()
-                    .text(saves.get(0).saveName).bold().color(rolledBackColor)
-                    .spacing(1);
-        }
-
-        saves.remove(0);
-        SaveEntity lastSave = null;
         if (!saves.isEmpty()) {
-            lastSave = saves.get(saves.size() - 1);
-            saves.remove(saves.size() - 1);
-        }
-        // Iterate through saves
-        for (SaveEntity save : saves) {
-            if (save.rolledBack == 0) {
-                jsonBuilder.text("\\u2560")
+            // First Save
+            if (saves.get(0).rolledBack == 0) {
+                jsonBuilder.text("\\u2554")
                         .text("[").bold()
-                        .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + save.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + save.saveName)
+                        .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saves.get(0).saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saves.get(0).saveName)
                         .text("] ").bold()
-                        .text(save.saveName).bold()
+                        .text(saves.get(0).saveName).bold()
                         .spacing(1);
             } else {
-                jsonBuilder.text("\\u2560")
+                jsonBuilder.text("\\u2554")
                         .text("[").bold()
-                        .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + save.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + save.saveName)
+                        .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saves.get(0).saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saves.get(0).saveName)
                         .text("] ").bold()
-                        .text(save.saveName).bold().color(rolledBackColor)
+                        .text(saves.get(0).saveName).bold().color(rolledBackColor)
                         .spacing(1);
             }
-        }
 
-        // Last save
-        if (!(lastSave == null)) {
-            if (lastSave.rolledBack == 0) {
-                jsonBuilder.text("\\u255a")
-                        .text("[").bold()
-                        .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastSave.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastSave.saveName)
-                        .text("] ").bold()
-                        .text(lastSave.saveName).bold()
-                        .spacing(1);
-            } else {
-                jsonBuilder.text("\\u255a")
-                        .text("[").bold()
-                        .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastSave.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastSave.saveName)
-                        .text("] ").bold()
-                        .text(lastSave.saveName).bold().color(rolledBackColor)
-                        .spacing(1);
+            saves.remove(0);
+            SaveEntity lastSave = null;
+            if (!saves.isEmpty()) {
+                lastSave = saves.get(saves.size() - 1);
+                saves.remove(saves.size() - 1);
             }
+            // Iterate through saves
+            for (SaveEntity save : saves) {
+                if (save.rolledBack == 0) {
+                    jsonBuilder.text("\\u2560")
+                            .text("[").bold()
+                            .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + save.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + save.saveName)
+                            .text("] ").bold()
+                            .text(save.saveName).bold()
+                            .spacing(1);
+                } else {
+                    jsonBuilder.text("\\u2560")
+                            .text("[").bold()
+                            .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + save.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + save.saveName)
+                            .text("] ").bold()
+                            .text(save.saveName).bold().color(rolledBackColor)
+                            .spacing(1);
+                }
+            }
+
+            // Last save
+            if (!(lastSave == null)) {
+                if (lastSave.rolledBack == 0) {
+                    jsonBuilder.text("\\u255a")
+                            .text("[").bold()
+                            .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastSave.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastSave.saveName)
+                            .text("] ").bold()
+                            .text(lastSave.saveName).bold()
+                            .spacing(1);
+                } else {
+                    jsonBuilder.text("\\u255a")
+                            .text("[").bold()
+                            .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastSave.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastSave.saveName)
+                            .text("] ").bold()
+                            .text(lastSave.saveName).bold().color(rolledBackColor)
+                            .spacing(1);
+                }
+            }
+        } else {
+            jsonBuilder.spacing(1)
+                    .text("There are no saves").bold()
+                    .spacing(2);
         }
 
         // Adding Reload button
