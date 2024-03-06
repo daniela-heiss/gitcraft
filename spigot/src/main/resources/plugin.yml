@@ -25,6 +25,9 @@ commands:
   areamerge:
     description: Automatically merge a player selected area into the original world
     usage: /areamerge <schematicName>
+  gcdiscardmerge:
+    description: Teleports player back into his previous world and deletes merge world
+    usage: /gcdiscardmerge <previousWorld>
 
   #schematic commands
   generateschematic:
