@@ -1,50 +1,31 @@
 package top.gitcraft.utils;
 
-import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
 
 public class MergeMetaData {
 
-    private BlockVector3 origin;
-    private BlockVector3 areaOriginal;
-    private BlockVector3 areaChanges;
-    private BlockVector3 areaCombined;
+    private final CuboidRegion regionFrom;
+    private final CuboidRegion regionCombined;
+    private final CuboidRegion regionTo;
 
-    public MergeMetaData(BlockVector3 origin, BlockVector3 areaOriginal, BlockVector3 areaChanges, BlockVector3 areaCombined) {
-        this.origin = origin;
-        this.areaOriginal = areaOriginal;
-        this.areaChanges = areaChanges;
-        this.areaCombined = areaCombined;
+    public MergeMetaData (CuboidRegion origin) {
+        int xLength  = origin.getWidth();
+
+        int margin = 10;
+
+        regionFrom = new CuboidRegion(origin.getPos1().subtract(xLength + margin, 0, 0), origin.getPos2().subtract(xLength + margin, 0, 0));
+        regionCombined = new CuboidRegion(origin.getPos1(), origin.getPos2());
+
+        regionTo = new CuboidRegion(origin.getPos1().add(xLength + margin, 0, 0), origin.getPos2().add(xLength + margin, 0, 0));
     }
-
-    public void setOrigin(BlockVector3 inOrigin) {
-        origin = inOrigin;
+    
+    public CuboidRegion getRegionFrom() {
+        return regionFrom;
     }
-
-    public void setAreaOriginal(BlockVector3 inArea1) {
-        areaOriginal = inArea1;
+    public CuboidRegion getRegionCombined() {
+        return regionCombined;
     }
-
-    public void setAreaChanges(BlockVector3 inArea2) {
-        areaChanges = inArea2;
-    }
-
-    public void setAreaCombined(BlockVector3 inArea3) {
-        areaCombined = inArea3;
-    }
-
-    public BlockVector3 getOrigin() {
-        return origin;
-    }
-
-    public BlockVector3 getAreaOriginal() {
-        return areaOriginal;
-    }
-
-    public BlockVector3 getAreaChanges() {
-        return areaChanges;
-    }
-
-    public BlockVector3 getAreaCombined() {
-        return areaCombined;
+    public CuboidRegion getRegionTo() {
+        return regionTo;
     }
 }
