@@ -19,18 +19,21 @@ import com.sk89q.worldedit.session.SessionOwner;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import top.gitcraft.database.entities.BlockEntity;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
+import static top.gitcraft.listeners.AreaSelectListener.getSelection;
+import static top.gitcraft.utils.BlockUtils.*;
 import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
 public class SchematicUtils {
 
-    public static BlockArrayClipboard createClipboard(BlockVector3 startCoordinates, BlockVector3 endCoordinates, World world, Player player) {
-        CuboidRegion region = new CuboidRegion(startCoordinates, endCoordinates);
+    public static BlockArrayClipboard createClipboard(CuboidRegion region, World world) {
         BlockArrayClipboard clipboard = new BlockArrayClipboard(region);
 
         ForwardExtentCopy forwardExtentCopy = new ForwardExtentCopy(
@@ -42,11 +45,35 @@ public class SchematicUtils {
         } catch (WorldEditException e) {
             throw new RuntimeException(e);
         }
-        player.sendMessage("Copied region to clipboard");
         return clipboard;
     }
 
-    public static File saveClipboardAsSchematic(BlockArrayClipboard clipboard, String schematicName, Player player) {
+    public static BlockArrayClipboard createClipboardFromChanges(Player player) {
+        World currentWorld = BukkitAdapter.adapt(player.getWorld());
+        String worldName = player.getWorld().getName();
+
+        // Get BlockVector3 Coordinates of the selected Area
+        CuboidRegion selectedArea = getSelection(player);
+        if (selectedArea == null) {
+            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
+        }
+
+
+        List<BlockEntity> allPlayerChangedBlocks = getBlockChangedByPlayers(worldName);
+        List<BlockEntity> playerChangedBlocksInRegion =
+                getBlocksInRegion(allPlayerChangedBlocks, selectedArea);
+
+
+        BlockVector3 minCoordinatesArray = findMin(playerChangedBlocksInRegion);
+        BlockVector3 maxCoordinatesArray = findMax(playerChangedBlocksInRegion);
+
+        BlockArrayClipboard clipboard =
+                createClipboard(new CuboidRegion(minCoordinatesArray, maxCoordinatesArray), currentWorld);
+
+        return clipboard;
+    }
+
+    public static File saveClipboardAsSchematic(BlockArrayClipboard clipboard, String schematicName) {
         String fileEnding = ".schem";
         String currentDirectory = System.getProperty("user.dir");
         File file = new File(currentDirectory + "/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
@@ -58,10 +85,8 @@ public class SchematicUtils {
                 throw new RuntimeException(e);
             }
         } else {
-            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: Schematic Name already used");
             return null;
         }
-        player.sendMessage("Created Schematic " + schematicName + " from Clipboard");
         return file;
     }
 
