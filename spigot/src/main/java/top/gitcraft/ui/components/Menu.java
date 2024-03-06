@@ -116,8 +116,7 @@ public class Menu {
                 .text("\\n\\u2551")
                 .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gclistsaves deletesave").hover(HOVERACTION.show_text, "Delete a savepoint").text("]").bold()
                 .spacing(3)
-                .text("[").bold().text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").text("]").bold()
-                .spacing(1)
+                .addBuilt(consoleFooter(2, "Save Menu"))
                 .build();
     }
 
