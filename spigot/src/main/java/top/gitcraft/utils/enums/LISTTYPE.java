@@ -5,7 +5,10 @@ import org.bukkit.ChatColor;
 public enum LISTTYPE {
     JOIN(9, JSONCOLOR.GREEN),
     CREATE(11, JSONCOLOR.AQUA),
-    DELETE(10, JSONCOLOR.RED);
+    DELETE(10, JSONCOLOR.RED),
+    LOAD(11, JSONCOLOR.AQUA),
+    DELETESAVE(10, JSONCOLOR.RED);
+
 
     private final int underlineLength;
     private final JSONCOLOR color;

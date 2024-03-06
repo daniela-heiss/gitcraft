@@ -32,7 +32,7 @@ public class Menu {
          *  ══════
          *
          * ╔[World Menu]
-         * ║
+         * ╠[Save Menu]
          * ╚[Config]
          *
          */
@@ -44,7 +44,7 @@ public class Menu {
                 .repeat("═", 6).bold()
                 .spacing(2)
                 .text("\\n\\u2554").text("[").bold().text("World Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Opens the world menu").text("]").bold()
-                .text("\\n\\u2551")
+                .text("\\n\\u2560").text("[").bold().text("Save Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu").text("]").bold()
                 .text("\\n\\u255a").text("[").bold().text("Config").bold().color(JSONCOLOR.YELLOW).text("]").bold()
                 .spacing(9)
                 .addBuilt(consoleFooter(1, "Main Menu"))
@@ -86,6 +86,38 @@ public class Menu {
                 .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gclist delete").hover(HOVERACTION.show_text, "Delete a world").text("]").bold()
                 .spacing(7)
                 .addBuilt(consoleFooter(2, "World Menu"))
+                .build();
+    }
+
+    public static String menuSaveMenu() {
+        /*
+         * ══ GitCraft ══
+         *
+         *  Save Menu
+         *  ═══════
+         *
+         * ╔[SAVE]
+         * ╠[LOAD]
+         * ║
+         * ╚[DELETE]
+         *
+         *
+         * [World Menu]
+         *
+         */
+        return new JsonBuilder()
+                .clear()
+                .addBuilt(header())
+                .text("Save Menu").bold()
+                .spacing(1)
+                .repeat("═",  7).bold()
+                .text("\\n\\n\\u2554").text("[").bold().text("SAVE").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.suggest_command, "/gcsave ").hover(HOVERACTION.show_text, "Get the command to set a savepoint. You need to choose a name for your save").text("]").bold()
+                .text("\\n\\u2560").text("[").bold().text("LOAD").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gclistsaves load").hover(HOVERACTION.show_text, "Load a savepoint").text("]").bold()
+                .text("\\n\\u2551")
+                .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gclistsaves deletesave").hover(HOVERACTION.show_text, "Delete a savepoint").text("]").bold()
+                .spacing(3)
+                .text("[").bold().text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").text("]").bold()
+                .spacing(1)
                 .build();
     }
 

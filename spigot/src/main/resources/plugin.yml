@@ -15,9 +15,12 @@ commands:
   gcsave:
     description: saves a timestamp with a name
     usage: /gcsave saveName
-  gcDeleteSave:
+  gcdeletesave:
     description: deletes a timestamp with a name
-    usage: /gcDeleteSave saveName
+    usage: /gcdeletesave saveName
+  gclistsaves:
+    description: List worldes
+    usage: /gclistsaves [load|delete]
 
   #merge commands
   automerge:
@@ -34,6 +37,9 @@ commands:
   generateschematic:
     description: Automatically generate schematic from all player made changes or player selected area
     usage: /generateschematic [area | all] <schematicName>
+  generateschematicfromarea:
+    description: Automatically generate schematic from all player changed blocks in a pre-selected area
+    usage: /generateschematicfromarea <schematicName>
   pasteschematic:
     description: Automatically paste schematic into the original world
     usage: /pasteschematic [area | all] <schematicName>
@@ -45,6 +51,9 @@ commands:
   gcworldmenu:
     description: Shows the world menu
     usage: /gcworldmenu
+  gcsavemenu:
+    description: Shows the save menu
+    usage: /gcsavemenu
 
   #world-lists - Join, Create, Delete
   gclist:
@@ -72,3 +81,6 @@ commands:
   gcGetSelection:
     description: Get the selection
     usage: /gcGetSelection
+  gcDeselectArea:
+    description: Deselects the player's selection
+    usage: /gcdeselectarea

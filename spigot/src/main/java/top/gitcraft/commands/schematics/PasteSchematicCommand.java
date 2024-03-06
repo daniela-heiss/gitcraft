@@ -8,8 +8,6 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 
-import static top.gitcraft.utils.BlockUtils.findMin;
-import static top.gitcraft.utils.BlockUtils.getBlockChangedByPlayers;
 import static top.gitcraft.utils.SchematicUtils.pasteSchematicAndJoin;
 
 public class PasteSchematicCommand implements CommandExecutor {
@@ -23,18 +21,19 @@ public class PasteSchematicCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        if (args.length != 1) {
-            player.sendMessage("Usage: /PasteSchematic <schematicName>");
+        if (args.length != 4) {
+            player.sendMessage("Usage: /PasteSchematic <schematicName> <x> <y> <z>");
             return false;
         }
         String schematicName = args[0];
 
-        String worldName = player.getWorld().getName();
-        BlockVector3 pos1 = findMin(getBlockChangedByPlayers(worldName));
+        BlockVector3 pos1 = BlockVector3.at(Integer.parseInt(args[1]), Integer.parseInt(args[2]),
+                Integer.parseInt(args[3]));
 
         String fileEnding = ".schem";
         String currentDirectory = System.getProperty("user.dir");
-        File file = new File(currentDirectory + "/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
+        File file = new File(
+                currentDirectory + "/plugins/WorldEdit/schematics/" + schematicName + fileEnding);
 
         return pasteSchematicAndJoin(file, player, schematicName, pos1, "world");
     }

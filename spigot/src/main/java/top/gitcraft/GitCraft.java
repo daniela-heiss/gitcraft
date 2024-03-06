@@ -2,16 +2,19 @@ package top.gitcraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import top.gitcraft.commands.GitcCommand;
+import top.gitcraft.commands.areaselect.DeselectAreaCommand;
 import top.gitcraft.commands.areaselect.GetAreaCommand;
 import top.gitcraft.commands.areaselect.SetPos1Command;
 import top.gitcraft.commands.areaselect.SetPos2Command;
 import top.gitcraft.commands.loadsave.DeleteSaveCommand;
 import top.gitcraft.commands.loadsave.LoadCommand;
+import top.gitcraft.commands.loadsave.LoadSaveListCommand;
 import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.commands.merging.AreaMergeCommand;
 import top.gitcraft.commands.merging.AutoMergeCommand;
 import top.gitcraft.commands.merging.MergeCommand;
 import top.gitcraft.commands.schematics.GenerateSchematicCommand;
+import top.gitcraft.commands.schematics.GenerateSchematicFromArea;
 import top.gitcraft.commands.schematics.PasteSchematicCommand;
 import top.gitcraft.commands.world.CreateCommand;
 import top.gitcraft.commands.world.DeleteCommand;
@@ -19,6 +22,7 @@ import top.gitcraft.commands.world.JoinCommand;
 import top.gitcraft.commands.world.WorldCommand;
 import top.gitcraft.listeners.AreaSelectListener;
 import top.gitcraft.ui.logic.MainMenuCommand;
+import top.gitcraft.ui.logic.SaveMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
 import top.gitcraft.utils.areavisualizer.PlayerQuitListener;
 
@@ -53,12 +57,14 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcSetPos1")).setExecutor(new SetPos1Command());
         Objects.requireNonNull(this.getCommand("gcSetPos2")).setExecutor(new SetPos2Command());
         Objects.requireNonNull(this.getCommand("gcGetSelection")).setExecutor(new GetAreaCommand());
+        Objects.requireNonNull(this.getCommand("gcDeselectArea")).setExecutor(new DeselectAreaCommand());
     }
 
     public void registerSaveLoadCommands() {
         Objects.requireNonNull(this.getCommand("gcload")).setExecutor(new LoadCommand());
         Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new SaveCommand());
         Objects.requireNonNull(this.getCommand("gcdeletesave")).setExecutor(new DeleteSaveCommand());
+        Objects.requireNonNull(this.getCommand("gclistsaves")).setExecutor(new LoadSaveListCommand());
     }
 
     public void registerMergeCommands() {
@@ -70,11 +76,13 @@ public final class GitCraft extends JavaPlugin {
     public void registerSchematicCommands() {
         Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());
         Objects.requireNonNull(this.getCommand("pasteschematic")).setExecutor(new PasteSchematicCommand());
+        Objects.requireNonNull(this.getCommand("generateschematicfromarea")).setExecutor(new GenerateSchematicFromArea());
     }
 
     public void registerMenuCommands() {
         Objects.requireNonNull(this.getCommand("gcmenu")).setExecutor(new MainMenuCommand());
         Objects.requireNonNull(this.getCommand("gcworldmenu")).setExecutor(new WorldMenuCommand());
+        Objects.requireNonNull(this.getCommand("gcsavemenu")).setExecutor(new SaveMenuCommand());
     }
 
     public void registerWorldCommands() {

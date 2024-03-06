@@ -9,47 +9,32 @@ import top.gitcraft.database.entities.BlockEntity;
 import top.gitcraft.database.entities.UserEntity;
 import top.gitcraft.database.entities.WorldEntity;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BlockUtils {
 
     public static List<BlockEntity> getBlockChangedByPlayers(String worldName) {
-
-        WorldEntity world;
-
         try {
-            WorldDao worldDao = DatabaseManager.getInstance().getWorldDao();
-            //get world
-            world = worldDao.getWorldByWorldName(worldName);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        int worldId = world.id;
 
-        List<UserEntity> players;
-        try {
-            UserDao userDao = DatabaseManager.getInstance().getUserDao();
-            //get players from users
-            players = userDao.getAllUsersWitUuid();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        List<Integer> playerIds = new ArrayList<>();
-        for (UserEntity player : players) {
-            playerIds.add(player.rowId);
-        }
+            DatabaseManager instance = DatabaseManager.getInstance();
+            UserDao userDao = instance.getUserDao();
+            WorldDao worldDao = instance.getWorldDao();
+            BlockDao blockDao = instance.getBlockDao();
 
-        List<BlockEntity> blockEntityList;
-        try {
-            BlockDao blockDao = DatabaseManager.getInstance().getBlockDao();
-            //get block changed by players
-            blockEntityList = blockDao.getUserBlocksByWorldId(worldId, playerIds);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            WorldEntity world = worldDao.getWorldByWorldName(worldName);
+            List<UserEntity> players = userDao.getAllUsersWitUuid();
+
+            List<Integer> playerIds = new ArrayList<>();
+            for (UserEntity player : players) {
+                playerIds.add(player.rowId);
+            }
+            return blockDao.getUserBlocksByWorldId(world.id, playerIds);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        return blockEntityList;
     }
 
     public static BlockVector3 findMin(List<BlockEntity> list) {
@@ -105,5 +90,44 @@ public class BlockUtils {
         }
 
         return BlockVector3.at(maxX, maxY, maxZ);
+    }
+
+    public static List<BlockEntity> findArea(List<BlockEntity> list, BlockVector3 startCoordinates,
+                                             BlockVector3 endCoordinates) {
+
+        double startX = startCoordinates.getX();
+        double startY = startCoordinates.getY();
+        double startZ = startCoordinates.getZ();
+
+        double endX = endCoordinates.getX();
+        double endY = endCoordinates.getY();
+        double endZ = endCoordinates.getZ();
+
+        if (startX > endX) {
+            double tmp = startX;
+            startX = endX;
+            endX = tmp;
+        }
+        if (startY > endY) {
+            double tmp = startY;
+            startY = endY;
+            endY = tmp;
+        }
+        if (startZ > endZ) {
+            double tmp = startZ;
+            startZ = endZ;
+            endZ = tmp;
+        }
+
+        List<BlockEntity> areaBlocks = new ArrayList<>(list.size());
+        for (BlockEntity blockEntity : list) {
+            if (blockEntity.x >= startX && blockEntity.x <= endX && blockEntity.y >= startY &&
+                    blockEntity.y <= endY && blockEntity.z >= startZ && blockEntity.z <= endZ) {
+                areaBlocks.add(blockEntity);
+            }
+        }
+
+        return areaBlocks;
+
     }
 }
