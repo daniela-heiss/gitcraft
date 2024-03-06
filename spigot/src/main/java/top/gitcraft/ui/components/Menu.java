@@ -1,6 +1,7 @@
 package top.gitcraft.ui.components;
 
 import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -22,6 +23,7 @@ public class Menu {
                 .spacing(3)
                 .build();
     }
+
     public static String menuMainMenu() {
         /*
          * ══ GitCraft ══
@@ -39,7 +41,7 @@ public class Menu {
                 .addBuilt(header())
                 .text("Main Menu").bold()
                 .spacing(1)
-                .repeat("═",  6).bold()
+                .repeat("═", 6).bold()
                 .spacing(2)
                 .text("\\n\\u2554").text("[").bold().text("World Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Opens the world menu").text("]").bold()
                 .text("\\n\\u2551")
@@ -74,7 +76,7 @@ public class Menu {
                 .addBuilt(header())
                 .text("World Menu").bold()
                 .spacing(1)
-                .repeat("═",  7).bold()
+                .repeat("═", 7).bold()
                 .text("\\n\\n\\u2554").text("[").bold().text("JOIN").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gclist join").hover(HOVERACTION.show_text, "Join a world").text("]").bold()
                 .text("\\n\\u2560").text("[").bold().text("CREATE").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gccreate").hover(HOVERACTION.show_text, "Create a new world").text("]").bold()
                 .text("\\n\\u2560").text("[").bold().text("MERGE").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcmerge false").hover(HOVERACTION.show_text, "Open merge menu").text("]").bold()
@@ -85,7 +87,8 @@ public class Menu {
                 .spacing(1)
                 .build();
     }
-    public static String menuMergeMenu(Player player, String args, BlockVector3 pos1, BlockVector3 pos2) {
+
+    public static String menuMergeMenu(Player player, String args, BlockVector3 pos1, BlockVector3 pos2, CuboidRegion cr) {
         /*
          * ══ GitCraft ══
          *
@@ -110,21 +113,37 @@ public class Menu {
                 .addBuilt(header())
                 .text("Merge Menu").bold()
                 .spacing(1)
-                .repeat("═",  7).bold()
+                .repeat("═", 7).bold()
                 .spacing(2)
                 .text("From: ").bold().text(player.getWorld().getName()).bold().color(JSONCOLOR.GREEN)
                 .text(" → Into: ").bold().text("world\\n").bold().color(JSONCOLOR.GREEN)
                 .spacing(2);
-                if(args.equals("area")) {
-                    jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmerge auto").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined();
-                } else {
-                    jsonMessage.text("All changes [X]").bold().underlined().text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmerge area").hover(HOVERACTION.show_text, "Activate area select");
-                }
+        if (args.equals("area")) {
+            if (cr == null) {
+                jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmerge auto").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined()
+                        .spacing(2)
+                        .text("Pos1: ").bold().text("No area selected").color(JSONCOLOR.RED).bold()
+                        .spacing(1)
+                        .text("Pos2: ").bold().text("No area selected").color(JSONCOLOR.RED).bold();
+
+            } else {
+                pos1 = cr.getPos1();
+                pos2 = cr.getPos2();
+                jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmerge auto").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined()
+                        .spacing(2)
+                        .text("Pos1: ").bold().text(String.valueOf(pos1.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos1.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos1.getZ())).color(JSONCOLOR.BLUE)
+                        .spacing(1)
+                        .text("Pos2: ").bold().text(String.valueOf(pos2.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos2.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos2.getZ())).color(JSONCOLOR.BLUE);
+            }
+        } else {
+            jsonMessage.text("All changes [X]").bold().underlined().text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmerge area").hover(HOVERACTION.show_text, "Activate area select")
+                    .spacing(2)
+                    .text("Pos1: ").bold().text(String.valueOf(pos1.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos1.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos1.getZ())).color(JSONCOLOR.BLUE)
+                    .spacing(1)
+                    .text("Pos2: ").bold().text(String.valueOf(pos2.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos2.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos2.getZ())).color(JSONCOLOR.BLUE);
+
+        }
         jsonMessage.spacing(2)
-                .text("Pos1: ").bold().text(String.valueOf(pos1.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos1.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos1.getZ())).color(JSONCOLOR.BLUE)
-                .spacing(1)
-                .text("Pos2: ").bold().text(String.valueOf(pos2.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos2.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos2.getZ())).color(JSONCOLOR.BLUE)
-                .spacing(2)
                 .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/automerge").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold()
                 .spacing(3)
                 .text("[").bold().text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").text("]").bold()
