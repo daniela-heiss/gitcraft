@@ -1,6 +1,7 @@
 package top.gitcraft.utils;
 
 import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.BlockDao;
 import top.gitcraft.database.daos.UserDao;
@@ -66,6 +67,7 @@ public class BlockUtils {
     }
 
     public static BlockVector3 findMax(List<BlockEntity> list) {
+
         int maxX = 0;
         int maxY = 0;
         int maxZ = 0;
@@ -92,42 +94,13 @@ public class BlockUtils {
         return BlockVector3.at(maxX, maxY, maxZ);
     }
 
-    public static List<BlockEntity> findArea(List<BlockEntity> list, BlockVector3 startCoordinates,
-                                             BlockVector3 endCoordinates) {
-
-        double startX = startCoordinates.getX();
-        double startY = startCoordinates.getY();
-        double startZ = startCoordinates.getZ();
-
-        double endX = endCoordinates.getX();
-        double endY = endCoordinates.getY();
-        double endZ = endCoordinates.getZ();
-
-        if (startX > endX) {
-            double tmp = startX;
-            startX = endX;
-            endX = tmp;
-        }
-        if (startY > endY) {
-            double tmp = startY;
-            startY = endY;
-            endY = tmp;
-        }
-        if (startZ > endZ) {
-            double tmp = startZ;
-            startZ = endZ;
-            endZ = tmp;
-        }
-
+    public static List<BlockEntity> getBlocksInRegion(List<BlockEntity> list, CuboidRegion region) {
         List<BlockEntity> areaBlocks = new ArrayList<>(list.size());
         for (BlockEntity blockEntity : list) {
-            if (blockEntity.x >= startX && blockEntity.x <= endX && blockEntity.y >= startY &&
-                    blockEntity.y <= endY && blockEntity.z >= startZ && blockEntity.z <= endZ) {
+            if (region.contains(BlockVector3.at(blockEntity.x, blockEntity.y, blockEntity.z))) {
                 areaBlocks.add(blockEntity);
             }
         }
-
         return areaBlocks;
-
     }
 }
