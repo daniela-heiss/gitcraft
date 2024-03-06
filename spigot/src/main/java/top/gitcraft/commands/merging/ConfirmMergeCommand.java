@@ -9,7 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.utils.WorldUtils;
-import top.gitcraft.utils.WorldUtils.*;
 
 import java.sql.Timestamp;
 
@@ -38,7 +37,7 @@ public class ConfirmMergeCommand implements CommandExecutor {
         BlockVector3 pos2;
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String schematicName = "AutoMerge" + timestamp.getTime();
+        String schematicName = "Merge" + timestamp.getTime();
 
         BlockArrayClipboard clipboard = createClipboard(pos1, pos2, currentWorld, player);
         player.sendMessage("Copied region to clipboard");

@@ -37,5 +37,4 @@ public class AreaMergeCommand implements CommandExecutor {
         saveClipboardAsSchematic(clipboard, schematicName, player);
         return pasteClipboardAndJoin(clipboard, player, "world", selectedArea.getPos1());
     }
-
 }
