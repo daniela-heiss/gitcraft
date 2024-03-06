@@ -28,14 +28,17 @@ public class MergeUtils {
         double playerCoordinateY = playerCoordinates.getY();
         double playerCoordinateZ = playerCoordinates.getZ();
 
+        int bufferSizeX = 10;
+        int bufferSizeZ = 5;
+
         // Area on the player's left
-        BlockVector3 areaOriginal = BlockVector3.at(playerCoordinateX + 10, playerCoordinateY, (playerCoordinateZ - ((double) size.getY() / 2)) - 5 - size.getZ());
+        BlockVector3 areaOriginal = BlockVector3.at(playerCoordinateX + bufferSizeX, playerCoordinateY, (playerCoordinateZ - ((double) size.getY() / 2)) - bufferSizeZ - size.getZ());
 
         // Area right in front of the player
-        BlockVector3 areaChanges = BlockVector3.at(playerCoordinateX + 10, playerCoordinateY , playerCoordinateZ - ((double) size.getY() / 2));
+        BlockVector3 areaChanges = BlockVector3.at(playerCoordinateX + bufferSizeX, playerCoordinateY , playerCoordinateZ - ((double) size.getY() / 2));
 
         // Area on the player's right
-        BlockVector3 areaCombined = BlockVector3.at(playerCoordinateX + 10, playerCoordinateY, (playerCoordinateZ + ((double) size.getY() / 2)) + 5 + size.getZ());
+        BlockVector3 areaCombined = BlockVector3.at(playerCoordinateX + bufferSizeX, playerCoordinateY, (playerCoordinateZ + ((double) size.getY() / 2)) + bufferSizeZ + size.getZ());
 
         return new MergeMetaData(startOrigin, areaOriginal, areaChanges, areaCombined);
     }

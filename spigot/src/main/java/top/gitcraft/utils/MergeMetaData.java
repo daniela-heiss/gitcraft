@@ -4,10 +4,10 @@ import com.sk89q.worldedit.math.BlockVector3;
 
 public class MergeMetaData {
 
-    BlockVector3 origin = null;
-    BlockVector3 areaOriginal = null;
-    BlockVector3 areaChanges = null;
-    BlockVector3 areaCombined = null;
+    private BlockVector3 origin;
+    private BlockVector3 areaOriginal;
+    private BlockVector3 areaChanges;
+    private BlockVector3 areaCombined;
 
     public MergeMetaData(BlockVector3 origin, BlockVector3 areaOriginal, BlockVector3 areaChanges, BlockVector3 areaCombined) {
         this.origin = origin;
