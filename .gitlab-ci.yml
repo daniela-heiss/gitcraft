@@ -37,6 +37,9 @@ job_build:
   artifacts:
     paths:
       - spigot/target/gitcraft-1.0-SNAPSHOT.jar
+  only: 
+      - /^Sprint.*$/
+      - main
 
 job_deploy:
   stage: deploy
@@ -45,3 +48,7 @@ job_deploy:
     - sudo systemctl stop spigot
     - sudo mv spigot/target/gitcraft-1.0-SNAPSHOT.jar /home/gitcraft/server/plugins/
     - sudo systemctl start spigot
+  only: 
+      - /^Sprint.*$/
+      - main
+  
