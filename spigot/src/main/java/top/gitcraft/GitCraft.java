@@ -7,6 +7,7 @@ import top.gitcraft.commands.areaselect.SetPos1Command;
 import top.gitcraft.commands.areaselect.SetPos2Command;
 import top.gitcraft.commands.loadsave.DeleteSaveCommand;
 import top.gitcraft.commands.loadsave.LoadCommand;
+import top.gitcraft.commands.loadsave.LoadSaveListCommand;
 import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.commands.merging.AreaMergeCommand;
 import top.gitcraft.commands.merging.AutoMergeCommand;
@@ -19,6 +20,7 @@ import top.gitcraft.commands.world.JoinCommand;
 import top.gitcraft.commands.world.WorldCommand;
 import top.gitcraft.listeners.AreaSelectListener;
 import top.gitcraft.ui.logic.MainMenuCommand;
+import top.gitcraft.ui.logic.SaveMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
 import top.gitcraft.utils.areavisualizer.PlayerQuitListener;
 
@@ -58,6 +60,7 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcload")).setExecutor(new LoadCommand());
         Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new SaveCommand());
         Objects.requireNonNull(this.getCommand("gcdeletesave")).setExecutor(new DeleteSaveCommand());
+        Objects.requireNonNull(this.getCommand("gclistsaves")).setExecutor(new LoadSaveListCommand());
     }
 
     public void registerMergeCommands() {
@@ -74,6 +77,7 @@ public final class GitCraft extends JavaPlugin {
     public void registerMenuCommands() {
         Objects.requireNonNull(this.getCommand("gcmenu")).setExecutor(new MainMenuCommand());
         Objects.requireNonNull(this.getCommand("gcworldmenu")).setExecutor(new WorldMenuCommand());
+        Objects.requireNonNull(this.getCommand("gcsavemenu")).setExecutor(new SaveMenuCommand());
     }
 
     public void registerWorldCommands() {

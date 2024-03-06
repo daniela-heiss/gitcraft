@@ -11,9 +11,12 @@ commands:
   gcsave:
     description: saves a timestamp with a name
     usage: /gcsave saveName
-  gcDeleteSave:
+  gcdeletesave:
     description: deletes a timestamp with a name
-    usage: /gcDeleteSave saveName
+    usage: /gcdeletesave saveName
+  gclistsaves:
+    description: List worldes
+    usage: /gclistsaves [load|delete]
 
   #merge commands
   automerge:
@@ -41,6 +44,9 @@ commands:
   gcworldmenu:
     description: Shows the world menu
     usage: /gcworldmenu
+  gcsavemenu:
+    description: Shows the save menu
+    usage: /gcsavemenu
 
   #world-lists - Join, Create, Delete
   gclist:
