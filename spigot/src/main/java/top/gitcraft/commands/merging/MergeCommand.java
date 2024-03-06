@@ -1,5 +1,6 @@
 package top.gitcraft.commands.merging;
 
+import com.sk89q.worldedit.math.BlockVector3;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -8,6 +9,8 @@ import top.gitcraft.utils.enums.LISTTYPE;
 
 import static top.gitcraft.ui.components.Menu.menuMergeMenu;
 import static top.gitcraft.ui.components.WorldList.worldListAll;
+import static top.gitcraft.utils.BlockUtils.*;
+import static top.gitcraft.utils.BlockUtils.getBlockChangedByPlayers;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class MergeCommand implements CommandExecutor {
@@ -19,14 +22,16 @@ public class MergeCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        String arg;
+        String mergeType;
+        BlockVector3 pos1 = findMin(getBlockChangedByPlayers(player.getWorld().getName()));
+        BlockVector3 pos2 = findMax(getBlockChangedByPlayers(player.getWorld().getName()));
         if(args.length == 0) {
-            arg = "true";
-            dispatchTellRawCommand(player, menuMergeMenu(arg));
+            mergeType = "auto";
+            dispatchTellRawCommand(player, menuMergeMenu(player, mergeType, pos1, pos2));
             return true;
         }
-        arg = args[0];
-        dispatchTellRawCommand(player, menuMergeMenu(arg));
+        mergeType = args[0];
+        dispatchTellRawCommand(player, menuMergeMenu(player, mergeType, pos1, pos2));
         return true;
     }
 }

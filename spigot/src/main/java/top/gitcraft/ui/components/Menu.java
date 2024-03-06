@@ -1,9 +1,11 @@
 package top.gitcraft.ui.components;
 
+import com.sk89q.worldedit.math.BlockVector3;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
+import org.bukkit.entity.Player;
 import top.gitcraft.utils.JsonBuilder;
 import top.gitcraft.utils.enums.CLICKACTION;
 import top.gitcraft.utils.enums.HOVERACTION;
@@ -83,7 +85,7 @@ public class Menu {
                 .spacing(1)
                 .build();
     }
-    public static String menuMergeMenu(String args) {
+    public static String menuMergeMenu(Player player, String args, BlockVector3 pos1, BlockVector3 pos2) {
         /*
          * ══ GitCraft ══
          *
@@ -110,18 +112,18 @@ public class Menu {
                 .spacing(1)
                 .repeat("═",  7).bold()
                 .spacing(2)
-                .text("From: ").bold().text("world2").bold().color(JSONCOLOR.GREEN)
+                .text("From: ").bold().text(player.getWorld().getName()).bold().color(JSONCOLOR.GREEN)
                 .text(" → Into: ").bold().text("world\\n").bold().color(JSONCOLOR.GREEN)
                 .spacing(2);
-                if(args.equals("true")) {
-                    jsonMessage.text("All changes [X]").bold().underlined().text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmerge false").hover(HOVERACTION.show_text, "Activate area select");
+                if(args.equals("area")) {
+                    jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmerge auto").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined();
                 } else {
-                    jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmerge true").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined();
+                    jsonMessage.text("All changes [X]").bold().underlined().text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmerge area").hover(HOVERACTION.show_text, "Activate area select");
                 }
         jsonMessage.spacing(2)
-                .text("Pos1: ").bold().text("100").color(JSONCOLOR.RED).text(" / ").bold().text("423").color(JSONCOLOR.GREEN).text(" / ").bold().text("123").color(JSONCOLOR.BLUE)
+                .text("Pos1: ").bold().text(String.valueOf(pos1.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos1.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos1.getZ())).color(JSONCOLOR.BLUE)
                 .spacing(1)
-                .text("Pos2: ").bold().text("100").color(JSONCOLOR.RED).text(" / ").bold().text("423").color(JSONCOLOR.GREEN).text(" / ").bold().text("123").color(JSONCOLOR.BLUE)
+                .text("Pos2: ").bold().text(String.valueOf(pos2.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos2.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos2.getZ())).color(JSONCOLOR.BLUE)
                 .spacing(2)
                 .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/automerge").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold()
                 .spacing(3)
