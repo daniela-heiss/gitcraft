@@ -18,9 +18,7 @@ import top.gitcraft.commands.world.WorldCommand;
 import top.gitcraft.listeners.AreaSelectListener;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
-import top.gitcraft.utils.MergeWGenerator;
 import top.gitcraft.utils.areavisualizer.PlayerQuitListener;
-import org.bukkit.generator.ChunkGenerator;
 import top.gitcraft.commands.world.*;
 
 import java.util.Objects;
@@ -85,10 +83,5 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcjoin")).setExecutor(new JoinCommand());
         Objects.requireNonNull(this.getCommand("gccreate")).setExecutor(new CreateCommand());
         Objects.requireNonNull(this.getCommand("gcdelete")).setExecutor(new DeleteCommand());
-    }
-
-    @Override
-    public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
-        return new MergeWGenerator(id);
     }
 }

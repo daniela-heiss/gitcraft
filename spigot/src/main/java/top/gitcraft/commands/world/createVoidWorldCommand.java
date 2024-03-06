@@ -27,24 +27,16 @@ public class createVoidWorldCommand implements CommandExecutor {
         if(args.length == 0){
             createMergeWorld(0);
         }else{
-            createMergeWorld(Integer.parseInt(args[0]));
+            createMergeWorld(Integer.parseInt(args[0])+64);//is +64 cause the world starts at -64
         }
-
         return true;
     }
 
-
     public void createMergeWorld(int layerHeight) {
-
-        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        MVWorldManager worldManager = core.getMVWorldManager();
-        WorldPurger purger = worldManager.getTheWorldPurger();
         String newName = "Merge" + Instant.now().getEpochSecond(); //generating new name for the mergeworld
-        //change gamerules on creation completion with a callback
+        //runnable for gamerules to set for the world
         Runnable callback = () -> {
-            MultiverseWorld mergeWorld = worldManager.getMVWorld(newName);
             World mergeWorldBukkit = getWorld(newName);
-            mergeWorld.setGameMode(GameMode.CREATIVE);
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("ANIMAL"),0);
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("MONSTER"),0);
             mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("AXOLOTL"),0);
@@ -58,12 +50,14 @@ public class createVoidWorldCommand implements CommandExecutor {
     }
 
     public static void createWorldSendCallback(String newName,int layerHeight, Runnable callback) {
-        MultiverseCore core = (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        MVWorldManager worldManager = core.getMVWorldManager();
         //adding the world creation
 
         Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
-            worldManager.addWorld(newName, World.Environment.NORMAL, null, WorldType.NORMAL, false, "gitcraft:"+layerHeight);//change "gitcraft:" if name changes
+            WorldCreator wc = new WorldCreator(newName);
+            wc.type(WorldType.FLAT);
+            wc.generatorSettings("{\"layers\": [{\"block\": \"air\", \"height\": "+layerHeight+"},{\"block\": \"barrier\", \"height\": 1}], \"biome\":\"desert\"}");
+            wc.generateStructures(false);
+            wc.createWorld();
             if (callback != null) {
                 callback.run();
             }
