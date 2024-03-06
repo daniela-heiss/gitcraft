@@ -22,6 +22,9 @@ commands:
   areamerge:
     description: Automatically merge a player selected area into the original world
     usage: /areamerge <schematicName>
+  testmerge:
+    description: Test merge a player selected area into the original world
+    usage: /testmerge <fromWorldName> <targetWorldName> <mergeWorldName>
 
   #schematic commands
   generateschematic:
