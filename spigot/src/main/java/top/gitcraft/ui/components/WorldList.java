@@ -11,8 +11,6 @@ import top.gitcraft.utils.enums.JSONCOLOR;
 import java.util.ArrayList;
 import java.util.List;
 
-import static top.gitcraft.ui.components.Menu.consoleFooter;
-
 public class WorldList {
 
     public static String worldListSubset(LISTTYPE type, List<String> worldNames) {
@@ -61,7 +59,11 @@ public class WorldList {
 
         // Adding World Menu button
         jsonBuilder.spacing(3)
-                .addBuilt(consoleFooter(3, type.name()));
+                .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
+                .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
+                .text("\\\\").bold().text("World Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Open world menu").bold()
+                .text("\\\\").bold().text(type.name()).color(JSONCOLOR.GOLD).hover(HOVERACTION.show_text, "You are here").bold()
+                .text(">").bold();
 
         return jsonBuilder.build();
     }

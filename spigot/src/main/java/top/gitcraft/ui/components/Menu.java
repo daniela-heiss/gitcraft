@@ -32,7 +32,10 @@ public class Menu {
          *  ══════
          *
          * ╔[World Menu]
+         * ║
          * ╠[Save Menu]
+         * ║
+         * ║
          * ╚[Config]
          *
          */
@@ -43,11 +46,17 @@ public class Menu {
                 .spacing(1)
                 .repeat("═", 6).bold()
                 .spacing(2)
-                .text("\\n\\u2554").text("[").bold().text("World Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Opens the world menu").text("]").bold()
-                .text("\\n\\u2560").text("[").bold().text("Save Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu").text("]").bold()
+                .text("\\u2554").text("[").bold().text("World Menu").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Opens the world menu").text("]").bold()
+                .text("\\n\\u2551")
+                .text("\\n\\u2560").text("[").bold().text("Save Menu").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu").text("]").bold()
+                .text("\\n\\u2551")
+                .text("\\n\\u2551")
+                .text("\\n\\u2551")
                 .text("\\n\\u255a").text("[").bold().text("Config").bold().color(JSONCOLOR.YELLOW).text("]").bold()
-                .spacing(9)
-                .addBuilt(consoleFooter(1, "Main Menu"))
+                .spacing(6)
+                .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
+                .text("Main Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
+                .text(">").bold()
                 .build();
     }
 
@@ -78,14 +87,21 @@ public class Menu {
                 .text("World Menu").bold()
                 .spacing(1)
                 .repeat("═", 7).bold()
-                .spacing(3)
+                .spacing(2)
                 .text("\\u2554").text("[").bold().text("JOIN").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gclist join").hover(HOVERACTION.show_text, "Join a world").text("]").bold()
+                .text("\\n\\u2551")
                 .text("\\n\\u2560").text("[").bold().text("CREATE").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gccreate").hover(HOVERACTION.show_text, "Create a new world").text("]").bold()
+                .text("\\n\\u2551")
                 .text("\\n\\u2560").text("[").bold().text("MERGE").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcmerge false").hover(HOVERACTION.show_text, "Open merge menu").text("]").bold()
                 .text("\\n\\u2551")
+                .text("\\n\\u2551")
+                .text("\\n\\u2551")
                 .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gclist delete").hover(HOVERACTION.show_text, "Delete a world").text("]").bold()
-                .spacing(7)
-                .addBuilt(consoleFooter(2, "World Menu"))
+                .spacing(4)
+                .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
+                .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
+                .text("\\\\").bold().text("World Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Open world menu").bold()
+                .text(">").bold()
                 .build();
     }
 
@@ -110,13 +126,20 @@ public class Menu {
                 .addBuilt(header())
                 .text("Save Menu").bold()
                 .spacing(1)
-                .repeat("═",  7).bold()
-                .text("\\n\\n\\u2554").text("[").bold().text("SAVE").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.suggest_command, "/gcsave ").hover(HOVERACTION.show_text, "Get the command to set a savepoint. You need to choose a name for your save").text("]").bold()
+                .repeat("═",  6).bold()
+                .spacing(2)
+                .text("\\u2554").text("[").bold().text("SAVE").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.suggest_command, "/gcsave ").hover(HOVERACTION.show_text, "Get the command to set a savepoint. You need to choose a name for your save").text("]").bold()
+                .text("\\n\\u2551")
                 .text("\\n\\u2560").text("[").bold().text("LOAD").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gclistsaves load").hover(HOVERACTION.show_text, "Load a savepoint").text("]").bold()
                 .text("\\n\\u2551")
+                .text("\\n\\u2551")
+                .text("\\n\\u2551")
                 .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gclistsaves deletesave").hover(HOVERACTION.show_text, "Delete a savepoint").text("]").bold()
-                .spacing(3)
-                .addBuilt(consoleFooter(2, "Save Menu"))
+                .spacing(6)
+                .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
+                .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
+                .text("\\\\").bold().text("Save Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu").bold()
+                .text(">").bold()
                 .build();
     }
 
@@ -178,27 +201,11 @@ public class Menu {
         jsonMessage.spacing(3)
                 .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/automerge").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold()
                 .spacing(3)
-                //.text("[").bold().text("World Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Open world menu").text("]").bold()
-                .addBuilt(consoleFooter(3, "Merge Menu"))
-                .spacing(0);
-
-        return jsonMessage.build();
-    }
-
-    public static String consoleFooter(int level, String menu) {
-        JSONCOLOR[] highlight = new JSONCOLOR[]{JSONCOLOR.YELLOW, JSONCOLOR.YELLOW, JSONCOLOR.YELLOW, JSONCOLOR.YELLOW, JSONCOLOR.YELLOW};
-        highlight[level] = JSONCOLOR.GOLD;
-        JsonBuilder jsonMessage = new JsonBuilder();
-
-        jsonMessage.text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
-        .text("Main Menu").bold().color(highlight[1]).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold();
-        if (level > 1) {
-            jsonMessage.text("\\\\").bold().text("World Menu").bold().color(highlight[2]).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Open world menu").bold();
-        }
-        if (level > 2) {
-            jsonMessage.text("\\\\").bold().text(menu).color(highlight[3]).hover(HOVERACTION.show_text, "You are here").bold();
-        }
-        jsonMessage.text(">").bold();
+                .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
+                .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
+                .text("\\\\").bold().text("World Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Open world menu").bold()
+                .text("\\\\").bold().text("Merge Menu").color(JSONCOLOR.GOLD).hover(HOVERACTION.show_text, "You are here").bold()
+                .text(">").bold();
 
         return jsonMessage.build();
     }

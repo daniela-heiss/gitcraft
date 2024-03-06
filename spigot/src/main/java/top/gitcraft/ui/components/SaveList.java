@@ -103,16 +103,15 @@ public class SaveList {
         jsonBuilder.spacing(1)
                 .text("[").bold()
                 .text("Reload").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gclistsaves " + type.name().toLowerCase()).hover(HOVERACTION.show_text, "Reloads list")
-                .text("]").bold()
-                .spacing(1);
+                .text("]").bold();
 
         // Adding Save Menu button
-        jsonBuilder.spacing(1)
-                .text("[").bold()
-                .text("Save Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu")
-                .text("]").bold()
-                .spacing(1);
-
+        jsonBuilder.spacing(3)
+                .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
+                .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
+                .text("\\\\").bold().text("Save Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu").bold()
+                .text("\\\\").bold().text(type.name()).bold().color(JSONCOLOR.GOLD).hover(HOVERACTION.show_text, "You are here").bold()
+                .text(">").bold();
         return jsonBuilder.build();
     }
 
