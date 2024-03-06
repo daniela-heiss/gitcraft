@@ -2,7 +2,6 @@ package top.gitcraft.commands.merging;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
-import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.command.Command;
@@ -12,7 +11,8 @@ import org.bukkit.entity.Player;
 
 import java.sql.Timestamp;
 
-import static top.gitcraft.utils.BlockUtils.*;
+import static top.gitcraft.utils.BlockUtils.getBlockChangedByPlayers;
+import static top.gitcraft.utils.BlockUtils.regionFromList;
 import static top.gitcraft.utils.SchematicUtils.*;
 
 public class AutoMergeCommand implements CommandExecutor {
@@ -31,13 +31,12 @@ public class AutoMergeCommand implements CommandExecutor {
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
         String worldName = player.getWorld().getName();
 
-        BlockVector3 pos1 = findMin(getBlockChangedByPlayers(worldName));
-        BlockVector3 pos2 = findMax(getBlockChangedByPlayers(worldName));
+        CuboidRegion region = regionFromList(getBlockChangedByPlayers(worldName));
 
-        BlockArrayClipboard clipboard = createClipboard(new CuboidRegion(pos1, pos2), currentWorld);
+        BlockArrayClipboard clipboard = createClipboard(region, currentWorld);
         player.sendMessage("Copied region to clipboard");
 
         saveClipboardAsSchematic(clipboard, schematicName);
-        return pasteClipboardAndJoin(clipboard, player, "world", pos1);
+        return pasteClipboardAndJoin(clipboard, player, "world", region.getPos1());
     }
 }

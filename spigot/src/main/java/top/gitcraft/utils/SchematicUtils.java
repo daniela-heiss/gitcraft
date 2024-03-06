@@ -63,12 +63,10 @@ public class SchematicUtils {
         List<BlockEntity> playerChangedBlocksInRegion =
                 getBlocksInRegion(allPlayerChangedBlocks, selectedArea);
 
-
-        BlockVector3 minCoordinatesArray = findMin(playerChangedBlocksInRegion);
-        BlockVector3 maxCoordinatesArray = findMax(playerChangedBlocksInRegion);
+        CuboidRegion region = regionFromList(playerChangedBlocksInRegion);
 
         BlockArrayClipboard clipboard =
-                createClipboard(new CuboidRegion(minCoordinatesArray, maxCoordinatesArray), currentWorld);
+                createClipboard(region, currentWorld);
 
         return clipboard;
     }

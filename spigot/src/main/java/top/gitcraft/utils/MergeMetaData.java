@@ -19,25 +19,31 @@ public class MergeMetaData {
     public void setOrigin(BlockVector3 inOrigin) {
         origin = inOrigin;
     }
+
     public void setAreaOriginal(BlockVector3 inArea1) {
         areaOriginal = inArea1;
     }
+
     public void setAreaChanges(BlockVector3 inArea2) {
         areaChanges = inArea2;
     }
-    public void setAreaCombined(BlockVector3 inArea3){
+
+    public void setAreaCombined(BlockVector3 inArea3) {
         areaCombined = inArea3;
     }
 
     public BlockVector3 getOrigin() {
         return origin;
     }
+
     public BlockVector3 getAreaOriginal() {
         return areaOriginal;
     }
+
     public BlockVector3 getAreaChanges() {
         return areaChanges;
     }
+
     public BlockVector3 getAreaCombined() {
         return areaCombined;
     }
