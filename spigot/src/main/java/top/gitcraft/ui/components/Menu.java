@@ -212,4 +212,17 @@ public class Menu {
 
         return jsonMessage.build();
     }
+
+     public static String confirmMerge(String worldName1, String worldName2) {
+         return new JsonBuilder()
+                 .clear()
+                 .addBuilt(header())
+                 .text("From: ").bold().text(worldName1).bold().color(JSONCOLOR.GREEN)
+                 .text(" → Into: ").bold().text(worldName2).bold().color(JSONCOLOR.GREEN)
+                 .spacing(4)
+                 .text("[").bold().text("Yes").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/areamerge " + worldName2).hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold()
+                 .text("[").bold().text("No").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdiscardmerge " + worldName1).hover(HOVERACTION.show_text, "Cancel the merge").text("]").bold()
+                 .spacing(4)
+                 .build();
+     }
 }
