@@ -9,7 +9,7 @@ import top.gitcraft.commands.loadsave.LoadCommand;
 import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.commands.merging.AreaMergeCommand;
 import top.gitcraft.commands.merging.AutoMergeCommand;
-import top.gitcraft.commands.merging.TestMergingCommand;
+import top.gitcraft.commands.merging.MergeCommand;
 import top.gitcraft.commands.schematics.GenerateSchematicCommand;
 import top.gitcraft.commands.schematics.GenerateSchematicFromArea;
 import top.gitcraft.commands.schematics.PasteSchematicCommand;
@@ -25,8 +25,7 @@ import top.gitcraft.utils.areavisualizer.PlayerQuitListener;
 import java.util.Objects;
 
 public final class GitCraft extends JavaPlugin {
-    @Override
-    public void onEnable() {
+    @Override public void onEnable() {
 
         registerMenuCommands();
         registerWorldCommands();
@@ -41,8 +40,7 @@ public final class GitCraft extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
     }
 
-    @Override
-    public void onDisable() {
+    @Override public void onDisable() {
         // Plugin shutdown logic
         getLogger().info("Goodbye, SpigotMC!");
     }
@@ -56,19 +54,23 @@ public final class GitCraft extends JavaPlugin {
     public void registerSaveLoadCommands() {
         Objects.requireNonNull(this.getCommand("gcload")).setExecutor(new LoadCommand());
         Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new SaveCommand());
-        Objects.requireNonNull(this.getCommand("gcdeletesave")).setExecutor(new DeleteSaveCommand());
+        Objects.requireNonNull(this.getCommand("gcdeletesave"))
+               .setExecutor(new DeleteSaveCommand());
     }
 
     public void registerMergeCommands() {
         Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand());
         Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
-        Objects.requireNonNull(this.getCommand("testmerge")).setExecutor(new TestMergingCommand());
+        Objects.requireNonNull(this.getCommand("merge")).setExecutor(new MergeCommand());
     }
 
     public void registerSchematicCommands() {
-        Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());
-        Objects.requireNonNull(this.getCommand("pasteschematic")).setExecutor(new PasteSchematicCommand());
-        Objects.requireNonNull(this.getCommand("generateschematicfromarea")).setExecutor(new GenerateSchematicFromArea());
+        Objects.requireNonNull(this.getCommand("generateschematic"))
+               .setExecutor(new GenerateSchematicCommand());
+        Objects.requireNonNull(this.getCommand("pasteschematic"))
+               .setExecutor(new PasteSchematicCommand());
+        Objects.requireNonNull(this.getCommand("generateschematicfromarea"))
+               .setExecutor(new GenerateSchematicFromArea());
     }
 
     public void registerMenuCommands() {

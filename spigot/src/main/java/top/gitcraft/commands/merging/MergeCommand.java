@@ -10,9 +10,10 @@ import static top.gitcraft.listeners.AreaSelectListener.getSelection;
 import static top.gitcraft.utils.MergeUtils.pasteMergeAreas;
 
 
-public class TestMergingCommand implements CommandExecutor {
+public class MergeCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command,
+                             @NotNull String s, @NotNull String[] strings) {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage("Only players can use this command");
             return true;
@@ -20,7 +21,7 @@ public class TestMergingCommand implements CommandExecutor {
         Player player = (Player) commandSender;
 
         if (strings.length != 3) {
-            player.sendMessage("Usage: /testmerge <fromWorldName> <targetWorldName> <mergeWorldName>");
+            player.sendMessage("Usage: /merge <fromWorldName> <targetWorldName> <mergeWorldName>");
             return true;
         }
 
@@ -28,9 +29,11 @@ public class TestMergingCommand implements CommandExecutor {
         String targetWorldName = strings[1];
         String mergeWorldName = strings[2];
 
-        player.sendMessage("Merging " + fromWorldName + " and " + targetWorldName + " into " + mergeWorldName);
+        player.sendMessage(
+                "Merging " + fromWorldName + " into " + targetWorldName + " via " + mergeWorldName);
 
-        pasteMergeAreas(player, fromWorldName, targetWorldName, mergeWorldName, getSelection(player));
+        pasteMergeAreas(player, fromWorldName, targetWorldName, mergeWorldName,
+                getSelection(player));
 
         return true;
     }
