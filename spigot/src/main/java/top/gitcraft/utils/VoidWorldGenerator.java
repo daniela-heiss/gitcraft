@@ -20,6 +20,7 @@ public class VoidWorldGenerator {
         World mergeWorldBukkit = wc.createWorld();
         mergeWorldBukkit.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         mergeWorldBukkit.setGameRule(GameRule.DO_MOB_SPAWNING, false);
+        mergeWorldBukkit.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
         //add new gamerules here if they are deemed necessary. yes i also hate that there is no combined one for everything
 
         return mergeWorldBukkit;
