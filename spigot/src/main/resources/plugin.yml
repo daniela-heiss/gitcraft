@@ -23,11 +23,8 @@ commands:
     description: Automatically merge everything that the player changed into the original world
     usage: /automerge <schematicName>
   areamerge:
-    description: Automatically merge a player selected area into the original world
-    usage: /areamerge <schematicName>
-  gcconfirmmerge:
-    description: Creates a schematic from clipboard and pastes clipboard content into the target world and deletes the merge world
-    usage: /gcconfirmmerge <targetWorld>
+    description: Creates a schematic from clipboard and pastes clipboard content into the target world and deletes the current world
+    usage: /areamerge <targetWorld>
 
   #schematic commands
   generateschematic:
