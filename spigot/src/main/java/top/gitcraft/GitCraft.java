@@ -31,7 +31,6 @@ public final class GitCraft extends JavaPlugin {
         registerWorldCommands();
 
         registerMergeCommands();
-        registerMergeWorldCommands();
         registerSchematicCommands();
 
         registerAreaSelectCommands();
@@ -62,11 +61,9 @@ public final class GitCraft extends JavaPlugin {
     public void registerMergeCommands() {
         Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand());
         Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
-    }
-
-    public void registerMergeWorldCommands() {
         Objects.requireNonNull(this.getCommand("gccreatemergeworld")).setExecutor(new createVoidWorldCommand());
     }
+
 
     public void registerSchematicCommands() {
         Objects.requireNonNull(this.getCommand("generateschematic")).setExecutor(new GenerateSchematicCommand());

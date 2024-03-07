@@ -9,18 +9,16 @@ import static top.gitcraft.utils.VoidWorldGenerator.createMergeWorld;
 public class createVoidWorldCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        Player player = (Player) sender;
-        player.sendMessage("Create void world...");
+        if(sender instanceof Player) {
+            sender.sendMessage("Create void world...");
+        }
         if(args.length == 0){
             createMergeWorld(0);
             return true;
         }
-        createMergeWorld(Integer.parseInt(args[0])+64);//is +64 cause the world starts at -64
+        String layerheight = args[0];
+        createMergeWorld(Integer.parseInt(layerheight)+64);//is +64 cause the world starts at -64
 
         return true;
     }
-
-
-
-
 }
