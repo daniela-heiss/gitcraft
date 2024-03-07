@@ -11,7 +11,10 @@ import top.gitcraft.commands.loadsave.LoadSaveListCommand;
 import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.commands.merging.AreaMergeCommand;
 import top.gitcraft.commands.merging.AutoMergeCommand;
+
+import top.gitcraft.commands.merging.DiscardMergeCommand;
 import top.gitcraft.commands.merging.MergeCommand;
+
 import top.gitcraft.commands.schematics.GenerateSchematicCommand;
 import top.gitcraft.commands.schematics.GenerateSchematicFromArea;
 import top.gitcraft.commands.schematics.PasteSchematicCommand;
@@ -66,8 +69,12 @@ public final class GitCraft extends JavaPlugin {
     public void registerMergeCommands() {
         Objects.requireNonNull(this.getCommand("autoMerge")).setExecutor(new AutoMergeCommand());
         Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
+
+        Objects.requireNonNull(this.getCommand("gcdiscardmerge")).setExecutor(new DiscardMergeCommand());
+
         Objects.requireNonNull(this.getCommand("gccreatemergeworld")).setExecutor(new createVoidWorldCommand());
         Objects.requireNonNull(this.getCommand("merge")).setExecutor(new MergeCommand());
+
     }
 
 

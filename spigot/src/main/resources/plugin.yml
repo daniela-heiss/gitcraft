@@ -25,6 +25,9 @@ commands:
   areamerge:
     description: Creates a schematic from clipboard and pastes clipboard content into the target world and deletes the current world
     usage: /areamerge <targetWorld>
+  gcdiscardmerge:
+    description: Teleports player back into his previous world and deletes merge world
+    usage: /gcdiscardmerge <previousWorld>
   gccreatemergeworld:
     description: Manually creates a void world
     usage: /gccreatemergeworld
