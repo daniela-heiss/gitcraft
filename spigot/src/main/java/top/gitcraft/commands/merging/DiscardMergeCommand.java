@@ -28,15 +28,10 @@ public class DiscardMergeCommand implements CommandExecutor {
         }
 
         String previousWorld = args[0];
-        String mergeWorldName = player.getWorld().getName();
-
-        if (Bukkit.getWorld(mergeWorldName) == null) return false;
-
-        World currentWorld = Bukkit.getWorld(mergeWorldName);
+        World mergeWorld = player.getWorld();
 
         // Teleport all players in mergeWorld back to their previous world
-        assert currentWorld != null;
-        List<Player> playersInMergeWorld = currentWorld.getPlayers();
+        List<Player> playersInMergeWorld = mergeWorld.getPlayers();
 
         for(Player players : playersInMergeWorld) {
             joinWorldAtCurrentLocation(players, previousWorld);
@@ -45,7 +40,7 @@ public class DiscardMergeCommand implements CommandExecutor {
         // Delete player's Merge world
         WorldUtils worldUtils = new WorldUtils();
 
-        worldUtils.deleteWorld(player, mergeWorldName);
+        worldUtils.deleteWorld(player, mergeWorld.getName());
 
 
         return true;
