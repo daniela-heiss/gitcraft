@@ -59,7 +59,7 @@ public final class GitCraft extends JavaPlugin {
     }
 
     public void registerMergeCommands() {
-        Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand());
+        Objects.requireNonNull(this.getCommand("autoMerge")).setExecutor(new AutoMergeCommand());
         Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
         Objects.requireNonNull(this.getCommand("merge")).setExecutor(new MergeCommand());
     }
