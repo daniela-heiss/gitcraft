@@ -21,10 +21,16 @@ commands:
   #merge commands
   automerge:
     description: Automatically merge everything that the player changed into the original world
-    usage: /automerge <schematicName>
+    usage: /autoMerge  <fromWorldName> <targetWorldName> <mergeWorldName>
   areamerge:
     description: Creates a schematic from clipboard and pastes clipboard content into the target world and deletes the current world
     usage: /areamerge <targetWorld>
+  gccreatemergeworld:
+    description: Manually creates a void world
+    usage: /gccreatemergeworld
+  merge:
+    description: Test merge a player selected area into the original world
+    usage: /merge <fromWorldName> <targetWorldName> <mergeWorldName>
 
   #schematic commands
   generateschematic:
