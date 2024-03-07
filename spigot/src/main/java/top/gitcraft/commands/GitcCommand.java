@@ -1,11 +1,10 @@
 package top.gitcraft.commands;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import top.gitcraft.commands.merging.MergeCommand;
+import top.gitcraft.commands.merging.MergeMenuCommand;
 import top.gitcraft.commands.world.CreateCommand;
 import top.gitcraft.commands.world.DeleteCommand;
 import top.gitcraft.commands.world.JoinCommand;
@@ -54,7 +53,7 @@ public class GitcCommand implements TabExecutor {
                 new CreateCommand().onCommand(sender, command, label, newargs);
                 return true;
             case "merge":
-                new MergeCommand().onCommand(sender, command, label, newargs);
+                new MergeMenuCommand().onCommand(sender, command, label, newargs);
                 return true;
             case "delete":
                 new DeleteCommand().onCommand(sender, command, label, newargs);

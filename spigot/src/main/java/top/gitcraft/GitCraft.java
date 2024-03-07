@@ -12,7 +12,7 @@ import top.gitcraft.commands.loadsave.LoadSaveListCommand;
 import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.commands.merging.AreaMergeCommand;
 import top.gitcraft.commands.merging.AutoMergeCommand;
-import top.gitcraft.commands.merging.MergeCommand;
+import top.gitcraft.commands.merging.MergeMenuCommand;
 import top.gitcraft.commands.schematics.GenerateSchematicCommand;
 import top.gitcraft.commands.schematics.GenerateSchematicFromArea;
 import top.gitcraft.commands.schematics.PasteSchematicCommand;
@@ -32,7 +32,7 @@ public final class GitCraft extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        registerGitcCommand();
+        registerGcCommand();
 
         registerMenuCommands();
         registerWorldCommands();
@@ -53,8 +53,8 @@ public final class GitCraft extends JavaPlugin {
         getLogger().info("Goodbye, SpigotMC!");
     }
 
-    public void registerGitcCommand() {
-        Objects.requireNonNull(this.getCommand("gitc")).setExecutor(new GitcCommand());
+    public void registerGcCommand() {
+        Objects.requireNonNull(this.getCommand("gc")).setExecutor(new GitcCommand());
     }
 
     public void registerAreaSelectCommands() {
@@ -74,7 +74,7 @@ public final class GitCraft extends JavaPlugin {
     public void registerMergeCommands() {
         Objects.requireNonNull(this.getCommand("automerge")).setExecutor(new AutoMergeCommand());
         Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
-        Objects.requireNonNull(this.getCommand("gcmerge")).setExecutor(new MergeCommand());
+        Objects.requireNonNull(this.getCommand("gcmergemenu")).setExecutor(new MergeMenuCommand());
     }
 
     public void registerSchematicCommands() {
