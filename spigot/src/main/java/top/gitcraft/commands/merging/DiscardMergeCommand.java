@@ -46,7 +46,6 @@ public class DiscardMergeCommand implements CommandExecutor {
         WorldUtils worldUtils = new WorldUtils();
 
         worldUtils.deleteWorld(player, mergeWorldName);
-        worldUtils.logWorldDelete(player, mergeWorldName);
 
 
         return true;
