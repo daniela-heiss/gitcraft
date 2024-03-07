@@ -9,6 +9,8 @@ import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
 
+import static top.gitcraft.listeners.AreaSelectListener.setPos1;
+import static top.gitcraft.listeners.AreaSelectListener.setPos2;
 import static top.gitcraft.utils.CubeUtils.expandCube;
 import static top.gitcraft.utils.SchematicUtils.*;
 
@@ -27,16 +29,24 @@ public class MergeUtils {
 
         BlockArrayClipboard fromClipboard = createClipboard(region, fromWorld);
         BlockArrayClipboard targetClipboard = createClipboard(region, targetWorld);
-        BlockArrayClipboard changesClipboard = createClipboardFromChanges(player);
+        BlockArrayClipboard changesClipboard = createClipboardFromChanges(player, region);
 
         MergeMetaData coords = new MergeMetaData(region);
 
         //the changed blocks only the region in the "from" world and the region in the target world
-        pasteClipboard(voidWorld, player, coords.getRegionCombined().getPos1(), changesClipboard);
+        pasteClipboard(voidWorld, player, changesClipboard.getOrigin(), changesClipboard);
         pasteClipboard(voidWorld, player, coords.getRegionFrom().getPos1(), fromClipboard);
         pasteClipboard(voidWorld, player, coords.getRegionTo().getPos1(), targetClipboard);
 
-        TeleportUtils.joinWorldAtCurrentLocation(player, mergeWorldName);
+        Runnable callback = () -> {
+            setPos1(player, coords.getRegionCombined().getPos1());
+            setPos2(player, coords.getRegionCombined().getPos2());
+            player.sendMessage("Combined Region: " + coords.getRegionCombined());
+        };
+        TeleportUtils.joinWorldAtCurrentLocation(player, mergeWorldName, callback);
+
+        //        voidWorld.fixLighting();
+        //        changesClipboard.getOrigin()
     }
 
     private static org.bukkit.World creatVoidWorld(String worldName) {
