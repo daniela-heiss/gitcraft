@@ -5,8 +5,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.utils.enums.JSONCOLOR;
+import top.gitcraft.utils.enums.LISTTYPE;
 
 import static top.gitcraft.ui.components.InfoMessages.infoContent;
+import static top.gitcraft.ui.components.WorldList.worldListAll;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 import static top.gitcraft.utils.TeleportUtils.joinWorldAtWorldSpawn;
@@ -33,7 +35,7 @@ public class JoinCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            dispatchTellRawCommand(player, infoContent(JSONCOLOR.BLUE, "Please provide a world name"));
+            dispatchTellRawCommand(player, worldListAll(LISTTYPE.JOIN));
             return true;
         }
         String worldName = args[0];

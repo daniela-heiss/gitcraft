@@ -11,12 +11,14 @@ import org.bukkit.entity.Player;
 
 import static top.gitcraft.listeners.AreaSelectListener.setPos1;
 import static top.gitcraft.listeners.AreaSelectListener.setPos2;
+import static top.gitcraft.ui.components.Menu.confirmMerge;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 import static top.gitcraft.utils.CubeUtils.expandCube;
 import static top.gitcraft.utils.SchematicUtils.*;
 
 public class MergeUtils {
 
-    public static void pasteMergeAreas(Player player, String targetWorldName, String fromWorldName,
+    public static void pasteMergeAreas(Player player, String fromWorldName, String targetWorldName,
                                        String mergeWorldName, CuboidRegion region) {
 
         //expanding the section by 5 in each dimension
@@ -42,6 +44,7 @@ public class MergeUtils {
             setPos1(player, coords.getRegionCombined().getPos1());
             setPos2(player, coords.getRegionCombined().getPos2());
             player.sendMessage("Combined Region: " + coords.getRegionCombined());
+            dispatchTellRawCommand(player, confirmMerge(fromWorldName, targetWorldName));
         };
         TeleportUtils.joinWorldAtCurrentLocation(player, mergeWorldName, callback);
 

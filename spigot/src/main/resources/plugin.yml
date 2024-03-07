@@ -5,6 +5,10 @@ api-version: '1.20'
 depend: [ CoreProtect ]
 
 commands:
+  gc:
+    description: GitCraft main command
+    usage: /gc [main|world|load|create|merge|delete] [<args>]
+
   gcload:
     description: Loads a savestate
     usage: /gcload saveName
@@ -34,6 +38,9 @@ commands:
   merge:
     description: Test merge a player selected area into the original world
     usage: /merge <fromWorldName> <targetWorldName> <mergeWorldName>
+  gcmergemenu:
+    description: Open the merge menu
+    usage: /gcmergemenu
 
   #schematic commands
   generateschematic:

@@ -59,10 +59,11 @@ public class WorldList {
 
         // Adding World Menu button
         jsonBuilder.spacing(3)
-                .text("[").bold()
-                .text("World Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Open world menu")
-                .text("]").bold()
-                .spacing(1);
+                .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
+                .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
+                .text("\\\\").bold().text("World Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Open world menu").bold()
+                .text("\\\\").bold().text(type.name()).color(JSONCOLOR.GOLD).hover(HOVERACTION.show_text, "You are here").bold()
+                .text(">").bold();
 
         return jsonBuilder.build();
     }
