@@ -31,10 +31,10 @@ public class AreaMergeCommand implements CommandExecutor {
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
         CuboidRegion selectedArea = getSelection(player);
 
-        BlockArrayClipboard clipboard = createClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
+        BlockArrayClipboard clipboard = createClipboard(selectedArea, currentWorld);
         player.sendMessage("Copied region to clipboard");
 
-        saveClipboardAsSchematic(clipboard, schematicName, player);
+        saveClipboardAsSchematic(clipboard, schematicName);
         return pasteClipboardAndJoin(clipboard, player, "world", selectedArea.getPos1());
     }
 

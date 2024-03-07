@@ -1,45 +1,61 @@
 package top.gitcraft.utils;
 
-import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.regions.CuboidRegion;
+import com.sk89q.worldedit.world.World;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.WorldCreator;
+import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
-import org.bukkit.util.BlockVector;
-import sun.jvm.hotspot.opto.Block;
+
+import static top.gitcraft.listeners.AreaSelectListener.setPos1;
+import static top.gitcraft.listeners.AreaSelectListener.setPos2;
+import static top.gitcraft.utils.CubeUtils.expandCube;
+import static top.gitcraft.utils.SchematicUtils.*;
 
 public class MergeUtils {
 
-    public static BlockVector3 calculateSize(BlockVector3 startOrigin, BlockVector3 endOrigin) {
+    public static void pasteMergeAreas(Player player, String targetWorldName, String fromWorldName,
+                                       String mergeWorldName, CuboidRegion region) {
 
-        int x = endOrigin.getX() - startOrigin.getX();
-        int y = endOrigin.getY() - startOrigin.getY();
-        int z = endOrigin.getZ() - startOrigin.getZ();
+        //expanding the section by 5 in each dimension
+        region = expandCube(region, 5);
+        creatVoidWorld(mergeWorldName);
 
-        return BlockVector3.at(x, y, z);
+        World fromWorld = BukkitAdapter.adapt(Bukkit.getWorld(fromWorldName));
+        World targetWorld = BukkitAdapter.adapt(Bukkit.getWorld(targetWorldName));
+        World voidWorld = BukkitAdapter.adapt(creatVoidWorld(mergeWorldName));
+
+        BlockArrayClipboard fromClipboard = createClipboard(region, fromWorld);
+        BlockArrayClipboard targetClipboard = createClipboard(region, targetWorld);
+        BlockArrayClipboard changesClipboard = createClipboardFromChanges(player, region);
+
+        MergeMetaData coords = new MergeMetaData(region);
+
+        //the changed blocks only the region in the "from" world and the region in the target world
+        pasteClipboard(voidWorld, player, changesClipboard.getOrigin(), changesClipboard);
+        pasteClipboard(voidWorld, player, coords.getRegionFrom().getPos1(), fromClipboard);
+        pasteClipboard(voidWorld, player, coords.getRegionTo().getPos1(), targetClipboard);
+
+        Runnable callback = () -> {
+            setPos1(player, coords.getRegionCombined().getPos1());
+            setPos2(player, coords.getRegionCombined().getPos2());
+            player.sendMessage("Combined Region: " + coords.getRegionCombined());
+        };
+        TeleportUtils.joinWorldAtCurrentLocation(player, mergeWorldName, callback);
+
+        //        voidWorld.fixLighting();
+        //        changesClipboard.getOrigin()
     }
 
-    // Calculates three areas based on the player's current location in the world
-    public static MergeMetaData calculateAreaCoordinates(Player player, BlockVector3 startOrigin, BlockVector3 endOrigin) {
-
-        BlockVector3 size = calculateSize(startOrigin, endOrigin);
-
-        Location playerCoordinates = player.getLocation();
-        double playerCoordinateX = playerCoordinates.getX();
-        double playerCoordinateY = playerCoordinates.getY();
-        double playerCoordinateZ = playerCoordinates.getZ();
-
-        int bufferSizeX = 10;
-        int bufferSizeZ = 5;
-
-        // Area on the player's left
-        BlockVector3 areaOriginal = BlockVector3.at(playerCoordinateX + bufferSizeX, playerCoordinateY, (playerCoordinateZ - ((double) size.getY() / 2)) - bufferSizeZ - size.getZ());
-
-        // Area right in front of the player
-        BlockVector3 areaChanges = BlockVector3.at(playerCoordinateX + bufferSizeX, playerCoordinateY , playerCoordinateZ - ((double) size.getY() / 2));
-
-        // Area on the player's right
-        BlockVector3 areaCombined = BlockVector3.at(playerCoordinateX + bufferSizeX, playerCoordinateY, (playerCoordinateZ + ((double) size.getY() / 2)) + bufferSizeZ + size.getZ());
-
-        return new MergeMetaData(startOrigin, areaOriginal, areaChanges, areaCombined);
+    private static org.bukkit.World creatVoidWorld(String worldName) {
+        WorldCreator wc = new WorldCreator(worldName);
+        wc.type(WorldType.FLAT);
+        wc.generatorSettings(
+                "{\"layers\": [{\"block\": \"barrier\", \"height\": 1}], \"biome\":\"desert\"}");
+        wc.generateStructures(false);
+        return wc.createWorld();
     }
 }
+

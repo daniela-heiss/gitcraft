@@ -21,10 +21,13 @@ commands:
   #merge commands
   automerge:
     description: Automatically merge everything that the player changed into the original world
-    usage: /automerge <schematicName>
+    usage: /autoMerge  <fromWorldName> <targetWorldName> <mergeWorldName>
   areamerge:
     description: Automatically merge a player selected area into the original world
     usage: /areamerge <schematicName>
+  merge:
+    description: Test merge a player selected area into the original world
+    usage: /testmerge <fromWorldName> <targetWorldName> <mergeWorldName>
 
   #schematic commands
   generateschematic:

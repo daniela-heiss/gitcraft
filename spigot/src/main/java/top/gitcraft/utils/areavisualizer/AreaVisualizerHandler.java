@@ -1,7 +1,9 @@
 package top.gitcraft.utils.areavisualizer;
 
+import com.sk89q.worldedit.regions.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
+import org.bukkit.entity.Player;
 import org.bukkit.util.BlockVector;
 
 import java.util.HashMap;
@@ -34,6 +36,24 @@ public class AreaVisualizerHandler {
             instance = new AreaVisualizerHandler();
         }
         return instance;
+    }
+
+    public void createVisualizeArea(Player player, Region region) {
+        UUID uuid = player.getUniqueId();
+
+        if (playerVisualizers.containsKey(uuid)) {
+            destroyVisualizeArea(uuid);
+        }
+        BlockVector pos1 =
+                new BlockVector(region.getMinimumPoint().getX(), region.getMinimumPoint().getY(),
+                        region.getMinimumPoint().getZ());
+        BlockVector pos2 =
+                new BlockVector(region.getMaximumPoint().getX(), region.getMaximumPoint().getY(),
+                        region.getMaximumPoint().getZ());
+
+        AreaVisualizer<Object> visualizer = new AreaVisualizer<>();
+        visualizer.visualizeCubeBoundaries(Bukkit.getPlayer(uuid).getWorld(), pos1, pos2);
+        playerVisualizers.put(uuid, visualizer);
     }
 
     /**
@@ -69,10 +89,12 @@ public class AreaVisualizerHandler {
      *                 are ignored and the particles are rendered up to 256 block away.
      * @apiNote Use this to create a particle box at a specific location and custom options
      */
-    public <T> void createVisualizeArea(UUID uuid, BlockVector pos1, BlockVector pos2, int period, Particle particle, double spacing, T data, boolean force) {
+    public <T> void createVisualizeArea(UUID uuid, BlockVector pos1, BlockVector pos2, int period,
+                                        Particle particle, double spacing, T data, boolean force) {
         destroyVisualizeArea(uuid);
 
-        AreaVisualizer<T> visualizer = new AreaVisualizer<T>(period, particle, spacing, data, force);
+        AreaVisualizer<T> visualizer =
+                new AreaVisualizer<T>(period, particle, spacing, data, force);
         visualizer.visualizeCubeBoundaries(Bukkit.getPlayer(uuid).getWorld(), pos1, pos2);
         playerVisualizers.put(uuid, visualizer);
     }
