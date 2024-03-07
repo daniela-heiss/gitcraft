@@ -32,7 +32,7 @@ public final class GitCraft extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        Objects.requireNonNull(this.getCommand("gitc")).setExecutor(new GitcCommand());
+        registerGitcCommand();
 
         registerMenuCommands();
         registerWorldCommands();
@@ -51,6 +51,10 @@ public final class GitCraft extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         getLogger().info("Goodbye, SpigotMC!");
+    }
+
+    public void registerGitcCommand() {
+        Objects.requireNonNull(this.getCommand("gitc")).setExecutor(new GitcCommand());
     }
 
     public void registerAreaSelectCommands() {
