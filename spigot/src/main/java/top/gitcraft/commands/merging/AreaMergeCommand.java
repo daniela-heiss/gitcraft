@@ -39,10 +39,10 @@ public class AreaMergeCommand implements CommandExecutor {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String schematicName = "Merge" + timestamp.getTime();
 
-        BlockArrayClipboard clipboard = createClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
+        BlockArrayClipboard clipboard = createClipboard(selectedArea, currentWorld);
         player.sendMessage("Copied region to clipboard");
 
-        saveClipboardAsSchematic(clipboard, schematicName, player);
+        saveClipboardAsSchematic(clipboard, schematicName);
         pasteClipboardAndJoin(clipboard, player, targetWorld, selectedArea.getPos1());
 
         WorldUtils worldUtils = new WorldUtils();
