@@ -1,5 +1,6 @@
 package top.gitcraft.utils;
 
+import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
@@ -17,12 +18,8 @@ public class VoidWorldGenerator {
         wc.generatorSettings("{\"layers\": [{\"block\": \"air\", \"height\": "+layerHeight+"},{\"block\": \"barrier\", \"height\": 1}], \"biome\":\"desert\"}");
         wc.generateStructures(false);
         World mergeWorldBukkit = wc.createWorld();
-        mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("ANIMAL"),0);
-        mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("MONSTER"),0);
-        mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("AXOLOTL"),0);
-        mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_AMBIENT"),0);
-        mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_ANIMAL"),0);
-        mergeWorldBukkit.setTicksPerSpawns(SpawnCategory.valueOf("WATER_UNDERGROUND_CREATURE"),0);
+        mergeWorldBukkit.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
+        mergeWorldBukkit.setGameRule(GameRule.DO_MOB_SPAWNING, false);
         //add new gamerules here if they are deemed necessary. yes i also hate that there is no combined one for everything
 
         return mergeWorldBukkit;
