@@ -25,6 +25,9 @@ commands:
   areamerge:
     description: Automatically merge a player selected area into the original world
     usage: /areamerge <schematicName>
+  gccreatemergeworld:
+    description: Manually creates a void world
+    usage: /gccreatemergeworld
   merge:
     description: Test merge a player selected area into the original world
     usage: /testmerge <fromWorldName> <targetWorldName> <mergeWorldName>

@@ -24,6 +24,7 @@ import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.SaveMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
 import top.gitcraft.utils.areavisualizer.PlayerQuitListener;
+import top.gitcraft.commands.world.*;
 
 import java.util.Objects;
 
@@ -65,8 +66,10 @@ public final class GitCraft extends JavaPlugin {
     public void registerMergeCommands() {
         Objects.requireNonNull(this.getCommand("autoMerge")).setExecutor(new AutoMergeCommand());
         Objects.requireNonNull(this.getCommand("areamerge")).setExecutor(new AreaMergeCommand());
+        Objects.requireNonNull(this.getCommand("gccreatemergeworld")).setExecutor(new createVoidWorldCommand());
         Objects.requireNonNull(this.getCommand("merge")).setExecutor(new MergeCommand());
     }
+
 
     public void registerSchematicCommands() {
         Objects.requireNonNull(this.getCommand("generateschematic"))
