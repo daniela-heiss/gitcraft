@@ -9,12 +9,16 @@ import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
 
+import static top.gitcraft.utils.CubeUtils.expandCube;
 import static top.gitcraft.utils.SchematicUtils.*;
 
 public class MergeUtils {
 
-    public static void pasteMergeAreas(Player player, String targetWorldName, String fromWorldName, String mergeWorldName, CuboidRegion region) {
+    public static void pasteMergeAreas(Player player, String targetWorldName, String fromWorldName,
+                                       String mergeWorldName, CuboidRegion region) {
 
+        //expanding the section by 5 in each dimension
+        region = expandCube(region, 5);
         creatVoidWorld(mergeWorldName);
 
         World fromWorld = BukkitAdapter.adapt(Bukkit.getWorld(fromWorldName));
@@ -27,9 +31,10 @@ public class MergeUtils {
 
         MergeMetaData coords = new MergeMetaData(region);
 
+        //the changed blocks only the region in the "from" world and the region in the target world
         pasteClipboard(voidWorld, player, coords.getRegionCombined().getPos1(), changesClipboard);
-        pasteClipboard(voidWorld, player, coords.getRegionFrom().getPos1(), targetClipboard);
-        pasteClipboard(voidWorld, player, coords.getRegionTo().getPos1(), fromClipboard);
+        pasteClipboard(voidWorld, player, coords.getRegionFrom().getPos1(), fromClipboard);
+        pasteClipboard(voidWorld, player, coords.getRegionTo().getPos1(), targetClipboard);
 
         TeleportUtils.joinWorldAtCurrentLocation(player, mergeWorldName);
     }
@@ -37,7 +42,8 @@ public class MergeUtils {
     private static org.bukkit.World creatVoidWorld(String worldName) {
         WorldCreator wc = new WorldCreator(worldName);
         wc.type(WorldType.FLAT);
-        wc.generatorSettings("{\"layers\": [{\"block\": \"barrier\", \"height\": 1}], \"biome\":\"desert\"}");
+        wc.generatorSettings(
+                "{\"layers\": [{\"block\": \"barrier\", \"height\": 1}], \"biome\":\"desert\"}");
         wc.generateStructures(false);
         return wc.createWorld();
     }
