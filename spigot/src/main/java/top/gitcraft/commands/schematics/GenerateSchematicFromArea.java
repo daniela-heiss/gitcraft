@@ -1,18 +1,18 @@
-package top.gitcraft.commands.merging;
+package top.gitcraft.commands.schematics;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.regions.CuboidRegion;
-import com.sk89q.worldedit.world.World;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
-import static top.gitcraft.utils.SchematicUtils.*;
+import static top.gitcraft.utils.SchematicUtils.createClipboardFromChanges;
+import static top.gitcraft.utils.SchematicUtils.saveClipboardAsSchematic;
 
-public class AreaMergeCommand implements CommandExecutor {
+public class GenerateSchematicFromArea implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -28,14 +28,17 @@ public class AreaMergeCommand implements CommandExecutor {
         }
         String schematicName = args[0];
 
-        World currentWorld = BukkitAdapter.adapt(player.getWorld());
-        CuboidRegion selectedArea = getSelection(player);
-
-        BlockArrayClipboard clipboard = createClipboard(selectedArea, currentWorld);
-        player.sendMessage("Copied region to clipboard");
-
+        // Get BlockVector3 Coordinates of the selected Area
+        CuboidRegion region = getSelection(player);
+        if (region == null) {
+            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
+        }
+        
+        BlockArrayClipboard clipboard = createClipboardFromChanges(player, region);
         saveClipboardAsSchematic(clipboard, schematicName);
-        return pasteClipboardAndJoin(clipboard, player, "world", selectedArea.getPos1());
+
+        return true;
     }
+
 
 }

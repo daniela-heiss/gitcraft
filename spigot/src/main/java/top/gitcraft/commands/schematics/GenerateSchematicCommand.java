@@ -2,7 +2,6 @@ package top.gitcraft.commands.schematics;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
-import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.ChatColor;
@@ -10,9 +9,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.database.entities.BlockEntity;
+
+import java.io.File;
+import java.util.List;
 
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
-import static top.gitcraft.utils.BlockUtils.*;
+import static top.gitcraft.utils.BlockUtils.getBlockChangedByPlayers;
+import static top.gitcraft.utils.BlockUtils.regionFromList;
 import static top.gitcraft.utils.SchematicUtils.createClipboard;
 import static top.gitcraft.utils.SchematicUtils.saveClipboardAsSchematic;
 
@@ -40,7 +44,7 @@ public class GenerateSchematicCommand implements CommandExecutor {
                 break;
 
             case "all":
-                generateSchematicFromAllChanges(player, currentWorld, worldName, schematicName);
+                generateSchematicFromAllChanges(currentWorld, worldName, schematicName);
                 break;
 
             default:
@@ -60,20 +64,16 @@ public class GenerateSchematicCommand implements CommandExecutor {
         player.sendMessage("Min Coordinates : " + selectedArea.getPos1());
         player.sendMessage("Min Coordinates : " + selectedArea.getPos2());
 
-        BlockArrayClipboard clipboard1 = createClipboard(selectedArea.getPos1(), selectedArea.getPos2(), currentWorld, player);
+        BlockArrayClipboard clipboard1 = createClipboard(selectedArea, currentWorld);
 
-        saveClipboardAsSchematic(clipboard1, schematicName, player);
+        saveClipboardAsSchematic(clipboard1, schematicName);
     }
 
-    public static void generateSchematicFromAllChanges(Player player, World currentWorld, String worldName, String schematicName) {
-        BlockVector3 minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
-        BlockVector3 maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
+    public static File generateSchematicFromAllChanges(World currentWorld, String worldName, String schematicName) {
+        List<BlockEntity> blockChangedByPlayers = getBlockChangedByPlayers(worldName);
+        CuboidRegion region = regionFromList(blockChangedByPlayers);
+        BlockArrayClipboard clipboard = createClipboard(region, currentWorld);
 
-        player.sendMessage("Min Coordinates : " + minCoordinatesArray);
-        player.sendMessage("Min Coordinates : " + maxCoordinatesArray);
-
-        BlockArrayClipboard clipboard2 = createClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
-
-        saveClipboardAsSchematic(clipboard2, schematicName, player);
+        return saveClipboardAsSchematic(clipboard, schematicName);
     }
 }

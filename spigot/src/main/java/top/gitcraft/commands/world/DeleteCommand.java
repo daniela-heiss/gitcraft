@@ -5,11 +5,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import top.gitcraft.utils.WorldUtils;
+import top.gitcraft.utils.enums.JSONCOLOR;
 
 import java.util.Objects;
 
-import static top.gitcraft.ui.components.Info.infoNoWorldNameProvided;
-import static top.gitcraft.ui.components.Info.infoWorldIsProtected;
+import static top.gitcraft.ui.components.InfoMessages.infoContent;
+import static top.gitcraft.ui.components.InfoMessages.infoWorldAction;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class DeleteCommand implements CommandExecutor {
@@ -24,13 +25,13 @@ public class DeleteCommand implements CommandExecutor {
 
         // No world provided
         if (args.length == 0) {
-            dispatchTellRawCommand(player, infoNoWorldNameProvided());
+            dispatchTellRawCommand(player, infoContent(JSONCOLOR.BLUE, "Please provide a world name"));
             return true;
         }
         String worldName = args[0];
         // "world" is protected from accidental deletion
         if (Objects.equals(args[0], "world")) {
-            dispatchTellRawCommand(player, infoWorldIsProtected("world"));
+            dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.RED, "world", "is protected and will not be deleted"));
             return true;
         }
         WorldUtils worldUtils = new WorldUtils();

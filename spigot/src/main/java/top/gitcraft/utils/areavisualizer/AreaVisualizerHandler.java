@@ -1,7 +1,9 @@
 package top.gitcraft.utils.areavisualizer;
 
+import com.sk89q.worldedit.regions.Region;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
+import org.bukkit.entity.Player;
 import org.bukkit.util.BlockVector;
 
 import java.util.HashMap;
@@ -36,6 +38,24 @@ public class AreaVisualizerHandler {
         return instance;
     }
 
+    public void createVisualizeArea(Player player, Region region) {
+        UUID uuid = player.getUniqueId();
+
+        if (playerVisualizers.containsKey(uuid)) {
+            destroyVisualizeArea(uuid);
+        }
+        BlockVector pos1 =
+                new BlockVector(region.getMinimumPoint().getX(), region.getMinimumPoint().getY(),
+                        region.getMinimumPoint().getZ());
+        BlockVector pos2 =
+                new BlockVector(region.getMaximumPoint().getX(), region.getMaximumPoint().getY(),
+                        region.getMaximumPoint().getZ());
+
+        AreaVisualizer<Object> visualizer = new AreaVisualizer<>();
+        visualizer.visualizeCubeBoundaries(Bukkit.getPlayer(uuid).getWorld(), pos1, pos2);
+        playerVisualizers.put(uuid, visualizer);
+    }
+
     /**
      * Method creating an instance of VisualizeArea
      * and mapping it to a player (UUID)
@@ -50,7 +70,7 @@ public class AreaVisualizerHandler {
             destroyVisualizeArea(uuid);
         }
 
-        AreaVisualizer visualizer = new AreaVisualizer();
+        AreaVisualizer<Object> visualizer = new AreaVisualizer<>();
         visualizer.visualizeCubeBoundaries(Bukkit.getPlayer(uuid).getWorld(), pos1, pos2);
         playerVisualizers.put(uuid, visualizer);
     }
@@ -64,14 +84,17 @@ public class AreaVisualizerHandler {
      * @param pos2     Second corner of the particle box
      * @param period   Interval at which particles are spawned in ticks (20 ticks = 1s)
      * @param particle What particle should be displayed.
+     * @param data     Data regarding the particle (e.g. color and size).
      * @param force    If the particles should be forced. The users particle settings
      *                 are ignored and the particles are rendered up to 256 block away.
      * @apiNote Use this to create a particle box at a specific location and custom options
      */
-    public void createVisualizeArea(UUID uuid, BlockVector pos1, BlockVector pos2, int period, Particle particle, boolean force) {
+    public <T> void createVisualizeArea(UUID uuid, BlockVector pos1, BlockVector pos2, int period,
+                                        Particle particle, double spacing, T data, boolean force) {
         destroyVisualizeArea(uuid);
 
-        AreaVisualizer visualizer = new AreaVisualizer(period, particle, force);
+        AreaVisualizer<T> visualizer =
+                new AreaVisualizer<T>(period, particle, spacing, data, force);
         visualizer.visualizeCubeBoundaries(Bukkit.getPlayer(uuid).getWorld(), pos1, pos2);
         playerVisualizers.put(uuid, visualizer);
     }
