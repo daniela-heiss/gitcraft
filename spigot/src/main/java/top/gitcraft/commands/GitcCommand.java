@@ -84,9 +84,8 @@ public class GitcCommand implements TabExecutor {
         }else if (args.length == 2 && Objects.equals(args[0], "merge")) {
             completions = Arrays.asList("area", "auto");
             return completions;
-        }else {
-            completions = new ArrayList<>();
-            return completions;
         }
+        completions = new ArrayList<>();
+        return completions;
     }
 }
