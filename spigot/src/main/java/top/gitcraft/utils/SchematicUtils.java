@@ -89,6 +89,7 @@ public class SchematicUtils {
         }
     }
 
+    //TODO:   .ignoreAirBlocks(true) ???
     public static void pasteClipboard(World world, Player player, BlockVector3 to,
                                       Clipboard clipboard) {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(world)) {

@@ -36,27 +36,30 @@ public class MergeUtils {
         World targetWorld = BukkitAdapter.adapt(Bukkit.getWorld(targetWorldName));
         World voidWorld = BukkitAdapter.adapt(creatVoidWorld(mergeWorldName));
 
-        //the region in the "from" world, (center)
         BlockArrayClipboard fromClipboard =
                 SchematicUtils.createClipboard(expandedRegion, fromWorld);
-        SchematicUtils.pasteClipboard(voidWorld, player, fromClipboard.getOrigin(), fromClipboard);
+        BlockVector3 fromOrigin = fromClipboard.getOrigin().subtract(width + margin, 0, 0);
+        SchematicUtils.pasteClipboard(voidWorld, player, fromOrigin, fromClipboard);
 
-        //the region in the "to" world (right)
+        //the region in the "to" world
         BlockArrayClipboard targetClipboard =
                 SchematicUtils.createClipboard(expandedRegion, targetWorld);
         BlockVector3 targetOrigin = fromClipboard.getOrigin().add(width + margin, 0, 0);
         SchematicUtils.pasteClipboard(voidWorld, player, targetOrigin, targetClipboard);
 
-        //the region containing the changed blocks (left)
         BlockArrayClipboard changesClipboard =
                 SchematicUtils.createClipboardFromChanges(region, fromWorldName);
-        BlockVector3 changesOrigin = changesClipboard.getOrigin().subtract(width + margin, 0, 0);
+        BlockVector3 changesOrigin = changesClipboard.getOrigin();
+        BlockVector3 changesOriginOOO = fromClipboard.getOrigin();
+        System.out.println("changesOriginOOO: " + changesOriginOOO);
+        System.out.println("changesOrigin: " + changesOrigin);
+        SchematicUtils.pasteClipboard(voidWorld, player, changesOriginOOO, targetClipboard);
         SchematicUtils.pasteClipboard(voidWorld, player, changesOrigin, changesClipboard);
+
 
         Runnable callback = () -> {
             AreaSelectListener.setPos1(player, region.getPos1());
             AreaSelectListener.setPos2(player, region.getPos2());
-            //            player.sendMessage("Combined Region: " + region);
             CommandUtils.dispatchTellRawCommand(player,
                     confirmMerge(fromWorldName, targetWorldName));
         };
@@ -69,7 +72,11 @@ public class MergeUtils {
         voidWorld.fixLighting(chunks);
     }
 
-    private static org.bukkit.World creatVoidWorld(String worldName) {
+    private BlockVector3 shiftX(BlockVector3 v, Integer margin) {
+        return BlockVector3.at(v.getX() + margin, v.getY(), v.getZ());
+    }
+
+    @Deprecated private static org.bukkit.World creatVoidWorld(String worldName) {
         WorldCreator wc = new WorldCreator(worldName);
         wc.type(WorldType.FLAT);
         wc.generatorSettings(
