@@ -21,6 +21,19 @@ public class VoidWorldGenerator {
         mergeWorldBukkit.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         mergeWorldBukkit.setGameRule(GameRule.DO_MOB_SPAWNING, false);
         mergeWorldBukkit.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+        mergeWorldBukkit.setGameRule(GameRule.DO_FIRE_TICK, false);
+        mergeWorldBukkit.setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
+        mergeWorldBukkit.setGameRule(GameRule.DISABLE_ELYTRA_MOVEMENT_CHECK, true);
+        mergeWorldBukkit.setGameRule(GameRule.DISABLE_RAIDS, true);
+        mergeWorldBukkit.setGameRule(GameRule.DO_ENTITY_DROPS, false);
+        mergeWorldBukkit.setGameRule(GameRule.DO_INSOMNIA, false);
+        mergeWorldBukkit.setGameRule(GameRule.DO_TRADER_SPAWNING, false);
+        mergeWorldBukkit.setGameRule(GameRule.DO_VINES_SPREAD, false);
+        mergeWorldBukkit.setGameRule(GameRule.DO_WARDEN_SPAWNING, false);
+        mergeWorldBukkit.setGameRule(GameRule.LAVA_SOURCE_CONVERSION, false);
+        mergeWorldBukkit.setGameRule(GameRule.MOB_GRIEFING, false);
+        mergeWorldBukkit.setGameRule(GameRule.WATER_SOURCE_CONVERSION, false);
+
         //add new gamerules here if they are deemed necessary. yes i also hate that there is no combined one for everything
 
         return mergeWorldBukkit;
