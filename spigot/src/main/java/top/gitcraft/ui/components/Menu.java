@@ -64,7 +64,7 @@ public class Menu {
         return "";
     }
 
-    public static String menuWorldMenu() {
+    public static String menuWorldMenu(String worldName) {
         /*
          * ══ GitCraft ══
          *
@@ -84,13 +84,13 @@ public class Menu {
         return new JsonBuilder()
                 .clear()
                 .addBuilt(header())
-                .text("World Menu").bold()
+                .text("World Menu - ").bold().text(worldName).bold().color(JSONCOLOR.GREEN)
                 .spacing(1)
-                .repeat("═", 7).bold()
+                .repeat("═", 12).bold()
                 .spacing(2)
                 .text("\\u2554").text("[").bold().text("JOIN").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gcjoin").hover(HOVERACTION.show_text, "Join a world").text("]").bold()
                 .text("\\n\\u2551")
-                .text("\\n\\u2560").text("[").bold().text("CREATE").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gccreate").hover(HOVERACTION.show_text, "Create a new world").text("]").bold()
+                .text("\\n\\u2560").text("[").bold().text("CLONE").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gccreate").hover(HOVERACTION.show_text, "Clone the current world").text("]").bold()
                 .text("\\n\\u2551")
                 .text("\\n\\u2560").text("[").bold().text("MERGE").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Open merge menu").text("]").bold()
                 .text("\\n\\u2551")

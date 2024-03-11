@@ -46,7 +46,7 @@ public class GitcCommand implements TabExecutor {
                 dispatchTellRawCommand(player, menuMainMenu());
                 return true;
             case "world":
-                dispatchTellRawCommand(player, menuWorldMenu());
+                dispatchTellRawCommand(player, menuWorldMenu(player.getWorld().getName()));
                 return true;
             case "join":
                 new JoinCommand().onCommand(sender, command, label, newargs);

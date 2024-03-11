@@ -17,7 +17,7 @@ public class WorldMenuCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        dispatchTellRawCommand(player, menuWorldMenu());
+        dispatchTellRawCommand(player, menuWorldMenu(player.getWorld().getName()));
         return true;
     }
 }
