@@ -31,18 +31,20 @@ public class MergeMenuCommand implements CommandExecutor {
             if(region == null) {
                 dispatchTellRawCommand(player,
                         menuMergeMenu(player, mergeType, null, null, cr));
+            } else {
+                dispatchTellRawCommand(player,
+                        menuMergeMenu(player, mergeType, region.getPos1(), region.getPos2(), cr));
+                return true;
             }
-            dispatchTellRawCommand(player,
-                    menuMergeMenu(player, mergeType, region.getPos1(), region.getPos2(), cr));
-            return true;
         }
         mergeType = args[0];
         if(region == null) {
             dispatchTellRawCommand(player,
                     menuMergeMenu(player, mergeType, null, null, cr));
+        } else {
+            dispatchTellRawCommand(player,
+                    menuMergeMenu(player, mergeType, region.getPos1(), region.getPos2(), cr));
         }
-        dispatchTellRawCommand(player,
-                menuMergeMenu(player, mergeType, region.getPos1(), region.getPos2(), cr));
         return true;
     }
 }
