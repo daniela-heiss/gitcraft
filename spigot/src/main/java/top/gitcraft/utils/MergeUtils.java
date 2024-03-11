@@ -50,10 +50,8 @@ public class MergeUtils {
         BlockArrayClipboard changesClipboard =
                 SchematicUtils.createClipboardFromChanges(region, fromWorldName);
         BlockVector3 changesOrigin = changesClipboard.getOrigin();
-        BlockVector3 changesOriginOOO = fromClipboard.getOrigin();
-        System.out.println("changesOriginOOO: " + changesOriginOOO);
-        System.out.println("changesOrigin: " + changesOrigin);
-        SchematicUtils.pasteClipboard(voidWorld, player, changesOriginOOO, targetClipboard);
+        BlockVector3 targetPreviewOrigin = fromClipboard.getOrigin();
+        SchematicUtils.pasteClipboard(voidWorld, player, targetPreviewOrigin, targetClipboard);
         SchematicUtils.pasteClipboard(voidWorld, player, changesOrigin, changesClipboard);
 
 
@@ -70,10 +68,6 @@ public class MergeUtils {
         chunks = region.getChunks();
         //TODO: fix lighting for the other 2 areas
         voidWorld.fixLighting(chunks);
-    }
-
-    private BlockVector3 shiftX(BlockVector3 v, Integer margin) {
-        return BlockVector3.at(v.getX() + margin, v.getY(), v.getZ());
     }
 
     @Deprecated private static org.bukkit.World creatVoidWorld(String worldName) {
