@@ -97,7 +97,6 @@ public final class GitCraft extends JavaPlugin {
     }
 
     public void registerWorldCommands() {
-        Objects.requireNonNull(this.getCommand("gclist")).setExecutor(new WorldCommand());
         Objects.requireNonNull(this.getCommand("gcjoin")).setExecutor(new JoinCommand());
         Objects.requireNonNull(this.getCommand("gccreate")).setExecutor(new CreateCommand());
         Objects.requireNonNull(this.getCommand("gcdelete")).setExecutor(new DeleteCommand());

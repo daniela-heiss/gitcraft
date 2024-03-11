@@ -71,7 +71,7 @@ public class GitcCommand implements TabExecutor {
             return null; // Return null for non-player senders
         }
         List<String> completions;
-        completions = Arrays.asList("main", "world", "join", "create", "merge", "delete");
+        completions = Arrays.asList("main", "world", "join", "create", "merge", "delete", "save", "loadSave", "deleteSave");
 
         if (args.length < 2) {
             return completions;
@@ -82,6 +82,9 @@ public class GitcCommand implements TabExecutor {
             return completions;
         }else if (args.length == 2 && Objects.equals(args[0], "merge")) {
             completions = Arrays.asList("area", "auto");
+            return completions;
+        } else if (args.length == 2 && Objects.equals(args[0], "loadSave") || Objects.equals(args[0], "deleteSave")) {
+            completions = Arrays.asList("list");
             return completions;
         }
         completions = new ArrayList<>();
