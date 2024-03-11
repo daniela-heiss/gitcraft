@@ -203,7 +203,7 @@ public class Menu {
                         .spacing(1)
                         .text("Pos2: ").bold().text("No area selected").color(JSONCOLOR.RED).bold()
                         .spacing(3)
-                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/automerge " + player.getWorld().getName() + " world " + "mergeworld").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold();
+                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GRAY).hover(HOVERACTION.show_text, "No changes detected").text("]").bold();
 
             } else {
                 jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Activate area select")
