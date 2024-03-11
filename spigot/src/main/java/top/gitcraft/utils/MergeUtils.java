@@ -20,29 +20,37 @@ public class MergeUtils {
                                        String mergeWorldName, CuboidRegion region) {
 
         //expanding the section by 5 in each dimension
-        //        region = expandCube(region, 5);
         //get timestamp to create a unique world name
-        mergeWorldName = "mergeWorld" + System.currentTimeMillis();
-        creatVoidWorld(mergeWorldName);
+
+        final int expandBy = 15;
+        final int margin = 10;
+
+        CuboidRegion expandedRegion = CubeUtils.expandCube(region, expandBy);
+
+        final int width = expandedRegion.getWidth();
+
+        mergeWorldName = "mergeWorld" + System.currentTimeMillis(); //TODO replace
+        creatVoidWorld(mergeWorldName); //TODO replace
 
         World fromWorld = BukkitAdapter.adapt(Bukkit.getWorld(fromWorldName));
         World targetWorld = BukkitAdapter.adapt(Bukkit.getWorld(targetWorldName));
         World voidWorld = BukkitAdapter.adapt(creatVoidWorld(mergeWorldName));
 
         //the region in the "from" world, (center)
-        BlockArrayClipboard fromClipboard = SchematicUtils.createClipboard(region, fromWorld);
+        BlockArrayClipboard fromClipboard =
+                SchematicUtils.createClipboard(expandedRegion, fromWorld);
         SchematicUtils.pasteClipboard(voidWorld, player, fromClipboard.getOrigin(), fromClipboard);
 
         //the region in the "to" world (right)
-        BlockArrayClipboard targetClipboard = SchematicUtils.createClipboard(region, targetWorld);
-        int width = region.getWidth();
-        BlockVector3 targetOrigin = fromClipboard.getOrigin().add(width + 10, 0, 0);
+        BlockArrayClipboard targetClipboard =
+                SchematicUtils.createClipboard(expandedRegion, targetWorld);
+        BlockVector3 targetOrigin = fromClipboard.getOrigin().add(width + margin, 0, 0);
         SchematicUtils.pasteClipboard(voidWorld, player, targetOrigin, targetClipboard);
 
         //the region containing the changed blocks (left)
         BlockArrayClipboard changesClipboard =
                 SchematicUtils.createClipboardFromChanges(region, fromWorldName);
-        BlockVector3 changesOrigin = changesClipboard.getOrigin().subtract(width + 10, 0, 0);
+        BlockVector3 changesOrigin = changesClipboard.getOrigin().subtract(width + margin, 0, 0);
         SchematicUtils.pasteClipboard(voidWorld, player, changesOrigin, changesClipboard);
 
         Runnable callback = () -> {
