@@ -2,6 +2,7 @@ package top.gitcraft.utils;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
@@ -53,8 +54,11 @@ public class MergeUtils {
         };
         TeleportUtils.joinWorldAtCurrentLocation(player, mergeWorldName, callback);
 
-        //        voidWorld.fixLighting();
-        //        changesClipboard.getOrigin()
+        //get the chunks of the clipboards
+        Iterable<BlockVector2> chunks;
+        chunks = region.getChunks();
+        //TODO: fix lighting for the other 2 areas
+        voidWorld.fixLighting(chunks);
     }
 
     private static org.bukkit.World creatVoidWorld(String worldName) {
