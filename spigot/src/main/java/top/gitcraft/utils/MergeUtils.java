@@ -2,6 +2,7 @@ package top.gitcraft.utils;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
+import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.Bukkit;
@@ -13,7 +14,6 @@ import static top.gitcraft.listeners.AreaSelectListener.setPos1;
 import static top.gitcraft.listeners.AreaSelectListener.setPos2;
 import static top.gitcraft.ui.components.Menu.confirmMerge;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
-import static top.gitcraft.utils.CubeUtils.expandCube;
 import static top.gitcraft.utils.SchematicUtils.*;
 
 public class MergeUtils {
@@ -22,28 +22,39 @@ public class MergeUtils {
                                        String mergeWorldName, CuboidRegion region) {
 
         //expanding the section by 5 in each dimension
-        region = expandCube(region, 5);
+        //        region = expandCube(region, 5);
+        //get timestamp to create a unique world name
+        mergeWorldName = "mergeWorld" + System.currentTimeMillis();
         creatVoidWorld(mergeWorldName);
 
         World fromWorld = BukkitAdapter.adapt(Bukkit.getWorld(fromWorldName));
         World targetWorld = BukkitAdapter.adapt(Bukkit.getWorld(targetWorldName));
         World voidWorld = BukkitAdapter.adapt(creatVoidWorld(mergeWorldName));
 
+        //the region in the "from" world, (center)
         BlockArrayClipboard fromClipboard = createClipboard(region, fromWorld);
+        pasteClipboard(voidWorld, player, fromClipboard.getOrigin(), fromClipboard);
+        System.out.println("fromClipboard.getOrigin(): " + fromClipboard.getOrigin());
+
+        //the region in the "to" world (right)
         BlockArrayClipboard targetClipboard = createClipboard(region, targetWorld);
-        BlockArrayClipboard changesClipboard = createClipboardFromChanges(player, region);
+        int width = region.getWidth();
+        System.out.println("width: " + width);
+        BlockVector3 targetOrigin = fromClipboard.getOrigin().add(width + 10, 0, 0);
+        pasteClipboard(voidWorld, player, targetOrigin, targetClipboard);
+        System.out.println("targetOrigin: " + targetOrigin);
 
-        MergeMetaData coords = new MergeMetaData(region);
 
-        //the changed blocks only the region in the "from" world and the region in the target world
-        pasteClipboard(voidWorld, player, changesClipboard.getOrigin(), changesClipboard);
-        pasteClipboard(voidWorld, player, coords.getRegionFrom().getPos1(), fromClipboard);
-        pasteClipboard(voidWorld, player, coords.getRegionTo().getPos1(), targetClipboard);
+        BlockArrayClipboard changesClipboard = createClipboardFromChanges(region, fromWorldName);
+        BlockVector3 changesOrigin = changesClipboard.getOrigin().subtract(width + 10, 0, 0);
+        System.out.println("changesClipboard.getOrigin(): " + changesClipboard.getOrigin());
+        System.out.println("changesOrigin: " + changesOrigin);
+        pasteClipboard(voidWorld, player, changesOrigin, changesClipboard);
 
         Runnable callback = () -> {
-            setPos1(player, coords.getRegionCombined().getPos1());
-            setPos2(player, coords.getRegionCombined().getPos2());
-            player.sendMessage("Combined Region: " + coords.getRegionCombined());
+            setPos1(player, region.getPos1());
+            setPos2(player, region.getPos2());
+            //            player.sendMessage("Combined Region: " + region);
             dispatchTellRawCommand(player, confirmMerge(fromWorldName, targetWorldName));
         };
         TeleportUtils.joinWorldAtCurrentLocation(player, mergeWorldName, callback);

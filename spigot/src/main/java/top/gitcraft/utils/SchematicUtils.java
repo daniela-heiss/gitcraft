@@ -17,6 +17,7 @@ import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.session.SessionManager;
 import com.sk89q.worldedit.session.SessionOwner;
 import com.sk89q.worldedit.world.World;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import top.gitcraft.database.entities.BlockEntity;
 
@@ -47,11 +48,9 @@ public class SchematicUtils {
         return clipboard;
     }
 
-    public static BlockArrayClipboard createClipboardFromChanges(Player player,
-                                                                 CuboidRegion selection) {
-        World currentWorld = BukkitAdapter.adapt(player.getWorld());
-        String worldName = player.getWorld().getName();
-
+    public static BlockArrayClipboard createClipboardFromChanges(CuboidRegion selection,
+                                                                 String worldName) {
+        World currentWorld = (BukkitAdapter.adapt(Bukkit.getWorld(worldName)));
         List<BlockEntity> allPlayerChangedBlocks = getBlockChangedByPlayers(worldName);
         List<BlockEntity> playerChangedBlocksInRegion =
                 getBlocksInRegion(allPlayerChangedBlocks, selection);
