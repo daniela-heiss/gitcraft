@@ -4,10 +4,12 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.utils.TeleportUtils;
 import top.gitcraft.utils.WorldUtils;
 
 import java.sql.Timestamp;
@@ -26,12 +28,13 @@ public class AreaMergeCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
 
-        if (args.length == 0){
+        if (args.length == 0) {
             player.sendMessage("Please give a target world");
             return false;
         }
 
-        String targetWorld = args[0];
+        String targetWorldName = args[0];
+        World targetWorld = BukkitAdapter.adapt(Bukkit.getWorld(targetWorldName));
 
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
         CuboidRegion selectedArea = getSelection(player);
@@ -43,7 +46,10 @@ public class AreaMergeCommand implements CommandExecutor {
         player.sendMessage("Copied region to clipboard");
 
         saveClipboardAsSchematic(clipboard, schematicName);
-        pasteClipboardAndJoin(clipboard, player, targetWorld, selectedArea.getPos1());
+        //        pasteClipboardAndJoin(clipboard, player, targetWorld, clipboard.getOrigin());
+
+        pasteClipboard(targetWorld, player, clipboard.getOrigin(), clipboard);
+        TeleportUtils.joinWorldAtCurrentLocation(player, targetWorldName);
 
         WorldUtils worldUtils = new WorldUtils();
         worldUtils.deleteWorld(player, currentWorld.getName());

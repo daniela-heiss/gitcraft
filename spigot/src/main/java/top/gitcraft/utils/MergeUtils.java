@@ -34,21 +34,16 @@ public class MergeUtils {
         //the region in the "from" world, (center)
         BlockArrayClipboard fromClipboard = createClipboard(region, fromWorld);
         pasteClipboard(voidWorld, player, fromClipboard.getOrigin(), fromClipboard);
-        System.out.println("fromClipboard.getOrigin(): " + fromClipboard.getOrigin());
 
         //the region in the "to" world (right)
         BlockArrayClipboard targetClipboard = createClipboard(region, targetWorld);
         int width = region.getWidth();
-        System.out.println("width: " + width);
         BlockVector3 targetOrigin = fromClipboard.getOrigin().add(width + 10, 0, 0);
         pasteClipboard(voidWorld, player, targetOrigin, targetClipboard);
-        System.out.println("targetOrigin: " + targetOrigin);
 
-
+        //the region containing the changed blocks (left)
         BlockArrayClipboard changesClipboard = createClipboardFromChanges(region, fromWorldName);
         BlockVector3 changesOrigin = changesClipboard.getOrigin().subtract(width + 10, 0, 0);
-        System.out.println("changesClipboard.getOrigin(): " + changesClipboard.getOrigin());
-        System.out.println("changesOrigin: " + changesOrigin);
         pasteClipboard(voidWorld, player, changesOrigin, changesClipboard);
 
         Runnable callback = () -> {
