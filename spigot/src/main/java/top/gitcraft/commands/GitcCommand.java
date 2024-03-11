@@ -4,6 +4,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import top.gitcraft.commands.loadsave.DeleteSaveCommand;
+import top.gitcraft.commands.loadsave.LoadCommand;
 import top.gitcraft.commands.merging.MergeMenuCommand;
 import top.gitcraft.commands.world.CreateCommand;
 import top.gitcraft.commands.world.DeleteCommand;
@@ -34,7 +36,7 @@ public class GitcCommand implements TabExecutor {
         }
         // remove first element of args
         String[] newargs = Arrays.copyOfRange(args, 1, args.length);
-        if (args.length > 1 && Objects.equals(newargs[0], "list")) {
+        if (args.length > 1 && (Objects.equals(newargs[0], "list") || Objects.equals(newargs[0], "menu"))) {
             newargs = new String[0];
         }
 
@@ -58,6 +60,15 @@ public class GitcCommand implements TabExecutor {
             case "delete":
                 new DeleteCommand().onCommand(sender, command, label, newargs);
                 return true;
+            case "save":
+                new top.gitcraft.commands.loadsave.SaveCommand().onCommand(sender, command, label, newargs);
+                return true;
+            case "loadSave":
+                new LoadCommand().onCommand(sender, command, label, newargs);
+                return true;
+            case "deleteSave":
+                new DeleteSaveCommand().onCommand(sender, command, label, newargs);
+                return true;
 
             default:
                 dispatchTellRawCommand(player, menuMainMenu());
@@ -78,13 +89,16 @@ public class GitcCommand implements TabExecutor {
         }
 
         if (args.length == 2 && (Objects.equals(args[0], "join") || Objects.equals(args[0], "create") || Objects.equals(args[0], "delete"))) {
-            completions = Arrays.asList("list");
+            completions = Arrays.asList("list", "<worldName>");
             return completions;
         }else if (args.length == 2 && Objects.equals(args[0], "merge")) {
             completions = Arrays.asList("area", "auto");
             return completions;
-        } else if (args.length == 2 && Objects.equals(args[0], "loadSave") || Objects.equals(args[0], "deleteSave")) {
-            completions = Arrays.asList("list");
+        } else if (args.length == 2 && Objects.equals(args[0], "deleteSave") || Objects.equals(args[0], "loadSave")) {
+            completions = Arrays.asList("list", "<saveName>");
+            return completions;
+        }else if(args.length == 2 && Objects.equals(args[0], "save")){
+            completions = Arrays.asList("menu", "<saveName>");
             return completions;
         }
         completions = new ArrayList<>();

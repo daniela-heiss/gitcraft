@@ -7,11 +7,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import org.bukkit.entity.Player;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.entities.SaveEntity;
 import top.gitcraft.database.daos.UserDao;
 import top.gitcraft.database.daos.SaveDao;
 import top.gitcraft.database.entities.UserEntity;
+import top.gitcraft.utils.enums.LISTTYPE;
+
+import static top.gitcraft.ui.components.SaveList.saveListAll;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class DeleteSaveCommand implements CommandExecutor {
 
@@ -48,6 +53,17 @@ public class DeleteSaveCommand implements CommandExecutor {
     }
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+        if(!(sender instanceof Player)){
+            sender.sendMessage("You must be a player to use this command");
+            return false;
+        }
+
+        Player player = (Player) sender;
+        if (args.length == 0) {
+            dispatchTellRawCommand(player, saveListAll(LISTTYPE.DELETESAVE, player.getName()));
+            return true;
+        }
+
         sender.sendMessage("Deletion started...");
         if (deleteSave(args[0], sender.getName()) == -1){
             sender.sendMessage("You don't have a save named " + args[0]);
