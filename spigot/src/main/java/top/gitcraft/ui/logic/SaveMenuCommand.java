@@ -5,10 +5,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static top.gitcraft.ui.components.Menu.menuMainMenu;
+import static top.gitcraft.ui.components.Menu.menuSaveMenu;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
-public class MainMenuCommand implements CommandExecutor {
+public class SaveMenuCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -17,7 +17,7 @@ public class MainMenuCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        dispatchTellRawCommand(player, menuMainMenu());
+        dispatchTellRawCommand(player, menuSaveMenu());
         return true;
     }
 }

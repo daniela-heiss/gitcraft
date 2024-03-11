@@ -17,11 +17,13 @@ import top.gitcraft.GitCraft;
  * not bound to a player and will not be destroyed on
  * PlayerQuitEvent.
  */
-public class AreaVisualizer {
+public class AreaVisualizer<T> {
 
     private BukkitTask task;
     private int period = 10;
     private Particle particle = Particle.FLAME;
+    private double spacing = 1.0;
+    private T data = null;
     private boolean force = true;
 
     /**
@@ -37,13 +39,17 @@ public class AreaVisualizer {
      *
      * @param period   Interval at which particles are spawned in ticks (20 ticks = 1s).
      * @param particle What particle should be displayed.
+     * @param spacing  How far the particles are apart (in blocks).
+     * @param data     Data regarding the particle (e.g. color and size).
      * @param force    If the particles should be forced. The users particle settings
      *                 are ignored and the particles are rendered up to 256 block away.
      * @apiNote A low period and force particle may lead to severely decreased performance.
      */
-    public AreaVisualizer(int period, Particle particle, boolean force) {
+    public AreaVisualizer(int period, Particle particle, double spacing, T data, boolean force) {
         this.period = period;
         this.particle = particle;
+        this.spacing = spacing;
+        this.data = data;
         this.force = force;
     }
 
@@ -103,7 +109,7 @@ public class AreaVisualizer {
      * @param end   End coordinate of the vector
      */
     private void spawnEdgeParticles(Location start, Location end) {
-        double particleSpacing = 0.5; // Adjust spacing between particles
+        double particleSpacing = spacing; // Adjust spacing between particles
         double distance = start.distance(end);
         double vectorX = (end.getX() - start.getX()) / distance;
         double vectorY = (end.getY() - start.getY()) / distance;
@@ -112,7 +118,7 @@ public class AreaVisualizer {
         // Iterate along the edge and spawn particles
         for (double d = 0; d <= distance; d += particleSpacing) {
             Location particleLoc = new Location(start.getWorld(), start.getX() + vectorX * d, start.getY() + vectorY * d, start.getZ() + vectorZ * d);
-            start.getWorld().spawnParticle(particle, particleLoc, 0, 0, 0, 0, 0, null, force);
+            start.getWorld().spawnParticle(particle, particleLoc, 0, 0, 0, 0, 0, data, force);
         }
     }
 }

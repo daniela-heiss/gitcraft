@@ -1,94 +1,54 @@
 package top.gitcraft.commands.merging;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.extent.clipboard.BlockArrayClipboard;
-import com.sk89q.worldedit.extent.clipboard.Clipboard;
-import com.sk89q.worldedit.world.World;
-
-import org.bukkit.Bukkit;
+import com.sk89q.worldedit.regions.CuboidRegion;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import top.gitcraft.GitCraft;
-import top.gitcraft.commands.world.JoinCommand;
 
-import java.io.*;
-import java.sql.Timestamp;
-import java.util.concurrent.TimeUnit;
-
-import static top.gitcraft.commands.world.JoinCommand.joinWorldAtCurrentLocation;
-import static top.gitcraft.utils.GetBlockEntityList.getBlockChangedByPlayers;
-import static top.gitcraft.utils.WorldEditFunctions.*;
-import static top.gitcraft.utils.FindMinAndMax.*;
+import static top.gitcraft.utils.BlockUtils.getBlockChangedByPlayers;
+import static top.gitcraft.utils.CubeUtils.regionFromList;
+import static top.gitcraft.utils.MergeUtils.pasteMergeAreas;
 
 public class AutoMergeCommand implements CommandExecutor {
 
-    private final GitCraft gitCraft;
-
-    public AutoMergeCommand(GitCraft gitCraft) {
-        this.gitCraft = gitCraft;
-    }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    @Override public boolean onCommand(CommandSender sender, Command command, String label,
+                                       String[] strings) {
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage("You must be a player to use this command");
+            sender.sendMessage("Only players can use this command");
             return false;
         }
         Player player = (Player) sender;
 
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        if (strings.length != 3) {
+            player.sendMessage(
+                    "Usage: /autoMerge <fromWorldName> <targetWorldName> " + "<mergeWorldName>");
+            return true;
+        }
 
-        //if (args.length != 1) {
-        //    return false;
-        //}
+        String fromWorldName = strings[0];
+        String targetWorldName = strings[1];
+        String mergeWorldName = strings[2];
 
-        sender.sendMessage("Gathering Coordinates...");
+        //        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        //        String schematicName = "AutoMerge" + timestamp.getTime();
 
-        World currentWorld = BukkitAdapter.adapt(player.getWorld());
-
+        //        World currentWorld = BukkitAdapter.adapt(player.getWorld());
         String worldName = player.getWorld().getName();
-        sender.sendMessage("Current World Name: " + worldName);
+        CuboidRegion region = regionFromList(getBlockChangedByPlayers(worldName));
 
-        Double[] minCoordinatesArray = findMin(getBlockChangedByPlayers(worldName));
-        Double[] maxCoordinatesArray = findMax(getBlockChangedByPlayers(worldName));
+        //        BlockArrayClipboard clipboard = createClipboard(region, currentWorld);
+        //        player.sendMessage("Copied region to clipboard");
 
-        for (Double number : minCoordinatesArray) {
-            sender.sendMessage("Min Coordinates : " + number);
-        }
-        for (Double number : maxCoordinatesArray) {
-            sender.sendMessage("Max Coordinates : " + number);
-        }
+        //        saveClipboardAsSchematic(clipboard, schematicName);
+        //        return pasteClipboardAndJoin(clipboard, player, "world", region.getPos1());
 
-        BlockArrayClipboard clipboard = copyRegionToClipboard(minCoordinatesArray, maxCoordinatesArray, currentWorld, player);
-        player.sendMessage("Copied region to clipboard");
+        player.sendMessage("AutoMerging " + fromWorldName + " into " + targetWorldName + " via " +
+                mergeWorldName);
 
-        String schematicName = "AutoMerge" + timestamp.getTime();
-        File file = saveRegionAsSchematic(clipboard, schematicName, sender);
+        pasteMergeAreas(player, fromWorldName, targetWorldName, mergeWorldName, region);
 
-        if (file != null) {
-
-            joinWorldAtCurrentLocation(player, "world");
-
-            Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), new Runnable() {
-                @Override
-                public void run() {
-                    Clipboard loadedClipboard = loadSchematic(file);
-                    sender.sendMessage("Loaded Schematic " + schematicName + " into Clipboard");
-
-                    World originalWorld = BukkitAdapter.adapt(player.getWorld());
-                    sender.sendMessage("Current World Name: " + originalWorld);
-
-                    pasteClipboard(originalWorld, minCoordinatesArray, loadedClipboard);
-                    sender.sendMessage("Pasted Schematic " + schematicName + " from Clipboard");
-                }
-            }, 50L);
-
-        }
         return true;
     }
-
 }

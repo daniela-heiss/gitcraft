@@ -3,27 +3,52 @@ version: '${project.version}'
 main: top.gitcraft.GitCraft
 api-version: '1.20'
 depend: [ CoreProtect ]
-# Replace "kit" with the name of your command.
+
 commands:
+  gc:
+    description: GitCraft main command
+    usage: /gc [main|world|load|create|merge|delete] [<args>]
+
   gcload:
     description: Loads a savestate
     usage: /gcload saveName
   gcsave:
     description: saves a timestamp with a name
     usage: /gcsave saveName
+  gcdeletesave:
+    description: deletes a timestamp with a name
+    usage: /gcdeletesave saveName
+  gclistsaves:
+    description: List worldes
+    usage: /gclistsaves [load|delete]
 
   #merge commands
   automerge:
     description: Automatically merge everything that the player changed into the original world
-    usage: /automerge <schematicName>
+    usage: /autoMerge  <fromWorldName> <targetWorldName> <mergeWorldName>
   areamerge:
-    description: Automatically merge a player selected area into the original world
-    usage: /areamerge <schematicName>
+    description: Creates a schematic from clipboard and pastes clipboard content into the target world and deletes the current world
+    usage: /areamerge <targetWorld>
+  gcdiscardmerge:
+    description: Teleports player back into his previous world and deletes merge world
+    usage: /gcdiscardmerge <previousWorld>
+  gccreatemergeworld:
+    description: Manually creates a void world
+    usage: /gccreatemergeworld
+  merge:
+    description: Test merge a player selected area into the original world
+    usage: /merge <fromWorldName> <targetWorldName> <mergeWorldName>
+  gcmergemenu:
+    description: Open the merge menu
+    usage: /gcmergemenu
 
   #schematic commands
   generateschematic:
     description: Automatically generate schematic from all player made changes or player selected area
     usage: /generateschematic [area | all] <schematicName>
+  generateschematicfromarea:
+    description: Automatically generate schematic from all player changed blocks in a pre-selected area
+    usage: /generateschematicfromarea <schematicName>
   pasteschematic:
     description: Automatically paste schematic into the original world
     usage: /pasteschematic [area | all] <schematicName>
@@ -35,6 +60,9 @@ commands:
   gcworldmenu:
     description: Shows the world menu
     usage: /gcworldmenu
+  gcsavemenu:
+    description: Shows the save menu
+    usage: /gcsavemenu
 
   #world-lists - Join, Create, Delete
   gclist:
@@ -51,9 +79,6 @@ commands:
   gcdelete:
     description: Delete a world
     usage: /gcdelete <name>
-  gcWETest:
-    description: copy an area in front of the player and pastes it  5 xdiff
-    usage: /gcWETest
 
   #commands - Set positions for area select
   gcSetPos1:
@@ -65,7 +90,6 @@ commands:
   gcGetSelection:
     description: Get the selection
     usage: /gcGetSelection
-
-  testareavisulize:
-    description: Visulize Area
-    usage: /testareavisulize
+  gcDeselectArea:
+    description: Deselects the player's selection
+    usage: /gcdeselectarea
