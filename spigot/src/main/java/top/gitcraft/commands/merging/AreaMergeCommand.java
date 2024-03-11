@@ -9,13 +9,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.listeners.AreaSelectListener;
+import top.gitcraft.utils.SchematicUtils;
 import top.gitcraft.utils.TeleportUtils;
 import top.gitcraft.utils.WorldUtils;
 
 import java.sql.Timestamp;
-
-import static top.gitcraft.listeners.AreaSelectListener.getSelection;
-import static top.gitcraft.utils.SchematicUtils.*;
 
 public class AreaMergeCommand implements CommandExecutor {
 
@@ -37,18 +36,17 @@ public class AreaMergeCommand implements CommandExecutor {
         World targetWorld = BukkitAdapter.adapt(Bukkit.getWorld(targetWorldName));
 
         World currentWorld = BukkitAdapter.adapt(player.getWorld());
-        CuboidRegion selectedArea = getSelection(player);
+        CuboidRegion selectedArea = AreaSelectListener.getSelection(player);
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String schematicName = "Merge" + timestamp.getTime();
 
-        BlockArrayClipboard clipboard = createClipboard(selectedArea, currentWorld);
+        BlockArrayClipboard clipboard = SchematicUtils.createClipboard(selectedArea, currentWorld);
         player.sendMessage("Copied region to clipboard");
 
-        saveClipboardAsSchematic(clipboard, schematicName);
-        //        pasteClipboardAndJoin(clipboard, player, targetWorld, clipboard.getOrigin());
+        SchematicUtils.saveClipboardAsSchematic(clipboard, schematicName);
 
-        pasteClipboard(targetWorld, player, clipboard.getOrigin(), clipboard);
+        SchematicUtils.pasteClipboard(targetWorld, player, clipboard.getOrigin(), clipboard);
         TeleportUtils.joinWorldAtCurrentLocation(player, targetWorldName);
 
         WorldUtils worldUtils = new WorldUtils();

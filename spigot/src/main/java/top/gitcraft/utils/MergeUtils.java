@@ -9,12 +9,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
+import top.gitcraft.listeners.AreaSelectListener;
 
-import static top.gitcraft.listeners.AreaSelectListener.setPos1;
-import static top.gitcraft.listeners.AreaSelectListener.setPos2;
 import static top.gitcraft.ui.components.Menu.confirmMerge;
-import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
-import static top.gitcraft.utils.SchematicUtils.*;
 
 public class MergeUtils {
 
@@ -32,25 +29,27 @@ public class MergeUtils {
         World voidWorld = BukkitAdapter.adapt(creatVoidWorld(mergeWorldName));
 
         //the region in the "from" world, (center)
-        BlockArrayClipboard fromClipboard = createClipboard(region, fromWorld);
-        pasteClipboard(voidWorld, player, fromClipboard.getOrigin(), fromClipboard);
+        BlockArrayClipboard fromClipboard = SchematicUtils.createClipboard(region, fromWorld);
+        SchematicUtils.pasteClipboard(voidWorld, player, fromClipboard.getOrigin(), fromClipboard);
 
         //the region in the "to" world (right)
-        BlockArrayClipboard targetClipboard = createClipboard(region, targetWorld);
+        BlockArrayClipboard targetClipboard = SchematicUtils.createClipboard(region, targetWorld);
         int width = region.getWidth();
         BlockVector3 targetOrigin = fromClipboard.getOrigin().add(width + 10, 0, 0);
-        pasteClipboard(voidWorld, player, targetOrigin, targetClipboard);
+        SchematicUtils.pasteClipboard(voidWorld, player, targetOrigin, targetClipboard);
 
         //the region containing the changed blocks (left)
-        BlockArrayClipboard changesClipboard = createClipboardFromChanges(region, fromWorldName);
+        BlockArrayClipboard changesClipboard =
+                SchematicUtils.createClipboardFromChanges(region, fromWorldName);
         BlockVector3 changesOrigin = changesClipboard.getOrigin().subtract(width + 10, 0, 0);
-        pasteClipboard(voidWorld, player, changesOrigin, changesClipboard);
+        SchematicUtils.pasteClipboard(voidWorld, player, changesOrigin, changesClipboard);
 
         Runnable callback = () -> {
-            setPos1(player, region.getPos1());
-            setPos2(player, region.getPos2());
+            AreaSelectListener.setPos1(player, region.getPos1());
+            AreaSelectListener.setPos2(player, region.getPos2());
             //            player.sendMessage("Combined Region: " + region);
-            dispatchTellRawCommand(player, confirmMerge(fromWorldName, targetWorldName));
+            CommandUtils.dispatchTellRawCommand(player,
+                    confirmMerge(fromWorldName, targetWorldName));
         };
         TeleportUtils.joinWorldAtCurrentLocation(player, mergeWorldName, callback);
 
