@@ -2,6 +2,7 @@ package top.gitcraft.commands.loadsave;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,6 +17,7 @@ import top.gitcraft.database.entities.UserEntity;
 import top.gitcraft.utils.enums.LISTTYPE;
 
 import static top.gitcraft.ui.components.SaveList.saveListAll;
+import static top.gitcraft.ui.components.WorldList.worldListAll;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class DeleteSaveCommand implements CommandExecutor {
@@ -60,7 +62,11 @@ public class DeleteSaveCommand implements CommandExecutor {
 
         Player player = (Player) sender;
         if (args.length == 0) {
-            dispatchTellRawCommand(player, saveListAll(LISTTYPE.DELETESAVE, player.getName()));
+            dispatchTellRawCommand(player, saveListAll(LISTTYPE.DELETESAVE, player.getName(), 1));
+            return true;
+        }
+        if(Objects.equals(args[0], ":") && args.length > 1 && !args[1].isEmpty()){
+            dispatchTellRawCommand(player, saveListAll(LISTTYPE.DELETESAVE, player.getName(), Integer.parseInt(args[1])));
             return true;
         }
 
