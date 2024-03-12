@@ -3,6 +3,7 @@ package top.gitcraft.utils;
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MVWorldManager;
 import org.bukkit.Bukkit;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import top.gitcraft.GitCraft;
 import top.gitcraft.database.DatabaseManager;
@@ -42,18 +43,13 @@ public class WorldUtils {
      * @param newWorldName     The name of the new world
      * @param callback         The callback to be executed after the world is cloned
      */
-    public void cloneWorld(String currentWorldName, String newWorldName, Runnable callback) {
-        MultiverseCore core =
-                (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        MVWorldManager worldManager = core.getMVWorldManager();
-
-        Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
-            worldManager.cloneWorld(currentWorldName, newWorldName);
+    public static void cloneWorld(String currentWorldName, String newWorldName, Runnable callback) {
+            Bukkit.getServer().createWorld(new WorldCreator(newWorldName).copy(Bukkit.getWorld(currentWorldName)));
+            callback.run();
 
             if (callback != null) {
                 callback.run();
             }
-        });
     }
 
     /**
