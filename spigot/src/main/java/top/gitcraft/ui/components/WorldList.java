@@ -17,7 +17,10 @@ public class WorldList {
     public static String worldListSubset(LISTTYPE type, List<String> worldNamesAll, int page) {
         int ifRest = worldNamesAll.size() % 8 != 0 ? 1 : 0;
         int maxPage = (worldNamesAll.size() / 8) + ifRest;
-        if (page > maxPage) {
+        if (worldNamesAll.isEmpty()){ // 
+            page = 1;
+            maxPage = 1;
+        } else if (page > maxPage) {
             page = maxPage;
         } else if (page < 1) {
             page = 1;
@@ -34,7 +37,8 @@ public class WorldList {
                 .spacing(2);
 
         // First world
-        jsonBuilder.text("\\u2554")
+        String symbol = worldNames.size() == 1 ? "\\u2550" : "\\u2554";
+        jsonBuilder.text(symbol)
                 .text("[").bold()
                 .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + worldNames.get(0)).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + worldNames.get(0))
                 .text("] ").bold()
@@ -64,9 +68,9 @@ public class WorldList {
                     .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastWorld).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastWorld)
                     .text("] ").bold()
                     .text(lastWorld).bold()
-                    .spacing(2);
+                    .spacing(1);
         }
-        jsonBuilder.spacing(Math.max(0, 8-(worldNames.size()+2)));
+        jsonBuilder.spacing(Math.max(0, 8-(worldNames.size()+1)));
 
         String leftArrow = page == 1 ? new JsonBuilder().text("⏪ ◁ ").bold().color(JSONCOLOR.GRAY).build() : new JsonBuilder().text("⏪ ").bold().hover(HOVERACTION.show_text, "First page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + 1).text("◀ ").bold().hover(HOVERACTION.show_text, "Previous page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + (page - 1)).build();
         String rightArrow = page == maxPage ? new JsonBuilder().text(" ▷ ⏩").bold().color(JSONCOLOR.GRAY).build() : new JsonBuilder().text(" ▶ ").bold().hover(HOVERACTION.show_text, "Next page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + (page + 1)).text("⏩").bold().hover(HOVERACTION.show_text, "Last page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + maxPage).build();

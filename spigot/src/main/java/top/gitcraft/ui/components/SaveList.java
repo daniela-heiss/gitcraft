@@ -24,12 +24,18 @@ public class SaveList {
     public static String saveListSubset(LISTTYPE type, List<SaveEntity> savesAll, int page) {
         int ifRest = savesAll.size() % 6 != 0 ? 1 : 0;
         int maxPage = (savesAll.size() / 6) + ifRest;
-        if (page > maxPage) {
+        if (savesAll.isEmpty()){
+            page = 1;
+            maxPage = 1;
+        } else if (page > maxPage) {
             page = maxPage;
         } else if (page < 1) {
             page = 1;
         }
-        List<SaveEntity> saves = savesAll.subList((page-1)*6, Math.min(page * 6, savesAll.size()));
+        List<SaveEntity> saves = savesAll;
+        if (!savesAll.isEmpty()){
+            saves = savesAll.subList((page-1)*6, Math.min(page * 6, savesAll.size()));
+        }
 
         // Initialize JsonBuilder
         JsonBuilder jsonBuilder = new JsonBuilder();
@@ -42,16 +48,17 @@ public class SaveList {
                 .spacing(2);
 
         if (!saves.isEmpty()) {
+            String symbol = saves.size() == 1 ? "\\u2550" : "\\u2554";
             // First Save
             if (saves.get(0).rolledBack == 0) {
-                jsonBuilder.text("\\u2554")
+                jsonBuilder.text(symbol)
                         .text("[").bold()
                         .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saves.get(0).saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saves.get(0).saveName)
                         .text("] ").bold()
                         .text(saves.get(0).saveName).bold()
                         .spacing(1);
             } else {
-                jsonBuilder.text("\\u2554")
+                jsonBuilder.text(symbol)
                         .text("[").bold()
                         .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + saves.get(0).saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + saves.get(0).saveName)
                         .text("] ").bold()
@@ -91,24 +98,21 @@ public class SaveList {
                             .text("[").bold()
                             .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastSave.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastSave.saveName)
                             .text("] ").bold()
-                            .text(lastSave.saveName).bold()
-                            .spacing(1);
+                            .text(lastSave.saveName).bold();
                 } else {
                     jsonBuilder.text("\\u255a")
                             .text("[").bold()
                             .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastSave.saveName).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastSave.saveName)
                             .text("] ").bold()
-                            .text(lastSave.saveName).bold().color(rolledBackColor)
-                            .spacing(1);
+                            .text(lastSave.saveName).bold().color(rolledBackColor);
                 }
             }
         } else {
             jsonBuilder.spacing(1)
-                    .text("There are no saves").bold()
-                    .spacing(2);
+                    .text("There are no saves").bold();
         }
 
-        jsonBuilder.spacing(Math.max(0, 6-(saves.size()+2)));
+        jsonBuilder.spacing(Math.max(0, 6-(saves.size()+1)));
 
         // Adding Reload button
         jsonBuilder.spacing(1)
