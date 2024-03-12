@@ -15,7 +15,8 @@ import top.gitcraft.utils.enums.JSONCOLOR;
 public class Menu {
     public static String header() {
         return new JsonBuilder()
-                .clear()
+                .repeat("_", 30).bold().underlined().color(JSONCOLOR.GRAY)
+                .spacing(2)
                 .text("══").bold()
                 .text(" Git").bold().color(JSONCOLOR.RED)
                 .text("Craft").bold().color(JSONCOLOR.GOLD)
@@ -40,7 +41,6 @@ public class Menu {
          *
          */
         return new JsonBuilder()
-                .clear()
                 .addBuilt(header())
                 .text("Main Menu").bold()
                 .spacing(1)
@@ -82,7 +82,6 @@ public class Menu {
          *
          */
         return new JsonBuilder()
-                .clear()
                 .addBuilt(header())
                 .text("World Menu - ").bold().text(worldName).bold().color(JSONCOLOR.GREEN)
                 .spacing(1)
@@ -122,7 +121,6 @@ public class Menu {
          *
          */
         return new JsonBuilder()
-                .clear()
                 .addBuilt(header())
                 .text("Save Menu").bold()
                 .spacing(1)
@@ -164,7 +162,6 @@ public class Menu {
          *
          */
         JsonBuilder jsonMessage = new JsonBuilder()
-                .clear()
                 .addBuilt(header())
                 .text("Merge Menu").bold()
                 .spacing(1)
@@ -226,14 +223,13 @@ public class Menu {
 
      public static String confirmMerge(String worldName1, String worldName2) {
          return new JsonBuilder()
-                 .clear()
                  .addBuilt(header())
                  .text("From: ").bold().text(worldName1).bold().color(JSONCOLOR.GREEN)
                  .text(" → Into: ").bold().text(worldName2).bold().color(JSONCOLOR.GREEN)
-                 .spacing(4)
+                 .spacing(6)
                  .text("[").bold().text("Yes").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/areamerge " + worldName2).hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold()
                  .text("[").bold().text("No").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdiscardmerge " + worldName1).hover(HOVERACTION.show_text, "Cancel the merge").text("]").bold()
-                 .spacing(4)
+                 .spacing(14)
                  .build();
      }
 }

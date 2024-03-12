@@ -112,11 +112,10 @@ public class SaveList {
                     .text("There are no saves").bold();
         }
 
-        jsonBuilder.spacing(Math.max(0, 7-(saves.size()+1)));
+        jsonBuilder.spacing(7-(saves.size()));
 
         // Adding Reload button
-        jsonBuilder.spacing(1)
-                .text("[").bold()
+        jsonBuilder.text("[").bold()
                 .text("Reload").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()).hover(HOVERACTION.show_text, "Reloads list")
                 .text("]").bold();
 
