@@ -45,8 +45,7 @@ public class AreaMergeCommand implements CommandExecutor {
         saveClipboardAsSchematic(clipboard, schematicName);
         pasteClipboardAndJoin(clipboard, player, targetWorld, selectedArea.getPos1());
 
-        WorldUtils worldUtils = new WorldUtils();
-        worldUtils.deleteWorld(player, currentWorld.getName());
+        WorldUtils.deleteWorld(player, player.getWorld());
 
         return true;
     }

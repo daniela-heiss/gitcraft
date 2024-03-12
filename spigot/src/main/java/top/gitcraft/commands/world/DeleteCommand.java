@@ -1,5 +1,6 @@
 package top.gitcraft.commands.world;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -36,9 +37,7 @@ public class DeleteCommand implements CommandExecutor {
             dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.RED, "world", "is protected and will not be deleted"));
             return true;
         }
-        WorldUtils worldUtils = new WorldUtils();
-        worldUtils.deleteWorld(player, worldName);
-        worldUtils.logWorldDelete(player, worldName);
+        WorldUtils.deleteWorld(player, Bukkit.getWorld(worldName));
 
         return true;
     }
