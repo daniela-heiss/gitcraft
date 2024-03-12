@@ -10,7 +10,6 @@ import top.gitcraft.commands.areaselect.SetPos1Command;
 import top.gitcraft.commands.areaselect.SetPos2Command;
 import top.gitcraft.commands.loadsave.DeleteSaveCommand;
 import top.gitcraft.commands.loadsave.LoadCommand;
-import top.gitcraft.commands.loadsave.LoadSaveListCommand;
 import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.commands.merging.*;
 import top.gitcraft.commands.schematics.GenerateSchematicCommand;
@@ -63,7 +62,6 @@ public final class GitCraft extends JavaPlugin {
         registerCommand("gcload", new LoadCommand());
         registerCommand("gcsave", new SaveCommand());
         registerCommand("gcdeletesave", new DeleteSaveCommand());
-        registerCommand("gclistsaves", new LoadSaveListCommand());
     }
 
     public void registerMergeCommands() {
@@ -91,7 +89,7 @@ public final class GitCraft extends JavaPlugin {
     }
 
     public void registerWorldCommands() {
-        registerCommand("gclist", new WorldCommand());
+ 
         registerCommand("gcjoin", new JoinCommand());
         registerCommand("gccreate", new CreateCommand());
         registerCommand("gcdelete", new DeleteCommand());
@@ -105,5 +103,4 @@ public final class GitCraft extends JavaPlugin {
             getLogger().warning("Command '" + commandName + "' not found!");
         }
     }
-
 }
