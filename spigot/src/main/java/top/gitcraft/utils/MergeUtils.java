@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import top.gitcraft.listeners.AreaSelectListener;
 
 import static top.gitcraft.ui.components.Menu.confirmMerge;
+import static top.gitcraft.utils.VoidWorldGenerator.createMergeWorld;
 
 public class MergeUtils {
 
@@ -30,11 +31,11 @@ public class MergeUtils {
         final int width = expandedRegion.getWidth();
 
         mergeWorldName = "mergeWorld" + System.currentTimeMillis(); //TODO replace
-        creatVoidWorld(mergeWorldName); //TODO replace
+        createMergeWorld(mergeWorldName,0); //TODO replace
 
         World fromWorld = BukkitAdapter.adapt(Bukkit.getWorld(fromWorldName));
         World targetWorld = BukkitAdapter.adapt(Bukkit.getWorld(targetWorldName));
-        World voidWorld = BukkitAdapter.adapt(creatVoidWorld(mergeWorldName));
+        World voidWorld = BukkitAdapter.adapt(createMergeWorld(mergeWorldName,0));
 
         BlockArrayClipboard fromClipboard =
                 SchematicUtils.createClipboard(expandedRegion, fromWorld);
