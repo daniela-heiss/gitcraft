@@ -22,8 +22,8 @@ public class WorldList {
         } else if (page < 1) {
             page = 1;
         }
-
         List<String> worldNames = worldNamesAll.subList((page-1)*8, Math.min(page * 8, worldNamesAll.size()));
+
         // Initialize JsonBuilder
         JsonBuilder jsonBuilder = new JsonBuilder();
 
@@ -66,8 +66,10 @@ public class WorldList {
                     .text(lastWorld).bold()
                     .spacing(2);
         }
-        String leftArrow = page == 1 ? new JsonBuilder().text("◁ ").bold().color(JSONCOLOR.GRAY).build() : new JsonBuilder().text("◀ ").bold().hover(HOVERACTION.show_text, "Previous page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + (page - 1)).build();
-        String rightArrow = page == maxPage ? new JsonBuilder().text(" ▷").bold().color(JSONCOLOR.GRAY).build() : new JsonBuilder().text(" ▶").bold().hover(HOVERACTION.show_text, "Next page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + (page + 1)).build();
+        jsonBuilder.spacing(Math.max(0, 8-(worldNames.size()+2)));
+
+        String leftArrow = page == 1 ? new JsonBuilder().text("⏪ ◁ ").bold().color(JSONCOLOR.GRAY).build() : new JsonBuilder().text("⏪ ").bold().hover(HOVERACTION.show_text, "First page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + 1).text("◀ ").bold().hover(HOVERACTION.show_text, "Previous page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + (page - 1)).build();
+        String rightArrow = page == maxPage ? new JsonBuilder().text(" ▷ ⏩").bold().color(JSONCOLOR.GRAY).build() : new JsonBuilder().text(" ▶ ").bold().hover(HOVERACTION.show_text, "Next page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + (page + 1)).text("⏩").bold().hover(HOVERACTION.show_text, "Last page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + maxPage).build();
 
         jsonBuilder.text("   ").addBuilt(leftArrow).text(page).bold().color(JSONCOLOR.YELLOW).text("/").bold().text(String.valueOf(maxPage)).bold().color(JSONCOLOR.YELLOW).addBuilt(rightArrow);
 

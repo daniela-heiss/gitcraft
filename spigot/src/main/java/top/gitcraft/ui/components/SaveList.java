@@ -21,7 +21,16 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class SaveList {
-    public static String saveListSubset(LISTTYPE type, List<SaveEntity> saves) {
+    public static String saveListSubset(LISTTYPE type, List<SaveEntity> savesAll, int page) {
+        int ifRest = savesAll.size() % 6 != 0 ? 1 : 0;
+        int maxPage = (savesAll.size() / 6) + ifRest;
+        if (page > maxPage) {
+            page = maxPage;
+        } else if (page < 1) {
+            page = 1;
+        }
+        List<SaveEntity> saves = savesAll.subList((page-1)*6, Math.min(page * 6, savesAll.size()));
+
         // Initialize JsonBuilder
         JsonBuilder jsonBuilder = new JsonBuilder();
         JSONCOLOR rolledBackColor = JSONCOLOR.DARK_GRAY;
@@ -99,11 +108,21 @@ public class SaveList {
                     .spacing(2);
         }
 
+        jsonBuilder.spacing(Math.max(0, 6-(saves.size()+2)));
+
         // Adding Reload button
         jsonBuilder.spacing(1)
                 .text("[").bold()
                 .text("Reload").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gclistsaves " + type.name().toLowerCase()).hover(HOVERACTION.show_text, "Reloads list")
                 .text("]").bold();
+
+        jsonBuilder.spacing(2);
+
+        String leftArrow = page == 1 ? new JsonBuilder().text("⏪ ◁ ").bold().color(JSONCOLOR.GRAY).build() : new JsonBuilder().text("⏪ ").bold().hover(HOVERACTION.show_text, "First page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + 1).text("◀ ").bold().hover(HOVERACTION.show_text, "Previous page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + (page - 1)).build();
+        String rightArrow = page == maxPage ? new JsonBuilder().text(" ▷ ⏩").bold().color(JSONCOLOR.GRAY).build() : new JsonBuilder().text(" ▶ ").bold().hover(HOVERACTION.show_text, "Next page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + (page + 1)).text("⏩").bold().hover(HOVERACTION.show_text, "Last page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + maxPage).build();
+
+        jsonBuilder.text("   ").addBuilt(leftArrow).text(page).bold().color(JSONCOLOR.YELLOW).text("/").bold().text(String.valueOf(maxPage)).bold().color(JSONCOLOR.YELLOW).addBuilt(rightArrow);
+
 
         // Adding Save Menu button
         jsonBuilder.spacing(3)
@@ -115,7 +134,7 @@ public class SaveList {
         return jsonBuilder.build();
     }
 
-    public static String saveListAll(LISTTYPE type, String playerName) {
+    public static String saveListAll(LISTTYPE type, String playerName, int page) {
         List<SaveEntity> saves;
         UserDao userDao;
         SaveDao saveDao;
@@ -131,6 +150,6 @@ public class SaveList {
             throw new RuntimeException(e);
         }
 
-        return saveListSubset(type, saves);
+        return saveListSubset(type, saves, page);
     }
 }
