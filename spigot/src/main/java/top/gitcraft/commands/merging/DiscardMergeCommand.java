@@ -1,14 +1,10 @@
 package top.gitcraft.commands.merging;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import top.gitcraft.GitCraft;
-import top.gitcraft.utils.WorldUtils;
 
 import java.util.List;
 
@@ -35,15 +31,9 @@ public class DiscardMergeCommand implements CommandExecutor {
         // Teleport all players in mergeWorld back to their previous world
         List<Player> playersInMergeWorld = mergeWorld.getPlayers();
 
-        for(Player players : playersInMergeWorld) {
+        for (Player players : playersInMergeWorld) {
             joinWorldAtCurrentLocation(players, previousWorld);
         }
-
-        // Delete player's Merge world
-        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
-            WorldUtils.deleteWorld(player, mergeWorld);
-        }, 60L);
-
         return true;
     }
 }

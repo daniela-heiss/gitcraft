@@ -83,23 +83,59 @@ public class AreaVisualizer<T> {
 
         // Bukkit task running on a background thread spawning particles at a specified interval
         this.task = new BukkitRunnable() {
-            @Override
-            public void run() {
+            @Override public void run() {
+                //break if no world is found
+                if (corner1.getWorld() == null) {
+                    this.cancel();
+                    return;
+                }
+
                 // Vector edges of the particle box
-                spawnEdgeParticles(corner1, new Location(corner1.getWorld(), corner2.getX(), corner1.getY(), corner1.getZ()));
-                spawnEdgeParticles(corner1, new Location(corner1.getWorld(), corner1.getX(), corner2.getY(), corner1.getZ()));
-                spawnEdgeParticles(corner1, new Location(corner1.getWorld(), corner1.getX(), corner1.getY(), corner2.getZ()));
-                spawnEdgeParticles(corner2, new Location(corner1.getWorld(), corner1.getX(), corner2.getY(), corner2.getZ()));
-                spawnEdgeParticles(corner2, new Location(corner1.getWorld(), corner2.getX(), corner1.getY(), corner2.getZ()));
-                spawnEdgeParticles(corner2, new Location(corner1.getWorld(), corner2.getX(), corner2.getY(), corner1.getZ()));
-                spawnEdgeParticles(new Location(corner1.getWorld(), corner2.getX(), corner1.getY(), corner1.getZ()), new Location(corner1.getWorld(), corner2.getX(), corner2.getY(), corner1.getZ()));
-                spawnEdgeParticles(new Location(corner1.getWorld(), corner1.getX(), corner2.getY(), corner1.getZ()), new Location(corner1.getWorld(), corner2.getX(), corner2.getY(), corner1.getZ()));
-                spawnEdgeParticles(new Location(corner1.getWorld(), corner1.getX(), corner1.getY(), corner2.getZ()), new Location(corner1.getWorld(), corner2.getX(), corner1.getY(), corner2.getZ()));
-                spawnEdgeParticles(new Location(corner1.getWorld(), corner1.getX(), corner2.getY(), corner2.getZ()), new Location(corner1.getWorld(), corner1.getX(), corner1.getY(), corner2.getZ()));
-                spawnEdgeParticles(new Location(corner1.getWorld(), corner2.getX(), corner1.getY(), corner1.getZ()), new Location(corner1.getWorld(), corner2.getX(), corner1.getY(), corner2.getZ()));
-                spawnEdgeParticles(new Location(corner1.getWorld(), corner1.getX(), corner2.getY(), corner2.getZ()), new Location(corner1.getWorld(), corner1.getX(), corner2.getY(), corner1.getZ()));
+                spawnEdgeParticles(corner1,
+                        new Location(corner1.getWorld(), corner2.getX(), corner1.getY(),
+                                corner1.getZ()));
+                spawnEdgeParticles(corner1,
+                        new Location(corner1.getWorld(), corner1.getX(), corner2.getY(),
+                                corner1.getZ()));
+                spawnEdgeParticles(corner1,
+                        new Location(corner1.getWorld(), corner1.getX(), corner1.getY(),
+                                corner2.getZ()));
+                spawnEdgeParticles(corner2,
+                        new Location(corner1.getWorld(), corner1.getX(), corner2.getY(),
+                                corner2.getZ()));
+                spawnEdgeParticles(corner2,
+                        new Location(corner1.getWorld(), corner2.getX(), corner1.getY(),
+                                corner2.getZ()));
+                spawnEdgeParticles(corner2,
+                        new Location(corner1.getWorld(), corner2.getX(), corner2.getY(),
+                                corner1.getZ()));
+                spawnEdgeParticles(new Location(corner1.getWorld(), corner2.getX(), corner1.getY(),
+                                corner1.getZ()),
+                        new Location(corner1.getWorld(), corner2.getX(), corner2.getY(),
+                                corner1.getZ()));
+                spawnEdgeParticles(new Location(corner1.getWorld(), corner1.getX(), corner2.getY(),
+                                corner1.getZ()),
+                        new Location(corner1.getWorld(), corner2.getX(), corner2.getY(),
+                                corner1.getZ()));
+                spawnEdgeParticles(new Location(corner1.getWorld(), corner1.getX(), corner1.getY(),
+                                corner2.getZ()),
+                        new Location(corner1.getWorld(), corner2.getX(), corner1.getY(),
+                                corner2.getZ()));
+                spawnEdgeParticles(new Location(corner1.getWorld(), corner1.getX(), corner2.getY(),
+                                corner2.getZ()),
+                        new Location(corner1.getWorld(), corner1.getX(), corner1.getY(),
+                                corner2.getZ()));
+                spawnEdgeParticles(new Location(corner1.getWorld(), corner2.getX(), corner1.getY(),
+                                corner1.getZ()),
+                        new Location(corner1.getWorld(), corner2.getX(), corner1.getY(),
+                                corner2.getZ()));
+                spawnEdgeParticles(new Location(corner1.getWorld(), corner1.getX(), corner2.getY(),
+                                corner2.getZ()),
+                        new Location(corner1.getWorld(), corner1.getX(), corner2.getY(),
+                                corner1.getZ()));
             }
-        }.runTaskTimer(plugin, 0, period); // Spawning particle at specified period in ticks (20 ticks = 1s)
+        }.runTaskTimer(plugin, 0,
+                period); // Spawning particle at specified period in ticks (20 ticks = 1s)
     }
 
     /**
@@ -117,7 +153,8 @@ public class AreaVisualizer<T> {
 
         // Iterate along the edge and spawn particles
         for (double d = 0; d <= distance; d += particleSpacing) {
-            Location particleLoc = new Location(start.getWorld(), start.getX() + vectorX * d, start.getY() + vectorY * d, start.getZ() + vectorZ * d);
+            Location particleLoc = new Location(start.getWorld(), start.getX() + vectorX * d,
+                    start.getY() + vectorY * d, start.getZ() + vectorZ * d);
             start.getWorld().spawnParticle(particle, particleLoc, 0, 0, 0, 0, 0, data, force);
         }
     }

@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import top.gitcraft.listeners.AreaSelectListener;
 import top.gitcraft.utils.SchematicUtils;
 import top.gitcraft.utils.TeleportUtils;
-import top.gitcraft.utils.WorldUtils;
 
 import java.sql.Timestamp;
 
@@ -48,8 +47,6 @@ public class AreaMergeCommand implements CommandExecutor {
 
         SchematicUtils.pasteClipboard(targetWorld, player, clipboard.getOrigin(), clipboard);
         TeleportUtils.joinWorldAtCurrentLocation(player, targetWorldName);
-
-        WorldUtils.deleteWorld(player, player.getWorld());
 
         return true;
     }

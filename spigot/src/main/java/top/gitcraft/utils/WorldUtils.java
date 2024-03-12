@@ -9,12 +9,14 @@ import java.io.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 import static top.gitcraft.ui.components.InfoMessages.infoActionWorld;
 import static top.gitcraft.ui.components.InfoMessages.infoWorldAction;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class WorldUtils {
+    private static final Logger logger = GitCraft.getPlugin(GitCraft.class).getLogger();
 
     /**
      * Clone a world
@@ -29,6 +31,8 @@ public class WorldUtils {
         copyFileStructure(originalWorld.getWorldFolder(),
                 new File(Bukkit.getWorldContainer(), newWorldName));
         new WorldCreator(newWorldName).createWorld();
+
+        logger.info("World " + newWorldName + " created.");
 
         if (callback != null) {
             callback.run();
@@ -79,20 +83,27 @@ public class WorldUtils {
         if (Bukkit.getWorld(world.getName()) == null) {
             return;
         }
-        dispatchTellRawCommand(player, infoActionWorld(JSONCOLOR.RED, "Deleting", world.getName()));
+
+        if (player != null) {
+            logger.info("Deleting " + world.getName());
+            dispatchTellRawCommand(player,
+                    infoActionWorld(JSONCOLOR.RED, "Deleting", world.getName()));
+        }
 
         File worldFolder = Bukkit.getWorld(world.getName()).getWorldFolder();
+        Bukkit.getServer().unloadWorld(world, false);
 
-        Bukkit.getServer().unloadWorld(world, true);
-        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
-            try {
-                org.apache.commons.io.FileUtils.deleteDirectory(worldFolder);
+
+        try {
+            org.apache.commons.io.FileUtils.deleteDirectory(worldFolder);
+            if (player != null) {
                 dispatchTellRawCommand(player,
                         infoWorldAction(JSONCOLOR.RED, world.getName(), "deleted"));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
-        }, 60L);
+            logger.info("World " + world.getName() + " deleted.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
