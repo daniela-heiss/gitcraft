@@ -22,8 +22,8 @@ import java.util.logging.Logger;
 
 public class SaveList {
     public static String saveListSubset(LISTTYPE type, List<SaveEntity> savesAll, int page) {
-        int ifRest = savesAll.size() % 6 != 0 ? 1 : 0;
-        int maxPage = (savesAll.size() / 6) + ifRest;
+        int ifRest = savesAll.size() % 7 != 0 ? 1 : 0;
+        int maxPage = (savesAll.size() / 7) + ifRest;
         if (savesAll.isEmpty()){
             page = 1;
             maxPage = 1;
@@ -34,7 +34,7 @@ public class SaveList {
         }
         List<SaveEntity> saves = savesAll;
         if (!savesAll.isEmpty()){
-            saves = savesAll.subList((page-1)*6, Math.min(page * 6, savesAll.size()));
+            saves = savesAll.subList((page-1)*7, Math.min(page * 7, savesAll.size()));
         }
 
         // Initialize JsonBuilder
@@ -112,7 +112,7 @@ public class SaveList {
                     .text("There are no saves").bold();
         }
 
-        jsonBuilder.spacing(Math.max(0, 6-(saves.size()+1)));
+        jsonBuilder.spacing(Math.max(0, 7-(saves.size()+1)));
 
         // Adding Reload button
         jsonBuilder.spacing(1)
@@ -129,7 +129,7 @@ public class SaveList {
 
 
         // Adding Save Menu button
-        jsonBuilder.spacing(3)
+        jsonBuilder.spacing(2)
                 .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
                 .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
                 .text("\\\\").bold().text("Save Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu").bold()

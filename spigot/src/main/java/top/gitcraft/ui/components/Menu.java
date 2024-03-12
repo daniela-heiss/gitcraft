@@ -86,7 +86,7 @@ public class Menu {
                 .addBuilt(header())
                 .text("World Menu - ").bold().text(worldName).bold().color(JSONCOLOR.GREEN)
                 .spacing(1)
-                .repeat("═", 12).bold()
+                .repeat("═", 7).bold()
                 .spacing(2)
                 .text("\\u2554").text("[").bold().text("JOIN").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gcjoin").hover(HOVERACTION.show_text, "Join a world").text("]").bold()
                 .text("\\n\\u2551")
