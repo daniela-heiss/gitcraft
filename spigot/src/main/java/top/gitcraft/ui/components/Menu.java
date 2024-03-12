@@ -64,7 +64,7 @@ public class Menu {
         return "";
     }
 
-    public static String menuWorldMenu() {
+    public static String menuWorldMenu(String worldName) {
         /*
          * ══ GitCraft ══
          *
@@ -84,19 +84,19 @@ public class Menu {
         return new JsonBuilder()
                 .clear()
                 .addBuilt(header())
-                .text("World Menu").bold()
+                .text("World Menu - ").bold().text(worldName).bold().color(JSONCOLOR.GREEN)
                 .spacing(1)
-                .repeat("═", 7).bold()
+                .repeat("═", 12).bold()
                 .spacing(2)
-                .text("\\u2554").text("[").bold().text("JOIN").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gclist join").hover(HOVERACTION.show_text, "Join a world").text("]").bold()
+                .text("\\u2554").text("[").bold().text("JOIN").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gcjoin").hover(HOVERACTION.show_text, "Join a world").text("]").bold()
                 .text("\\n\\u2551")
-                .text("\\n\\u2560").text("[").bold().text("CREATE").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gccreate").hover(HOVERACTION.show_text, "Create a new world").text("]").bold()
+                .text("\\n\\u2560").text("[").bold().text("CLONE").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gccreate").hover(HOVERACTION.show_text, "Clone the current world").text("]").bold()
                 .text("\\n\\u2551")
                 .text("\\n\\u2560").text("[").bold().text("MERGE").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Open merge menu").text("]").bold()
                 .text("\\n\\u2551")
                 .text("\\n\\u2551")
                 .text("\\n\\u2551")
-                .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gclist delete").hover(HOVERACTION.show_text, "Delete a world").text("]").bold()
+                .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdelete").hover(HOVERACTION.show_text, "Delete a world").text("]").bold()
                 .spacing(4)
                 .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
                 .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
@@ -130,11 +130,11 @@ public class Menu {
                 .spacing(2)
                 .text("\\u2554").text("[").bold().text("SAVE").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.suggest_command, "/gcsave ").hover(HOVERACTION.show_text, "Get the command to set a savepoint. You need to choose a name for your save").text("]").bold()
                 .text("\\n\\u2551")
-                .text("\\n\\u2560").text("[").bold().text("LOAD").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gclistsaves load").hover(HOVERACTION.show_text, "Load a savepoint").text("]").bold()
+                .text("\\n\\u2560").text("[").bold().text("LOAD").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gcload").hover(HOVERACTION.show_text, "Load a savepoint").text("]").bold()
                 .text("\\n\\u2551")
                 .text("\\n\\u2551")
                 .text("\\n\\u2551")
-                .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gclistsaves deletesave").hover(HOVERACTION.show_text, "Delete a savepoint").text("]").bold()
+                .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdeletesave").hover(HOVERACTION.show_text, "Delete a savepoint").text("]").bold()
                 .spacing(6)
                 .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
                 .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
@@ -195,13 +195,24 @@ public class Menu {
                         .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/merge " + player.getWorld().getName() + " world " + "mergeworld").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold();
             }
         } else {
-            jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Activate area select")
-                    .spacing(2)
-                    .text("Pos1: ").bold().text(String.valueOf(pos1.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos1.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos1.getZ())).color(JSONCOLOR.BLUE)
-                    .spacing(1)
-                    .text("Pos2: ").bold().text(String.valueOf(pos2.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos2.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos2.getZ())).color(JSONCOLOR.BLUE)
-                    .spacing(3)
-                    .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/automerge " + player.getWorld().getName() + " world " + "mergeworld").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold();
+            if (cr == null) {
+                jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Activate area select")
+                        .spacing(2)
+                        .text("Pos1: ").bold().text("No changes yet").color(JSONCOLOR.RED).bold()
+                        .spacing(1)
+                        .text("Pos2: ").bold().text("No changes yet").color(JSONCOLOR.RED).bold()
+                        .spacing(3)
+                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GRAY).hover(HOVERACTION.show_text, "Please make changes first").text("]").bold();
+
+            } else {
+                jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Activate area select")
+                        .spacing(2)
+                        .text("Pos1: ").bold().text(String.valueOf(pos1.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos1.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos1.getZ())).color(JSONCOLOR.BLUE)
+                        .spacing(1)
+                        .text("Pos2: ").bold().text(String.valueOf(pos2.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos2.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos2.getZ())).color(JSONCOLOR.BLUE)
+                        .spacing(3)
+                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/automerge " + player.getWorld().getName() + " world " + "mergeworld").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold();
+            }
         }
         jsonMessage.spacing(3)
                 .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()

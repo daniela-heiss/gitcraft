@@ -1,7 +1,5 @@
 package top.gitcraft.utils;
 
-import com.onarandombox.MultiverseCore.MultiverseCore;
-import com.onarandombox.MultiverseCore.api.MVWorldManager;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import top.gitcraft.GitCraft;
@@ -25,17 +23,13 @@ public class WorldUtils {
      * @param callback         The callback to be executed after the world is cloned
      */
     public static void cloneWorld(String currentWorldName, String newWorldName, Runnable callback) {
-        MultiverseCore core =
-                (MultiverseCore) Bukkit.getServer().getPluginManager().getPlugin("Multiverse-Core");
-        MVWorldManager worldManager = core.getMVWorldManager();
+        Bukkit.getServer()
+              .createWorld(new WorldCreator(newWorldName).copy(Bukkit.getWorld(currentWorldName)));
+        callback.run();
 
-        Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> {
-            worldManager.cloneWorld(currentWorldName, newWorldName);
-
-            if (callback != null) {
-                callback.run();
-            }
-        });
+        if (callback != null) {
+            callback.run();
+        }
     }
 
     /**
@@ -70,22 +64,29 @@ public class WorldUtils {
      * @param layerHeight The height of the void layer
      * @return The new void world
      */
-    public static World createVoidWorld(int layerHeight) {
-        String newName =
-                "Merge" + Instant.now().getEpochSecond(); //generating new name for the mergeworld
+    public static World createVoidWorld(String newName, int layerHeight) {
         WorldCreator wc = new WorldCreator(newName);
+        //set world type
         wc.type(WorldType.FLAT);
         wc.generatorSettings("{\"layers\": [{\"block\": \"air\", \"height\": " + layerHeight +
                 "},{\"block\": \"barrier\", \"height\": 1}], \"biome\":\"desert\"}");
         wc.generateStructures(false);
+
+        //create world
         World mergeWorldBukkit = wc.createWorld();
+
+        //set game rules
         mergeWorldBukkit.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         mergeWorldBukkit.setGameRule(GameRule.DO_MOB_SPAWNING, false);
         mergeWorldBukkit.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
-        //add new gamerules here if they are deemed necessary. yes i also hate that there is no combined one for everything
+        mergeWorldBukkit.setGameRule(GameRule.DO_FIRE_TICK, false);
+        mergeWorldBukkit.setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
+        mergeWorldBukkit.setGameRule(GameRule.DO_VINES_SPREAD, false);
+        mergeWorldBukkit.setGameRule(GameRule.MOB_GRIEFING, false);
 
         return mergeWorldBukkit;
     }
+
 
     /**
      * Generate a new world name based on the current time
