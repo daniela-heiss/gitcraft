@@ -2,18 +2,21 @@ package top.gitcraft.utils;
 
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import top.gitcraft.GitCraft;
 import top.gitcraft.utils.enums.JSONCOLOR;
 
 import java.io.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 import static top.gitcraft.ui.components.InfoMessages.infoActionWorld;
 import static top.gitcraft.ui.components.InfoMessages.infoWorldAction;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class WorldUtils {
+    private static final Logger logger = GitCraft.getPlugin(GitCraft.class).getLogger();
 
     /**
      * Clone a world
@@ -28,6 +31,8 @@ public class WorldUtils {
         copyFileStructure(originalWorld.getWorldFolder(),
                 new File(Bukkit.getWorldContainer(), newWorldName));
         new WorldCreator(newWorldName).createWorld();
+
+        logger.info("World " + newWorldName + " created.");
 
         if (callback != null) {
             callback.run();
@@ -80,6 +85,7 @@ public class WorldUtils {
         }
 
         if (player != null) {
+            logger.info("Deleting " + world.getName());
             dispatchTellRawCommand(player,
                     infoActionWorld(JSONCOLOR.RED, "Deleting", world.getName()));
         }
@@ -94,21 +100,10 @@ public class WorldUtils {
                 dispatchTellRawCommand(player,
                         infoWorldAction(JSONCOLOR.RED, world.getName(), "deleted"));
             }
+            logger.info("World " + world.getName() + " deleted.");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        //        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
-        //            try {
-        //                org.apache.commons.io.FileUtils.deleteDirectory(worldFolder);
-        //                if (player != null) {
-        //                    dispatchTellRawCommand(player,
-        //                            infoWorldAction(JSONCOLOR.RED, world.getName(), "deleted"));
-        //                }
-        //            } catch (IOException e) {
-        //                throw new RuntimeException(e);
-        //            }
-        //        }, 60L);
     }
 
     /**

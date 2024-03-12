@@ -20,6 +20,7 @@ import top.gitcraft.commands.world.DeleteCommand;
 import top.gitcraft.commands.world.JoinCommand;
 import top.gitcraft.listeners.AreaSelectListener;
 import top.gitcraft.listeners.PlayerChangeWorldListener;
+import top.gitcraft.listeners.PlayerJoinListener;
 import top.gitcraft.listeners.PlayerQuitListener;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.SaveMenuCommand;
@@ -27,7 +28,6 @@ import top.gitcraft.ui.logic.WorldMenuCommand;
 
 public final class GitCraft extends JavaPlugin {
     @Override public void onEnable() {
-
         registerGcCommand();
 
         registerMenuCommands();
@@ -42,6 +42,7 @@ public final class GitCraft extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerChangeWorldListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
     }
 
     @Override public void onDisable() {
