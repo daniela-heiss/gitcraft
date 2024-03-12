@@ -22,19 +22,19 @@ public class MergeUtils {
         //expanding the section by 5 in each dimension
         //get timestamp to create a unique world name
 
-        final int expandBy = 15;
+        final int expandBy = 10;
         final int margin = 10;
 
         CuboidRegion expandedRegion = CubeUtils.expandCube(region, expandBy);
 
         final int width = expandedRegion.getWidth();
 
-        mergeWorldName = "mergeWorld" + System.currentTimeMillis(); //TODO replace
-        creatVoidWorld(mergeWorldName); //TODO replace
+        mergeWorldName = "mergeWorld" + System.currentTimeMillis();
+        WorldUtils.createVoidWorld(mergeWorldName, 0);
 
         World fromWorld = BukkitAdapter.adapt(Bukkit.getWorld(fromWorldName));
         World targetWorld = BukkitAdapter.adapt(Bukkit.getWorld(targetWorldName));
-        World voidWorld = BukkitAdapter.adapt(creatVoidWorld(mergeWorldName));
+        World voidWorld = BukkitAdapter.adapt(WorldUtils.createVoidWorld(mergeWorldName, 0));
 
         BlockArrayClipboard fromClipboard =
                 SchematicUtils.createClipboard(expandedRegion, fromWorld);
