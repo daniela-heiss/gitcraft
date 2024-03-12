@@ -8,7 +8,6 @@ import top.gitcraft.commands.areaselect.SetPos1Command;
 import top.gitcraft.commands.areaselect.SetPos2Command;
 import top.gitcraft.commands.loadsave.DeleteSaveCommand;
 import top.gitcraft.commands.loadsave.LoadCommand;
-import top.gitcraft.commands.loadsave.LoadSaveListCommand;
 import top.gitcraft.commands.loadsave.SaveCommand;
 import top.gitcraft.commands.merging.*;
 import top.gitcraft.commands.schematics.GenerateSchematicCommand;
@@ -63,8 +62,6 @@ public final class GitCraft extends JavaPlugin {
         Objects.requireNonNull(this.getCommand("gcsave")).setExecutor(new SaveCommand());
         Objects.requireNonNull(this.getCommand("gcdeletesave"))
                .setExecutor(new DeleteSaveCommand());
-        Objects.requireNonNull(this.getCommand("gclistsaves"))
-               .setExecutor(new LoadSaveListCommand());
     }
 
     public void registerMergeCommands() {

@@ -113,7 +113,7 @@ public class SaveList {
         // Adding Reload button
         jsonBuilder.spacing(1)
                 .text("[").bold()
-                .text("Reload").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gclistsaves " + type.name().toLowerCase()).hover(HOVERACTION.show_text, "Reloads list")
+                .text("Reload").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()).hover(HOVERACTION.show_text, "Reloads list")
                 .text("]").bold();
 
         jsonBuilder.spacing(2);
