@@ -2,7 +2,6 @@ package top.gitcraft.utils;
 
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import top.gitcraft.GitCraft;
 import top.gitcraft.utils.enums.JSONCOLOR;
 
 import java.io.*;
@@ -86,19 +85,30 @@ public class WorldUtils {
         }
 
         File worldFolder = Bukkit.getWorld(world.getName()).getWorldFolder();
+        Bukkit.getServer().unloadWorld(world, false);
 
-        Bukkit.getServer().unloadWorld(world, true);
-        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
-            try {
-                org.apache.commons.io.FileUtils.deleteDirectory(worldFolder);
-                if (player != null) {
-                    dispatchTellRawCommand(player,
-                            infoWorldAction(JSONCOLOR.RED, world.getName(), "deleted"));
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+
+        try {
+            org.apache.commons.io.FileUtils.deleteDirectory(worldFolder);
+            if (player != null) {
+                dispatchTellRawCommand(player,
+                        infoWorldAction(JSONCOLOR.RED, world.getName(), "deleted"));
             }
-        }, 60L);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        //        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
+        //            try {
+        //                org.apache.commons.io.FileUtils.deleteDirectory(worldFolder);
+        //                if (player != null) {
+        //                    dispatchTellRawCommand(player,
+        //                            infoWorldAction(JSONCOLOR.RED, world.getName(), "deleted"));
+        //                }
+        //            } catch (IOException e) {
+        //                throw new RuntimeException(e);
+        //            }
+        //        }, 60L);
     }
 
     /**
