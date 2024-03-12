@@ -16,6 +16,11 @@ public class JsonBuilder {
         lastTextComponent = new StringBuilder("},{\"text\":\"").append(text).append("\"");
         return this;
     }
+    public JsonBuilder text(Integer text) {
+        jsonMessage.append("},{\"text\":\"").append(text).append("\"");
+        lastTextComponent = new StringBuilder("},{\"text\":\"").append(text).append("\"");
+        return this;
+    }
 //    public JsonBuilder text(JsonBuilder unBuilt) {
 //        jsonMessage.append(unBuilt.buildReusable());
 //        lastTextComponent = new StringBuilder(unBuilt.buildReusable());

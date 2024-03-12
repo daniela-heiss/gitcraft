@@ -27,7 +27,11 @@ public class DeleteCommand implements CommandExecutor {
 
         // No world provided
         if (args.length == 0) {
-            dispatchTellRawCommand(player, worldListAll(LISTTYPE.DELETE));
+            dispatchTellRawCommand(player, worldListAll(LISTTYPE.DELETE, 1));
+            return true;
+        }
+        if(Objects.equals(args[0], ":") && args.length > 1 && !args[1].isEmpty()){
+            dispatchTellRawCommand(player, worldListAll(LISTTYPE.DELETE, Integer.parseInt(args[1])));
             return true;
         }
         String worldName = args[0];

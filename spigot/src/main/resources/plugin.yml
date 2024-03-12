@@ -64,11 +64,6 @@ commands:
     description: Shows the save menu
     usage: /gcsavemenu
 
-  #world-lists - Join, Create, Delete
-  gclist:
-    description: List worldes
-    usage: /gclist [join|create|delete]
-
   #commands - Join, Create, Delete
   gcjoin:
     description: Join world

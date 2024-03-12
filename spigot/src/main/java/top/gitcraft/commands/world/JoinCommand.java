@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import top.gitcraft.utils.enums.JSONCOLOR;
 import top.gitcraft.utils.enums.LISTTYPE;
 
+import java.util.Objects;
+
 import static top.gitcraft.ui.components.InfoMessages.infoContent;
 import static top.gitcraft.ui.components.WorldList.worldListAll;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
@@ -35,7 +37,11 @@ public class JoinCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            dispatchTellRawCommand(player, worldListAll(LISTTYPE.JOIN));
+            dispatchTellRawCommand(player, worldListAll(LISTTYPE.JOIN, 1));
+            return true;
+        }
+        if(Objects.equals(args[0], ":") && args.length > 1 && !args[1].isEmpty()){
+            dispatchTellRawCommand(player, worldListAll(LISTTYPE.JOIN, Integer.parseInt(args[1])));
             return true;
         }
         String worldName = args[0];

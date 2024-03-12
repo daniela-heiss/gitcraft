@@ -8,12 +8,22 @@ import top.gitcraft.utils.enums.CLICKACTION;
 import top.gitcraft.utils.enums.HOVERACTION;
 import top.gitcraft.utils.enums.JSONCOLOR;
 
+import javax.json.Json;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WorldList {
 
-    public static String worldListSubset(LISTTYPE type, List<String> worldNames) {
+    public static String worldListSubset(LISTTYPE type, List<String> worldNamesAll, int page) {
+        int ifRest = worldNamesAll.size() % 8 != 0 ? 1 : 0;
+        int maxPage = (worldNamesAll.size() / 8) + ifRest;
+        if (page > maxPage) {
+            page = maxPage;
+        } else if (page < 1) {
+            page = 1;
+        }
+
+        List<String> worldNames = worldNamesAll.subList((page-1)*8, Math.min(page * 8, worldNamesAll.size()));
         // Initialize JsonBuilder
         JsonBuilder jsonBuilder = new JsonBuilder();
 
@@ -54,8 +64,13 @@ public class WorldList {
                     .text(type.name().toUpperCase()).bold().color(type.getColor()).click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase() + " " + lastWorld).hover(HOVERACTION.show_text, "Click to " + type.name().toLowerCase() + " " + lastWorld)
                     .text("] ").bold()
                     .text(lastWorld).bold()
-                    .spacing(1);
+                    .spacing(2);
         }
+        String leftArrow = page == 1 ? new JsonBuilder().text("◁ ").bold().color(JSONCOLOR.GRAY).build() : new JsonBuilder().text("◀ ").bold().hover(HOVERACTION.show_text, "Previous page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + (page - 1)).build();
+        String rightArrow = page == maxPage ? new JsonBuilder().text(" ▷").bold().color(JSONCOLOR.GRAY).build() : new JsonBuilder().text(" ▶").bold().hover(HOVERACTION.show_text, "Next page").click(CLICKACTION.run_command, "/gc" + type.name().toLowerCase()+ " : " + (page + 1)).build();
+
+        jsonBuilder.text("   ").addBuilt(leftArrow).text(page).bold().color(JSONCOLOR.YELLOW).text("/").bold().text(String.valueOf(maxPage)).bold().color(JSONCOLOR.YELLOW).addBuilt(rightArrow);
+
 
         // Adding World Menu button
         jsonBuilder.spacing(3)
@@ -68,11 +83,11 @@ public class WorldList {
         return jsonBuilder.build();
     }
 
-    public static String worldListAll(LISTTYPE type) {
+    public static String worldListAll(LISTTYPE type, int page) {
         List<String> worldNames = new ArrayList<>();
         for (World world : Bukkit.getWorlds()) {
             worldNames.add(world.getName());
         }
-        return worldListSubset(type, worldNames);
+        return worldListSubset(type, worldNames, page);
     }
 }
