@@ -79,7 +79,11 @@ public class WorldUtils {
         if (Bukkit.getWorld(world.getName()) == null) {
             return;
         }
-        dispatchTellRawCommand(player, infoActionWorld(JSONCOLOR.RED, "Deleting", world.getName()));
+
+        if (player != null) {
+            dispatchTellRawCommand(player,
+                    infoActionWorld(JSONCOLOR.RED, "Deleting", world.getName()));
+        }
 
         File worldFolder = Bukkit.getWorld(world.getName()).getWorldFolder();
 
