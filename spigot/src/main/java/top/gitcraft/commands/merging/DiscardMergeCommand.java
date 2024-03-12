@@ -10,10 +10,8 @@ import org.bukkit.entity.Player;
 import top.gitcraft.GitCraft;
 import top.gitcraft.utils.WorldUtils;
 
-import java.io.IOException;
 import java.util.List;
 
-import static top.gitcraft.utils.DeleteWorldUtils.deleteWorld;
 import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
 public class DiscardMergeCommand implements CommandExecutor {
