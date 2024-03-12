@@ -20,18 +20,20 @@ public class CreateCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        WorldUtils worldUtils = new WorldUtils();
 
         String currentWorldName = player.getWorld().getName();
-        String worldName = args.length > 0 ? args[0] : worldUtils.generateWorldName(currentWorldName);
+        String worldName =
+                args.length > 0 ? args[0] : WorldUtils.generateWorldName(currentWorldName);
         boolean doTeleport = !(args.length > 1 && Boolean.parseBoolean(args[1]));
-        
+
         Runnable callback = () -> {
             dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.AQUA, worldName, "created"));
-            if (doTeleport) joinWorldAtCurrentLocation(player, worldName);
+            if (doTeleport) {
+                joinWorldAtCurrentLocation(player, worldName);
+            }
         };
 
-        worldUtils.cloneWorld(currentWorldName, worldName, callback);
+        WorldUtils.cloneWorld(currentWorldName, worldName, callback);
 
         return true;
     }
