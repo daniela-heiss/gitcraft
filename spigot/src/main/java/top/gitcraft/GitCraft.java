@@ -15,7 +15,9 @@ import top.gitcraft.commands.merging.*;
 import top.gitcraft.commands.schematics.GenerateSchematicCommand;
 import top.gitcraft.commands.schematics.GenerateSchematicFromArea;
 import top.gitcraft.commands.schematics.PasteSchematicCommand;
-import top.gitcraft.commands.world.*;
+import top.gitcraft.commands.world.CreateCommand;
+import top.gitcraft.commands.world.DeleteCommand;
+import top.gitcraft.commands.world.JoinCommand;
 import top.gitcraft.listeners.AreaSelectListener;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.SaveMenuCommand;
@@ -23,8 +25,7 @@ import top.gitcraft.ui.logic.WorldMenuCommand;
 import top.gitcraft.utils.areavisualizer.PlayerQuitListener;
 
 public final class GitCraft extends JavaPlugin {
-    @Override
-    public void onEnable() {
+    @Override public void onEnable() {
 
         registerGcCommand();
 
@@ -41,8 +42,7 @@ public final class GitCraft extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
     }
 
-    @Override
-    public void onDisable() {
+    @Override public void onDisable() {
         // Plugin shutdown logic
         getLogger().info("Goodbye, SpigotMC!");
     }
@@ -70,7 +70,6 @@ public final class GitCraft extends JavaPlugin {
 
         registerCommand("gcdiscardmerge", new DiscardMergeCommand());
 
-        registerCommand("gccreatemergeworld", new createVoidWorldCommand());
         registerCommand("merge", new MergeCommand());
         registerCommand("gcmergemenu", new MergeMenuCommand());
     }
@@ -89,7 +88,7 @@ public final class GitCraft extends JavaPlugin {
     }
 
     public void registerWorldCommands() {
- 
+
         registerCommand("gcjoin", new JoinCommand());
         registerCommand("gccreate", new CreateCommand());
         registerCommand("gcdelete", new DeleteCommand());

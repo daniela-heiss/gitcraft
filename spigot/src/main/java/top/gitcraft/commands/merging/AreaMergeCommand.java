@@ -49,8 +49,7 @@ public class AreaMergeCommand implements CommandExecutor {
         SchematicUtils.pasteClipboard(targetWorld, player, clipboard.getOrigin(), clipboard);
         TeleportUtils.joinWorldAtCurrentLocation(player, targetWorldName);
 
-        WorldUtils worldUtils = new WorldUtils();
-        worldUtils.deleteWorld(player, currentWorld.getName());
+        WorldUtils.deleteWorld(player, player.getWorld());
 
         return true;
     }
