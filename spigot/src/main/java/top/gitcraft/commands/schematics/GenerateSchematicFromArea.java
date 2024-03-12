@@ -7,9 +7,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.utils.SchematicUtils;
 
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
-import static top.gitcraft.utils.SchematicUtils.createClipboardFromChanges;
 import static top.gitcraft.utils.SchematicUtils.saveClipboardAsSchematic;
 
 public class GenerateSchematicFromArea implements CommandExecutor {
@@ -33,8 +33,10 @@ public class GenerateSchematicFromArea implements CommandExecutor {
         if (region == null) {
             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Error: No Area selected");
         }
-        
-        BlockArrayClipboard clipboard = createClipboardFromChanges(player, region);
+
+
+        BlockArrayClipboard clipboard =
+                SchematicUtils.createClipboardFromChanges(region, player.getWorld().getName());
         saveClipboardAsSchematic(clipboard, schematicName);
 
         return true;
