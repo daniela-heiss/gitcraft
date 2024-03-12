@@ -62,7 +62,7 @@ public class MergeUtils {
                     confirmMerge(fromWorldName, targetWorldName));
         };
         TeleportUtils.joinWorldAtCurrentLocation(player, mergeWorldName, callback);
-
+        player.setFlying(true);
         //get the chunks of the clipboards
         Iterable<BlockVector2> chunks;
         chunks = region.getChunks();
