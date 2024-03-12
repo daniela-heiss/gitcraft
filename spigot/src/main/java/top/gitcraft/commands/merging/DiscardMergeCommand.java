@@ -43,7 +43,7 @@ public class DiscardMergeCommand implements CommandExecutor {
 
         // Delete player's Merge world
         Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
-            deleteWorld(player, mergeWorld);
+            WorldUtils.deleteWorld(player, mergeWorld);
         }, 60L);
 
         return true;
