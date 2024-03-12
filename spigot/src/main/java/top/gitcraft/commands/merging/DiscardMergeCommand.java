@@ -1,15 +1,19 @@
 package top.gitcraft.commands.merging;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.GitCraft;
 import top.gitcraft.utils.WorldUtils;
 
+import java.io.IOException;
 import java.util.List;
 
+import static top.gitcraft.utils.DeleteWorldUtils.deleteWorld;
 import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
 
 public class DiscardMergeCommand implements CommandExecutor {
@@ -38,10 +42,9 @@ public class DiscardMergeCommand implements CommandExecutor {
         }
 
         // Delete player's Merge world
-        WorldUtils worldUtils = new WorldUtils();
-
-        worldUtils.deleteWorld(player, mergeWorld.getName());
-
+        Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
+            deleteWorld(player, mergeWorld);
+        }, 60L);
 
         return true;
     }
