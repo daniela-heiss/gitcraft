@@ -11,8 +11,8 @@ import java.time.Instant;
 import static org.bukkit.Bukkit.getWorld;
 
 public class VoidWorldGenerator {
-    public static World createMergeWorld(int layerHeight) {
-        String newName = "Merge" + Instant.now().getEpochSecond(); //generating new name for the mergeworld
+    public static World createMergeWorld(String newName,int layerHeight) {
+        //String newName = "Merge" + Instant.now().getEpochSecond(); //generating new name for the mergeworld
         WorldCreator wc = new WorldCreator(newName);
         wc.type(WorldType.FLAT);
         wc.generatorSettings("{\"layers\": [{\"block\": \"air\", \"height\": "+layerHeight+"},{\"block\": \"barrier\", \"height\": 1}], \"biome\":\"desert\"}");

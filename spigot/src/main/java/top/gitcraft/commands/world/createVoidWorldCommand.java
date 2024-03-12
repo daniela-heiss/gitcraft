@@ -18,14 +18,14 @@ public class createVoidWorldCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
         player.sendMessage("Create void world...");
-
+        String mergeWorldName = "mergeWorld" + System.currentTimeMillis();
         if(args.length == 0){
-            createMergeWorld(0);
+            createMergeWorld(mergeWorldName,0);
             return true;
         }
         try {
             String layerHeight = args[0];
-            createMergeWorld(Integer.parseInt(layerHeight) + 64);//is +64 cause the world starts at -64
+            createMergeWorld(mergeWorldName,Integer.parseInt(layerHeight) + 64);//is +64 cause the world starts at -64
             player.sendMessage("World created");
             return true;
         }catch (Exception e) {

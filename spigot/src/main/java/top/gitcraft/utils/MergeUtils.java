@@ -30,11 +30,12 @@ public class MergeUtils {
         final int width = expandedRegion.getWidth();
 
         mergeWorldName = "mergeWorld" + System.currentTimeMillis(); //TODO replace
-        creatVoidWorld(mergeWorldName); //TODO replace
+        VoidWorldGenerator.createMergeWorld(mergeWorldName, 0); //TODO replace
 
         World fromWorld = BukkitAdapter.adapt(Bukkit.getWorld(fromWorldName));
         World targetWorld = BukkitAdapter.adapt(Bukkit.getWorld(targetWorldName));
-        World voidWorld = BukkitAdapter.adapt(creatVoidWorld(mergeWorldName));
+        World voidWorld =
+                BukkitAdapter.adapt(VoidWorldGenerator.createMergeWorld(mergeWorldName, 0));
 
         BlockArrayClipboard fromClipboard =
                 SchematicUtils.createClipboard(expandedRegion, fromWorld);
