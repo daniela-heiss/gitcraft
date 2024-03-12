@@ -32,7 +32,6 @@ public class CreateCommand implements CommandExecutor {
         };
 
         worldUtils.cloneWorld(currentWorldName, worldName, callback);
-        worldUtils.logWorldCreate(player, worldName);
 
         return true;
     }
