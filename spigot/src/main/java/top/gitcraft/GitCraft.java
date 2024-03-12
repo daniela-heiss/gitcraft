@@ -19,6 +19,7 @@ import top.gitcraft.commands.world.CreateCommand;
 import top.gitcraft.commands.world.DeleteCommand;
 import top.gitcraft.commands.world.JoinCommand;
 import top.gitcraft.listeners.AreaSelectListener;
+import top.gitcraft.listeners.PlayerChangeWorldListener;
 import top.gitcraft.listeners.PlayerQuitListener;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.SaveMenuCommand;
@@ -40,6 +41,7 @@ public final class GitCraft extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerChangeWorldListener(), this);
     }
 
     @Override public void onDisable() {
