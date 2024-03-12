@@ -91,8 +91,10 @@ public class WorldUtils {
         Bukkit.getScheduler().runTaskLater(GitCraft.getPlugin(GitCraft.class), () -> {
             try {
                 org.apache.commons.io.FileUtils.deleteDirectory(worldFolder);
-                dispatchTellRawCommand(player,
-                        infoWorldAction(JSONCOLOR.RED, world.getName(), "deleted"));
+                if (player != null) {
+                    dispatchTellRawCommand(player,
+                            infoWorldAction(JSONCOLOR.RED, world.getName(), "deleted"));
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
