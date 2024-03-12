@@ -31,7 +31,7 @@ public class CreateCommand implements CommandExecutor {
             if (doTeleport) joinWorldAtCurrentLocation(player, worldName);
         };
 
-        worldUtils.cloneWorld(currentWorldName, worldName, callback);
+        WorldUtils.cloneWorld(currentWorldName, worldName, callback);
         worldUtils.logWorldCreate(player, worldName);
 
         return true;
