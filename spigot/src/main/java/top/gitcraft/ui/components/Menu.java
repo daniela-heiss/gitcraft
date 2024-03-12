@@ -224,12 +224,16 @@ public class Menu {
      public static String confirmMerge(String worldName1, String worldName2) {
          return new JsonBuilder()
                  .addBuilt(header())
+                 .text("Confirm Merge").bold()
+                 .spacing(1)
+                 .repeat("═", 9).bold()
+                 .spacing(2)
                  .text("From: ").bold().text(worldName1).bold().color(JSONCOLOR.GREEN)
                  .text(" → Into: ").bold().text(worldName2).bold().color(JSONCOLOR.GREEN)
-                 .spacing(6)
-                 .text("[").bold().text("Yes").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/areamerge " + worldName2).hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold()
-                 .text("[").bold().text("No").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdiscardmerge " + worldName1).hover(HOVERACTION.show_text, "Cancel the merge").text("]").bold()
-                 .spacing(14)
+                 .spacing(8)
+                 .text(" [").bold().text("Confirm").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/areamerge " + worldName2).hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold()
+                 .text("   [").bold().text("Discard").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdiscardmerge " + worldName1).hover(HOVERACTION.show_text, "Cancel the merge").text("]").bold()
+                 .spacing(4)
                  .build();
      }
 }
