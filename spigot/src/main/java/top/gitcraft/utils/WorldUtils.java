@@ -80,16 +80,6 @@ public class WorldUtils {
      * @param world  The name of the world to be deleted
      */
     public static void deleteWorld(Player player, World world) {
-        if (Bukkit.getWorld(world.getName()) == null) {
-            return;
-        }
-
-        if (player != null) {
-            logger.info("Deleting " + world.getName());
-            dispatchTellRawCommand(player,
-                    infoActionWorld(JSONCOLOR.RED, "Deleting", world.getName()));
-        }
-
         File worldFolder = Bukkit.getWorld(world.getName()).getWorldFolder();
         Bukkit.getServer().unloadWorld(world, false);
 

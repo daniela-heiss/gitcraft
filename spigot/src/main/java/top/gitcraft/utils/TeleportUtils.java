@@ -68,7 +68,7 @@ public class TeleportUtils {
      * @param player    the player to join the world
      * @param worldName the name of the world to join
      */
-    public static boolean joinWorldAtWorldSpawn(Player player, String worldName) {
+    public static void joinWorldAtWorldSpawn(Player player, String worldName) {
         World world = Bukkit.getWorld(worldName);
         GameMode originalGameMode = player.getGameMode();
 
@@ -78,7 +78,5 @@ public class TeleportUtils {
             player.teleport(spawnLocation, PlayerTeleportEvent.TeleportCause.PLUGIN);
             dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.GREEN, worldName, "joined"));
         });
-        return true;
     }
-
 }
