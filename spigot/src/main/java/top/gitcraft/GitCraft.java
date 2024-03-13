@@ -26,6 +26,10 @@ import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.SaveMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
 
+import java.io.FileNotFoundException;
+
+import static top.gitcraft.utils.ConfigUtils.createNewConfigFile;
+
 public final class GitCraft extends JavaPlugin {
     @Override public void onEnable() {
         registerGcCommand();
@@ -43,6 +47,13 @@ public final class GitCraft extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerChangeWorldListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
+
+        // Create config.yml and GitCraft folder
+        try {
+            createNewConfigFile();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override public void onDisable() {
