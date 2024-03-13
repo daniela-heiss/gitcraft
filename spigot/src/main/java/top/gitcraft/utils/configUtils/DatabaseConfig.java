@@ -5,6 +5,7 @@ public class DatabaseConfig {
     private String DATABASE_USERNAME = "<Your Database Username>";
     private String DATABASE_PASSWORD = "<Your Database Password>";
 
+    // getter
     public String getDATABASE_URL() {
         return DATABASE_URL;
     }
@@ -17,6 +18,7 @@ public class DatabaseConfig {
         return DATABASE_USERNAME;
     }
 
+    // setter
     public void setDATABASE_USERNAME(String DATABASE_USERNAME) {
         this.DATABASE_USERNAME = DATABASE_USERNAME;
     }

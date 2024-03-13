@@ -11,8 +11,6 @@ public class GlobalConfig {
     private String particleType = "flames";
     private String defaultWorld = "world";
 
-    // Constructor not needed, cause default values are already set
-
     // getter
     public boolean getKeepGamemodeOnWorldJoin() {
         return this.keepGamemodeOnWorldJoin;

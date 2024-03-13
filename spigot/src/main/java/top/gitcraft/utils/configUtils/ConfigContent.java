@@ -2,6 +2,8 @@ package top.gitcraft.utils.configUtils;
 
 public class ConfigContent {
 
+    // This class is used to combine DatabaseConfig and GlobalConfig
+    // This is mendatory because the create yaml function can only use one class
     private DatabaseConfig databaseConfig;
     private GlobalConfig globalConfig;
 
