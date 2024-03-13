@@ -1,12 +1,20 @@
 package top.gitcraft.utils.configUtils;
 
 import org.yaml.snakeyaml.*;
+import org.yaml.snakeyaml.constructor.Construct;
+import org.yaml.snakeyaml.constructor.Constructor;
 
 import java.io.File;
 import java.io.*;
 
 
 public class ConfigUtils {
+
+    private static String currentDirectory = System.getProperty("user.dir");
+    private static String folderName = "/plugins/GitCraft/";
+    private static String fileName = "config";
+    private static String fileEnding = ".yml";
+
 
     private static boolean createGitCraftFolder (String currentDirectory, String folderName) {
         File directory = new File(currentDirectory + folderName);
@@ -28,13 +36,8 @@ public class ConfigUtils {
 
     public static void createNewConfigFile () throws FileNotFoundException {
 
-        String currentDirectory = System.getProperty("user.dir");
-        String folderName = "/plugins/GitCraft/";
-
         boolean folderCreated = createGitCraftFolder(currentDirectory, folderName);
         if (folderCreated) {
-            String fileName = "config";
-            String fileEnding = ".yml";
             File configFile= new File(currentDirectory + "/plugins/GitCraft/" + fileName + fileEnding);
             if (!configFile.exists()) {
                 // Make it look like a "classic" yaml file
@@ -58,6 +61,27 @@ public class ConfigUtils {
         }
     }
 
+    public static DatabaseConfig getDatabaseConfig() {
+        InputStream inputStream;
+        try {
+            inputStream = new FileInputStream(new File(currentDirectory + "/plugins/GitCraft/" + fileName + fileEnding));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        Yaml config = new Yaml(new Constructor(DatabaseConfig.class, new LoaderOptions()));
+        return config.load(inputStream);
+    }
+
+    public static DatabaseConfig getGlobalConfig() {
+        InputStream inputStream;
+        try {
+            inputStream = new FileInputStream(new File(currentDirectory + "/plugins/GitCraft/" + fileName + fileEnding));
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        Yaml config = new Yaml(new Constructor(GlobalConfig.class, new LoaderOptions()));
+        return config.load(inputStream);
+    }
 
 }
 
