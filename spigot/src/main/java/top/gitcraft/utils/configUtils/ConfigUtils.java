@@ -1,4 +1,4 @@
-package top.gitcraft.utils;
+package top.gitcraft.utils.configUtils;
 
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.*;
@@ -8,36 +8,9 @@ import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ConfigUtils {
+import static top.gitcraft.utils.configUtils.YamlMap.getStringObjectMap;
 
-    /*
-    Config-File contents
-        --> keepGamemodeOnWorldJoin         : default: false
-        --> showParticles                   : default: true
-        --> deleteSourceWorld               : default: false
-        --> cleanSchematicsInterval         : default: false
-        --> allowPlayerToDeleteOtherWorld   : default: false
-        --> cleanWorlds                     : default: false
-        --> skipVoidWorld                   : default: false
-        --> selectAreaByItem                : default: true
-        --> particleType                    : default:
-        --> defaultWorld                    : default: world
-*/
-    @NotNull
-    private static Map<String, Object> getStringObjectMap() {
-        Map<String, Object> dataMap = new LinkedHashMap<>();
-        dataMap.put("keepGamemodeOnWorldJoin", false);
-        dataMap.put("showParticles", true);
-        dataMap.put("deleteSourceWorld", false);
-        dataMap.put("cleanSchematicsInterval", false);
-        dataMap.put("allowPlayerToDeleteOtherWorld", false);
-        dataMap.put("cleanWorlds", false);
-        dataMap.put("skipVoidWorld", false);
-        dataMap.put("selectAreaByItem", true);
-        dataMap.put("particleType", "flames");
-        dataMap.put("defaultWorld", "world");
-        return dataMap;
-    }
+public class ConfigUtils {
 
     private static boolean createGitCraftFolder (String currentDirectory, String folderName) {
         File directory = new File(currentDirectory + folderName);
@@ -75,6 +48,7 @@ public class ConfigUtils {
                 options.setPrettyFlow(true);
                 options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 
+                // Create new config.yaml
                 PrintWriter writer = new PrintWriter(configFile);
                 Yaml config = new Yaml(options);
                 config.dump(dataMap, writer);
@@ -85,7 +59,8 @@ public class ConfigUtils {
         } else {
             System.out.println("Unable to create config.yml, Directory couldn't be created");
         }
-
     }
+
+
 }
 

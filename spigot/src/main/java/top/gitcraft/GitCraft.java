@@ -28,7 +28,7 @@ import top.gitcraft.ui.logic.WorldMenuCommand;
 
 import java.io.FileNotFoundException;
 
-import static top.gitcraft.utils.ConfigUtils.createNewConfigFile;
+import static top.gitcraft.utils.configUtils.ConfigUtils.createNewConfigFile;
 
 public final class GitCraft extends JavaPlugin {
     @Override public void onEnable() {
