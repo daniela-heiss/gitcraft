@@ -24,7 +24,7 @@ public class CubeUtils {
 
 
     public static CuboidRegion regionFromList(List<BlockEntity> list) {
-        if (list.isEmpty()) {
+        if (list == null || list.isEmpty()) {
             return null;
         }
 

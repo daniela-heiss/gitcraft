@@ -37,7 +37,7 @@ public final class GitCraft extends JavaPlugin {
         registerSchematicCommands();
 
         registerAreaSelectCommands();
-        registerSaveLoadCommands();
+        //registerSaveLoadCommands();
 
         getServer().getPluginManager().registerEvents(new AreaSelectListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
