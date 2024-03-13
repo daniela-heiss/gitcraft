@@ -1,14 +1,10 @@
 package top.gitcraft.utils.configUtils;
 
-import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.*;
 
 import java.io.File;
 import java.io.*;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
-import static top.gitcraft.utils.configUtils.YamlMap.getStringObjectMap;
 
 public class ConfigUtils {
 
@@ -31,7 +27,6 @@ public class ConfigUtils {
     }
 
     public static void createNewConfigFile () throws FileNotFoundException {
-        Map<String, Object> dataMap = getStringObjectMap();
 
         String currentDirectory = System.getProperty("user.dir");
         String folderName = "/plugins/GitCraft/";
@@ -49,9 +44,11 @@ public class ConfigUtils {
                 options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 
                 // Create new config.yaml
+                ConfigContent configContent = new ConfigContent(new DatabaseConfig(), new GlobalConfig());
+
                 PrintWriter writer = new PrintWriter(configFile);
                 Yaml config = new Yaml(options);
-                config.dump(dataMap, writer);
+                config.dump(configContent, writer);
                 System.out.println("config.yml created successfully");
             } else {
                 System.out.println("config.yml already exists");
