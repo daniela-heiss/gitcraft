@@ -141,7 +141,7 @@ public class Menu {
                 .build();
     }
 
-    public static String menuMergeMenu(Player player, String args, BlockVector3 pos1, BlockVector3 pos2, CuboidRegion cr) {
+    public static String menuMergeMenu(Player player, String args, CuboidRegion cr) {
         /*
          * ══ GitCraft ══
          *
@@ -161,6 +161,8 @@ public class Menu {
          * [Main Menu]
          *
          */
+        BlockVector3 pos1;
+        BlockVector3 pos2;
         JsonBuilder jsonMessage = new JsonBuilder()
                 .addBuilt(header())
                 .text("Merge Menu").bold()
@@ -192,17 +194,18 @@ public class Menu {
                         .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/merge " + player.getWorld().getName() + " world " + "mergeworld").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold();
             }
         } else {
-
-            if (pos1 == null || pos2 == null) {
+            if (cr == null) {
                 jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Activate area select")
                         .spacing(2)
-                        .text("Pos1: ").bold().text("No area selected").color(JSONCOLOR.RED).bold()
+                        .text("Pos1: ").bold().text("No changes yet").color(JSONCOLOR.RED).bold()
                         .spacing(1)
-                        .text("Pos2: ").bold().text("No area selected").color(JSONCOLOR.RED).bold()
+                        .text("Pos2: ").bold().text("No changes yet").color(JSONCOLOR.RED).bold()
                         .spacing(3)
-                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GRAY).hover(HOVERACTION.show_text, "No changes detected").text("]").bold();
+                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GRAY).hover(HOVERACTION.show_text, "Please make changes first").text("]").bold();
 
             } else {
+                pos1 = cr.getPos1();
+                pos2 = cr.getPos2();
                 jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Activate area select")
                         .spacing(2)
                         .text("Pos1: ").bold().text(String.valueOf(pos1.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos1.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos1.getZ())).color(JSONCOLOR.BLUE)

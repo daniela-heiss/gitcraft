@@ -1,12 +1,15 @@
 package top.gitcraft.commands.world;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.GitCraft;
 import top.gitcraft.utils.WorldUtils;
 import top.gitcraft.utils.enums.JSONCOLOR;
 
+import static top.gitcraft.ui.components.InfoMessages.infoActionWorld;
 import static top.gitcraft.ui.components.InfoMessages.infoWorldAction;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 import static top.gitcraft.utils.TeleportUtils.joinWorldAtCurrentLocation;
@@ -32,8 +35,8 @@ public class CreateCommand implements CommandExecutor {
                 joinWorldAtCurrentLocation(player, worldName);
             }
         };
-
-        WorldUtils.cloneWorld(currentWorldName, worldName, callback);
+        dispatchTellRawCommand(player, infoActionWorld(JSONCOLOR.AQUA, "Creating", worldName));
+        Bukkit.getScheduler().runTask(GitCraft.getPlugin(GitCraft.class), () -> WorldUtils.cloneWorld(currentWorldName, worldName, callback));
 
         return true;
     }

@@ -48,10 +48,10 @@ public class JoinCommand implements CommandExecutor {
         boolean created = args.length > 1 && Boolean.parseBoolean(args[1]);
 
         if (created) {
-            return joinWorldAtCurrentLocation(player, worldName);
+            joinWorldAtCurrentLocation(player, worldName);
+            return true;
         }
-        return joinWorldAtWorldSpawn(player, worldName);
-
+        joinWorldAtWorldSpawn(player, worldName);
+        return true;
     }
-
 }
