@@ -192,14 +192,15 @@ public class Menu {
                         .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/merge " + player.getWorld().getName() + " world " + "mergeworld").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold();
             }
         } else {
-            if (cr == null) {
+
+            if (pos1 == null || pos2 == null) {
                 jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Activate area select")
                         .spacing(2)
-                        .text("Pos1: ").bold().text("No changes yet").color(JSONCOLOR.RED).bold()
+                        .text("Pos1: ").bold().text("No area selected").color(JSONCOLOR.RED).bold()
                         .spacing(1)
-                        .text("Pos2: ").bold().text("No changes yet").color(JSONCOLOR.RED).bold()
+                        .text("Pos2: ").bold().text("No area selected").color(JSONCOLOR.RED).bold()
                         .spacing(3)
-                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GRAY).hover(HOVERACTION.show_text, "Please make changes first").text("]").bold();
+                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GRAY).hover(HOVERACTION.show_text, "No changes detected").text("]").bold();
 
             } else {
                 jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Activate area select")

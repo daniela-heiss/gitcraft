@@ -28,13 +28,23 @@ public class MergeMenuCommand implements CommandExecutor {
         CuboidRegion cr = getSelection(player);
         if (args.length == 0) {
             mergeType = "auto";
-            dispatchTellRawCommand(player,
-                    menuMergeMenu(player, mergeType, region.getPos1(), region.getPos2(), cr));
-            return true;
+            if(region == null) {
+                dispatchTellRawCommand(player,
+                        menuMergeMenu(player, mergeType, null, null, cr));
+            } else {
+                dispatchTellRawCommand(player,
+                        menuMergeMenu(player, mergeType, region.getPos1(), region.getPos2(), cr));
+                return true;
+            }
         }
         mergeType = args[0];
-        dispatchTellRawCommand(player,
-                menuMergeMenu(player, mergeType, region.getPos1(), region.getPos2(), cr));
+        if(region == null) {
+            dispatchTellRawCommand(player,
+                    menuMergeMenu(player, mergeType, null, null, cr));
+        } else {
+            dispatchTellRawCommand(player,
+                    menuMergeMenu(player, mergeType, region.getPos1(), region.getPos2(), cr));
+        }
         return true;
     }
 }

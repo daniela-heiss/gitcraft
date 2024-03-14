@@ -1,6 +1,7 @@
 package top.gitcraft.commands.merging;
 
 import com.sk89q.worldedit.regions.CuboidRegion;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -47,8 +48,11 @@ public class AutoMergeCommand implements CommandExecutor {
         player.sendMessage("AutoMerging " + fromWorldName + " into " + targetWorldName + " via " +
                 mergeWorldName);
 
-        pasteMergeAreas(player, fromWorldName, targetWorldName, mergeWorldName, region);
-
+        if (region == null) {
+            player.sendMessage(ChatColor.RED + "No changes detected");
+        } else {
+            pasteMergeAreas(player, fromWorldName, targetWorldName, mergeWorldName, region);
+        }
         return true;
     }
 }
