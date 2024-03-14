@@ -1,8 +1,9 @@
 package top.gitcraft.utils.configUtils;
 
 import org.yaml.snakeyaml.*;
-import org.yaml.snakeyaml.constructor.Construct;
+import org.yaml.snakeyaml.representer.Representer;
 import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.nodes.Tag;
 
 import java.io.File;
 import java.io.*;
@@ -13,7 +14,7 @@ public class ConfigUtils {
     private static String currentDirectory = System.getProperty("user.dir");
     private static String folderName = "/plugins/GitCraft/";
     private static String fileName = "config";
-    private static String fileEnding = ".yml";
+    private static String fileEnding = ".yaml";
 
 
     private static boolean createGitCraftFolder (String currentDirectory, String folderName) {
@@ -45,13 +46,14 @@ public class ConfigUtils {
                 options.setIndent(2);
                 options.setPrettyFlow(true);
                 options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+                Representer skipEmptyAndNullRepresenter = new Representer(options);
+                skipEmptyAndNullRepresenter.addClassTag(ConfigContainer.class, Tag.MAP);
 
-                // Create new config.yaml
-                ConfigContent configContent = new ConfigContent(new DatabaseConfig(), new GlobalConfig());
+                ConfigContainer ConfigContainer = new ConfigContainer();
 
                 PrintWriter writer = new PrintWriter(configFile);
-                Yaml config = new Yaml(options);
-                config.dump(configContent, writer);
+                Yaml config = new Yaml(skipEmptyAndNullRepresenter, options);
+                config.dump(ConfigContainer, writer);
                 System.out.println("config.yml created successfully");
             } else {
                 System.out.println("config.yml already exists");
@@ -61,25 +63,16 @@ public class ConfigUtils {
         }
     }
 
-    public static DatabaseConfig getDatabaseConfig() {
-        InputStream inputStream;
-        try {
-            inputStream = new FileInputStream(new File(currentDirectory + "/plugins/GitCraft/" + fileName + fileEnding));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        Yaml config = new Yaml(new Constructor(DatabaseConfig.class, new LoaderOptions()));
-        return config.load(inputStream);
-    }
+    public static ConfigContainer getEntireConfig() {
 
-    public static DatabaseConfig getGlobalConfig() {
         InputStream inputStream;
         try {
-            inputStream = new FileInputStream(new File(currentDirectory + "/plugins/GitCraft/" + fileName + fileEnding));
+            inputStream = new FileInputStream(currentDirectory + "/plugins/GitCraft/" + fileName + fileEnding);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        Yaml config = new Yaml(new Constructor(GlobalConfig.class, new LoaderOptions()));
+        Yaml config = new Yaml(new Constructor(ConfigContainer.class, new LoaderOptions()));
+
         return config.load(inputStream);
     }
 

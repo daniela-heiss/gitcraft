@@ -1,5 +1,8 @@
 package top.gitcraft.utils.configUtils;
 
+import org.bukkit.Particle;
+import org.bukkit.block.data.type.Bed;
+
 public class GlobalConfig {
     private boolean keepGamemodeOnWorldJoin = false;
     private boolean deleteSourceWorld =  true;
@@ -8,7 +11,7 @@ public class GlobalConfig {
     private boolean cleanWorlds = false;
     private boolean skipVoidWorld = false;
     private boolean selectAreaByItem = true;
-    private String particleType = "flames";
+    private String particleType = "Particle.FLAME";
     private String defaultWorld = "world";
 
     // getter

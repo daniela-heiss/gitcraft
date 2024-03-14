@@ -1,5 +1,6 @@
 package top.gitcraft;
 
+import org.bukkit.Particle;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,13 +26,24 @@ import top.gitcraft.listeners.PlayerQuitListener;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.SaveMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
+import top.gitcraft.utils.configUtils.ConfigContainer;
+import top.gitcraft.utils.configUtils.DatabaseConfig;
+import top.gitcraft.utils.configUtils.GlobalConfig;
 
 import java.io.FileNotFoundException;
 
-import static top.gitcraft.utils.configUtils.ConfigUtils.createNewConfigFile;
+import static top.gitcraft.utils.configUtils.ConfigUtils.*;
 
 public final class GitCraft extends JavaPlugin {
     @Override public void onEnable() {
+
+        // Create config.yml and GitCraft folder
+        try {
+            createNewConfigFile();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
         registerGcCommand();
 
         registerMenuCommands();
@@ -47,13 +59,6 @@ public final class GitCraft extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerChangeWorldListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
-
-        // Create config.yml and GitCraft folder
-        try {
-            createNewConfigFile();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override public void onDisable() {
