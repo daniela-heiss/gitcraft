@@ -1,5 +1,6 @@
 package top.gitcraft.commands.world;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,7 +28,11 @@ public class DeleteCommand implements CommandExecutor {
 
         // No world provided
         if (args.length == 0) {
-            dispatchTellRawCommand(player, worldListAll(LISTTYPE.DELETE));
+            dispatchTellRawCommand(player, worldListAll(LISTTYPE.DELETE, 1));
+            return true;
+        }
+        if(Objects.equals(args[0], ":") && args.length > 1 && !args[1].isEmpty()){
+            dispatchTellRawCommand(player, worldListAll(LISTTYPE.DELETE, Integer.parseInt(args[1])));
             return true;
         }
         String worldName = args[0];
@@ -36,9 +41,7 @@ public class DeleteCommand implements CommandExecutor {
             dispatchTellRawCommand(player, infoWorldAction(JSONCOLOR.RED, "world", "is protected and will not be deleted"));
             return true;
         }
-        WorldUtils worldUtils = new WorldUtils();
-        worldUtils.deleteWorld(player, worldName);
-        worldUtils.logWorldDelete(player, worldName);
+        WorldUtils.deleteWorld(player, Bukkit.getWorld(worldName));
 
         return true;
     }

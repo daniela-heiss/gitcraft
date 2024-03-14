@@ -14,12 +14,17 @@ import top.gitcraft.database.daos.SaveDao;
 import top.gitcraft.database.daos.UserDao;
 import top.gitcraft.database.entities.SaveEntity;
 import top.gitcraft.database.entities.UserEntity;
+import top.gitcraft.utils.enums.LISTTYPE;
 
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
+import static top.gitcraft.ui.components.SaveList.saveListAll;
+import static top.gitcraft.ui.components.WorldList.worldListAll;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 import static top.gitcraft.utils.MessageUtils.errorMessage;
 
 public class LoadCommand implements CommandExecutor {
@@ -42,14 +47,20 @@ public class LoadCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        String saveName = args[0];
-
         if (!(sender instanceof Player)) {
             sender.sendMessage("You must be a player to use this command");
             return false;
         }
-
         Player player = (Player) sender;
+        if (args.length == 0) {
+            dispatchTellRawCommand(player, saveListAll(LISTTYPE.LOAD, player.getName(), 1));
+            return true;
+        }
+        if(Objects.equals(args[0], ":") && args.length > 1 && !args[1].isEmpty()){
+            dispatchTellRawCommand(player, saveListAll(LISTTYPE.LOAD, player.getName(), Integer.parseInt(args[1])));
+            return true;
+        }
+        String saveName = args[0];
 
         player.sendMessage("Loading save...");
         loadSave(saveName, player.getName());

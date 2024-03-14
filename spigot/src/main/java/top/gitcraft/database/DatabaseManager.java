@@ -3,12 +3,9 @@ package top.gitcraft.database;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-
 import io.github.cdimascio.dotenv.Dotenv;
-
 import top.gitcraft.database.daos.*;
 import top.gitcraft.database.entities.SaveEntity;
-import top.gitcraft.database.entities.WorldMapEntity;
 
 import java.sql.SQLException;
 
@@ -37,10 +34,11 @@ public class DatabaseManager {
     }
 
     private void initializeDatabase() throws SQLException {
-        connectionSource = new JdbcConnectionSource(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
+        connectionSource =
+                new JdbcConnectionSource(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
 
         TableUtils.createTableIfNotExists(connectionSource, SaveEntity.class);
-        TableUtils.createTableIfNotExists(connectionSource, WorldMapEntity.class);
+        //        TableUtils.createTableIfNotExists(connectionSource, WorldMapEntity.class);
     }
 
     private void closeConnection() throws Exception {

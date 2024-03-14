@@ -13,6 +13,11 @@ import top.gitcraft.database.entities.SaveEntity;
 import top.gitcraft.database.daos.UserDao;
 import top.gitcraft.database.daos.SaveDao;
 import top.gitcraft.database.entities.UserEntity;
+import top.gitcraft.utils.enums.LISTTYPE;
+
+import static top.gitcraft.ui.components.Menu.menuSaveMenu;
+import static top.gitcraft.ui.components.SaveList.saveListAll;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class SaveCommand implements CommandExecutor {
 
@@ -31,14 +36,16 @@ public class SaveCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-        String saveName = args[0];
-
         if(!(sender instanceof Player)) {
             sender.sendMessage("You must be a player to use this command");
             return false;
         }
-
         Player player = (Player) sender;
+        if (args.length == 0) {
+            dispatchTellRawCommand(player, menuSaveMenu());
+            return true;
+        }
+        String saveName = args[0];
 
         player.sendMessage("Save in progress...");
         if (logSave(saveName, player.getName()) == false) {
