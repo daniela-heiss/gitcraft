@@ -19,6 +19,7 @@ import top.gitcraft.commands.schematics.PasteSchematicCommand;
 import top.gitcraft.commands.world.CreateCommand;
 import top.gitcraft.commands.world.DeleteCommand;
 import top.gitcraft.commands.world.JoinCommand;
+import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.listeners.AreaSelectListener;
 import top.gitcraft.listeners.PlayerChangeWorldListener;
 import top.gitcraft.listeners.PlayerJoinListener;
@@ -26,6 +27,8 @@ import top.gitcraft.listeners.PlayerQuitListener;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.SaveMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
+
+import java.sql.SQLException;
 import top.gitcraft.utils.configUtils.ConfigContainer;
 import top.gitcraft.utils.configUtils.DatabaseConfig;
 import top.gitcraft.utils.configUtils.GlobalConfig;
@@ -36,6 +39,18 @@ import static top.gitcraft.utils.configUtils.ConfigUtils.*;
 
 public final class GitCraft extends JavaPlugin {
     @Override public void onEnable() {
+        DatabaseManager databaseManager = null;
+        try {
+            databaseManager = DatabaseManager.getInstance();
+
+            if (!databaseManager.isDatabaseAvailable()) {
+                getLogger().severe("Database is not available. Plugin will not start.");
+                getServer().getPluginManager().disablePlugin(this);
+                return;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         // Create config.yml and GitCraft folder
         try {

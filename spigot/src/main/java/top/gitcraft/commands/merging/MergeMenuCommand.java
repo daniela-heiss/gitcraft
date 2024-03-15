@@ -23,18 +23,16 @@ public class MergeMenuCommand implements CommandExecutor {
         Player player = (Player) sender;
         String mergeType;
 
-        CuboidRegion region =
-                CubeUtils.regionFromList(getBlockChangedByPlayers(player.getWorld().getName()));
-        CuboidRegion cr = getSelection(player);
-        if (args.length == 0) {
+        CuboidRegion cr;
+        if (args.length == 0 || !args[0].equals("area")) {
             mergeType = "auto";
-            dispatchTellRawCommand(player,
-                    menuMergeMenu(player, mergeType, region.getPos1(), region.getPos2(), cr));
+            cr = CubeUtils.regionFromList(getBlockChangedByPlayers(player.getWorld().getName()));
+            dispatchTellRawCommand(player, menuMergeMenu(player, mergeType, cr));
             return true;
         }
         mergeType = args[0];
-        dispatchTellRawCommand(player,
-                menuMergeMenu(player, mergeType, region.getPos1(), region.getPos2(), cr));
+        cr = getSelection(player);
+        dispatchTellRawCommand(player, menuMergeMenu(player, mergeType, cr));
         return true;
     }
 }
