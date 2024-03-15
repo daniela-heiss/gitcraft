@@ -23,7 +23,6 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import static top.gitcraft.ui.components.SaveList.saveListAll;
-import static top.gitcraft.ui.components.WorldList.worldListAll;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 import static top.gitcraft.utils.MessageUtils.errorMessage;
 
@@ -31,10 +30,10 @@ public class LoadCommand implements CommandExecutor {
     private static UserDao userDao;
     private static SaveDao saveDao;
     private static CoreProtectAPI coreAPI;
-    private final Logger logger;
+    private final Logger logger = GitCraft.getPlugin(GitCraft.class).getLogger();
 
     public LoadCommand() {
-        logger = GitCraft.getPlugin(GitCraft.class).getLogger();
+
         try {
             DatabaseManager databaseManager = DatabaseManager.getInstance();
             userDao = databaseManager.getUserDao();
@@ -56,7 +55,7 @@ public class LoadCommand implements CommandExecutor {
             dispatchTellRawCommand(player, saveListAll(LISTTYPE.LOAD, player.getName(), 1));
             return true;
         }
-        if(Objects.equals(args[0], ":") && args.length > 1 && !args[1].isEmpty()){
+        if (Objects.equals(args[0], ":") && args.length > 1 && !args[1].isEmpty()) {
             dispatchTellRawCommand(player, saveListAll(LISTTYPE.LOAD, player.getName(), Integer.parseInt(args[1])));
             return true;
         }
