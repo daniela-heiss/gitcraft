@@ -141,7 +141,7 @@ public class Menu {
                 .build();
     }
 
-    public static String menuMergeMenu(Player player, String args, CuboidRegion cr) {
+    public static String menuMergeMenu(Player player, String currentSelectMode, CuboidRegion cr, World fromWorld, World intoWorld) {
         /*
          * ══ GitCraft ══
          *
@@ -161,6 +161,7 @@ public class Menu {
          * [Main Menu]
          *
          */
+        // .click(CLICKACTION.run_command, "/gcmergemenu " + currentSelectMode + " " + fromWorld.getName() + " " + intoWorld.getName()).hover(HOVERACTION.show_text, "Select the world to merge")
         BlockVector3 pos1;
         BlockVector3 pos2;
         JsonBuilder jsonMessage = new JsonBuilder()
@@ -169,12 +170,12 @@ public class Menu {
                 .spacing(1)
                 .repeat("═", 7).bold()
                 .spacing(2)
-                .text("From: ").bold().text(player.getWorld().getName()).bold().color(JSONCOLOR.GREEN)
-                .text(" → Into: ").bold().text("world\\n").bold().color(JSONCOLOR.GREEN)
-                .spacing(2);
-        if (args.equals("area")) {
+                .text("From: ").bold().text(fromWorld.getName()).bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gcmergemenu :: " + 1 + " " +  currentSelectMode + " from " + fromWorld.getName() + " " + intoWorld.getName()).hover(HOVERACTION.show_text, "Change the world to merge from")
+                .text(" → Into: ").bold().text(intoWorld.getName()).bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gcmergemenu :: " + 1 + " " +  currentSelectMode + " into " + fromWorld.getName() + " " + intoWorld.getName()).hover(HOVERACTION.show_text, "Change the world to merge into")
+                .spacing(3);
+        if (currentSelectMode.equals("area")) {
             if (cr == null) {
-                jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Refresh area select")
+                jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmergemenu" + " : auto none " + fromWorld.getName() + " " + intoWorld.getName()  + " none").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu" + " : area none " + fromWorld.getName() + " " + intoWorld.getName()  + " none").hover(HOVERACTION.show_text, "Refresh area select")
                         .spacing(2)
                         .text("Pos1: ").bold().text("No area selected").color(JSONCOLOR.RED).bold()
                         .spacing(1)
@@ -185,17 +186,17 @@ public class Menu {
             } else {
                 pos1 = cr.getPos1();
                 pos2 = cr.getPos2();
-                jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Refresh area select")
+                jsonMessage.text("All changes [ ] ").click(CLICKACTION.run_command, "/gcmergemenu" + " : auto none " + fromWorld.getName() + " " + intoWorld.getName()  + " none").hover(HOVERACTION.show_text, "Activate all changes").text("[X] Area select").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu" + " : area none " + fromWorld.getName() + " " + intoWorld.getName()  + " none").hover(HOVERACTION.show_text, "Refresh area select")
                         .spacing(2)
                         .text("Pos1: ").bold().text(String.valueOf(pos1.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos1.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos1.getZ())).color(JSONCOLOR.BLUE)
                         .spacing(1)
                         .text("Pos2: ").bold().text(String.valueOf(pos2.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos2.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos2.getZ())).color(JSONCOLOR.BLUE)
                         .spacing(3)
-                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/merge " + player.getWorld().getName() + " world " + "mergeworld").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold();
+                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/merge " + fromWorld.getName() + " " + intoWorld.getName() + " " + "mergeworld").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold();
             }
         } else {
             if (cr == null) {
-                jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Activate area select")
+                jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu" + " : auto none " + fromWorld.getName() + " " + intoWorld.getName()  + " none").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu" + " : area none " + fromWorld.getName() + " " + intoWorld.getName()  + " none").hover(HOVERACTION.show_text, "Activate area select")
                         .spacing(2)
                         .text("Pos1: ").bold().text("No changes yet").color(JSONCOLOR.RED).bold()
                         .spacing(1)
@@ -206,13 +207,13 @@ public class Menu {
             } else {
                 pos1 = cr.getPos1();
                 pos2 = cr.getPos2();
-                jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu auto").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu area").hover(HOVERACTION.show_text, "Activate area select")
+                jsonMessage.text("All changes [X]").bold().underlined().click(CLICKACTION.run_command, "/gcmergemenu" + " : auto none " + fromWorld.getName() + " " + intoWorld.getName()  + " none").hover(HOVERACTION.show_text, "Refresh all changes").text(" [ ] Area select").click(CLICKACTION.run_command, "/gcmergemenu" + " : area none " + fromWorld.getName() + " " + intoWorld.getName()  + " none").hover(HOVERACTION.show_text, "Activate area select")
                         .spacing(2)
                         .text("Pos1: ").bold().text(String.valueOf(pos1.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos1.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos1.getZ())).color(JSONCOLOR.BLUE)
                         .spacing(1)
                         .text("Pos2: ").bold().text(String.valueOf(pos2.getX())).color(JSONCOLOR.RED).text(" / ").bold().text(String.valueOf(pos2.getY())).color(JSONCOLOR.GREEN).text(" / ").bold().text(String.valueOf(pos2.getZ())).color(JSONCOLOR.BLUE)
                         .spacing(3)
-                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/automerge " + player.getWorld().getName() + " world " + "mergeworld").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold();
+                        .text("[").bold().text("Merge").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/automerge " + fromWorld.getName() + " " + intoWorld.getName() + " " + "mergeworld").hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold();
             }
         }
         jsonMessage.spacing(3)
