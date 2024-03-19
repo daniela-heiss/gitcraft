@@ -41,8 +41,7 @@ public class ShowPlayersSchematicHistory implements CommandExecutor {
                 return true;
             }
             for(SchematicHistoryEntity entry : schematicHistory) {
-                player.sendMessage("Schematic Nane: " + entry.schematicname + " Uuid: " + entry.uuid + " Timestamp " + entry.timestamp);
-            }
+                player.sendMessage("Schematic Name: " + entry.schematicname + "\nUuid: " + entry.uuid + "\nTimestamp " + entry.timestamp);            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

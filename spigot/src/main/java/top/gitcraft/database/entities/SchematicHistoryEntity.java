@@ -17,6 +17,6 @@ public class SchematicHistoryEntity {
     @DatabaseField(dataType = DataType.UUID, columnName = "uuid")
     public UUID uuid;
 
-    @DatabaseField(dataType = DataType.INTEGER, columnName = "timestamp")
-    public int timestamp;
+    @DatabaseField(dataType = DataType.STRING, columnName = "timestamp")
+    public String timestamp;
 }

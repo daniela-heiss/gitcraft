@@ -15,6 +15,8 @@ import top.gitcraft.utils.TeleportUtils;
 
 import java.sql.Timestamp;
 
+import static top.gitcraft.commands.schematics.GenerateSchematicCommand.generateSchematicFromArea;
+
 public class AreaMergeCommand implements CommandExecutor {
 
     @Override
@@ -38,12 +40,14 @@ public class AreaMergeCommand implements CommandExecutor {
         CuboidRegion selectedArea = AreaSelectListener.getSelection(player);
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String schematicName = "Merge" + timestamp.getTime();
+        String schematicName = player.getName() + timestamp.getTime();
 
         BlockArrayClipboard clipboard = SchematicUtils.createClipboard(selectedArea, currentWorld);
         player.sendMessage("Copied region to clipboard");
 
         SchematicUtils.saveClipboardAsSchematic(clipboard, schematicName);
+
+        generateSchematicFromArea(player, currentWorld, schematicName);
 
         SchematicUtils.pasteClipboard(targetWorld, player, clipboard.getOrigin(), clipboard);
         TeleportUtils.joinWorldAtCurrentLocation(player, targetWorldName);
