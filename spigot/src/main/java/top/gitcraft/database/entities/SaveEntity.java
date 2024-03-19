@@ -12,6 +12,9 @@ public class SaveEntity {
     @DatabaseField (dataType = DataType.INTEGER, columnName = "user")
     public int playerId;
 
+    @DatabaseField (dataType = DataType.INTEGER, columnName = "wid")
+    public int worldId;
+
     @DatabaseField (dataType = DataType.INTEGER)
     public int time;
 
