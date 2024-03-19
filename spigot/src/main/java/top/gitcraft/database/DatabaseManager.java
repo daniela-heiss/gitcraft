@@ -5,10 +5,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import io.github.cdimascio.dotenv.Dotenv;
 import top.gitcraft.GitCraft;
-import top.gitcraft.database.daos.BlockDao;
-import top.gitcraft.database.daos.SaveDao;
-import top.gitcraft.database.daos.UserDao;
-import top.gitcraft.database.daos.WorldDao;
+import top.gitcraft.database.daos.*;
 import top.gitcraft.database.entities.SaveEntity;
 
 import java.sql.SQLException;
@@ -74,5 +71,8 @@ public class DatabaseManager {
 
     public WorldDao getWorldDao() throws SQLException {
         return new WorldDao(connectionSource);
+    }
+    public SchematicHistoryDao getSchematicHistoryDao() throws SQLException {
+        return new SchematicHistoryDao(connectionSource);
     }
 }

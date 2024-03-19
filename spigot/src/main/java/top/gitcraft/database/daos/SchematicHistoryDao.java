@@ -7,6 +7,7 @@ import top.gitcraft.database.entities.SchematicHistoryEntity;
 import java.sql.SQLException;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.j256.ormlite.table.TableUtils.createTableIfNotExists;
 
@@ -35,7 +36,7 @@ public class SchematicHistoryDao extends BaseDaoImpl<SchematicHistoryEntity, Int
         return queryForAll();
     }
 
-    public List<SchematicHistoryEntity> getEntireSchematicHistoryOfUser(String uuid) throws SQLException {
+    public List<SchematicHistoryEntity> getEntireSchematicHistoryOfUser(UUID uuid) throws SQLException {
         return queryBuilder().where().eq("uuid", uuid).query();
     }
 }
