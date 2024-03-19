@@ -60,4 +60,8 @@ public class SaveDao extends BaseDaoImpl<SaveEntity, Integer>{
     public List<SaveEntity> getAllLaterSavesByWorldAndTime(Integer worldId, int time) throws SQLException {
         return queryBuilder().where().gt("time", time).and().eq("wid", worldId).query();
     }
+
+    public List<SaveEntity> getAllSavesByWorld(Integer worldId) throws SQLException {
+        return queryBuilder().where().eq("wid", worldId).query();
+    }
 }

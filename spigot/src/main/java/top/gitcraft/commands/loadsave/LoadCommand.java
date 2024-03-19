@@ -58,11 +58,11 @@ public class LoadCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
         if (args.length == 0) {
-            dispatchTellRawCommand(player, saveListAll(LISTTYPE.LOAD, player.getName(), 1));
+            dispatchTellRawCommand(player, saveListAll(LISTTYPE.LOAD, player.getName(), player.getWorld().getName(), 1));
             return true;
         }
         if (Objects.equals(args[0], ":") && args.length > 1 && !args[1].isEmpty()) {
-            dispatchTellRawCommand(player, saveListAll(LISTTYPE.LOAD, player.getName(), Integer.parseInt(args[1])));
+            dispatchTellRawCommand(player, saveListAll(LISTTYPE.LOAD, player.getName(), player.getWorld().getName(), Integer.parseInt(args[1])));
             return true;
         }
         String saveName = args[0];
@@ -109,7 +109,7 @@ public class LoadCommand implements CommandExecutor {
                 }
 
                 if (save.rolledBack == 0) {
-                    coreAPI.performRollback(timeNow - save.time, null, null, null, null, null, 0, loc);
+                    coreAPI.performRollback(timeNow - save.time, null, null, null, null, null, -1, loc);
 
                     if (laterSaves != null && !laterSaves.isEmpty()) {
                         for (SaveEntity saves : laterSaves) {
@@ -128,8 +128,8 @@ public class LoadCommand implements CommandExecutor {
 
                 if (save.rolledBack == 1) {
                     if (earlierSaves != null && !earlierSaves.isEmpty()) {
-                        coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size() - 1).time, null, null, null, null, null, 0, loc);
-                        coreAPI.performRollback(timeNow - save.time, null, null, null, null, null, 0, loc);
+                        coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size() - 1).time, null, null, null, null, null, -1, loc);
+                        coreAPI.performRollback(timeNow - save.time, null, null, null, null, null, -1, loc);
                         save.rolledBack = 0;
                     } else {
                         errorMessage(player, "There is no earlier save that can be restored");
