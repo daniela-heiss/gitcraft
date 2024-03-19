@@ -3,6 +3,8 @@ package top.gitcraft.commands.loadsave;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,8 +14,10 @@ import top.gitcraft.GitCraft;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.SaveDao;
 import top.gitcraft.database.daos.UserDao;
+import top.gitcraft.database.daos.WorldDao;
 import top.gitcraft.database.entities.SaveEntity;
 import top.gitcraft.database.entities.UserEntity;
+import top.gitcraft.database.entities.WorldEntity;
 import top.gitcraft.utils.enums.LISTTYPE;
 
 import java.sql.SQLException;
@@ -28,6 +32,7 @@ import static top.gitcraft.utils.MessageUtils.errorMessage;
 
 public class LoadCommand implements CommandExecutor {
     private static UserDao userDao;
+    private static WorldDao worldDao;
     private static SaveDao saveDao;
     private static CoreProtectAPI coreAPI;
     private final Logger logger = GitCraft.getPlugin(GitCraft.class).getLogger();
@@ -38,6 +43,7 @@ public class LoadCommand implements CommandExecutor {
             DatabaseManager databaseManager = DatabaseManager.getInstance();
             userDao = databaseManager.getUserDao();
             saveDao = databaseManager.getSaveDao();
+            worldDao = databaseManager.getWorldDao();
         } catch (SQLException e) {
             logger.severe("Failed to get database manager");
             throw new RuntimeException(e);
@@ -62,14 +68,15 @@ public class LoadCommand implements CommandExecutor {
         String saveName = args[0];
 
         player.sendMessage("Loading save...");
-        loadSave(saveName, player.getName());
+        loadSave(saveName, player.getName(), player.getWorld().getName());
 
         return true;
     }
 
-    public void loadSave(String saveName, String userName) {
+    public void loadSave(String saveName, String userName, String worldName) {
         UserEntity user;
         SaveEntity save;
+        WorldEntity world;
         List<SaveEntity> earlierSaves;
         List<SaveEntity> laterSaves;
         int timeNow = (int) (System.currentTimeMillis() / 1000L);
@@ -81,15 +88,18 @@ public class LoadCommand implements CommandExecutor {
 
         try {
             user = userDao.getUserByName(userName);
-            save = saveDao.getSaveByUserAndName(user.rowId, saveName);
-            earlierSaves = saveDao.getAllEarlierSavesByPlayerAndTime(user.rowId, save.time);
-            laterSaves = saveDao.getAllLaterSavesByPlayerAndTime(user.rowId, save.time);
+            world = worldDao.getWorldByWorldName(worldName);
+            save = saveDao.getSaveByWorldAndName(world.rowId, saveName);
+            earlierSaves = saveDao.getAllEarlierSavesByWorldAndTime(world.rowId, save.time);
+            laterSaves = saveDao.getAllLaterSavesByWorldAndTime(world.rowId, save.time);
         } catch (SQLException e) {
             logger.severe("Failed to save" + e.getMessage());
             throw new RuntimeException(e);
         }
 
         Player player = Bukkit.getPlayer(user.userName);
+        World targetWorld = Bukkit.getServer().getWorld(world.worldName);
+        Location loc = new Location(targetWorld, 0, 0, 0);
 
         class LoadThread implements Runnable {
             @Override
@@ -99,7 +109,7 @@ public class LoadCommand implements CommandExecutor {
                 }
 
                 if (save.rolledBack == 0) {
-                    coreAPI.performRollback(timeNow - save.time, Collections.singletonList(user.userName), null, null, null, null, 0, null);
+                    coreAPI.performRollback(timeNow - save.time, null, null, null, null, null, 0, loc);
 
                     if (laterSaves != null && !laterSaves.isEmpty()) {
                         for (SaveEntity saves : laterSaves) {
@@ -118,8 +128,8 @@ public class LoadCommand implements CommandExecutor {
 
                 if (save.rolledBack == 1) {
                     if (earlierSaves != null && !earlierSaves.isEmpty()) {
-                        coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size() - 1).time, Collections.singletonList(user.userName), null, null, null, null, 0, null);
-                        coreAPI.performRollback(timeNow - save.time, Collections.singletonList(user.userName), null, null, null, null, 0, null);
+                        coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size() - 1).time, null, null, null, null, null, 0, loc);
+                        coreAPI.performRollback(timeNow - save.time, null, null, null, null, null, 0, loc);
                         save.rolledBack = 0;
                     } else {
                         errorMessage(player, "There is no earlier save that can be restored");
