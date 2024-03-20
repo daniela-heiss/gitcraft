@@ -74,7 +74,8 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
         String query = "SELECT * FROM co_block WHERE " + "wid = ?" + " AND x BETWEEN ? AND ? " + "AND y BETWEEN ? " +
                 "AND ? " + "AND z BETWEEN ? AND ? " +
                 "GROUP BY x, y, z " +
-                " AND action IN(0,1) " +
+                "AND rolled_back != 1 "+
+                "AND action IN(0,1) " +
                 "ORDER BY time DESC";
         GenericRawResults<BlockEntity> blockEntities = queryRaw(query, getRawRowMapper(), arguments);
         return blockEntities.getResults();
