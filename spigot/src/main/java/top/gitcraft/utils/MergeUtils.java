@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import top.gitcraft.GitCraft;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.BlockDao;
 import top.gitcraft.database.entities.*;
@@ -18,10 +19,13 @@ import top.gitcraft.listeners.AreaSelectListener;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static top.gitcraft.ui.components.Menu.confirmMerge;
 
 public class MergeUtils {
+    private static final Logger logger = GitCraft.getPlugin(GitCraft.class).getLogger();
+
 
     public static void pasteMergeAreas(Player player, String fromWorldName, String targetWorldName,
                                        String mergeWorldName, CuboidRegion region) throws SQLException {
@@ -93,14 +97,19 @@ public class MergeUtils {
                 continue;
             }
 
-            MaterialMapEntity materialEntity = db.getMaterialMapDao().getMaterialById(change.type);
-            Material material = Material.matchMaterial(materialEntity.material);
-            if (material == null) {
-                System.out.println("Material not found for " + materialEntity.material);
+            if (change.data != 0) {
+                logger.info("Picture data not supported yet");
                 continue;
             }
 
-            System.out.println("Pasting material " + material + " at " + change.x + " " + change.y + " " + change.z +
+            MaterialMapEntity materialEntity = db.getMaterialMapDao().getMaterialById(change.type);
+            Material material = Material.matchMaterial(materialEntity.material);
+            if (material == null) {
+                logger.info("Material not found for " + materialEntity.material);
+                continue;
+            }
+
+            logger.info("Pasting material " + material + " at " + change.x + " " + change.y + " " + change.z +
                     " wid " + worldEntity.rowId);
 
             block.setType(material, false);
@@ -121,7 +130,7 @@ public class MergeUtils {
                 blockDataBuilder.append("]");
 
                 String blockData = blockDataBuilder.toString();
-                System.out.println("Block data: " + blockData);
+                logger.info("Block data: " + blockData);
                 block.setBlockData(Bukkit.getServer().createBlockData(material, blockData));
             }
             block.getState().update();
