@@ -7,14 +7,17 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.sql.SQLException;
+
 import static top.gitcraft.utils.BlockUtils.getBlockChangedByPlayers;
 import static top.gitcraft.utils.CubeUtils.regionFromList;
 import static top.gitcraft.utils.MergeUtils.pasteMergeAreas;
 
 public class AutoMergeCommand implements CommandExecutor {
 
-    @Override public boolean onCommand(CommandSender sender, Command command, String label,
-                                       String[] strings) {
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label,
+                             String[] strings) {
 
         if (!(sender instanceof Player)) {
             sender.sendMessage("Only players can use this command");
@@ -51,7 +54,11 @@ public class AutoMergeCommand implements CommandExecutor {
         if (region == null) {
             player.sendMessage(ChatColor.RED + "No changes detected");
         } else {
-            pasteMergeAreas(player, fromWorldName, targetWorldName, mergeWorldName, region);
+            try {
+                pasteMergeAreas(player, fromWorldName, targetWorldName, mergeWorldName, region);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return true;
     }
