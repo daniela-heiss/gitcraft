@@ -21,6 +21,7 @@ import top.gitcraft.database.entities.WorldEntity;
 import top.gitcraft.utils.enums.LISTTYPE;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -100,6 +101,7 @@ public class LoadCommand implements CommandExecutor {
         Player player = Bukkit.getPlayer(user.userName);
         World targetWorld = Bukkit.getServer().getWorld(world.worldName);
         Location loc = new Location(targetWorld, 0, 0, 0);
+        int maxRadius = 29999999;
 
         class LoadThread implements Runnable {
             @Override
@@ -109,7 +111,7 @@ public class LoadCommand implements CommandExecutor {
                 }
 
                 if (save.rolledBack == 0) {
-                    coreAPI.performRollback(timeNow - save.time, null, null, null, null, null, 750, loc);
+                    coreAPI.performRollback(timeNow - save.time, null, null, null, null, null, maxRadius, loc);
 
                     if (laterSaves != null && !laterSaves.isEmpty()) {
                         for (SaveEntity saves : laterSaves) {
@@ -128,8 +130,8 @@ public class LoadCommand implements CommandExecutor {
 
                 if (save.rolledBack == 1) {
                     if (earlierSaves != null && !earlierSaves.isEmpty()) {
-                        coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size() - 1).time, null, null, null, null, null, 750, loc);
-                        coreAPI.performRollback(timeNow - save.time, null, null, null, null, null, 750, loc);
+                        coreAPI.performRestore(timeNow - earlierSaves.get(earlierSaves.size() - 1).time, null, null, null, null, null, maxRadius, loc);
+                        coreAPI.performRollback(timeNow - save.time, null, null, null, null, null, maxRadius, loc);
                         save.rolledBack = 0;
                     } else {
                         errorMessage(player, "There is no earlier save that can be restored");
