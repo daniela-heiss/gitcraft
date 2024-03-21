@@ -104,7 +104,7 @@ public class Menu {
                 .build();
     }
 
-    public static String menuSaveMenu() {
+    public static String menuSaveMenu(boolean permission) {
         /*
          * ══ GitCraft ══
          *
@@ -120,25 +120,47 @@ public class Menu {
          * [World Menu]
          *
          */
-        return new JsonBuilder()
-                .addBuilt(header())
-                .text("Save Menu").bold()
-                .spacing(1)
-                .repeat("═",  6).bold()
-                .spacing(2)
-                .text("\\u2554").text("[").bold().text("SAVE").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.suggest_command, "/gcsave ").hover(HOVERACTION.show_text, "Get the command to set a savepoint. You need to choose a name for your save").text("]").bold()
-                .text("\\n\\u2551")
-                .text("\\n\\u2560").text("[").bold().text("LOAD").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gcload").hover(HOVERACTION.show_text, "Load a savepoint").text("]").bold()
-                .text("\\n\\u2551")
-                .text("\\n\\u2551")
-                .text("\\n\\u2551")
-                .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdeletesave").hover(HOVERACTION.show_text, "Delete a savepoint").text("]").bold()
-                .spacing(6)
-                .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
-                .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
-                .text("\\\\").bold().text("Save Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu").bold()
-                .text(">").bold()
-                .build();
+        if (permission) {
+            return new JsonBuilder()
+                    .addBuilt(header())
+                    .text("Save Menu").bold()
+                    .spacing(1)
+                    .repeat("═", 6).bold()
+                    .spacing(2)
+                    .text("\\u2554").text("[").bold().text("SAVE").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.suggest_command, "/gcsave ").hover(HOVERACTION.show_text, "Get the command to set a savepoint. You need to choose a name for your save").text("]").bold()
+                    .text("\\n\\u2551")
+                    .text("\\n\\u2560").text("[").bold().text("LOAD").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gcload").hover(HOVERACTION.show_text, "Load a savepoint").text("]").bold()
+                    .text("\\n\\u2551")
+                    .text("\\n\\u2560").text("[").bold().text("ROLLBACK USER").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.suggest_command, "/co rollback").hover(HOVERACTION.show_text, "Rollback changes from a user").text("]").bold()
+                    .text("\\n\\u2551")
+                    .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdeletesave").hover(HOVERACTION.show_text, "Delete a savepoint").text("]").bold()
+                    .spacing(6)
+                    .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
+                    .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
+                    .text("\\\\").bold().text("Save Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu").bold()
+                    .text(">").bold()
+                    .build();
+        } else {
+            return new JsonBuilder()
+                    .addBuilt(header())
+                    .text("Save Menu").bold()
+                    .spacing(1)
+                    .repeat("═", 6).bold()
+                    .spacing(2)
+                    .text("\\u2554").text("[").bold().text("SAVE").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.suggest_command, "/gcsave ").hover(HOVERACTION.show_text, "Get the command to set a savepoint. You need to choose a name for your save").text("]").bold()
+                    .text("\\n\\u2551")
+                    .text("\\n\\u2560").text("[").bold().text("LOAD").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gcload").hover(HOVERACTION.show_text, "Load a savepoint").text("]").bold()
+                    .text("\\n\\u2551")
+                    .text("\\n\\u2551")
+                    .text("\\n\\u2551")
+                    .text("\\n\\u255a").text("[").bold().text("DELETE").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdeletesave").hover(HOVERACTION.show_text, "Delete a savepoint").text("]").bold()
+                    .spacing(6)
+                    .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
+                    .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
+                    .text("\\\\").bold().text("Save Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu").bold()
+                    .text(">").bold()
+                    .build();
+        }
     }
 
     public static String menuMergeMenu(Player player, String args, CuboidRegion cr) {
@@ -225,19 +247,19 @@ public class Menu {
         return jsonMessage.build();
     }
 
-     public static String confirmMerge(String worldName1, String worldName2) {
-         return new JsonBuilder()
-                 .addBuilt(header())
-                 .text("Confirm Merge").bold()
-                 .spacing(1)
-                 .repeat("═", 9).bold()
-                 .spacing(2)
-                 .text("From: ").bold().text(worldName1).bold().color(JSONCOLOR.GREEN)
-                 .text(" → Into: ").bold().text(worldName2).bold().color(JSONCOLOR.GREEN)
-                 .spacing(8)
-                 .text(" [").bold().text("Confirm").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/areamerge " + worldName2).hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold()
-                 .text("   [").bold().text("Discard").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdiscardmerge " + worldName1).hover(HOVERACTION.show_text, "Cancel the merge").text("]").bold()
-                 .spacing(4)
-                 .build();
-     }
+    public static String confirmMerge(String worldName1, String worldName2) {
+        return new JsonBuilder()
+                .addBuilt(header())
+                .text("Confirm Merge").bold()
+                .spacing(1)
+                .repeat("═", 9).bold()
+                .spacing(2)
+                .text("From: ").bold().text(worldName1).bold().color(JSONCOLOR.GREEN)
+                .text(" → Into: ").bold().text(worldName2).bold().color(JSONCOLOR.GREEN)
+                .spacing(8)
+                .text(" [").bold().text("Confirm").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/areamerge " + worldName2).hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold()
+                .text("   [").bold().text("Discard").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdiscardmerge " + worldName1).hover(HOVERACTION.show_text, "Cancel the merge").text("]").bold()
+                .spacing(4)
+                .build();
+    }
 }
