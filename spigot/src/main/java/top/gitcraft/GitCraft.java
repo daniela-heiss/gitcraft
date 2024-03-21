@@ -24,6 +24,7 @@ import top.gitcraft.listeners.PlayerJoinListener;
 import top.gitcraft.listeners.PlayerQuitListener;
 import top.gitcraft.ui.logic.MainMenuCommand;
 import top.gitcraft.ui.logic.SaveMenuCommand;
+import top.gitcraft.ui.logic.SchematicMenuCommand;
 import top.gitcraft.ui.logic.WorldMenuCommand;
 
 import java.sql.SQLException;
@@ -118,6 +119,7 @@ public final class GitCraft extends JavaPlugin {
         registerCommand("gcmenu", new MainMenuCommand());
         registerCommand("gcworldmenu", new WorldMenuCommand());
         registerCommand("gcsavemenu", new SaveMenuCommand());
+        registerCommand("gcschematicmenu", new SchematicMenuCommand());
     }
 
     public void registerWorldCommands() {

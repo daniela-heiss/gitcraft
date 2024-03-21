@@ -36,6 +36,7 @@ public class Menu {
          * ║
          * ╠[Save Menu]
          * ║
+         * ╠[Schematic Menu]
          * ║
          * ╚[Config]
          *
@@ -49,6 +50,8 @@ public class Menu {
                 .text("\\u2554").text("[").bold().text("World Menu").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gcworldmenu").hover(HOVERACTION.show_text, "Opens the world menu").text("]").bold()
                 .text("\\n\\u2551")
                 .text("\\n\\u2560").text("[").bold().text("Save Menu").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu").text("]").bold()
+                .text("\\n\\u2551")
+                .text("\\n\\u2560").text("[").bold().text("Schematic Menu").bold().color(JSONCOLOR.LIGHT_PURPLE).click(CLICKACTION.run_command, "/gcschematicmenu").hover(HOVERACTION.show_text, "Open schematic menu").text("]").bold()
                 .text("\\n\\u2551")
                 .text("\\n\\u2551")
                 .text("\\n\\u2551")
@@ -261,6 +264,33 @@ public class Menu {
                 .text(" [").bold().text("Confirm").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/areamerge " + worldName2).hover(HOVERACTION.show_text, "Merge the worlds").text("]").bold()
                 .text("   [").bold().text("Discard").bold().color(JSONCOLOR.RED).click(CLICKACTION.run_command, "/gcdiscardmerge " + worldName1).hover(HOVERACTION.show_text, "Cancel the merge").text("]").bold()
                 .spacing(4)
+                .build();
+    }
+
+    public static String menuSchematicMenu(Player player) {
+        /*
+         * ══ GitCraft ══
+         *
+         *  Schematic Menu
+         *  ═══════
+         *
+         * ╔[SHOW ENTIRE HISTORY]
+         * ╚[SHOW OWN HISTORY]
+         */
+        return new JsonBuilder()
+                .addBuilt(header())
+                .text("Schematic Menu").bold()
+                .spacing(1)
+                .repeat("═", 6).bold()
+                .spacing(2)
+                .text("\\u2554").text("[").bold().text("Show Entire History").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gcshowschem").hover(HOVERACTION.show_text, "Prints the entire schematic history").text("]").bold()
+                .text("\\n\\u2551")
+                .text("\\n\\u2560").text("[").bold().text("Show Own History").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gcshowschem " + player.getName()).hover(HOVERACTION.show_text, "Prints the players entire schematic history").text("]").bold()
+                .spacing(6)
+                .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
+                .text("Main Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
+                .text("\\\\").bold().text("Schematic Menu").color(JSONCOLOR.GOLD).hover(HOVERACTION.show_text, "You are here").bold()
+                .text(">").bold()
                 .build();
     }
 }

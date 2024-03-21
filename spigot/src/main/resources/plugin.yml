@@ -63,6 +63,9 @@ commands:
   gcsavemenu:
     description: Shows the save menu
     usage: /gcsavemenu
+  gcschematicmenu:
+    description: Shows the schematic menu
+    usage: /gcschematicmenu
 
   #commands - Join, Create, Delete
   gcjoin:
