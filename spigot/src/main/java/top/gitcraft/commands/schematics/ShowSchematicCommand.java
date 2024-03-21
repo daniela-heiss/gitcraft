@@ -12,8 +12,10 @@ import top.gitcraft.utils.enums.LISTTYPE;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 import static top.gitcraft.ui.components.SchematicList.schematicListSubset;
+import static top.gitcraft.ui.components.WorldList.worldListAll;
 import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class ShowSchematicCommand implements CommandExecutor {
@@ -41,37 +43,52 @@ public class ShowSchematicCommand implements CommandExecutor {
         List<SchematicHistoryEntity> schematicHistory;
 
         // If no player name provided show entire Schematic History
-        if (args.length == 0 || Bukkit.getPlayer(args[0]) == null) {
+        if (args.length == 0) {
             try {
                 schematicHistory = schematicHistoryDao.getEntireSchematicHistory();
-//                if (schematicHistory.isEmpty()) {
-//                    player.sendMessage("No Schematic History found.");
-//                    return true;
-//                }
-//                for(SchematicHistoryEntity entry : schematicHistory) {
-//                    player.sendMessage("Schematic Name: " + entry.schematicname + "\nUuid: " + entry.uuid + "\nTimestamp " + entry.timestamp);
-//                }
-                dispatchTellRawCommand(player, schematicListSubset(LISTTYPE.LOADSCHEMATIC, schematicHistory, 1));
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            String playerName = args[0];
-            player = Bukkit.getPlayer(playerName);
-            try {
-                schematicHistory = schematicHistoryDao.getEntireSchematicHistoryOfUser(player.getUniqueId());
-//                if (schematicHistory.isEmpty()) {
-//                    player.sendMessage("No Schematic History found.");
-//                    return true;
-//                }
-//                for(SchematicHistoryEntity entry : schematicHistory) {
-//                    player.sendMessage("Schematic Name: " + entry.schematicname + "\nUuid: " + entry.uuid + "\nTimestamp " + entry.timestamp);
-//                }
-                dispatchTellRawCommand(player, schematicListSubset(LISTTYPE.LOADSCHEMATIC, schematicHistory, 1));
+
+                dispatchTellRawCommand(player, schematicListSubset(LISTTYPE.LOADSCHEMATIC, schematicHistory, 1, "null"));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
+        if (args.length == 1) {
+            String playerName = args[0];
+            player = Bukkit.getPlayer(playerName);
+            try {
+                schematicHistory = schematicHistoryDao.getEntireSchematicHistoryOfUser(player.getUniqueId());
+
+                dispatchTellRawCommand(player, schematicListSubset(LISTTYPE.LOADSCHEMATIC, schematicHistory, 1, playerName));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (args.length == 2) {
+            try {
+                schematicHistory = schematicHistoryDao.getEntireSchematicHistory();
+                if(Objects.equals(args[0], ":") && args.length > 1 && !args[1].isEmpty()){
+                    dispatchTellRawCommand(player, schematicListSubset(LISTTYPE.LOADSCHEMATIC, schematicHistory, Integer.parseInt(args[1]), "null"));
+                    return true;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (args.length == 3) {
+            String playerName = args[0];
+            player = Bukkit.getPlayer(playerName);
+            try {
+                schematicHistory = schematicHistoryDao.getEntireSchematicHistoryOfUser(player.getUniqueId());
+
+                if(Objects.equals(args[1], ":") && args.length > 2 && !args[2].isEmpty()){
+                    dispatchTellRawCommand(player, schematicListSubset(LISTTYPE.LOADSCHEMATIC, schematicHistory, Integer.parseInt(args[2]), playerName));
+                    return true;
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        
         return true;
     }
 }
