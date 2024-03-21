@@ -6,9 +6,13 @@ import com.sk89q.worldedit.math.BlockVector2;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
+import org.bukkit.Art;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Painting;
 import org.bukkit.entity.Player;
 import top.gitcraft.GitCraft;
 import top.gitcraft.database.DatabaseManager;
@@ -18,6 +22,7 @@ import top.gitcraft.listeners.AreaSelectListener;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -92,50 +97,84 @@ public class MergeUtils {
         logger.info("Changes size: " + changes.size());
         for (BlockEntity change : changes) {
             Block block = world.getBlockAt(change.x, change.y, change.z);
+            logger.info("Pasting at " + change.x + " " + change.y + " " + change.z +
+                    " from " + fromWorldName + " (id " + worldEntity.rowId + ")" + " to " + world.getName());
 
+            MaterialMapEntity materialEntity = db.getMaterialMapDao().getMaterialById(change.type);
+            Material material = Material.matchMaterial(materialEntity.material);
+
+            //set to air if it is a break action
             if (change.action == ActionType.BREAK.getValue()) {
                 block.setType(Material.AIR, false);
                 continue;
             }
 
-            if (change.data != 0) {
-                logger.info("Picture data not supported yet");
-                continue;
-            }
-
-            MaterialMapEntity materialEntity = db.getMaterialMapDao().getMaterialById(change.type);
-            Material material = Material.matchMaterial(materialEntity.material);
+            //skip if material is not found
             if (material == null) {
                 logger.info("Material not found for " + materialEntity.material);
                 continue;
             }
 
-            logger.info("Pasting material " + material + " at " + change.x + " " + change.y + " " + change.z +
-                    " wid " + worldEntity.rowId);
+            //assuming it is a painting
+            if (change.data != 0) {
+                Painting painting = (Painting) block.getWorld().spawnEntity(block.getLocation(), EntityType.PAINTING);
+                ArtMapEntity artMapEntity = db.getArtMapDao().getArtMapById(change.data);
+                logger.info("Art map entity: " + artMapEntity.artName);
+                Art art = Art.getByName(artMapEntity.artName);
+                List<String> blockDataList = getBlockData(change.blockData);
+                for (String value : blockDataList) {
+                    if (value.contains("facing")) {
+                        String[] facing = value.split("=");
+                        painting.setFacingDirection(BlockFace.valueOf(facing[1].toUpperCase()), true);
+                        logger.info("Facing: " + facing[1]);
+                        break;
+                    }
+                }
+                painting.setArt(art);
+                continue;
+            }
 
+            //below assumes it is a block
+            //set the block type
             block.setType(material, false);
 
+            //set the block data
             if (change.blockData != null) {
-                String asciiString = new String(change.blockData, StandardCharsets.US_ASCII);
-                String[] values = asciiString.split(",");
-
-                StringBuilder blockDataBuilder = new StringBuilder("[");
-                for (String value : values) {
-                    BlockDataMapEntity blockDataMapEntity = db.getBlockDataMapDao().getBlockDataById(Integer.parseInt(value));
-                    blockDataBuilder.append(blockDataMapEntity.blockData).append(",");
-                }
-
-                if (blockDataBuilder.length() > 1) {
-                    blockDataBuilder.setLength(blockDataBuilder.length() - 1); // Remove the trailing comma
-                }
-                blockDataBuilder.append("]");
-
-                String blockData = blockDataBuilder.toString();
-                logger.info("Block data: " + blockData);
+                String blockData = getBlockDataString(change.blockData);
                 block.setBlockData(Bukkit.getServer().createBlockData(material, blockData));
             }
             block.getState().update();
         }
+
+    }
+
+    private static List<String> getBlockData(byte[] blockDataBytes) throws SQLException {
+        DatabaseManager db = DatabaseManager.getInstance();
+        String asciiString = new String(blockDataBytes, StandardCharsets.US_ASCII);
+        String[] values = asciiString.split(",");
+        List<String> blockDataList = new ArrayList<>();
+        for (String value : values) {
+            BlockDataMapEntity blockDataMapEntity = db.getBlockDataMapDao().getBlockDataById(Integer.parseInt(value));
+            blockDataList.add(blockDataMapEntity.blockData);
+        }
+        return blockDataList;
+    }
+
+    private static String getBlockDataString(byte[] blockDataBytes) throws SQLException {
+        List<String> blockDataList = getBlockData(blockDataBytes);
+        StringBuilder blockDataBuilder = new StringBuilder("[");
+
+        for (String value : blockDataList) {
+            blockDataBuilder.append(value).append(",");
+        }
+        if (blockDataBuilder.length() > 1) {
+            blockDataBuilder.setLength(blockDataBuilder.length() - 1);
+        }
+        blockDataBuilder.append("]");
+
+        String blockData = blockDataBuilder.toString();
+        logger.info("Block data: " + blockData);
+        return blockData;
 
     }
 }

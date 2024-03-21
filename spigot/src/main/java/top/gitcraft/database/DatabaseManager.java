@@ -80,4 +80,8 @@ public class DatabaseManager {
     public BlockDataMapDao getBlockDataMapDao() throws SQLException {
         return new BlockDataMapDao(connectionSource);
     }
+
+    public ArtMapDao getArtMapDao() throws SQLException {
+        return new ArtMapDao(connectionSource);
+    }
 }
