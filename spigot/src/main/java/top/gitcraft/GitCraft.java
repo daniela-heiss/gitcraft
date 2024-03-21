@@ -111,6 +111,7 @@ public final class GitCraft extends JavaPlugin {
     public void registerSchematicCommands() {
         registerCommand("generateschematic", new GenerateSchematicCommand());
         registerCommand("pasteschematic", new PasteSchematicCommand());
+        registerCommand("gcloadschematic", new LoadSchematicCommand());
         registerCommand("generateschematicfromarea", new GenerateSchematicFromArea());
         registerCommand("gcshowschem", new ShowSchematicCommand());
     }

@@ -40,13 +40,13 @@ public class ShowSchematicCommand implements CommandExecutor {
         if (args.length == 0 || Bukkit.getPlayer(args[0]) == null) {
             try {
                 schematicHistory = schematicHistoryDao.getEntireSchematicHistory();
-                if (schematicHistory.isEmpty()) {
-                    player.sendMessage("No Schematic History found.");
-                    return true;
-                }
-                for(SchematicHistoryEntity entry : schematicHistory) {
-                    player.sendMessage("Schematic Name: " + entry.schematicname + "\nUuid: " + entry.uuid + "\nTimestamp " + entry.timestamp);
-                }
+//                if (schematicHistory.isEmpty()) {
+//                    player.sendMessage("No Schematic History found.");
+//                    return true;
+//                }
+//                for(SchematicHistoryEntity entry : schematicHistory) {
+//                    player.sendMessage("Schematic Name: " + entry.schematicname + "\nUuid: " + entry.uuid + "\nTimestamp " + entry.timestamp);
+//                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -55,12 +55,13 @@ public class ShowSchematicCommand implements CommandExecutor {
             player = Bukkit.getPlayer(playerName);
             try {
                 schematicHistory = schematicHistoryDao.getEntireSchematicHistoryOfUser(player.getUniqueId());
-                if (schematicHistory.isEmpty()) {
-                    player.sendMessage("No Schematic History found.");
-                    return true;
-                }
-                for(SchematicHistoryEntity entry : schematicHistory) {
-                    player.sendMessage("Schematic Name: " + entry.schematicname + "\nUuid: " + entry.uuid + "\nTimestamp " + entry.timestamp);            }
+//                if (schematicHistory.isEmpty()) {
+//                    player.sendMessage("No Schematic History found.");
+//                    return true;
+//                }
+//                for(SchematicHistoryEntity entry : schematicHistory) {
+//                    player.sendMessage("Schematic Name: " + entry.schematicname + "\nUuid: " + entry.uuid + "\nTimestamp " + entry.timestamp);
+//                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
