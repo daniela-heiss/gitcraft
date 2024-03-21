@@ -89,6 +89,7 @@ public class MergeUtils {
         WorldEntity worldEntity = db.getWorldDao().getWorldByWorldName(fromWorldName);
         BlockDao blockDao = db.getBlockDao();
         List<BlockEntity> changes = blockDao.getLastBlockChangesInRegionByWorld(region, worldEntity.rowId);
+        logger.info("Changes size: " + changes.size());
         for (BlockEntity change : changes) {
             Block block = world.getBlockAt(change.x, change.y, change.z);
 
