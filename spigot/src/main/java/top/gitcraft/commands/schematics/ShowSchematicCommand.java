@@ -37,7 +37,7 @@ public class ShowSchematicCommand implements CommandExecutor {
         List<SchematicHistoryEntity> schematicHistory;
 
         // If no player name provided show entire Schematic History
-        if (args.length == 0) {
+        if (args.length == 0 || Bukkit.getPlayer(args[0]) == null) {
             try {
                 schematicHistory = schematicHistoryDao.getEntireSchematicHistory();
                 if (schematicHistory.isEmpty()) {
