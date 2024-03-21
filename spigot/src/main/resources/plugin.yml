@@ -49,12 +49,9 @@ commands:
   pasteschematic:
     description: Automatically paste schematic into the original world
     usage: /pasteschematic [area | all] <schematicName>
-  showentireschematichistory:
-    description: Prints the entire schematic history
-    usage: /showschematichistory
-  showplayersentireschematichistory:
-    description: Prints the entire schematic history of the user
-    usage: /showownschematichistory
+  gcshowschem:
+    description: Prints player based or entire Schematic History if no player name is provided
+    usage: /gcshowschem <PlayerName>
 
   #menu commands
   gcmenu:
