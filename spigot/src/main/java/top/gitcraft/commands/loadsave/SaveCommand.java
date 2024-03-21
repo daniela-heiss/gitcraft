@@ -46,7 +46,7 @@ public class SaveCommand implements CommandExecutor {
         }
         Player player = (Player) sender;
         if (args.length == 0) {
-            dispatchTellRawCommand(player, menuSaveMenu());
+            dispatchTellRawCommand(player, menuSaveMenu(player.isOp()));
             return true;
         }
         String saveName = args[0];
