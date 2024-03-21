@@ -1,10 +1,8 @@
 package top.gitcraft.commands.schematics;
 
-import com.sk89q.worldedit.EmptyClipboardException;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import com.sk89q.worldedit.session.SessionManager;
 import com.sk89q.worldedit.session.SessionOwner;
@@ -13,11 +11,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import top.gitcraft.utils.enums.JSONCOLOR;
 
 import java.io.File;
 
-import static top.gitcraft.ui.components.InfoMessages.infoContent;
 import static top.gitcraft.utils.MessageUtils.errorMessage;
 import static top.gitcraft.utils.MessageUtils.successMessage;
 import static top.gitcraft.utils.SchematicUtils.loadSchematicAsClipboard;

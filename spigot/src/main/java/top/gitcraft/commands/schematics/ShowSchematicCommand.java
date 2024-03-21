@@ -8,9 +8,13 @@ import org.bukkit.entity.Player;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.SchematicHistoryDao;
 import top.gitcraft.database.entities.SchematicHistoryEntity;
+import top.gitcraft.utils.enums.LISTTYPE;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import static top.gitcraft.ui.components.SchematicList.schematicListSubset;
+import static top.gitcraft.utils.CommandUtils.dispatchTellRawCommand;
 
 public class ShowSchematicCommand implements CommandExecutor {
 
@@ -47,6 +51,7 @@ public class ShowSchematicCommand implements CommandExecutor {
 //                for(SchematicHistoryEntity entry : schematicHistory) {
 //                    player.sendMessage("Schematic Name: " + entry.schematicname + "\nUuid: " + entry.uuid + "\nTimestamp " + entry.timestamp);
 //                }
+                dispatchTellRawCommand(player, schematicListSubset(LISTTYPE.LOADSCHEMATIC, schematicHistory, 1));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -62,6 +67,7 @@ public class ShowSchematicCommand implements CommandExecutor {
 //                for(SchematicHistoryEntity entry : schematicHistory) {
 //                    player.sendMessage("Schematic Name: " + entry.schematicname + "\nUuid: " + entry.uuid + "\nTimestamp " + entry.timestamp);
 //                }
+                dispatchTellRawCommand(player, schematicListSubset(LISTTYPE.LOADSCHEMATIC, schematicHistory, 1));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

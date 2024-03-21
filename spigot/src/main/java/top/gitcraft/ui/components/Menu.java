@@ -281,7 +281,7 @@ public class Menu {
                 .addBuilt(header())
                 .text("Schematic Menu").bold()
                 .spacing(1)
-                .repeat("═", 6).bold()
+                .repeat("═", 9).bold()
                 .spacing(2)
                 .text("\\u2554").text("[").bold().text("Show Entire History").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gcshowschem").hover(HOVERACTION.show_text, "Prints the entire schematic history").text("]").bold()
                 .text("\\n\\u2551")
