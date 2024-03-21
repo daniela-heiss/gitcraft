@@ -94,11 +94,11 @@ public class MergeUtils {
         WorldEntity worldEntity = db.getWorldDao().getWorldByWorldName(fromWorldName);
         BlockDao blockDao = db.getBlockDao();
         List<BlockEntity> changes = blockDao.getLastBlockChangesInRegionByWorld(region, worldEntity.rowId);
-        logger.info("Changes size: " + changes.size());
+        // logger.info("Changes size: " + changes.size());
         for (BlockEntity change : changes) {
             Block block = world.getBlockAt(change.x, change.y, change.z);
-            logger.info("Pasting at " + change.x + " " + change.y + " " + change.z +
-                    " from " + fromWorldName + " (id " + worldEntity.rowId + ")" + " to " + world.getName());
+            //logger.info("Pasting at " + change.x + " " + change.y + " " + change.z +
+            //        " from " + fromWorldName + " (id " + worldEntity.rowId + ")" + " to " + world.getName());
 
             MaterialMapEntity materialEntity = db.getMaterialMapDao().getMaterialById(change.type);
             Material material = Material.matchMaterial(materialEntity.material);
@@ -111,7 +111,7 @@ public class MergeUtils {
 
             //skip if material is not found
             if (material == null) {
-                logger.info("Material not found for " + materialEntity.material);
+                //logger.info("Material not found for " + materialEntity.material);
                 continue;
             }
 
@@ -119,18 +119,21 @@ public class MergeUtils {
             if (change.data != 0) {
                 Painting painting = (Painting) block.getWorld().spawnEntity(block.getLocation(), EntityType.PAINTING);
                 ArtMapEntity artMapEntity = db.getArtMapDao().getArtMapById(change.data);
-                logger.info("Art map entity: " + artMapEntity.artName);
+                //logger.info("Art map entity: " + artMapEntity.artName);
                 Art art = Art.getByName(artMapEntity.artName);
+                logger.info("Art: " + art);
                 List<String> blockDataList = getBlockData(change.blockData);
                 for (String value : blockDataList) {
                     if (value.contains("facing")) {
                         String[] facing = value.split("=");
                         painting.setFacingDirection(BlockFace.valueOf(facing[1].toUpperCase()), true);
-                        logger.info("Facing: " + facing[1]);
+                        //logger.info("Facing: " + facing[1]);
                         break;
                     }
                 }
-                painting.setArt(art);
+
+                assert art != null;
+                painting.setArt(art, true);
                 continue;
             }
 
@@ -173,7 +176,7 @@ public class MergeUtils {
         blockDataBuilder.append("]");
 
         String blockData = blockDataBuilder.toString();
-        logger.info("Block data: " + blockData);
+        // logger.info("Block data: " + blockData);
         return blockData;
 
     }
