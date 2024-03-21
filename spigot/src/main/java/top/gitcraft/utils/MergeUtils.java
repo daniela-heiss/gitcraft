@@ -7,12 +7,15 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.regions.CuboidRegion;
 import com.sk89q.worldedit.world.World;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
 import top.gitcraft.listeners.AreaSelectListener;
+import top.gitcraft.utils.enums.JSONCOLOR;
 
 import static top.gitcraft.ui.components.Menu.confirmMerge;
+import static top.gitcraft.utils.MergeWorldText.createMergeWorldText;
 
 public class MergeUtils {
 
@@ -40,12 +43,14 @@ public class MergeUtils {
                 SchematicUtils.createClipboard(expandedRegion, fromWorld);
         BlockVector3 fromOrigin = fromClipboard.getOrigin().subtract(width + margin, 0, 0);
         SchematicUtils.pasteClipboard(voidWorld, player, fromOrigin, fromClipboard);
+        createMergeWorldText(mergeWorldName, fromOrigin.add(width/2, 0,expandedRegion.getLength()/2).withY(fromClipboard.getMaximumPoint().getY()), fromWorldName, JSONCOLOR.GREEN);
 
         //the region in the "to" world
         BlockArrayClipboard targetClipboard =
                 SchematicUtils.createClipboard(expandedRegion, targetWorld);
         BlockVector3 targetOrigin = fromClipboard.getOrigin().add(width + margin, 0, 0);
         SchematicUtils.pasteClipboard(voidWorld, player, targetOrigin, targetClipboard);
+        createMergeWorldText(mergeWorldName, targetOrigin.add(width/2, 0,expandedRegion.getLength()/2).withY(fromClipboard.getMaximumPoint().getY()), targetWorldName, JSONCOLOR.GREEN);
 
         BlockArrayClipboard changesClipboard =
                 SchematicUtils.createClipboardFromChanges(region, fromWorldName);
@@ -53,6 +58,7 @@ public class MergeUtils {
         BlockVector3 targetPreviewOrigin = fromClipboard.getOrigin();
         SchematicUtils.pasteClipboard(voidWorld, player, targetPreviewOrigin, targetClipboard);
         SchematicUtils.pasteClipboard(voidWorld, player, changesOrigin, changesClipboard);
+        createMergeWorldText(mergeWorldName, targetOrigin.add(-(width/2)-margin, 0,expandedRegion.getLength()/2).withY(fromClipboard.getMaximumPoint().getY()), "COMBINED", JSONCOLOR.GOLD);
 
 
         Runnable callback = () -> {

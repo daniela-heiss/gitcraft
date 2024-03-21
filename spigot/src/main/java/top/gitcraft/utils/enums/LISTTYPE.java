@@ -7,7 +7,8 @@ public enum LISTTYPE {
     CREATE(11, JSONCOLOR.AQUA),
     DELETE(10, JSONCOLOR.RED),
     LOAD(6, JSONCOLOR.AQUA),
-    DELETESAVE(10, JSONCOLOR.RED);
+    DELETESAVE(10, JSONCOLOR.RED),
+    SELECT(9, JSONCOLOR.GOLD);
 
 
     private final int underlineLength;
