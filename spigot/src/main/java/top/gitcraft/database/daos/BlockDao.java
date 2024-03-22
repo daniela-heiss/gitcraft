@@ -74,32 +74,6 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
 
     public List<BlockEntity> getLastBlockChangesInRegionByWorld(CuboidRegion region, Integer worldId) throws SQLException {
         String[] arguments = getStrings(region, worldId);
-//        String query = "SELECT * FROM co_block WHERE " + "wid = ?" + " AND x BETWEEN ? AND ? " + "AND y BETWEEN ? " +
-//                "AND ? " +
-//                "AND z BETWEEN ? AND ? " +
-//                "AND rolled_back != 1 " +
-//                "AND action IN(0,1) " +
-//                "GROUP BY x, y, z " +
-//                "ORDER BY time DESC";
-//        SELECT *
-//                FROM co_block b
-//        JOIN (
-//                SELECT x, y, z, MAX(time) AS max_time
-//                FROM co_block
-//                WHERE wid = 4
-//                AND x BETWEEN -2 AND 8
-//                AND y BETWEEN 107 AND 111
-//                AND z BETWEEN -4 AND 6
-//                AND rolled_back != 1
-//                AND action IN (0, 1)
-//                GROUP BY x, y, z
-//        ) AS max_times
-//        ON b.x = max_times.x
-//        AND b.y = max_times.y
-//        AND b.z = max_times.z
-//        AND b.time = max_times.max_time
-//        ORDER BY b.time DESC;
-
         String query = "SELECT * " +
                 "FROM co_block b " +
                 "JOIN ( " +
@@ -131,7 +105,7 @@ public class BlockDao extends BaseDaoImpl<BlockEntity, Integer> {
         int maxX = region.getMaximumPoint().getBlockX();
         int maxY = region.getMaximumPoint().getBlockY();
         int maxZ = region.getMaximumPoint().getBlockZ();
-        logger.info("Region: " + minX + " " + minY + " " + minZ + " " + maxX + " " + maxY + " " + maxZ);
+        //logger.info("Region: " + minX + " " + minY + " " + minZ + " " + maxX + " " + maxY + " " + maxZ);
         return new String[]{String.valueOf(worldId), String.valueOf(minX), String.valueOf(maxX), String.valueOf(minY),
                 String.valueOf(maxY)
                 , String.valueOf(minZ), String.valueOf(maxZ)};
