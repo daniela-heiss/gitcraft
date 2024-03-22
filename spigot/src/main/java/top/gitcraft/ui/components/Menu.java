@@ -36,9 +36,7 @@ public class Menu {
          * ║
          * ╠[Save Menu]
          * ║
-         * ╠[Schematic Menu]
-         * ║
-         * ╚[Config]
+         * ╚[Schematic Menu]
          *
          */
         return new JsonBuilder()
@@ -51,12 +49,9 @@ public class Menu {
                 .text("\\n\\u2551")
                 .text("\\n\\u2560").text("[").bold().text("Save Menu").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gcsavemenu").hover(HOVERACTION.show_text, "Open save menu").text("]").bold()
                 .text("\\n\\u2551")
-                .text("\\n\\u2560").text("[").bold().text("Schematic Menu").bold().color(JSONCOLOR.LIGHT_PURPLE).click(CLICKACTION.run_command, "/gcschematicmenu").hover(HOVERACTION.show_text, "Open schematic menu").text("]").bold()
+                .text("\\n\\u255a").text("[").bold().text("Schematic Menu").bold().color(JSONCOLOR.LIGHT_PURPLE).click(CLICKACTION.run_command, "/gcschematicmenu").hover(HOVERACTION.show_text, "Open schematic menu").text("]").bold()
                 .text("\\n\\u2551")
-                .text("\\n\\u2551")
-                .text("\\n\\u2551")
-                .text("\\n\\u255a").text("[").bold().text("Config").bold().color(JSONCOLOR.YELLOW).text("]").bold()
-                .spacing(6)
+                .spacing(2)
                 .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
                 .text("Main Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
                 .text(">").bold()
@@ -285,10 +280,10 @@ public class Menu {
                 .spacing(2)
                 .text("\\u2554").text("[").bold().text("Show Entire History").bold().color(JSONCOLOR.AQUA).click(CLICKACTION.run_command, "/gcshowschem").hover(HOVERACTION.show_text, "Prints the entire schematic history").text("]").bold()
                 .text("\\n\\u2551")
-                .text("\\n\\u2560").text("[").bold().text("Show Own History").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gcshowschem " + player.getName()).hover(HOVERACTION.show_text, "Prints the players entire schematic history").text("]").bold()
-                .spacing(6)
+                .text("\\n\\u255a").text("[").bold().text("Show Own History").bold().color(JSONCOLOR.GREEN).click(CLICKACTION.run_command, "/gcshowschem " + player.getName()).hover(HOVERACTION.show_text, "Prints the players entire schematic history").text("]").bold()
+                .spacing(10)
                 .text("G").bold().color(JSONCOLOR.RED).text("C").bold().color(JSONCOLOR.GOLD).text(":\\\\").bold()
-                .text("Main Menu").bold().color(JSONCOLOR.GOLD).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
+                .text("Main Menu").bold().color(JSONCOLOR.YELLOW).click(CLICKACTION.run_command, "/gcmenu").hover(HOVERACTION.show_text, "Open main menu").bold()
                 .text("\\\\").bold().text("Schematic Menu").color(JSONCOLOR.GOLD).hover(HOVERACTION.show_text, "You are here").bold()
                 .text(">").bold()
                 .build();

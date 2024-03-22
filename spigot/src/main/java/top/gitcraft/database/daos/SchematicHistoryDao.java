@@ -2,6 +2,7 @@ package top.gitcraft.database.daos;
 
 import com.j256.ormlite.dao.BaseDaoImpl;
 import com.j256.ormlite.support.ConnectionSource;
+import top.gitcraft.database.entities.BlockEntity;
 import top.gitcraft.database.entities.SchematicHistoryEntity;
 
 import java.sql.SQLException;
@@ -38,5 +39,9 @@ public class SchematicHistoryDao extends BaseDaoImpl<SchematicHistoryEntity, Int
 
     public List<SchematicHistoryEntity> getEntireSchematicHistoryOfUser(UUID uuid) throws SQLException {
         return queryBuilder().where().eq("uuid", uuid).query();
+    }
+
+    public List<SchematicHistoryEntity> getSchematicsByFileName(List<String> fileNames) throws SQLException {
+        return queryBuilder().where().notIn("schematicname", fileNames).query();
     }
 }

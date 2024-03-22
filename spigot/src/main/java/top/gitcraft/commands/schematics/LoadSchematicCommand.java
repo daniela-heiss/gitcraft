@@ -31,6 +31,7 @@ public class LoadSchematicCommand implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args.length == 0) {
+            errorMessage(player, "No schematic name provided");
             return false;
         } else {
 
@@ -42,6 +43,7 @@ public class LoadSchematicCommand implements CommandExecutor {
             if (file.exists()) {
                 LoadSchematicIntoPlayerClipboard(player, file);
                 successMessage(player, "Successfully loaded Schematic " + ChatColor.WHITE + schematicName + " into clipboard");
+                successMessage(player, "Use //paste to paste schematic into your world");
                 return true;
             } else {
                 errorMessage(player, "Unable to lead schematic " + ChatColor.WHITE + schematicName);
