@@ -49,6 +49,9 @@ commands:
   pasteschematic:
     description: Automatically paste schematic into the original world
     usage: /pasteschematic [area | all] <schematicName>
+  gcloadschematic:
+    description: Load selected Schematic into Clipboard
+    usage: /gcloadschematic <schematicName>
   gcshowschem:
     description: Prints player based or entire Schematic History if no player name is provided
     usage: /gcshowschem <PlayerName>
@@ -63,6 +66,9 @@ commands:
   gcsavemenu:
     description: Shows the save menu
     usage: /gcsavemenu
+  gcschematicmenu:
+    description: Shows the schematic menu
+    usage: /gcschematicmenu
 
   #commands - Join, Create, Delete
   gcjoin:
