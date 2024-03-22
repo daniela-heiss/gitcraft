@@ -40,6 +40,31 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>move-file</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>C:\Users\max97\Documents\top\server\plugins</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}</directory>
+                                    <includes>
+                                        <include>gitcraft-1.0-SNAPSHOT.jar</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -66,10 +91,10 @@
             <id>OnARandomBox</id>
             <url>https://repo.onarandombox.com/content/groups/public/</url>
         </repository>
-            <repository>
-                <id>enginehub-repo</id>
-                <url>https://maven.enginehub.org/repo/</url>
-            </repository>
+        <repository>
+            <id>enginehub-repo</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
         <repository>
             <id>playpro-repo</id>
             <url>https://maven.playpro.com</url>

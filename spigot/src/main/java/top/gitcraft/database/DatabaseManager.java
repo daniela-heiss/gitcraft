@@ -72,6 +72,18 @@ public class DatabaseManager {
     public WorldDao getWorldDao() throws SQLException {
         return new WorldDao(connectionSource);
     }
+
+    public MaterialMapDao getMaterialMapDao() throws SQLException {
+        return new MaterialMapDao(connectionSource);
+    }
+
+    public BlockDataMapDao getBlockDataMapDao() throws SQLException {
+        return new BlockDataMapDao(connectionSource);
+    }
+
+    public ArtMapDao getArtMapDao() throws SQLException {
+        return new ArtMapDao(connectionSource);
+    }
     public SchematicHistoryDao getSchematicHistoryDao() throws SQLException {
         return new SchematicHistoryDao(connectionSource);
     }
