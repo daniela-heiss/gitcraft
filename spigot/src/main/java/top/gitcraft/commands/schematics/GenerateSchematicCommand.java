@@ -9,9 +9,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import top.gitcraft.database.DatabaseManager;
+import top.gitcraft.database.daos.SchematicHistoryDao;
 import top.gitcraft.database.entities.BlockEntity;
+import top.gitcraft.database.entities.SchematicHistoryEntity;
 
 import java.io.File;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
@@ -68,6 +73,8 @@ public class GenerateSchematicCommand implements CommandExecutor {
         BlockArrayClipboard clipboard1 = createClipboard(selectedArea, currentWorld);
 
         saveClipboardAsSchematic(clipboard1, schematicName);
+
+        createNewSchematicHistory(player, schematicName);
     }
 
     public static File generateSchematicFromAllChanges(World currentWorld, String worldName,
@@ -77,5 +84,26 @@ public class GenerateSchematicCommand implements CommandExecutor {
         BlockArrayClipboard clipboard = createClipboard(region, currentWorld);
 
         return saveClipboardAsSchematic(clipboard, schematicName);
+    }
+
+    public static void createNewSchematicHistory(Player player, String schematicName) {
+        SchematicHistoryDao schematicHistoryDao;
+        try {
+            DatabaseManager databaseManager= DatabaseManager.getInstance();
+            schematicHistoryDao = databaseManager.getSchematicHistoryDao();
+        } catch (SQLException e) {
+            throw new RuntimeException();
+        }
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        SchematicHistoryEntity newHistory = new SchematicHistoryEntity();
+        newHistory.schematicname = schematicName;
+        newHistory.uuid = player.getUniqueId();
+        newHistory.timestamp = String.valueOf(timestamp.getTime());
+        try {
+            schematicHistoryDao.createHistoryEntry(newHistory);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

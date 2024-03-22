@@ -122,6 +122,7 @@ public class WorldUtils {
         mergeWorldBukkit.setGameRule(GameRule.RANDOM_TICK_SPEED, 0);
         mergeWorldBukkit.setGameRule(GameRule.DO_VINES_SPREAD, false);
         mergeWorldBukkit.setGameRule(GameRule.MOB_GRIEFING, false);
+        mergeWorldBukkit.setTime(6000);
 
         return mergeWorldBukkit;
     }

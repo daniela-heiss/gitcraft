@@ -84,4 +84,7 @@ public class DatabaseManager {
     public ArtMapDao getArtMapDao() throws SQLException {
         return new ArtMapDao(connectionSource);
     }
+    public SchematicHistoryDao getSchematicHistoryDao() throws SQLException {
+        return new SchematicHistoryDao(connectionSource);
+    }
 }

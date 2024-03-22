@@ -7,8 +7,10 @@ import top.gitcraft.GitCraft;
 import top.gitcraft.database.DatabaseManager;
 import top.gitcraft.database.daos.SaveDao;
 import top.gitcraft.database.daos.UserDao;
+import top.gitcraft.database.daos.WorldDao;
 import top.gitcraft.database.entities.SaveEntity;
 import top.gitcraft.database.entities.UserEntity;
+import top.gitcraft.database.entities.WorldEntity;
 import top.gitcraft.utils.JsonBuilder;
 import top.gitcraft.utils.enums.CLICKACTION;
 import top.gitcraft.utils.enums.HOVERACTION;
@@ -137,18 +139,21 @@ public class SaveList {
         return jsonBuilder.build();
     }
 
-    public static String saveListAll(LISTTYPE type, String playerName, int page) {
+    public static String saveListAll(LISTTYPE type, String playerName, String worldName, int page) {
         List<SaveEntity> saves;
         UserDao userDao;
         SaveDao saveDao;
+        WorldDao worldDao;
 
         try {
             DatabaseManager databaseManager = DatabaseManager.getInstance();
             userDao = databaseManager.getUserDao();
             saveDao = databaseManager.getSaveDao();
+            worldDao = databaseManager.getWorldDao();
 
             UserEntity user = userDao.getUserByName(playerName);
-            saves = saveDao.getAllSavesByUser(user.rowId);
+            WorldEntity world = worldDao.getWorldByWorldName(worldName);
+            saves = saveDao.getAllSavesByWorld(world.rowId);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

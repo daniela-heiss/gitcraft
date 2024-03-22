@@ -1,6 +1,7 @@
 package top.gitcraft.commands.merging;
 
 import com.sk89q.worldedit.regions.CuboidRegion;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -39,7 +40,7 @@ public class AutoMergeCommand implements CommandExecutor {
         //        String schematicName = "AutoMerge" + timestamp.getTime();
 
         //        World currentWorld = BukkitAdapter.adapt(player.getWorld());
-        String worldName = player.getWorld().getName();
+        String worldName = Bukkit.getWorld(fromWorldName).getName();
         CuboidRegion region = regionFromList(getBlockChangedByPlayers(worldName));
 
         //        BlockArrayClipboard clipboard = createClipboard(region, currentWorld);

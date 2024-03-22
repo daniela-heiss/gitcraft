@@ -17,7 +17,7 @@ public class SaveMenuCommand implements CommandExecutor {
             return false;
         }
         Player player = (Player) sender;
-        dispatchTellRawCommand(player, menuSaveMenu());
+        dispatchTellRawCommand(player, menuSaveMenu(player.isOp()));
         return true;
     }
 }
