@@ -6,6 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLException;
+
 import static top.gitcraft.listeners.AreaSelectListener.getSelection;
 import static top.gitcraft.utils.MergeUtils.pasteMergeAreas;
 
@@ -32,8 +34,12 @@ public class MergeCommand implements CommandExecutor {
         player.sendMessage(
                 "Merging " + fromWorldName + " into " + targetWorldName + " via " + mergeWorldName);
 
-        pasteMergeAreas(player, fromWorldName, targetWorldName, mergeWorldName,
-                getSelection(player));
+        try {
+            pasteMergeAreas(player, fromWorldName, targetWorldName, mergeWorldName,
+                    getSelection(player));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         return true;
     }

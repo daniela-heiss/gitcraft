@@ -12,6 +12,6 @@ public class BlockDataMapEntity {
     @DatabaseField
     public int id;
 
-    @DatabaseField (columnName = "data")
+    @DatabaseField(columnName = "data")
     public String blockData;
 }

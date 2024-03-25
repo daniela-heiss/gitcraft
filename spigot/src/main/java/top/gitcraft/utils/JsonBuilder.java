@@ -16,6 +16,11 @@ public class JsonBuilder {
         lastTextComponent = new StringBuilder("},{\"text\":\"").append(text).append("\"");
         return this;
     }
+    public JsonBuilder text(Integer text) {
+        jsonMessage.append("},{\"text\":\"").append(text).append("\"");
+        lastTextComponent = new StringBuilder("},{\"text\":\"").append(text).append("\"");
+        return this;
+    }
 //    public JsonBuilder text(JsonBuilder unBuilt) {
 //        jsonMessage.append(unBuilt.buildReusable());
 //        lastTextComponent = new StringBuilder(unBuilt.buildReusable());
@@ -128,8 +133,8 @@ public class JsonBuilder {
     }
 
     public JsonBuilder addBuilt(String builtJson) {
-        jsonMessage.append("},").append(builtJson, 1, builtJson.length() - 2);
-        lastTextComponent = new StringBuilder("},").append(builtJson, 1, builtJson.length() - 2);
+        jsonMessage.append("},").append(builtJson, 4, builtJson.length() - 2);
+        lastTextComponent = new StringBuilder("},").append(builtJson, 4, builtJson.length() - 2);
         return this;
     }
 
@@ -144,7 +149,7 @@ public class JsonBuilder {
     }
 
     public String build() {
-        return "[" + jsonMessage.substring(2) + "}]";
+        return "[\"\"," + jsonMessage.substring(2) + "}]";
     }
 
     // Build to console

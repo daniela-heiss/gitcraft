@@ -45,3 +45,4 @@ public class BlockEntity {
     @DatabaseField(dataType = DataType.INTEGER, columnName = "rolled_back")
     public int rolledBack;
 }
+

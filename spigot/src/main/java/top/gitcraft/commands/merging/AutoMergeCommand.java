@@ -1,10 +1,14 @@
 package top.gitcraft.commands.merging;
 
 import com.sk89q.worldedit.regions.CuboidRegion;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.sql.SQLException;
 
 import static top.gitcraft.utils.BlockUtils.getBlockChangedByPlayers;
 import static top.gitcraft.utils.CubeUtils.regionFromList;
@@ -12,8 +16,9 @@ import static top.gitcraft.utils.MergeUtils.pasteMergeAreas;
 
 public class AutoMergeCommand implements CommandExecutor {
 
-    @Override public boolean onCommand(CommandSender sender, Command command, String label,
-                                       String[] strings) {
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label,
+                             String[] strings) {
 
         if (!(sender instanceof Player)) {
             sender.sendMessage("Only players can use this command");
@@ -35,7 +40,7 @@ public class AutoMergeCommand implements CommandExecutor {
         //        String schematicName = "AutoMerge" + timestamp.getTime();
 
         //        World currentWorld = BukkitAdapter.adapt(player.getWorld());
-        String worldName = player.getWorld().getName();
+        String worldName = Bukkit.getWorld(fromWorldName).getName();
         CuboidRegion region = regionFromList(getBlockChangedByPlayers(worldName));
 
         //        BlockArrayClipboard clipboard = createClipboard(region, currentWorld);
@@ -47,8 +52,15 @@ public class AutoMergeCommand implements CommandExecutor {
         player.sendMessage("AutoMerging " + fromWorldName + " into " + targetWorldName + " via " +
                 mergeWorldName);
 
-        pasteMergeAreas(player, fromWorldName, targetWorldName, mergeWorldName, region);
-
+        if (region == null) {
+            player.sendMessage(ChatColor.RED + "No changes detected");
+        } else {
+            try {
+                pasteMergeAreas(player, fromWorldName, targetWorldName, mergeWorldName, region);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
         return true;
     }
 }
