@@ -52,7 +52,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>C:\Users\max97\Documents\top\server\plugins</outputDirectory>
+                            <outputDirectory>C:\Users\felix\Desktop\GCServer\Spigotserver1204\plugins</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${project.build.directory}</directory>
@@ -128,12 +128,6 @@
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>7.2.9</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.onarandombox.multiversecore</groupId>
-            <artifactId>Multiverse-Core</artifactId>
-            <version>4.3.12</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
